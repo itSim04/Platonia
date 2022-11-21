@@ -32,6 +32,8 @@ class EXIT_CODES {
 	public const USERS_GET_ALL = 101;
 	public const USERS_GET_ONE = 102;
 	public const USERS_UPDATE = 103;
+	public const MISSING_PARAMS = 400;
+	public const INCORRECT_SCHEMA = 405;
 
 }
 

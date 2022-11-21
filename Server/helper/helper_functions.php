@@ -46,7 +46,6 @@ function process_fetch(mysqli $mysqli, string $sql, mixed ...$params): array {
     $query = $mysqli->prepare($sql);
     $query->execute($params);
     $result = $query->get_result();
-    $output = array();
     while ($row = mysqli_fetch_assoc($result)) {
 
         $output[] = $row;
@@ -60,8 +59,13 @@ function process_fetch_id(mysqli $mysqli, string $sql, mixed ...$params): int {
 
     $query = $mysqli->prepare($sql);
     $query->execute($params);
-    $result = $query->get_result();
-    $output = array();
     return $mysqli->insert_id;
+
+}
+
+function process(mysqli $mysqli, string $sql, mixed ...$params): void {
+
+    $query = $mysqli->prepare($sql);
+    $query->execute($params);
 
 }
