@@ -17,6 +17,21 @@ class USERS {
 
 }
 
+class USERS_SCHEMA {
+
+	public const ADD = 0;
+	public const GET_ALL = 1;
+	public const GET_ONE = 2;
+	public const UPDATE = 3;
+
+}
+
+class EXIT_CODES {
+
+	public const USERS_QUERY = 101;
+
+}
+
 class THOUGHTS {
 
 	public const ID = "thought_id";
@@ -68,9 +83,10 @@ class Answers {
 
 }
 
-class Response {
+class RESPONSE {
 
    	public const STATUS = "status";
 	public const MISSING_PARAMS = "missing_parameters";
+	public const USERS = "users";
 
 }
