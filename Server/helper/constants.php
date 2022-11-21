@@ -71,5 +71,6 @@ class Answers {
 class Response {
 
    	public const STATUS = "status";
+	public const MISSING_PARAMS = "missing_parameters";
 
 }
