@@ -1,0 +1,7 @@
+{
+  "name": "Platonia",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
