@@ -23,6 +23,7 @@ class USERS_SCHEMA {
 	public const GET_ALL = 1;
 	public const GET_ONE = 2;
 	public const UPDATE = 3;
+	public const CHECK = 4;
 
 }
 
@@ -32,6 +33,7 @@ class EXIT_CODES {
 	public const USERS_GET_ALL = 101;
 	public const USERS_GET_ONE = 102;
 	public const USERS_UPDATE = 103;
+	public const USERS_CHECK = 104;
 	public const MISSING_PARAMS = 400;
 	public const INCORRECT_SCHEMA = 405;
 
@@ -63,14 +65,14 @@ class PLATONS {
 
 }
 
-class Follows {
+class FOLLOWS {
 
 	public const USER_ID1 = "user_id1";
 	public const USER_ID2 = "user_id2";
 	public const FOLLOW_DATE = "follow_date";
 }
 
-class Diamonds {
+class LIKES {
 
 	public const USER_ID = "user_id";
 	public const THOUGHT_ID = "thought_id";
@@ -78,7 +80,7 @@ class Diamonds {
 
 }
 
-class Answers {
+class ANSWERS {
 
 	public const USER_ID = "user_id";
 	public const THOUGHT_ID = "thought_id";
@@ -94,5 +96,7 @@ class RESPONSE {
 	public const MISSING_PARAMS = "missing_parameters";
 	public const USERS = "users";
 	public const USER = "user";
+	public const EMAIL_AVAILABLE = "email_available";
+	public const USERNAME_AVAILABLE = "username_available";
 
 }

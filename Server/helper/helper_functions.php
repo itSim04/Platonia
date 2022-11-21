@@ -55,6 +55,15 @@ function process_fetch(mysqli $mysqli, string $sql, mixed ...$params): array {
 
 }
 
+function process_availability(mysqli $mysqli, string $sql, mixed ...$params): bool {
+
+    $query = $mysqli->prepare($sql);
+    $query->execute($params);
+    $result = $query->get_result();
+    return mysqli_num_rows($result) <= 0;
+
+}
+
 function process_fetch_id(mysqli $mysqli, string $sql, mixed ...$params): int {
 
     $query = $mysqli->prepare($sql);

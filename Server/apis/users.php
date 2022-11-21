@@ -43,13 +43,22 @@ if (check_keys($_GET, "schema")) {
             }
             break;
 
+        case USERS_SCHEMA::CHECK:
+
+            if (check_keys($_GET, USERS::USERNAME, USERS::EMAIL)) {
+
+                $output[RESPONSE::STATUS] = EXIT_CODES::USERS_CHECK;
+
+                $output[RESPONSE::USERNAME_AVAILABLE] = process_availability($mysqli, sprintf("SELECT * FROM users WHERE %s = ?", USERS::USERNAME), $_GET[USERS::USERNAME]);
+                $output[RESPONSE::EMAIL_AVAILABLE] = process_availability($mysqli, sprintf("SELECT * FROM users WHERE %s = ?", USERS::EMAIL), $_GET[USERS::EMAIL]);
+            }
+            break;
+
         default:
 
             $output[RESPONSE::STATUS] = EXIT_CODES::INCORRECT_SCHEMA;
-            
-            
-            
-        }
-        echo json_encode($output);
+
+    }
+    echo json_encode($output);
 
 }
