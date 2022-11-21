@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-function check_keys(array $check, string...$keys): bool
-{
+function check_keys(array $check, string...$keys): bool {
 
     $miss = array();
     foreach ($keys as $v) {
@@ -27,8 +26,7 @@ function check_keys(array $check, string...$keys): bool
 
 }
 
-function warnMissing(array $miss)
-{
+function warnMissing(array $miss) {
 
     $output[Response::STATUS] = 400;
     $output[Response::MISSING_PARAMS] = $miss;
@@ -36,16 +34,14 @@ function warnMissing(array $miss)
 
 }
 
-function warnMisc(int $code)
-{
+function warnMisc(int $code) {
 
     $output[Response::STATUS] = $code;
     echo json_encode($output);
 
 }
 
-function process(mysqli $mysqli, string $sql, mixed ...$params)
-{
+function process_fetch(mysqli $mysqli, string $sql, mixed ...$params): array {
 
     $query = $mysqli->prepare($sql);
     $query->execute($params);
@@ -57,5 +53,15 @@ function process(mysqli $mysqli, string $sql, mixed ...$params)
 
     }
     return $output;
+
+}
+
+function process_fetch_id(mysqli $mysqli, string $sql, mixed ...$params): int {
+
+    $query = $mysqli->prepare($sql);
+    $query->execute($params);
+    $result = $query->get_result();
+    $output = array();
+    return $mysqli->insert_id;
 
 }
