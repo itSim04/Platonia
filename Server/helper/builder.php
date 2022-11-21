@@ -85,4 +85,13 @@ CREATE TABLE IF NOT EXISTS interests (
   FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 $query->execute();
 
+$query = $mysqli->prepare("
+CREATE TABLE IF NOT EXISTS options (
+  thought_id int(11) NOT NULL,
+  content varchar(48),
+  votes int(11),
+  PRIMARY KEY (thought_id),
+  FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
+$query->execute();
+
         
