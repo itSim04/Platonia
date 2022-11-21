@@ -28,7 +28,10 @@ class USERS_SCHEMA {
 
 class EXIT_CODES {
 
-	public const USERS_QUERY = 101;
+	public const USERS_ADD = 100;
+	public const USERS_GET_ALL = 101;
+	public const USERS_GET_ONE = 102;
+	public const USERS_UPDATE = 103;
 
 }
 
@@ -88,5 +91,6 @@ class RESPONSE {
    	public const STATUS = "status";
 	public const MISSING_PARAMS = "missing_parameters";
 	public const USERS = "users";
+	public const USER = "user";
 
 }

@@ -44,11 +44,11 @@ function warnMisc(int $code)
 
 }
 
-function process(mysqli $mysqli, string $sql)
+function process(mysqli $mysqli, string $sql, mixed ...$params)
 {
 
     $query = $mysqli->prepare($sql);
-    $query->execute();
+    $query->execute($params);
     $result = $query->get_result();
     $output = array();
     while ($row = mysqli_fetch_assoc($result)) {
