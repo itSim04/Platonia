@@ -49,6 +49,14 @@ class LIKES_SCHEMA {
 	public const GET_LIKES_BY_USER = 2;
 	public const GET_LIKES_ON_THOUGHT = 3;
 }
+
+class FOLLOW_SCHEMA {
+
+	public const FOLLOW = 0;
+	public const UNFOLLOW = 1;
+	public const GET_FOLLOWERS = 2;
+	public const GET_FOLLOWINGS = 3;
+}
 class PLATONS_SCHEMA {
 
 	public const PLATON = 0;
@@ -111,6 +119,11 @@ class EXIT_CODES {
 
 	public const POLLS_ANSWER_POLL = 150;
 	public const POLLS_GET_OPTION = 151;
+
+	public const FOLLOW_ADD = 160;
+	public const FOLLOW_REMOVE = 161;
+	public const FOLLOW_GET_FOLLOWERS = 162;
+	public const FOLLOW_GET_FOLLOWINGS = 163;
 
 	public const MISSING_PARAMS = 400;
 	public const INCORRECT_SCHEMA = 405;
