@@ -78,3 +78,22 @@ function process(mysqli $mysqli, string $sql, mixed ...$params): void {
     $query->execute($params);
 
 }
+
+function build_params(bool $with_values, array $provider, string ...$labels): string {
+
+    $result = "";
+    if(!$with_values) {
+
+        for ($i = 0; $i < count($provider) - 1; $i++) { 
+            $result = $result . "{$labels[$i]} = ?, ";
+        }
+        $result = $result . "{$labels[$i]} = ?";
+
+    }
+
+    echo $result;
+    return "";
+
+
+}
+

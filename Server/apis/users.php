@@ -39,6 +39,7 @@ if (check_keys($_GET, "schema")) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_UPDATE;
                 process($mysqli, sprintf("UPDATE users SET %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? WHERE %s = ?", USERS::USERNAME, USERS::PASSWORD, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER, USERS::PICTURE, USERS::BANNER, USERS::ID), $_POST[USERS::USERNAME], $_POST[USERS::PASSWORD], $_POST[USERS::EMAIL], $_POST[USERS::BIO], $_POST[USERS::BIRTHDAY], $_POST[USERS::GENDER], $_POST[USERS::PICTURE], $_POST[USERS::BANNER], $_POST[USERS::ID]);
+                build_params(false, $_POST, USERS::ID, USERS::USERNAME, USERS::PASSWORD, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER, USERS::PICTURE, USERS::BANNER);
 
             }
             break;
