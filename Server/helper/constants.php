@@ -96,7 +96,7 @@ class RESPONSE {
 	public const MISSING_PARAMS = "missing_parameters";
 	public const USERS = "users";
 	public const USER = "user";
-	public const EMAIL_AVAILABLE = "email_available";
-	public const USERNAME_AVAILABLE = "username_available";
+	public const EMAIL_AVAILABLE = "email_taken";
+	public const USERNAME_AVAILABLE = "username_taken";
 
 }

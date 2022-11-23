@@ -59,9 +59,15 @@ function process_fetch(PDO $PDO, SQLFunctions $type, string $table_name, array $
 function process_availability(PDO $PDO, SQLFunctions $type, string $table_name, array $provider, array $params, array $conditions): bool {
 
     $query = $PDO->prepare(build_simple_sql($type, $table_name, $params, $conditions));
+    foreach ($params as $l) {
+        $query->bindParam($l, $provider[$l]);
+    }
+    foreach ($conditions as $l) {
+        $query->bindParam($l, $provider[$l]);
+    }
     $query->execute();
     $result = $query->fetchColumn();
-    return $result;
+    return !!$result;
 
 }
 

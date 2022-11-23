@@ -51,8 +51,8 @@ if (check_keys($_GET, "schema")) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_CHECK;
 
-                $output[RESPONSE::USERNAME_AVAILABLE] = process_availability($PDO, sprintf("SELECT * FROM users WHERE %s = ?", USERS::USERNAME), $_GET[USERS::USERNAME]);
-                $output[RESPONSE::EMAIL_AVAILABLE] = process_availability($PDO, sprintf("SELECT * FROM users WHERE %s = ?", USERS::EMAIL), $_GET[USERS::EMAIL]);
+                $output[RESPONSE::USERNAME_AVAILABLE] = process_availability($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(USERS::USERNAME));
+                $output[RESPONSE::EMAIL_AVAILABLE] = process_availability($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(USERS::EMAIL));
             }
             break;
 
