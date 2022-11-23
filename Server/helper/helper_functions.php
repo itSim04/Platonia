@@ -41,14 +41,24 @@ function warnMisc(int $code) {
 
 }
 
-function process_fetch(PDO $PDO, SQLFunctions $type, string $table_name, array $provider, array $params, array $conditions): array {
+function process_fetch(PDO $PDO, SQLFunctions $type, string $table_name, array $provider, array $params, array $conditions, bool $inject_conditionals = true): array {
 
-    $query = $PDO->prepare(build_simple_sql($type, $table_name, $params, $conditions));
-    foreach ($params as $l) {
-        $query->bindParam($l, $provider[$l]);
-    }
-    foreach ($conditions as $l) {
-        $query->bindParam($l, $provider[$l]);
+    $query = $PDO->prepare(build_simple_sql($type, $table_name, $params, $conditions, $inject_conditionals));
+    if ($type == SQLFunctions::SELECT_COMPLEX) {
+        foreach (array_keys($provider) as $l) {
+
+
+            $query->bindParam($l, $provider[$l]);
+
+        }
+    } else {
+        foreach ($params as $l) {
+            $query->bindParam($l, $provider[$l]);
+        }
+        foreach ($conditions as $l) {
+            if ($l->injectable)
+                $query->bindParam($l->term, $provider[$l->term]);
+        }
     }
     $query->execute();
     $result = $query->fetchAll(PDO::FETCH_CLASS);
@@ -60,11 +70,14 @@ function process_availability(PDO $PDO, SQLFunctions $type, string $table_name, 
 
     $query = $PDO->prepare(build_simple_sql($type, $table_name, $params, $conditions));
     foreach ($params as $l) {
+
         $query->bindParam($l, $provider[$l]);
     }
     foreach ($conditions as $l) {
-        $query->bindParam($l, $provider[$l]);
+        if ($l->injectable)
+            $query->bindParam($l->term, $provider[$l->term]);
     }
+
     $query->execute();
     $result = $query->fetchColumn();
     return !!$result;
@@ -74,12 +87,18 @@ function process_availability(PDO $PDO, SQLFunctions $type, string $table_name, 
 function process_fetch_id(PDO $PDO, SQLFunctions $type, string $table_name, array $provider, array $params, array $conditions): string {
 
     $query = $PDO->prepare(build_simple_sql($type, $table_name, $params, $conditions));
+
     foreach ($params as $l) {
+
+
         $query->bindParam($l, $provider[$l]);
     }
     foreach ($conditions as $l) {
-        $query->bindParam($l, $provider[$l]);
+
+        if ($l->injectable)
+            $query->bindParam($l->term, $provider[$l->term]);
     }
+
     $query->execute();
     return $PDO->lastInsertId();
 
@@ -89,10 +108,12 @@ function process(PDO $PDO, SQLFunctions $type, string $table_name, array $provid
 
     $query = $PDO->prepare(build_simple_sql($type, $table_name, $params, $conditions));
     foreach ($params as $l) {
+
         $query->bindParam($l, $provider[$l]);
     }
     foreach ($conditions as $l) {
-        $query->bindParam($l, $provider[$l]);
+        if ($l->injectable)
+            $query->bindParam($l->term, $provider[$l->term]);
     }
     $query->execute();
 
@@ -103,7 +124,7 @@ enum SQLFunctions {
     case UPDATE;
     case ADD;
     case SELECT;
-
+    case SELECT_COMPLEX;
 
 }
 
@@ -115,44 +136,49 @@ function build_simple_sql(SQLFunctions $type, string $table_name, array $params,
         case SQLFunctions::UPDATE:
 
             $result = "UPDATE {$table_name} SET ";
-            $result .= build_params(null, ...$params);
+            $result .= build_params(SQLFunctions::UPDATE, $params);
             $result .= " WHERE ";
-            $result .= build_params(null, ...$conditions);
+            $result .= build_params(null, $conditions);
             break;
 
         case SQLFunctions::ADD:
 
             $result = "INSERT INTO {$table_name} ";
-            $result .= build_params(SQLFunctions::ADD, ...$params);
+            $result .= build_params(SQLFunctions::ADD, $params);
             break;
 
         case SQLFunctions::SELECT:
+        case SQLFunctions::SELECT_COMPLEX:
 
             $result = "SELECT ";
+
+
             if (count($params) > 0) {
 
-                $result .= build_params(SQLFunctions::SELECT, ...$params);
+                $result .= build_params(SQLFunctions::SELECT, $params);
 
             } else {
 
                 $result .= " * ";
 
             }
+
             $result .= " FROM ";
             $result .= $table_name;
             if (count($conditions) > 0) {
 
                 $result .= " WHERE ";
-                $result .= build_params(null, ...$conditions);
+                $result .= build_params(SQLFunctions::SELECT_COMPLEX, $conditions);
 
             }
+            break;
     }
     return $result;
 
 
 }
 
-function build_params(SQLFunctions|null $with_values, string...$labels): string {
+function build_params(SQLFunctions|null $with_values, array $labels): string {
 
     $result = "";
     switch ($with_values) {
@@ -180,15 +206,33 @@ function build_params(SQLFunctions|null $with_values, string...$labels): string 
             $result .= "{$labels[$i]}";
             break;
 
-
-        default:
-
+        case SQLFunctions::UPDATE:
             for ($i = 0; $i < count($labels) - 1; $i++) {
 
                 $result .= "{$labels[$i]} = :{$labels[$i]}, ";
 
             }
             $result .= "{$labels[$i]} = :{$labels[$i]}";
+            break;
+
+        case SQLFunctions::SELECT_COMPLEX:
+
+            for ($i = 0; $i < count($labels) - 1; $i++) {
+
+                $result .= $labels[$i]->extract() . " AND ";
+
+            }
+            $result .= $labels[$i]->extract();
+            break;
+
+        default:
+
+            for ($i = 0; $i < count($labels) - 1; $i++) {
+
+                $result .= $labels[$i]->extract() . ", ";
+
+            }
+            $result .= $labels[$i]->extract();
 
 
     }

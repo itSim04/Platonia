@@ -14,7 +14,7 @@ if (check_keys($_GET, "schema")) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_ADD;
                 $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(USERS::USERNAME, USERS::PASSWORD, USERS::BIRTHDAY, USERS::EMAIL, USERS::GENDER), array());
-                $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [USERS::ID => $id], array(), array(USERS::ID));
+                $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [USERS::ID => $id], array(), array(new condition(USERS::ID)));
 
             }
             break;
@@ -30,17 +30,19 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, USERS::ID)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_GET_ONE;
-                $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(USERS::ID));
+                $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(USERS::ID)));
 
             }
             break;
+
+
 
         case USERS_SCHEMA::UPDATE:
 
             if (check_keys($_POST, USERS::ID, USERS::USERNAME, USERS::PASSWORD, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER, USERS::PICTURE, USERS::BANNER)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_UPDATE;
-                process($PDO, SQLFunctions::UPDATE, $table_name, $_POST, array(USERS::USERNAME, USERS::PASSWORD, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER, USERS::PICTURE, USERS::BANNER), array(USERS::ID));
+                process($PDO, SQLFunctions::UPDATE, $table_name, $_POST, array(USERS::USERNAME, USERS::PASSWORD, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER, USERS::PICTURE, USERS::BANNER), array(new condition(USERS::ID)));
 
             }
             break;
@@ -51,8 +53,8 @@ if (check_keys($_GET, "schema")) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_CHECK;
 
-                $output[RESPONSE::USERNAME_AVAILABLE] = process_availability($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(USERS::USERNAME));
-                $output[RESPONSE::EMAIL_AVAILABLE] = process_availability($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(USERS::EMAIL));
+                $output[RESPONSE::USERNAME_AVAILABLE] = process_availability($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(USERS::USERNAME)));
+                $output[RESPONSE::EMAIL_AVAILABLE] = process_availability($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(USERS::EMAIL)));
             }
             break;
 

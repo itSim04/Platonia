@@ -40,8 +40,8 @@ $query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS answers (
   user_id int(11) NOT NULL,
   thought_id int(11) NOT NULL,
-  answer_date varchar(10) DEFAULT NULL,
-  option_chosen varchar(1) DEFAULT NULL,
+  answer_date varchar(10) NOT NULL,
+  option_chosen varchar(1) NOT NULL,
   PRIMARY KEY (user_id, thought_id),
   FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
@@ -51,7 +51,7 @@ $query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS likes (
   user_id int(11) NOT NULL,
   thought_id int(11) NOT NULL,
-  like_date varchar(10) DEFAULT NULL,
+  like_date varchar(10) NOT NULL,
   PRIMARY KEY (user_id, thought_id),
   FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
@@ -70,7 +70,7 @@ $query->execute();
 $query = $PDO->prepare("CREATE TABLE IF NOT EXISTS platons (
   user_id int(11) NOT NULL,
   thought_id int(11) NOT NULL,
-  platon_date varchar(10) DEFAULT NULL,
+  platon_date varchar(10) NOT NULL,
   PRIMARY KEY (user_id, thought_id),
   FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -80,7 +80,7 @@ $query->execute();
 $query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS interests (
   user_id int(11) NOT NULL,
-  name varchar(24),
+  name varchar(24) NOT NULL,
   PRIMARY KEY (user_id),
   FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 $query->execute();
@@ -88,8 +88,8 @@ $query->execute();
 $query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS options (
   thought_id int(11) NOT NULL,
-  content varchar(48),
-  votes int(11),
+  content varchar(48) NOT NULL,
+  votes int(11) NOT NULL,
   PRIMARY KEY (thought_id),
   FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 $query->execute();

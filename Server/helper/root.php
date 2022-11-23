@@ -8,3 +8,4 @@ require 'connection.php';
 require 'builder.php';
 require 'constants.php';
 require 'helper_functions.php';
+require 'condition.php';

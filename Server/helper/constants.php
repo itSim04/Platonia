@@ -32,8 +32,9 @@ class THOUGHTS_SCHEMA {
 	public const ADD = 0;
 	public const GET_ALL = 1;
 	public const GET_ONE = 2;
-	public const UPDATE = 3;
-	public const DELETE = 4;
+	public const GET_BY = 3;
+	public const UPDATE = 4;
+	public const DELETE = 5;
 
 }
 
