@@ -49,8 +49,9 @@ class EXIT_CODES {
 	public const THOUGHTS_ADD = 110;
 	public const THOUGHTS_GET_ALL = 111;
 	public const THOUGHTS_GET_ONE = 112;
-	public const THOUGHTS_UPDATE = 113;
-	public const THOUGHTS_CHECK = 114;
+	public const THOUGHTS_GET_BY = 113;
+	public const THOUGHTS_UPDATE = 114;
+	public const THOUGHTS_DELETE = 115;
 	public const MISSING_PARAMS = 400;
 	public const INCORRECT_SCHEMA = 405;
 

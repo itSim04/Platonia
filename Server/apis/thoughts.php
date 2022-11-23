@@ -15,8 +15,8 @@ if (check_keys($_GET, "schema")) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_ADD;
                 $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::EDIT_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID), array());
-                process($PDO, SQLFunctions::UPDATE, $table_name, [THOUGHTS::ROOT => $id], array(THOUGHTS::ROOT), array(new condition(THOUGHTS::ID)));
-                $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [THOUGHTS::ID => $id], array(), array( new condition(THOUGHTS::ID)));
+                process($PDO, SQLFunctions::UPDATE, $table_name, [THOUGHTS::ROOT => $id, THOUGHTS::ID => $id], array(THOUGHTS::ROOT), array(new condition(THOUGHTS::ID)));
+                $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [THOUGHTS::ID => $id], array(), array(new condition(THOUGHTS::ID)));
 
             }
             break;
@@ -28,13 +28,13 @@ if (check_keys($_GET, "schema")) {
                 if (!array_key_exists(THOUGHTS::ROOT, $_GET)) {
 
                     $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_GET_ALL;
-                    $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $table_name, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID]], $complex, array(new condition(THOUGHTS::ID  . " = " . THOUGHTS::ROOT, false)));
+                    $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $table_name, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID]], $complex, array(new condition(THOUGHTS::ID . " = " . THOUGHTS::ROOT, false)));
 
                 } else {
 
                     $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_GET_ALL;
                     $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $table_name, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::ROOT => $_GET[THOUGHTS::ROOT], THOUGHTS::ID => $_GET[THOUGHTS::ROOT]], $complex, array(new condition(THOUGHTS::ROOT, true, true), new condition(THOUGHTS::ID, true, false)));
-                
+
                 }
             }
             break;
@@ -55,15 +55,25 @@ if (check_keys($_GET, "schema")) {
 
                 if (array_key_exists(THOUGHTS::ROOT, $_GET)) {
 
-                    $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_GET_ONE;
-                    $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $table_name, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID], THOUGHTS::ROOT => $_GET[THOUGHTS::ROOT]], $complex, array( new condition(THOUGHTS::ROOT),  new condition(THOUGHTS::OWNER_ID)));
+                    $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_GET_BY;
+                    $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $table_name, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID], THOUGHTS::ROOT => $_GET[THOUGHTS::ROOT]], $complex, array(new condition(THOUGHTS::ROOT), new condition(THOUGHTS::OWNER_ID)));
 
                 } else {
 
-                    $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_GET_ONE;
-                    $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $table_name, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID]], $complex, array( new condition(THOUGHTS::OWNER_ID)));
+                    $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_GET_BY;
+                    $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $table_name, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID]], $complex, array(new condition(THOUGHTS::OWNER_ID)));
 
                 }
+            }
+            break;
+
+        case THOUGHTS_SCHEMA::UPDATE:
+
+            if (check_keys($_POST, THOUGHTS::ID, THOUGHTS::CONTENT, THOUGHTS::EDIT_DATE)) {
+
+                $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_UPDATE;
+                process($PDO, SQLFunctions::UPDATE, $table_name, $_POST, array(THOUGHTS::CONTENT, THOUGHTS::EDIT_DATE), array(new condition(THOUGHTS::ID)));
+
             }
             break;
 
