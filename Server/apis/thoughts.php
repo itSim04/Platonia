@@ -12,10 +12,26 @@ if (check_keys($_GET, "schema")) {
 
             if (check_keys($_POST, THOUGHTS::SHARE_DATE, THOUGHTS::EDIT_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID)) {
 
-                $output[RESPONSE::STATUS] = EXIT_CODES::USERS_ADD;
+                $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_ADD;
                 $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::EDIT_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID), array());
                 process($PDO, SQLFunctions::UPDATE, $table_name, [THOUGHTS::ROOT => $id], array(THOUGHTS::ROOT), array(THOUGHTS::ID));
                 $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [THOUGHTS::ID => $id], array(), array(THOUGHTS::ID));
+
+            }
+            break;
+
+        case THOUGHTS_SCHEMA::GET_ALL:
+
+            $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_GET_ALL;
+            $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array());
+            break;
+
+        case THOUGHTS_SCHEMA::GET_ONE:
+
+            if (check_keys($_GET, THOUGHTS::ID)) {
+
+                $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_GET_ONE;
+                $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(THOUGHTS::ID));
 
             }
             break;
