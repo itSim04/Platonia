@@ -12,6 +12,7 @@ if (check_keys($_GET, "schema")) {
 
             if (check_keys($_GET, FOLLOWS::USER_ID1, FOLLOWS::USER_ID2, FOLLOWS::FOLLOW_DATE)) {
 
+                $output[RESPONSE::STATUS] = EXIT_CODES::FOLLOW_ADD;
                 if ($_GET[FOLLOWS::USER_ID1] != $_GET[FOLLOWS::USER_ID2]) {
                     process($PDO, SQLFunctions::ADD, $table_name, $_GET, array(FOLLOWS::USER_ID1, FOLLOWS::USER_ID2), array());
                 } else {

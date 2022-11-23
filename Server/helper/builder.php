@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS options (
   position int(4) NOT NULL,
   content varchar(48) NOT NULL,
   votes int(11) NOT NULL,
-  PRIMARY KEY (thought_id),
+  PRIMARY KEY (thought_id, position),
   FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 $query->execute();
 
@@ -113,8 +113,17 @@ CREATE TABLE IF NOT EXISTS thoughts_TEMP (
   likes int(11) NOT NULL,
   platons int(11) NOT NULL,
   opinions int(11) NOT NULL,
-  PRIMARY KEY (thought_id, position),
+  PRIMARY KEY (thought_id),
   FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
+$query->execute();
+
+$query = $PDO->prepare("
+CREATE TABLE IF NOT EXISTS users_TEMP (
+  user_id int(11) NOT NULL,
+  followers int(11) NOT NULL,
+  followings int(11) NOT NULL,
+  PRIMARY KEY (user_id),
+  FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 $query->execute();
 
 $query = $PDO->prepare("
@@ -157,6 +166,14 @@ INSERT INTO thoughts_temp (thought_id) VALUES (new.thought_id);
  UPDATE thoughts_temp 
  SET opinions = opinions + 1 
  WHERE thought_id = new.root_id AND thought_id != new.thought_id;
+ 
+END");
+$query->execute();
+
+$query = $PDO->prepare("CREATE TRIGGER IF NOT EXISTS `OnUserAdd` AFTER INSERT ON users 
+FOR EACH ROW BEGIN
+
+INSERT INTO users_temp (user_id) VALUES (new.user_id);
  
 END");
 $query->execute();
@@ -207,6 +224,32 @@ FOR EACH ROW BEGIN
 UPDATE options 
  SET votes = votes + 1 
  WHERE thought_id = new.thought_id AND position = new.option_chosen;
+ 
+END");
+$query->execute();
+
+$query = $PDO->prepare("CREATE TRIGGER IF NOT EXISTS `OnFollow` AFTER INSERT ON follows 
+FOR EACH ROW BEGIN
+
+UPDATE users_temp 
+SET followings = followings + 1
+WHERE user_id = new.user_id1;
+UPDATE users_temp 
+SET followers = followers + 1
+WHERE user_id = new.user_id2;
+ 
+END");
+$query->execute();
+
+$query = $PDO->prepare("CREATE TRIGGER IF NOT EXISTS `OnUnfollow` BEFORE DELETE ON follows
+FOR EACH ROW BEGIN
+
+UPDATE users_temp 
+SET followings = followings - 1
+WHERE user_id = old.user_id1;
+UPDATE users_temp 
+SET followers = followers - 1
+WHERE user_id = old.user_id2;
  
 END");
 $query->execute();
