@@ -4,6 +4,8 @@ require '../helper/root.php';
 
 if (check_keys($_GET, "schema")) {
 
+    $table_name = "users";
+
     switch ($_GET["schema"]) {
 
         case USERS_SCHEMA::ADD:
@@ -38,8 +40,7 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_POST, USERS::ID, USERS::USERNAME, USERS::PASSWORD, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER, USERS::PICTURE, USERS::BANNER)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_UPDATE;
-                process($mysqli, sprintf("UPDATE users SET %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? WHERE %s = ?", USERS::USERNAME, USERS::PASSWORD, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER, USERS::PICTURE, USERS::BANNER, USERS::ID), $_POST[USERS::USERNAME], $_POST[USERS::PASSWORD], $_POST[USERS::EMAIL], $_POST[USERS::BIO], $_POST[USERS::BIRTHDAY], $_POST[USERS::GENDER], $_POST[USERS::PICTURE], $_POST[USERS::BANNER], $_POST[USERS::ID]);
-                build_params(false, $_POST, USERS::ID, USERS::USERNAME, USERS::PASSWORD, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER, USERS::PICTURE, USERS::BANNER);
+                process($mysqli, build_simple_sql(SQLFunctions::UPDATE, $table_name, $_POST, array(USERS::USERNAME, USERS::PASSWORD, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER, USERS::PICTURE, USERS::BANNER), array(USERS::ID)));
 
             }
             break;

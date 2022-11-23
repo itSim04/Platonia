@@ -72,10 +72,40 @@ function process_fetch_id(mysqli $mysqli, string $sql, mixed ...$params): int {
 
 }
 
-function process(mysqli $mysqli, string $sql, mixed ...$params): void {
+function process(mysqli $mysqli, string $sql): void {
 
     $query = $mysqli->prepare($sql);
-    $query->execute($params);
+    $query->execute();
+
+}
+
+enum SQLFunctions {
+
+    case UPDATE;
+
+
+}
+
+function build_simple_sql(SQLFunctions $type, string $table_name, array $provider, array $params, array $conditions): string {
+
+    $result = "";
+    switch($type) {
+
+        case SQLFunctions::UPDATE:
+
+            $result = "UPDATE {$table_name} SET ";
+            $result = $result . build_params(false, $provider, ...$params);
+            $result = $result . " WHERE ";
+            $result = $result . build_params(false, $provider, ...$conditions);
+            break;
+
+
+
+
+    }
+    echo $result;
+    return $result;
+
 
 }
 
@@ -84,16 +114,30 @@ function build_params(bool $with_values, array $provider, string ...$labels): st
     $result = "";
     if(!$with_values) {
 
-        for ($i = 0; $i < count($provider) - 1; $i++) { 
-            $result = $result . "{$labels[$i]} = ?, ";
+        for ($i = 0; $i < count($labels) - 1; $i++) { 
+
+            $result = $result . "{$labels[$i]} = " . (strlen($provider[$labels[$i]]) == 0 ? "null" : "'". $provider[$labels[$i]] . "'") . ", ";
+            
         }
-        $result = $result . "{$labels[$i]} = ?";
+        $result = $result . $labels[$i] . " = " . (strlen($provider[$labels[$i]]) == 0 ? "null" : "'". $provider[$labels[$i]] . "'");
+
+    } else {
+
+        $result = "(";
+        for ($i = 0; $i < count($labels) - 1; $i++) { 
+            $result = $result . "{$labels[$i]}, ";
+        }
+        $result = $result . "{$labels[$i]}) VALUES (";
+
+        for ($i = 0; $i < count($labels) - 1; $i++) { 
+            $result = $result . (strlen($provider[$labels[$i]]) == 0 ? "null" : "'". $provider[$labels[$i]] . "'") . ", ";
+        }
+        $result = $result . (strlen($provider[$labels[$i]]) == 0 ? "null" : "'". $provider[$labels[$i]] . "'");
+
 
     }
 
-    echo $result;
-    return "";
-
+    return $result;
 
 }
 
