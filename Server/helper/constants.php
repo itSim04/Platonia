@@ -67,12 +67,12 @@ class EXIT_CODES {
 	public const THOUGHTS_UPDATE = 114;
 	public const THOUGHTS_DELETE = 115;
 
-	public const INTEREST_ADD = 120;
-	public const INTEREST_GET_ALL = 121;
-	public const INTEREST_GET_ONE = 122;
-	public const INTEREST_ENROLL_USER = 123;
-	public const INTEREST_GET_USERS = 124;
-	public const INTEREST_UNENROLL_USER = 125;
+	public const INTERESTS_ADD = 120;
+	public const INTERESTS_GET_ALL = 121;
+	public const INTERESTS_GET_ONE = 122;
+	public const INTERESTS_ENROLL_USER = 123;
+	public const INTERESTS_GET_USERS = 124;
+	public const INTERESTS_UNENROLL_USER = 125;
 
 
 	public const MISSING_PARAMS = 400;
@@ -158,6 +158,7 @@ class RESPONSE {
 	public const THOUGHTS = "thoughts";
 
 	public const INTEREST = "interest";
+	public const INTERESTS = "interests";
 	public const EMAIL_AVAILABLE = "email_taken";
 	public const USERNAME_AVAILABLE = "username_taken";
 
