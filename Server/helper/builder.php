@@ -99,6 +99,7 @@ $query->execute();
 $query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS options (
   thought_id int(11) NOT NULL,
+  position int(4) NOT NULL,
   content varchar(48) NOT NULL,
   votes int(11) NOT NULL,
   PRIMARY KEY (thought_id),
@@ -175,6 +176,26 @@ FOR EACH ROW BEGIN
 
 UPDATE thoughts_temp 
  SET likes = likes + 1 
+ WHERE thought_id = new.thought_id;
+ 
+END");
+$query->execute();
+
+$query = $PDO->prepare("CREATE TRIGGER IF NOT EXISTS `OnPlatonDelete` BEFORE DELETE ON Platons
+FOR EACH ROW BEGIN
+
+UPDATE thoughts_temp 
+ SET Platons = Platons - 1 
+ WHERE thought_id = old.thought_id;
+ 
+END");
+$query->execute();
+
+$query = $PDO->prepare("CREATE TRIGGER IF NOT EXISTS `OnPlatonInsert` AFTER INSERT ON platons 
+FOR EACH ROW BEGIN
+
+UPDATE thoughts_temp 
+ SET platons = platons + 1 
  WHERE thought_id = new.thought_id;
  
 END");

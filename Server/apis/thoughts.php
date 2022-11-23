@@ -5,6 +5,7 @@ require '../helper/root.php';
 if (check_keys($_GET, "schema")) {
 
     $table_name = "thoughts";
+    $option_name = "options";
     $complex = array("*", "CASE WHEN (SELECT EXISTS(SELECT * FROM likes WHERE likes.user_id = :user_id1 && likes.thought_id = thoughts.thought_id)) THEN true ELSE false END as is_liked", "CASE WHEN (SELECT NOT EXISTS(SELECT * FROM answers WHERE answers.user_id = :user_id2 && answers.thought_id = thoughts.thought_id)) THEN 0 ELSE (SELECT option_chosen FROM answers WHERE answers.user_id = :user_id3 && answers.thought_id = thoughts.thought_id) END as is_voted", "CASE WHEN (SELECT EXISTS(SELECT * FROM platons WHERE platons.user_id = :user_id4 && platons.thought_id = thoughts.thought_id)) THEN true ELSE false END as is_platoned");
 
     switch ($_GET["schema"]) {
@@ -13,16 +14,25 @@ if (check_keys($_GET, "schema")) {
 
             if (check_keys($_POST, THOUGHTS::SHARE_DATE, THOUGHTS::EDIT_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID)) {
 
-                $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_ADD;
-                if (array_key_exists(THOUGHTS::ROOT, $_POST)) {
+                if ($_POST[THOUGHTS::TYPE] == 3 && check_keys($_POST, THOUGHTS::POLL1, THOUGHTS::POLL2)) {
 
-                    $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::EDIT_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID, THOUGHTS::ROOT), array());
-                    
+                        process($PDO, SQLFunctions::ADD, $option_name, $_POST, array())
+
+
+
                 } else {
-                    $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::EDIT_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID), array());
-                    process($PDO, SQLFunctions::UPDATE, $table_name, [THOUGHTS::ROOT => $id, THOUGHTS::ID => $id], array(THOUGHTS::ROOT), array(new condition(THOUGHTS::ID)));
+
+                    $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_ADD;
+                    if (array_key_exists(THOUGHTS::ROOT, $_POST)) {
+
+                        $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::EDIT_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID, THOUGHTS::ROOT), array());
+
+                    } else {
+                        $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::EDIT_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID), array());
+                        process($PDO, SQLFunctions::UPDATE, $table_name, [THOUGHTS::ROOT => $id, THOUGHTS::ID => $id], array(THOUGHTS::ROOT), array(new condition(THOUGHTS::ID)));
+                    }
+                    $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [THOUGHTS::ID => $id], array(), array(new condition(THOUGHTS::ID)));
                 }
-                $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [THOUGHTS::ID => $id], array(), array(new condition(THOUGHTS::ID)));
             }
             break;
 
@@ -86,7 +96,7 @@ if (check_keys($_GET, "schema")) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_DELETE;
                 process($PDO, SQLFunctions::DELETE, $table_name, $_GET, array(), array(new condition(THOUGHTS::ID)));
-                
+
             }
             break;
         default:

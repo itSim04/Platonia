@@ -49,6 +49,13 @@ class LIKES_SCHEMA {
 	public const GET_LIKES_BY_USER = 2;
 	public const GET_LIKES_ON_THOUGHT = 3;
 }
+class PLATONS_SCHEMA {
+
+	public const PLATON = 0;
+	public const UNPLATON = 1;
+	public const GET_PLATONS_BY_USER = 2;
+	public const GET_PLATONS_ON_THOUGHT = 3;
+}
 
 class THOUGHTS_SCHEMA {
 
@@ -90,6 +97,11 @@ class EXIT_CODES {
 	public const LIKE_GET_ALL_BY_USER = 132;
 	public const LIKE_GET_ALL_ON_THOUGHT = 133;
 
+	public const PLATON_ADD = 140;
+	public const PLATON_REMOVE = 141;
+	public const PLATON_GET_ALL_BY_USER = 142;
+	public const PLATON_GET_ALL_ON_THOUGHT = 143;
+
 	public const MISSING_PARAMS = 400;
 	public const INCORRECT_SCHEMA = 405;
 
@@ -110,6 +122,12 @@ class THOUGHTS {
 	public const IS_LIKED = "is_liked";
 	public const IS_PLATONED = "is_platoned";
 	public const OPTION = "is_voted";
+
+
+	public const POLL1 = "poll1";
+	public const POLL2 = "poll1";
+	public const POLL3 = "poll1";
+	public const POLL4 = "poll1";
 
 }
 
@@ -172,6 +190,8 @@ class RESPONSE {
 	public const THOUGHT = "thought";
 	public const THOUGHTS = "thoughts";
 	public const LIKES = "likes";
+	public const PLATONS = "platons";
+	public const RETWEETS = "retweets";
 	public const INTEREST = "interest";
 	public const INTERESTS = "interests";
 	public const EMAIL_AVAILABLE = "email_taken";
