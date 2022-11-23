@@ -56,18 +56,24 @@ function process_fetch(PDO $PDO, SQLFunctions $type, string $table_name, array $
 
 }
 
-function process_availability(PDO $PDO, string $sql, mixed...$params): bool {
+function process_availability(PDO $PDO, SQLFunctions $type, string $table_name, array $provider, array $params, array $conditions): bool {
 
-    $query = $PDO->prepare($sql);
+    $query = $PDO->prepare(build_simple_sql($type, $table_name, $params, $conditions));
     $query->execute();
     $result = $query->fetchColumn();
     return $result;
 
 }
 
-function process_fetch_id(PDO $PDO, string $sql, mixed...$params): string {
+function process_fetch_id(PDO $PDO, SQLFunctions $type, string $table_name, array $provider, array $params, array $conditions): string {
 
-    $query = $PDO->prepare($sql);
+    $query = $PDO->prepare(build_simple_sql($type, $table_name, $params, $conditions));
+    foreach ($params as $l) {
+        $query->bindParam($l, $provider[$l]);
+    }
+    foreach ($conditions as $l) {
+        $query->bindParam($l, $provider[$l]);
+    }
     $query->execute();
     return $PDO->lastInsertId();
 
@@ -89,6 +95,7 @@ function process(PDO $PDO, SQLFunctions $type, string $table_name, array $provid
 enum SQLFunctions {
 
     case UPDATE;
+    case ADD;
     case SELECT;
 
 
@@ -105,6 +112,12 @@ function build_simple_sql(SQLFunctions $type, string $table_name, array $params,
             $result .= build_params(null, ...$params);
             $result .= " WHERE ";
             $result .= build_params(null, ...$conditions);
+            break;
+
+        case SQLFunctions::ADD:
+
+            $result = "INSERT INTO {$table_name} ";
+            $result .= build_params(SQLFunctions::ADD, ...$params);
             break;
 
         case SQLFunctions::SELECT:
@@ -138,7 +151,7 @@ function build_params(SQLFunctions|null $with_values, string...$labels): string 
     $result = "";
     switch ($with_values) {
 
-        case SQLFunctions::UPDATE:
+        case SQLFunctions::ADD:
 
             $result = "(";
             for ($i = 0; $i < count($labels) - 1; $i++) {
@@ -147,9 +160,9 @@ function build_params(SQLFunctions|null $with_values, string...$labels): string 
             $result .= "{$labels[$i]}) VALUES (";
 
             for ($i = 0; $i < count($labels) - 1; $i++) {
-                $result .= "{$labels[$i]} = :{$labels[$i]}, ";
+                $result .= ":{$labels[$i]}, ";
             }
-            $result .= "{$labels[$i]} = :{$labels[$i]})";
+            $result .= ":{$labels[$i]})";
 
             break;
 
