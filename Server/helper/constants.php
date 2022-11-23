@@ -42,6 +42,13 @@ class USERS_SCHEMA {
 
 }
 
+class LIKES_SCHEMA {
+
+	public const LIKE = 0;
+	public const UNLIKE = 0;
+	public const GET_LIKES = 0;
+}
+
 class THOUGHTS_SCHEMA {
 
 	public const ADD = 0;
@@ -76,6 +83,10 @@ class EXIT_CODES {
 	public const INTERESTS_ENROLL_USER = 124;
 	public const INTERESTS_UNENROLL_USER = 125;
 	public const INTERESTS_CHECK_NAME = 126;
+
+	public const LIKE_ADD = 130;
+	public const LIKE_REMOVE = 131;
+	public const LIKE_GET_ALL = 132;
 
 	public const MISSING_PARAMS = 400;
 	public const INCORRECT_SCHEMA = 405;
