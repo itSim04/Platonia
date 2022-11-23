@@ -68,6 +68,13 @@ class THOUGHTS_SCHEMA {
 
 }
 
+class POLLS_SCHEMA {
+
+	public const ANSWER_POLL = 0;
+	public const GET_OPTION = 1;
+
+}
+
 class EXIT_CODES {
 
 	public const USERS_ADD = 100;
@@ -101,6 +108,9 @@ class EXIT_CODES {
 	public const PLATON_REMOVE = 141;
 	public const PLATON_GET_ALL_BY_USER = 142;
 	public const PLATON_GET_ALL_ON_THOUGHT = 143;
+
+	public const POLLS_ANSWER_POLL = 150;
+	public const POLLS_GET_OPTION = 151;
 
 	public const MISSING_PARAMS = 400;
 	public const INCORRECT_SCHEMA = 405;

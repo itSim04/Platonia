@@ -181,11 +181,11 @@ UPDATE thoughts_temp
 END");
 $query->execute();
 
-$query = $PDO->prepare("CREATE TRIGGER IF NOT EXISTS `OnPlatonDelete` BEFORE DELETE ON Platons
+$query = $PDO->prepare("CREATE TRIGGER IF NOT EXISTS `OnPlatonDelete` BEFORE DELETE ON platons
 FOR EACH ROW BEGIN
 
 UPDATE thoughts_temp 
- SET Platons = Platons - 1 
+ SET platons = platons - 1 
  WHERE thought_id = old.thought_id;
  
 END");
@@ -197,6 +197,16 @@ FOR EACH ROW BEGIN
 UPDATE thoughts_temp 
  SET platons = platons + 1 
  WHERE thought_id = new.thought_id;
+ 
+END");
+$query->execute();
+
+$query = $PDO->prepare("CREATE TRIGGER IF NOT EXISTS `OnAnswer` AFTER INSERT ON ANSWERS
+FOR EACH ROW BEGIN
+
+UPDATE options 
+ SET votes = votes + 1 
+ WHERE thought_id = new.thought_id AND position = new.option_chosen;
  
 END");
 $query->execute();
