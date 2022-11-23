@@ -125,6 +125,7 @@ enum SQLFunctions {
     case ADD;
     case SELECT;
     case SELECT_COMPLEX;
+    case DELETE;
 
 }
 
@@ -140,6 +141,13 @@ function build_simple_sql(SQLFunctions $type, string $table_name, array $params,
             $result .= " WHERE ";
             $result .= build_params(null, $conditions);
             break;
+
+            case SQLFunctions::DELETE:
+
+                $result = "DELETE FROM {$table_name}";
+                $result .= " WHERE ";
+                $result .= build_params(null, $conditions);
+                break;
 
         case SQLFunctions::ADD:
 

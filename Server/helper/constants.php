@@ -67,7 +67,7 @@ class THOUGHTS {
 	public const OWNER_ID = "owner_id";
 	public const PLATONS = "platons_TEMP";
 	public const LIKES = "likes_TEMP";
-	public const COMMENTS = "comments_TEMP";
+	public const COMMENTS = "opinions_TEMP";
 	public const ROOT = "root_id";
 	public const IS_LIKED = "is_liked";
 	public const IS_PLATONED = "is_platoned";
