@@ -17,6 +17,18 @@ class USERS {
 
 }
 
+class INTERESTS_SCHEMA {
+
+
+	public const ADD = 0;
+	public const GET_ALL = 1;
+	public const GET_ONE = 2;
+	public const ENROLL_USER = 3;
+	public const GET_USERS = 4;
+	public const UNENROLL_USER = 5;
+
+}
+
 class USERS_SCHEMA {
 
 	public const ADD = 0;
@@ -54,6 +66,15 @@ class EXIT_CODES {
 	public const THOUGHTS_GET_BY = 113;
 	public const THOUGHTS_UPDATE = 114;
 	public const THOUGHTS_DELETE = 115;
+
+	public const INTEREST_ADD = 120;
+	public const INTEREST_GET_ALL = 121;
+	public const INTEREST_GET_ONE = 122;
+	public const INTEREST_ENROLL_USER = 123;
+	public const INTEREST_GET_USERS = 124;
+	public const INTEREST_UNENROLL_USER = 125;
+
+
 	public const MISSING_PARAMS = 400;
 	public const INCORRECT_SCHEMA = 405;
 
@@ -74,6 +95,23 @@ class THOUGHTS {
 	public const IS_LIKED = "is_liked";
 	public const IS_PLATONED = "is_platoned";
 	public const OPTION = "is_voted";
+
+}
+
+class INTERESTS {
+
+	public const ID = "interest_id";
+	public const NAME = "name";
+	public const IMG = "img_src";
+	public const PARTICIPANTS = "participants_TEMP";
+
+}
+
+class INTERESTED_IN {
+
+	public const ID = "user_id";
+	public const INTEREST_ID = "interest_id";
+	public const INTEREST_DATE = "interest_date";
 
 }
 
@@ -118,6 +156,8 @@ class RESPONSE {
 	public const USER = "user";
 	public const THOUGHT = "thought";
 	public const THOUGHTS = "thoughts";
+
+	public const INTEREST = "interest";
 	public const EMAIL_AVAILABLE = "email_taken";
 	public const USERNAME_AVAILABLE = "username_taken";
 

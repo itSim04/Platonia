@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS users (
  followings_TEMP int(11) NOT NULL DEFAULT 0,
  followers_TEMP int(11) NOT NULL DEFAULT 0,
  PRIMARY KEY (user_id),
- UNIQUE username (username),
- UNIQUE email (email))");
+ UNIQUE (username),
+ UNIQUE (email))");
 $query->execute();
 
 $query = $PDO->prepare("
@@ -79,11 +79,25 @@ $query->execute();
 
 $query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS interests (
-  user_id int(11) NOT NULL,
+  interest_id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(24) NOT NULL,
-  PRIMARY KEY (user_id),
-  FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE)");
+  img_src varchar(50) NOT NULL,
+  participants_TEMP int(11) NOT NULL,
+  PRIMARY KEY (interest_id),
+  UNIQUE (name))");
 $query->execute();
+
+$query = $PDO->prepare("CREATE TABLE IF NOT EXISTS interested_in (
+  user_id int(11) NOT NULL,
+  interest_id int(11) NOT NULL,
+  interest_date varchar(10) NOT NULL,
+  PRIMARY KEY (user_id, interest_id),
+  FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (interest_id) REFERENCES interests (interest_id) ON DELETE CASCADE ON UPDATE CASCADE
+)");
+$query->execute();
+
+
 
 $query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS options (
@@ -93,5 +107,3 @@ CREATE TABLE IF NOT EXISTS options (
   PRIMARY KEY (thought_id),
   FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 $query->execute();
-
-        

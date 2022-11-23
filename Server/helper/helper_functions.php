@@ -41,7 +41,7 @@ function warnMisc(int $code) {
 
 }
 
-function process_fetch(PDO $PDO, SQLFunctions $type, string $table_name, array $provider, array $params, array $conditions, bool $inject_conditionals = true): array {
+function process_fetch(PDO $PDO, SQLFunctions $type, string $table_name, array $provider, array $params, array $conditions): array {
 
     $query = $PDO->prepare(build_simple_sql($type, $table_name, $params, $conditions));
     if ($type == SQLFunctions::SELECT_COMPLEX) {
