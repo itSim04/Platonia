@@ -138,14 +138,14 @@ function build_simple_sql(SQLFunctions $type, string $table_name, array $params,
             $result = "UPDATE {$table_name} SET ";
             $result .= build_params(SQLFunctions::UPDATE, $params);
             $result .= " WHERE ";
-            $result .= build_params(null, $conditions);
+            $result .= build_params(SQLFunctions::SELECT_COMPLEX, $conditions);
             break;
 
         case SQLFunctions::DELETE:
 
             $result = "DELETE FROM {$table_name}";
             $result .= " WHERE ";
-            $result .= build_params(null, $conditions);
+            $result .= build_params(SQLFunctions::SELECT_COMPLEX, $conditions);
             break;
 
         case SQLFunctions::ADD:

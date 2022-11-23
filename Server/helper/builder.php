@@ -159,3 +159,23 @@ INSERT INTO thoughts_temp (thought_id) VALUES (new.thought_id);
  
 END");
 $query->execute();
+
+$query = $PDO->prepare("CREATE TRIGGER IF NOT EXISTS `OnLikeDelete` BEFORE DELETE ON likes
+FOR EACH ROW BEGIN
+
+UPDATE thoughts_temp 
+ SET likes = likes - 1 
+ WHERE thought_id = old.thought_id;
+ 
+END");
+$query->execute();
+
+$query = $PDO->prepare("CREATE TRIGGER IF NOT EXISTS `OnLikeInsert` AFTER INSERT ON likes 
+FOR EACH ROW BEGIN
+
+UPDATE thoughts_temp 
+ SET likes = likes + 1 
+ WHERE thought_id = new.thought_id;
+ 
+END");
+$query->execute();

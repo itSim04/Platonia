@@ -45,8 +45,8 @@ class USERS_SCHEMA {
 class LIKES_SCHEMA {
 
 	public const LIKE = 0;
-	public const UNLIKE = 0;
-	public const GET_LIKES = 0;
+	public const UNLIKE = 1;
+	public const GET_LIKES = 2;
 }
 
 class THOUGHTS_SCHEMA {
