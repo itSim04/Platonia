@@ -124,10 +124,11 @@ class THOUGHTS {
 	public const OPTION = "is_voted";
 
 
+	public const POSITION = "position";
 	public const POLL1 = "poll1";
-	public const POLL2 = "poll1";
-	public const POLL3 = "poll1";
-	public const POLL4 = "poll1";
+	public const POLL2 = "poll2";
+	public const POLL3 = "poll3";
+	public const POLL4 = "poll4";
 
 }
 

@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS thoughts_TEMP (
   likes int(11) NOT NULL,
   platons int(11) NOT NULL,
   opinions int(11) NOT NULL,
-  PRIMARY KEY (thought_id),
+  PRIMARY KEY (thought_id, position),
   FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 $query->execute();
 
