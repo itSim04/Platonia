@@ -203,6 +203,7 @@ class RESPONSE {
 	public const LIKES = "likes";
 	public const PLATONS = "platons";
 	public const RETWEETS = "retweets";
+	public const OPTIONS = "options";
 	public const INTEREST = "interest";
 	public const INTERESTS = "interests";
 	public const EMAIL_AVAILABLE = "email_taken";
