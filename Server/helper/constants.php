@@ -46,7 +46,8 @@ class LIKES_SCHEMA {
 
 	public const LIKE = 0;
 	public const UNLIKE = 1;
-	public const GET_LIKES = 2;
+	public const GET_LIKES_BY_USER = 2;
+	public const GET_LIKES_ON_THOUGHT = 3;
 }
 
 class THOUGHTS_SCHEMA {
@@ -86,7 +87,8 @@ class EXIT_CODES {
 
 	public const LIKE_ADD = 130;
 	public const LIKE_REMOVE = 131;
-	public const LIKE_GET_ALL = 132;
+	public const LIKE_GET_ALL_BY_USER = 132;
+	public const LIKE_GET_ALL_ON_THOUGHT = 133;
 
 	public const MISSING_PARAMS = 400;
 	public const INCORRECT_SCHEMA = 405;
@@ -169,7 +171,7 @@ class RESPONSE {
 	public const USER = "user";
 	public const THOUGHT = "thought";
 	public const THOUGHTS = "thoughts";
-
+	public const LIKES = "likes";
 	public const INTEREST = "interest";
 	public const INTERESTS = "interests";
 	public const EMAIL_AVAILABLE = "email_taken";
