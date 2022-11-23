@@ -219,6 +219,8 @@ class RESPONSE {
 	public const OPTIONS = "options";
 	public const INTEREST = "interest";
 	public const INTERESTS = "interests";
+	public const FOLLOWERS = "followers";
+	public const FOLLOWINGS = "followings";
 	public const EMAIL_AVAILABLE = "email_taken";
 	public const USERNAME_AVAILABLE = "username_taken";
 	public const NAME_AVAILABLE = "name_taken";

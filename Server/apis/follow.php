@@ -32,7 +32,25 @@ if (check_keys($_GET, "schema")) {
             }
             break;
 
+        case FOLLOW_SCHEMA::GET_FOLLOWERS:
 
+            if (check_keys($_GET, USERS::ID)) {
+
+                $output[RESPONSE::STATUS] = EXIT_CODES::FOLLOW_GET_FOLLOWERS;
+                $output[RESPONSE::FOLLOWERS] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [FOLLOWS::USER_ID2 => $_GET[USERS::ID]], array(), array(new condition(FOLLOWS::USER_ID2)));
+
+            }
+            break;
+
+        case FOLLOW_SCHEMA::GET_FOLLOWINGS:
+
+            if (check_keys($_GET, USERS::ID)) {
+
+                $output[RESPONSE::STATUS] = EXIT_CODES::FOLLOW_GET_FOLLOWINGS;
+                $output[RESPONSE::FOLLOWINGS] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [FOLLOWS::USER_ID1 => $_GET[USERS::ID]], array(), array(new condition(FOLLOWS::USER_ID1)));
+
+            }
+            break;
         default:
 
             $output[RESPONSE::STATUS] = EXIT_CODES::INCORRECT_SCHEMA;
