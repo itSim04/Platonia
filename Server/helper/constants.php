@@ -24,6 +24,7 @@ class USERS_SCHEMA {
 	public const GET_ONE = 2;
 	public const UPDATE = 3;
 	public const CHECK = 4;
+	public const AUTHENTICATE = 5;
 
 }
 
@@ -45,6 +46,7 @@ class EXIT_CODES {
 	public const USERS_GET_ONE = 102;
 	public const USERS_UPDATE = 103;
 	public const USERS_CHECK = 104;
+	public const USERS_AUTHENTICATE = 105;
 
 	public const THOUGHTS_ADD = 110;
 	public const THOUGHTS_GET_ALL = 111;
@@ -110,7 +112,7 @@ class ANSWERS {
 
 class RESPONSE {
 
-   	public const STATUS = "status";
+	public const STATUS = "status";
 	public const MISSING_PARAMS = "missing_parameters";
 	public const USERS = "users";
 	public const USER = "user";

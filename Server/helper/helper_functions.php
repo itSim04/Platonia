@@ -46,10 +46,7 @@ function process_fetch(PDO $PDO, SQLFunctions $type, string $table_name, array $
     $query = $PDO->prepare(build_simple_sql($type, $table_name, $params, $conditions));
     if ($type == SQLFunctions::SELECT_COMPLEX) {
         foreach (array_keys($provider) as $l) {
-
-
             $query->bindParam($l, $provider[$l]);
-
         }
     } else {
         foreach ($params as $l) {
@@ -142,12 +139,12 @@ function build_simple_sql(SQLFunctions $type, string $table_name, array $params,
             $result .= build_params(null, $conditions);
             break;
 
-            case SQLFunctions::DELETE:
+        case SQLFunctions::DELETE:
 
-                $result = "DELETE FROM {$table_name}";
-                $result .= " WHERE ";
-                $result .= build_params(null, $conditions);
-                break;
+            $result = "DELETE FROM {$table_name}";
+            $result .= " WHERE ";
+            $result .= build_params(null, $conditions);
+            break;
 
         case SQLFunctions::ADD:
 

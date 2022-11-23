@@ -35,8 +35,6 @@ if (check_keys($_GET, "schema")) {
             }
             break;
 
-
-
         case USERS_SCHEMA::UPDATE:
 
             if (check_keys($_POST, USERS::ID, USERS::USERNAME, USERS::PASSWORD, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER, USERS::PICTURE, USERS::BANNER)) {
@@ -55,6 +53,16 @@ if (check_keys($_GET, "schema")) {
 
                 $output[RESPONSE::USERNAME_AVAILABLE] = process_availability($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(USERS::USERNAME)));
                 $output[RESPONSE::EMAIL_AVAILABLE] = process_availability($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(USERS::EMAIL)));
+            }
+            break;
+
+        case USERS_SCHEMA::AUTHENTICATE:
+
+            if (check_keys($_POST, USERS::USERNAME, USERS::PASSWORD)) {
+
+                $output[RESPONSE::STATUS] = EXIT_CODES::USERS_AUTHENTICATE;
+                $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_POST, array(), array(new condition(USERS::USERNAME), new condition(USERS::PASSWORD)));
+
             }
             break;
 
