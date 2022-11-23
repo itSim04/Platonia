@@ -107,6 +107,16 @@ $query->execute();
 
 
 $query = $PDO->prepare("
+CREATE TABLE IF NOT EXISTS thoughts_TEMP (
+  thought_id int(11) NOT NULL,
+  likes int(11) NOT NULL,
+  platons int(11) NOT NULL,
+  opinions int(11) NOT NULL,
+  PRIMARY KEY (thought_id),
+  FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
+$query->execute();
+
+$query = $PDO->prepare("
 CREATE TRIGGER IF NOT EXISTS `OnInterestEnroll` AFTER INSERT ON interested_in 
   FOR EACH ROW BEGIN
 
@@ -115,16 +125,6 @@ CREATE TRIGGER IF NOT EXISTS `OnInterestEnroll` AFTER INSERT ON interested_in
    WHERE interest_id = new.interest_id;
    
 END");
-$query->execute();
-
-$query = $PDO->prepare("
-CREATE TABLE IF NOT EXISTS thoughts_TEMP (
-  thought_id int(11) NOT NULL,
-  likes int(11) NOT NULL,
-  platons int(11) NOT NULL,
-  opinions int(11) NOT NULL,
-  PRIMARY KEY (thought_id),
-  FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 $query->execute();
 
 $query = $PDO->prepare("CREATE TRIGGER IF NOT EXISTS `OnInterestUnenroll` BEFORE DELETE ON interested_in 

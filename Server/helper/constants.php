@@ -27,6 +27,7 @@ class INTERESTS_SCHEMA {
 	public const ENROLL_USER = 4;
 	public const UNENROLL_USER = 5;
 	public const CHECK_NAME = 6;
+	public const GET_INTERESTS = 7;
 
 }
 
@@ -162,5 +163,6 @@ class RESPONSE {
 	public const INTERESTS = "interests";
 	public const EMAIL_AVAILABLE = "email_taken";
 	public const USERNAME_AVAILABLE = "username_taken";
+	public const NAME_AVAILABLE = "name_taken";
 
 }

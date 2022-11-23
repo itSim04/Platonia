@@ -35,15 +35,23 @@ if (check_keys($_GET, "schema")) {
             }
             break;
 
+        case INTERESTS_SCHEMA::GET_USERS:
+
+            if (check_keys($_GET, INTERESTED_IN::INTEREST_ID)) {
+
+                $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_GET_ONE;
+                $output[RESPONSE::USERS] = process_fetch($PDO, SQLFunctions::SELECT, $pivot_name, $_GET, array(), array(new condition(INTERESTED_IN::INTEREST_ID)));
+
+            }
+            break;
+
+
         case INTERESTS_SCHEMA::ENROLL_USER:
 
             if (check_keys($_GET, INTERESTED_IN::USER_ID, INTERESTED_IN::INTEREST_ID, INTERESTED_IN::INTEREST_DATE)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_ENROLL_USER;
-
                 process($PDO, SQLFunctions::ADD, $pivot_name, $_GET, array(INTERESTED_IN::USER_ID, INTERESTED_IN::INTEREST_ID, INTERESTED_IN::INTEREST_DATE), array());
-                //$participants = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(INTERESTED_IN::INTEREST_ID)))[0]->participants_TEMP;
-                //process($PDO, SQLFunctions::UPDATE, $table_name, [INTERESTS::PARTICIPANTS => $participants + 1, INTERESTS::ID => $_GET[INTERESTS::ID]], array(INTERESTS::PARTICIPANTS), array(new condition(INTERESTED_IN::INTEREST_ID)));
 
             }
             break;
@@ -53,16 +61,37 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, INTERESTED_IN::USER_ID, INTERESTED_IN::INTEREST_ID)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_UNENROLL_USER;
-
                 process($PDO, SQLFunctions::DELETE, $pivot_name, $_GET, array(), array(new condition(INTERESTED_IN::INTEREST_ID)));
-                //$participants = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(INTERESTED_IN::INTEREST_ID)))[0]->participants_TEMP;
-                //process($PDO, SQLFunctions::UPDATE, $table_name, [INTERESTS::PARTICIPANTS => $participants - 1, INTERESTS::ID => $_GET[INTERESTS::ID]], array(INTERESTS::PARTICIPANTS), array(new condition(INTERESTED_IN::INTEREST_ID)));
 
             }
             break;
 
 
+        case INTERESTS_SCHEMA::CHECK_NAME:
+
+            if (check_keys($_GET, INTERESTS::NAME)) {
+
+                $output[RESPONSE::STATUS] = EXIT_CODES::USERS_CHECK;
+
+                $output[RESPONSE::NAME_AVAILABLE] = process_availability($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(INTERESTS::NAME)));
+            }
+            break;
+
+        case INTERESTS_SCHEMA::GET_INTERESTS:
+
+            if (check_keys($_GET, INTERESTED_IN::USER_ID)) {
+
+                $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_GET_ONE;
+                $output[RESPONSE::USERS] = process_fetch($PDO, SQLFunctions::SELECT, $pivot_name, $_GET, array(), array(new condition(INTERESTED_IN::USER_ID)));
+
+            }
+            break;
+
+        default:
+            $output[RESPONSE::STATUS] = EXIT_CODES::INCORRECT_SCHEMA;
+
     }
+
 
     echo json_encode($output);
 }
