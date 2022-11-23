@@ -35,6 +35,31 @@ if (check_keys($_GET, "schema")) {
             }
             break;
 
+        case INTERESTS_SCHEMA::ENROLL_USER:
+
+            if (check_keys($_GET, INTERESTED_IN::USER_ID, INTERESTED_IN::INTEREST_ID, INTERESTED_IN::INTEREST_DATE)) {
+
+                $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_ENROLL_USER;
+
+                process($PDO, SQLFunctions::ADD, $pivot_name, $_GET, array(INTERESTED_IN::USER_ID, INTERESTED_IN::INTEREST_ID, INTERESTED_IN::INTEREST_DATE), array());
+                //$participants = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(INTERESTED_IN::INTEREST_ID)))[0]->participants_TEMP;
+                //process($PDO, SQLFunctions::UPDATE, $table_name, [INTERESTS::PARTICIPANTS => $participants + 1, INTERESTS::ID => $_GET[INTERESTS::ID]], array(INTERESTS::PARTICIPANTS), array(new condition(INTERESTED_IN::INTEREST_ID)));
+
+            }
+            break;
+
+        case INTERESTS_SCHEMA::UNENROLL_USER:
+
+            if (check_keys($_GET, INTERESTED_IN::USER_ID, INTERESTED_IN::INTEREST_ID)) {
+
+                $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_UNENROLL_USER;
+
+                process($PDO, SQLFunctions::DELETE, $pivot_name, $_GET, array(), array(new condition(INTERESTED_IN::INTEREST_ID)));
+                //$participants = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(INTERESTED_IN::INTEREST_ID)))[0]->participants_TEMP;
+                //process($PDO, SQLFunctions::UPDATE, $table_name, [INTERESTS::PARTICIPANTS => $participants - 1, INTERESTS::ID => $_GET[INTERESTS::ID]], array(INTERESTS::PARTICIPANTS), array(new condition(INTERESTED_IN::INTEREST_ID)));
+
+            }
+            break;
 
 
     }

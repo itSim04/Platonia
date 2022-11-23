@@ -28,9 +28,6 @@ CREATE TABLE IF NOT EXISTS thoughts (
   type tinyint(4) NOT NULL,
   owner_id int(11) NOT NULL,
   root_id int(11) DEFAULT NULL,
-  platons_TEMP int(11) NOT NULL DEFAULT 0,
-  likes_TEMP int(11) NOT NULL DEFAULT 0,
-  opinions_TEMP int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (thought_id),
   FOREIGN KEY (owner_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (root_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
@@ -106,4 +103,59 @@ CREATE TABLE IF NOT EXISTS options (
   votes int(11) NOT NULL,
   PRIMARY KEY (thought_id),
   FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
+$query->execute();
+
+
+$query = $PDO->prepare("
+CREATE TRIGGER IF NOT EXISTS `OnInterestEnroll` AFTER INSERT ON interested_in 
+  FOR EACH ROW BEGIN
+
+   UPDATE interests 
+   SET interests.participants_TEMP = interests.participants_TEMP + 1 
+   WHERE interest_id = new.interest_id;
+   
+END");
+$query->execute();
+
+$query = $PDO->prepare("
+CREATE TABLE IF NOT EXISTS thoughts_TEMP (
+  thought_id int(11) NOT NULL,
+  likes int(11) NOT NULL,
+  platons int(11) NOT NULL,
+  opinions int(11) NOT NULL,
+  PRIMARY KEY (thought_id),
+  FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
+$query->execute();
+
+$query = $PDO->prepare("CREATE TRIGGER IF NOT EXISTS `OnInterestUnenroll` BEFORE DELETE ON interested_in 
+FOR EACH ROW BEGIN
+
+ UPDATE interests 
+ SET interests.participants_TEMP = interests.participants_TEMP - 1 
+ WHERE interest_id = old.interest_id;
+ 
+END");
+$query->execute();
+
+$query = $PDO->prepare("CREATE TRIGGER IF NOT EXISTS `OnOpinionDelete` BEFORE DELETE ON thoughts 
+FOR EACH ROW BEGIN
+
+DELETE FROM thoughts_temp WHERE thought_id = old.thought_id;
+UPDATE thoughts_temp 
+ SET opinions = opinions - 1 
+ WHERE thought_id = old.root_id AND thought_id != old.thought_id;
+ 
+END");
+$query->execute();
+
+$query = $PDO->prepare("CREATE TRIGGER IF NOT EXISTS `OnOpinionInsert` AFTER INSERT ON thoughts 
+FOR EACH ROW BEGIN
+
+INSERT INTO thoughts_temp (thought_id) VALUES (new.thought_id);
+
+ UPDATE thoughts_temp 
+ SET opinions = opinions + 1 
+ WHERE thought_id = new.root_id AND thought_id != new.thought_id;
+ 
+END");
 $query->execute();

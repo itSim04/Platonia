@@ -109,9 +109,11 @@ function process(PDO $PDO, SQLFunctions $type, string $table_name, array $provid
         $query->bindParam($l, $provider[$l]);
     }
     foreach ($conditions as $l) {
-        if ($l->injectable)
+       
+       if ($l->injectable)
             $query->bindParam($l->term, $provider[$l->term]);
     }
+
     $query->execute();
 
 }
@@ -178,6 +180,7 @@ function build_simple_sql(SQLFunctions $type, string $table_name, array $params,
             }
             break;
     }
+    //echo $result;
     return $result;
 
 

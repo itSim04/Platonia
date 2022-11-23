@@ -16,13 +16,13 @@ if (check_keys($_GET, "schema")) {
                 $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_ADD;
                 if (array_key_exists(THOUGHTS::ROOT, $_POST)) {
 
-                    process($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::EDIT_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID, THOUGHTS::ROOT), array());
-
+                    $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::EDIT_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID, THOUGHTS::ROOT), array());
+                    
                 } else {
                     $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::EDIT_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID), array());
                     process($PDO, SQLFunctions::UPDATE, $table_name, [THOUGHTS::ROOT => $id, THOUGHTS::ID => $id], array(THOUGHTS::ROOT), array(new condition(THOUGHTS::ID)));
-                    $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [THOUGHTS::ID => $id], array(), array(new condition(THOUGHTS::ID)));
                 }
+                $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [THOUGHTS::ID => $id], array(), array(new condition(THOUGHTS::ID)));
             }
             break;
 
@@ -56,7 +56,7 @@ if (check_keys($_GET, "schema")) {
         case THOUGHTS_SCHEMA::GET_BY:
 
             if (check_keys($_GET, USERS::ID, THOUGHTS::OWNER_ID)) {
-                
+
                 $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_GET_BY;
                 if (array_key_exists(THOUGHTS::ROOT, $_GET)) {
 
@@ -81,19 +81,12 @@ if (check_keys($_GET, "schema")) {
             break;
 
         case THOUGHTS_SCHEMA::DELETE:
+
             if (check_keys($_GET, THOUGHTS::ID)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_DELETE;
-                $item = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(THOUGHTS::ID)))[0];
-                $root = $item->root_id;
-                $comments = $item->opinions_TEMP;
-                if ($_GET[THOUGHTS::ID] != $root) {
-
-                    process($PDO, SQLFunctions::UPDATE, $table_name, [THOUGHTS::ID => $root, THOUGHTS::COMMENTS => $comments - 1], array(THOUGHTS::COMMENTS), array(new condition(THOUGHTS::ID)));
-
-                }
-
                 process($PDO, SQLFunctions::DELETE, $table_name, $_GET, array(), array(new condition(THOUGHTS::ID)));
+                
             }
             break;
         default:

@@ -23,9 +23,10 @@ class INTERESTS_SCHEMA {
 	public const ADD = 0;
 	public const GET_ALL = 1;
 	public const GET_ONE = 2;
-	public const ENROLL_USER = 3;
-	public const GET_USERS = 4;
+	public const GET_USERS = 3;
+	public const ENROLL_USER = 4;
 	public const UNENROLL_USER = 5;
+	public const CHECK_NAME = 6;
 
 }
 
@@ -70,10 +71,10 @@ class EXIT_CODES {
 	public const INTERESTS_ADD = 120;
 	public const INTERESTS_GET_ALL = 121;
 	public const INTERESTS_GET_ONE = 122;
-	public const INTERESTS_ENROLL_USER = 123;
-	public const INTERESTS_GET_USERS = 124;
+	public const INTERESTS_GET_USERS = 123;
+	public const INTERESTS_ENROLL_USER = 124;
 	public const INTERESTS_UNENROLL_USER = 125;
-
+	public const INTERESTS_CHECK_NAME = 126;
 
 	public const MISSING_PARAMS = 400;
 	public const INCORRECT_SCHEMA = 405;
@@ -109,7 +110,7 @@ class INTERESTS {
 
 class INTERESTED_IN {
 
-	public const ID = "user_id";
+	public const USER_ID = "user_id";
 	public const INTEREST_ID = "interest_id";
 	public const INTEREST_DATE = "interest_date";
 
@@ -117,7 +118,7 @@ class INTERESTED_IN {
 
 class PLATONS {
 
-	public const ID = "user_id";
+	public const USER_ID = "user_id";
 	public const THOUGHT_ID = "thought_id";
 	public const PLATON_DATE = "platon_date";
 
