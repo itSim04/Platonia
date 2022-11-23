@@ -27,6 +27,16 @@ class USERS_SCHEMA {
 
 }
 
+class THOUGHTS_SCHEMA {
+
+	public const ADD = 0;
+	public const GET_ALL = 1;
+	public const GET_ONE = 2;
+	public const UPDATE = 3;
+	public const DELETE = 4;
+
+}
+
 class EXIT_CODES {
 
 	public const USERS_ADD = 100;
@@ -42,7 +52,7 @@ class EXIT_CODES {
 class THOUGHTS {
 
 	public const ID = "thought_id";
-	public const SHARE_DATE = "mine_date";
+	public const SHARE_DATE = "share_date";
 	public const EDIT_DATE = "edit_date";
 	public const CONTENT = "content";
 	public const TYPE = "type";
@@ -96,6 +106,8 @@ class RESPONSE {
 	public const MISSING_PARAMS = "missing_parameters";
 	public const USERS = "users";
 	public const USER = "user";
+	public const THOUGHT = "thought";
+	public const THOUGHTS = "thoughts";
 	public const EMAIL_AVAILABLE = "email_taken";
 	public const USERNAME_AVAILABLE = "username_taken";
 

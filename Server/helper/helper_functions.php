@@ -51,7 +51,7 @@ function process_fetch(PDO $PDO, SQLFunctions $type, string $table_name, array $
         $query->bindParam($l, $provider[$l]);
     }
     $query->execute();
-    $result = $query->fetchAll();
+    $result = $query->fetchAll(PDO::FETCH_CLASS);
     return $result;
 
 }
@@ -147,6 +147,7 @@ function build_simple_sql(SQLFunctions $type, string $table_name, array $params,
 
             }
     }
+    echo $result;
     return $result;
 
 
