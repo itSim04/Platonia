@@ -41,40 +41,47 @@ function warnMisc(int $code) {
 
 }
 
-function process_fetch(mysqli $mysqli, string $sql, mixed ...$params): array {
+function process_fetch(PDO $PDO, SQLFunctions $type, string $table_name, array $provider, array $params, array $conditions): array {
 
-    $query = $mysqli->prepare($sql);
-    $query->execute($params);
-    $result = $query->get_result();
-    while ($row = mysqli_fetch_assoc($result)) {
-
-        $output[] = $row;
-
+    $query = $PDO->prepare(build_simple_sql($type, $table_name, $params, $conditions));
+    foreach ($params as $l) {
+        $query->bindParam($l, $provider[$l]);
     }
-    return $output;
+    foreach ($conditions as $l) {
+        $query->bindParam($l, $provider[$l]);
+    }
+    $query->execute();
+    $result = $query->fetchAll();
+    return $result;
 
 }
 
-function process_availability(mysqli $mysqli, string $sql, mixed ...$params): bool {
+function process_availability(PDO $PDO, string $sql, mixed...$params): bool {
 
-    $query = $mysqli->prepare($sql);
-    $query->execute($params);
-    $result = $query->get_result();
-    return mysqli_num_rows($result) <= 0;
-
-}
-
-function process_fetch_id(mysqli $mysqli, string $sql, mixed ...$params): int {
-
-    $query = $mysqli->prepare($sql);
-    $query->execute($params);
-    return $mysqli->insert_id;
+    $query = $PDO->prepare($sql);
+    $query->execute();
+    $result = $query->fetchColumn();
+    return $result;
 
 }
 
-function process(mysqli $mysqli, string $sql): void {
+function process_fetch_id(PDO $PDO, string $sql, mixed...$params): string {
 
-    $query = $mysqli->prepare($sql);
+    $query = $PDO->prepare($sql);
+    $query->execute();
+    return $PDO->lastInsertId();
+
+}
+
+function process(PDO $PDO, SQLFunctions $type, string $table_name, array $provider, array $params, array $conditions): void {
+
+    $query = $PDO->prepare(build_simple_sql($type, $table_name, $params, $conditions));
+    foreach ($params as $l) {
+        $query->bindParam($l, $provider[$l]);
+    }
+    foreach ($conditions as $l) {
+        $query->bindParam($l, $provider[$l]);
+    }
     $query->execute();
 
 }
@@ -82,57 +89,87 @@ function process(mysqli $mysqli, string $sql): void {
 enum SQLFunctions {
 
     case UPDATE;
+    case SELECT;
 
 
 }
 
-function build_simple_sql(SQLFunctions $type, string $table_name, array $provider, array $params, array $conditions): string {
+function build_simple_sql(SQLFunctions $type, string $table_name, array $params, array $conditions): string {
 
     $result = "";
-    switch($type) {
+    switch ($type) {
 
         case SQLFunctions::UPDATE:
 
             $result = "UPDATE {$table_name} SET ";
-            $result = $result . build_params(false, $provider, ...$params);
-            $result = $result . " WHERE ";
-            $result = $result . build_params(false, $provider, ...$conditions);
+            $result .= build_params(null, ...$params);
+            $result .= " WHERE ";
+            $result .= build_params(null, ...$conditions);
+            break;
+
+        case SQLFunctions::SELECT:
+
+            $result = "SELECT ";
+            if (count($params) > 0) {
+
+                $result .= build_params(SQLFunctions::SELECT, ...$params);
+
+            } else {
+
+                $result .= " * ";
+
+            }
+            $result .= " FROM ";
+            $result .= $table_name;
+            if (count($conditions) > 0) {
+
+                $result .= " WHERE ";
+                $result .= build_params(null, ...$conditions);
+
+            }
+    }
+    return $result;
+
+
+}
+
+function build_params(SQLFunctions|null $with_values, string...$labels): string {
+
+    $result = "";
+    switch ($with_values) {
+
+        case SQLFunctions::UPDATE:
+
+            $result = "(";
+            for ($i = 0; $i < count($labels) - 1; $i++) {
+                $result .= "{$labels[$i]}, ";
+            }
+            $result .= "{$labels[$i]}) VALUES (";
+
+            for ($i = 0; $i < count($labels) - 1; $i++) {
+                $result .= "{$labels[$i]} = :{$labels[$i]}, ";
+            }
+            $result .= "{$labels[$i]} = :{$labels[$i]})";
+
+            break;
+
+        case SQLFunctions::SELECT:
+
+            for ($i = 0; $i < count($labels) - 1; $i++) {
+                $result .= "{$labels[$i]}, ";
+            }
+            $result .= "{$labels[$i]}";
             break;
 
 
+        default:
 
+            for ($i = 0; $i < count($labels) - 1; $i++) {
 
-    }
-    echo $result;
-    return $result;
+                $result .= "{$labels[$i]} = :{$labels[$i]}, ";
 
-
-}
-
-function build_params(bool $with_values, array $provider, string ...$labels): string {
-
-    $result = "";
-    if(!$with_values) {
-
-        for ($i = 0; $i < count($labels) - 1; $i++) { 
-
-            $result = $result . "{$labels[$i]} = " . (strlen($provider[$labels[$i]]) == 0 ? "null" : "'". $provider[$labels[$i]] . "'") . ", ";
-            
-        }
-        $result = $result . $labels[$i] . " = " . (strlen($provider[$labels[$i]]) == 0 ? "null" : "'". $provider[$labels[$i]] . "'");
-
-    } else {
-
-        $result = "(";
-        for ($i = 0; $i < count($labels) - 1; $i++) { 
-            $result = $result . "{$labels[$i]}, ";
-        }
-        $result = $result . "{$labels[$i]}) VALUES (";
-
-        for ($i = 0; $i < count($labels) - 1; $i++) { 
-            $result = $result . (strlen($provider[$labels[$i]]) == 0 ? "null" : "'". $provider[$labels[$i]] . "'") . ", ";
-        }
-        $result = $result . (strlen($provider[$labels[$i]]) == 0 ? "null" : "'". $provider[$labels[$i]] . "'");
+            }
+            $result .= "{$labels[$i]} = :{$labels[$i]}";
 
 
     }
@@ -140,4 +177,3 @@ function build_params(bool $with_values, array $provider, string ...$labels): st
     return $result;
 
 }
-

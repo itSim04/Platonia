@@ -1,6 +1,6 @@
 <?php
 
-$query = $mysqli->prepare("
+$query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS users (
  user_id int(11) NOT NULL AUTO_INCREMENT,
  username varchar(100) NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS users (
  UNIQUE email (email))");
 $query->execute();
 
-$query = $mysqli->prepare("
+$query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS thoughts (
   thought_id int(11) NOT NULL,
   share_date datetime NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS thoughts (
   FOREIGN KEY (root_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 $query->execute();
 
-$query = $mysqli->prepare("
+$query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS answers (
   user_id int(11) NOT NULL,
   thought_id int(11) NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS answers (
   FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 $query->execute();
 
-$query = $mysqli->prepare("
+$query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS likes (
   user_id int(11) NOT NULL,
   thought_id int(11) NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS likes (
   FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 $query->execute();
 
-$query = $mysqli->prepare("
+$query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS follows (
   user_id1 int(11) NOT NULL,
   user_id2 int(11) NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS follows (
   FOREIGN KEY (user_id2) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 $query->execute();
 
-$query = $mysqli->prepare("CREATE TABLE IF NOT EXISTS platons (
+$query = $PDO->prepare("CREATE TABLE IF NOT EXISTS platons (
   user_id int(11) NOT NULL,
   thought_id int(11) NOT NULL,
   platon_date varchar(10) DEFAULT NULL,
@@ -77,7 +77,7 @@ $query = $mysqli->prepare("CREATE TABLE IF NOT EXISTS platons (
 )");
 $query->execute();
 
-$query = $mysqli->prepare("
+$query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS interests (
   user_id int(11) NOT NULL,
   name varchar(24),
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS interests (
   FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 $query->execute();
 
-$query = $mysqli->prepare("
+$query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS options (
   thought_id int(11) NOT NULL,
   content varchar(48),

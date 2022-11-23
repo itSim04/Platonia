@@ -5,6 +5,6 @@ $db_user = "root";
 $db_password = null;
 $db_name = "platoniadb";
 
+$dsn = "mysql:host=$db_host;dbname=$db_name;charset=utf8mb4";
 
-
-$mysqli = new mysqli($db_host, $db_user, $db_password, $db_name);
+$PDO = new PDO($dsn, $db_user, $db_password);
