@@ -5,6 +5,7 @@ require '../helper/root.php';
 if (check_keys($_GET, "schema")) {
 
     $table_name = "users";
+    $temp_table = "users_TEMP";
 
     switch ($_GET["schema"]) {
 
@@ -22,7 +23,7 @@ if (check_keys($_GET, "schema")) {
         case USERS_SCHEMA::GET_ALL:
 
             $output[RESPONSE::STATUS] = EXIT_CODES::USERS_GET_ALL;
-            $output[RESPONSE::USERS] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array());
+            $output[RESPONSE::USERS] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $temp_table), $_GET, array(), array(new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
             break;
 
         case USERS_SCHEMA::GET_ONE:
@@ -30,7 +31,7 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, USERS::ID)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_GET_ONE;
-                $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(USERS::ID)));
+                $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $temp_table), $_GET, array(), array(new condition(USERS::ID), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
 
             }
             break;
@@ -61,7 +62,7 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_POST, USERS::USERNAME, USERS::PASSWORD)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_AUTHENTICATE;
-                $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_POST, array(), array(new condition(USERS::USERNAME), new condition(USERS::PASSWORD)));
+                $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $temp_table), $_POST, array(), array(new condition(USERS::USERNAME), new condition(USERS::PASSWORD), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
 
             }
             break;

@@ -5,7 +5,9 @@ require '../helper/root.php';
 if (check_keys($_GET, "schema")) {
 
     $table_name = "interests";
-    $pivot_name = "interested_in";
+    $pivot_table = "interested_in";
+    $user_table = "users";
+    $user_temp = "users_TEMP";
 
     switch ($_GET["schema"]) {
 
@@ -40,7 +42,7 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, INTERESTED_IN::INTEREST_ID)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_GET_ONE;
-                $output[RESPONSE::USERS] = process_fetch($PDO, SQLFunctions::SELECT, $pivot_name, $_GET, array(), array(new condition(INTERESTED_IN::INTEREST_ID)));
+                $output[RESPONSE::USERS] = process_fetch($PDO, SQLFunctions::SELECT, array($pivot_table, $user_table, $user_temp), $_GET, array(), array(new condition(INTERESTED_IN::INTEREST_ID), new condition(INTERESTED_IN::USER_ID . " = " . USERS::ID, false), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
 
             }
             break;
@@ -51,7 +53,7 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, INTERESTED_IN::USER_ID, INTERESTED_IN::INTEREST_ID, INTERESTED_IN::INTEREST_DATE)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_ENROLL_USER;
-                process($PDO, SQLFunctions::ADD, $pivot_name, $_GET, array(INTERESTED_IN::USER_ID, INTERESTED_IN::INTEREST_ID, INTERESTED_IN::INTEREST_DATE), array());
+                process($PDO, SQLFunctions::ADD, $pivot_table, $_GET, array(INTERESTED_IN::USER_ID, INTERESTED_IN::INTEREST_ID, INTERESTED_IN::INTEREST_DATE), array());
 
             }
             break;
@@ -61,7 +63,7 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, INTERESTED_IN::USER_ID, INTERESTED_IN::INTEREST_ID)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_UNENROLL_USER;
-                process($PDO, SQLFunctions::DELETE, $pivot_name, $_GET, array(), array(new condition(INTERESTED_IN::INTEREST_ID)));
+                process($PDO, SQLFunctions::DELETE, $pivot_table, $_GET, array(), array(new condition(INTERESTED_IN::INTEREST_ID)));
 
             }
             break;
@@ -82,7 +84,7 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, INTERESTED_IN::USER_ID)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_GET_ONE;
-                $output[RESPONSE::USERS] = process_fetch($PDO, SQLFunctions::SELECT, $pivot_name, $_GET, array(), array(new condition(INTERESTED_IN::USER_ID)));
+                $output[RESPONSE::USERS] = process_fetch($PDO, SQLFunctions::SELECT, array($pivot_table, $table_name), $_GET, array(), array(new condition(INTERESTED_IN::USER_ID), new condition(INTERESTED_IN::INTEREST_ID . " = " . INTERESTS::ID, false)));
 
             }
             break;

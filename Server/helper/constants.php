@@ -12,8 +12,6 @@ class USERS {
 	public const GENDER = "gender";
 	public const PICTURE = "picture";
 	public const BANNER = "banner";
-	public const FOLLOWINGS = "followings_TEMP";
-	public const FOLLOWERS = "followers_TEMP";
 
 }
 
@@ -138,15 +136,40 @@ class THOUGHTS {
 	public const CONTENT = "content";
 	public const TYPE = "type";
 	public const OWNER_ID = "owner_id";
-	public const PLATONS = "platons_TEMP";
-	public const LIKES = "likes_TEMP";
-	public const COMMENTS = "opinions_TEMP";
 	public const ROOT = "root_id";
 	public const IS_LIKED = "is_liked";
 	public const IS_PLATONED = "is_platoned";
 	public const OPTION = "is_voted";
 
 
+	public const POSITION = "position";
+	public const POLL1 = "poll1";
+	public const POLL2 = "poll2";
+	public const POLL3 = "poll3";
+	public const POLL4 = "poll4";
+
+}
+
+class THOUGHTS_TEMP {
+
+	public const ID = "thought_id_fk_temp";
+
+	public const LIKES = "likes";
+	public const PLATONS = "platons";
+	public const OPINIONS = "opinions";
+
+}
+class USERS_TEMP {
+
+	public const ID = "user_id_fk_temp";
+	public const FOLLOWINGS = "followings";
+	public const FOLLOWERS = "followers";
+
+}
+
+class OPTIONS {
+
+	public const ID = "thought_id_fk_options";
 	public const POSITION = "position";
 	public const POLL1 = "poll1";
 	public const POLL2 = "poll2";
@@ -166,16 +189,16 @@ class INTERESTS {
 
 class INTERESTED_IN {
 
-	public const USER_ID = "user_id";
-	public const INTEREST_ID = "interest_id";
+	public const USER_ID = "user_id_fk_interested";
+	public const INTEREST_ID = "interest_id_fk";
 	public const INTEREST_DATE = "interest_date";
 
 }
 
 class PLATONS {
 
-	public const USER_ID = "user_id";
-	public const THOUGHT_ID = "thought_id";
+	public const USER_ID = "user_id_fk_platons";
+	public const THOUGHT_ID = "thought_id_fk_platons";
 	public const PLATON_DATE = "platon_date";
 
 }
@@ -189,16 +212,16 @@ class FOLLOWS {
 
 class LIKES {
 
-	public const USER_ID = "user_id";
-	public const THOUGHT_ID = "thought_id";
+	public const USER_ID = "user_id_fk_likes";
+	public const THOUGHT_ID = "thought_id_fk_likes";
 	public const LIKE_DATE = "like_date";
 
 }
 
 class ANSWERS {
 
-	public const USER_ID = "user_id";
-	public const THOUGHT_ID = "thought_id";
+	public const USER_ID = "user_id_fk_ans";
+	public const THOUGHT_ID = "thought_id_fk_ans";
 	public const ANSWER_DATE = "answer_date";
 	public const OPTION_CHOSEN = "option_chosen";
 

@@ -5,6 +5,8 @@ require '../helper/root.php';
 if (check_keys($_GET, "schema")) {
 
     $table_name = "follows";
+    $user_table = "users";
+    $user_temp = "users_TEMP";
 
     switch ($_GET["schema"]) {
 
@@ -37,8 +39,8 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, USERS::ID)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::FOLLOW_GET_FOLLOWERS;
-                $output[RESPONSE::FOLLOWERS] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [FOLLOWS::USER_ID2 => $_GET[USERS::ID]], array(), array(new condition(FOLLOWS::USER_ID2)));
-
+                $output[RESPONSE::FOLLOWERS] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $user_table, $user_temp), [FOLLOWS::USER_ID2 => $_GET[USERS::ID]], array(), array(new condition(FOLLOWS::USER_ID2), new condition(FOLLOWS::USER_ID1 . " = " . USERS::ID, false), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
+            
             }
             break;
 
@@ -47,7 +49,7 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, USERS::ID)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::FOLLOW_GET_FOLLOWINGS;
-                $output[RESPONSE::FOLLOWINGS] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [FOLLOWS::USER_ID1 => $_GET[USERS::ID]], array(), array(new condition(FOLLOWS::USER_ID1)));
+                $output[RESPONSE::FOLLOWINGS] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $user_table, $user_temp), [FOLLOWS::USER_ID1 => $_GET[USERS::ID]], array(), array(new condition(FOLLOWS::USER_ID1), new condition(FOLLOWS::USER_ID2 . " = " . USERS::ID, false), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
 
             }
             break;

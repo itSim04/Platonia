@@ -12,8 +12,6 @@ CREATE TABLE IF NOT EXISTS users (
  gender varchar(1) DEFAULT NULL,
  picture text DEFAULT NULL,
  banner text DEFAULT NULL,
- followings_TEMP int(11) NOT NULL DEFAULT 0,
- followers_TEMP int(11) NOT NULL DEFAULT 0,
  PRIMARY KEY (user_id),
  UNIQUE (username),
  UNIQUE (email))");
@@ -35,23 +33,23 @@ $query->execute();
 
 $query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS answers (
-  user_id int(11) NOT NULL,
-  thought_id int(11) NOT NULL,
+  user_id_fk_ans int(11) NOT NULL,
+  thought_id_fk_ans int(11) NOT NULL,
   answer_date varchar(10) NOT NULL,
   option_chosen varchar(1) NOT NULL,
-  PRIMARY KEY (user_id, thought_id),
-  FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
+  PRIMARY KEY (user_id_fk_ans, thought_id_fk_ans),
+  FOREIGN KEY (user_id_fk_ans) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (thought_id_fk_ans) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 $query->execute();
 
 $query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS likes (
-  user_id int(11) NOT NULL,
-  thought_id int(11) NOT NULL,
+  user_id_fk_likes int(11) NOT NULL,
+  thought_id_fk_likes int(11) NOT NULL,
   like_date varchar(10) NOT NULL,
-  PRIMARY KEY (user_id, thought_id),
-  FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
+  PRIMARY KEY (user_id_fk_likes, thought_id_fk_likes),
+  FOREIGN KEY (user_id_fk_likes) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (thought_id_fk_likes) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 $query->execute();
 
 $query = $PDO->prepare("
@@ -65,12 +63,12 @@ CREATE TABLE IF NOT EXISTS follows (
 $query->execute();
 
 $query = $PDO->prepare("CREATE TABLE IF NOT EXISTS platons (
-  user_id int(11) NOT NULL,
-  thought_id int(11) NOT NULL,
+  user_id_fk_platons int(11) NOT NULL,
+  thought_id_fk_platons int(11) NOT NULL,
   platon_date varchar(10) NOT NULL,
-  PRIMARY KEY (user_id, thought_id),
-  FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (user_id_fk_platons, thought_id_fk_platons),
+  FOREIGN KEY (user_id_fk_platons) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (thought_id_fk_platons) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE
 )");
 $query->execute();
 
@@ -85,12 +83,12 @@ CREATE TABLE IF NOT EXISTS interests (
 $query->execute();
 
 $query = $PDO->prepare("CREATE TABLE IF NOT EXISTS interested_in (
-  user_id int(11) NOT NULL,
-  interest_id int(11) NOT NULL,
+  user_id_fk_interested int(11) NOT NULL,
+  interest_id_fk int(11) NOT NULL,
   interest_date varchar(10) NOT NULL,
-  PRIMARY KEY (user_id, interest_id),
-  FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (interest_id) REFERENCES interests (interest_id) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (user_id_fk_interested, interest_id_fk),
+  FOREIGN KEY (user_id_fk_interested) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (interest_id_fk) REFERENCES interests (interest_id) ON DELETE CASCADE ON UPDATE CASCADE
 )");
 $query->execute();
 
@@ -98,32 +96,32 @@ $query->execute();
 
 $query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS options (
-  thought_id int(11) NOT NULL,
+  thought_id_fk_options int(11) NOT NULL,
   position int(4) NOT NULL,
   content varchar(48) NOT NULL,
   votes int(11) NOT NULL,
-  PRIMARY KEY (thought_id, position),
-  FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
+  PRIMARY KEY (thought_id_fk_options, position),
+  FOREIGN KEY (thought_id_fk_options) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 $query->execute();
 
 
 $query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS thoughts_TEMP (
-  thought_id int(11) NOT NULL,
+  thought_id_fk_temp int(11) NOT NULL,
   likes int(11) NOT NULL,
   platons int(11) NOT NULL,
   opinions int(11) NOT NULL,
-  PRIMARY KEY (thought_id),
-  FOREIGN KEY (thought_id) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
+  PRIMARY KEY (thought_id_fk_temp),
+  FOREIGN KEY (thought_id_fk_temp) REFERENCES thoughts (thought_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 $query->execute();
 
 $query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS users_TEMP (
-  user_id int(11) NOT NULL,
+  user_id_fk_temp int(11) NOT NULL,
   followers int(11) NOT NULL,
   followings int(11) NOT NULL,
-  PRIMARY KEY (user_id),
-  FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE)");
+  PRIMARY KEY (user_id_fk_temp),
+  FOREIGN KEY (user_id_fk_temp) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 $query->execute();
 
 $query = $PDO->prepare("
@@ -132,7 +130,7 @@ CREATE TRIGGER IF NOT EXISTS `OnInterestEnroll` AFTER INSERT ON interested_in
 
    UPDATE interests 
    SET interests.participants_TEMP = interests.participants_TEMP + 1 
-   WHERE interest_id = new.interest_id;
+   WHERE interest_id = new.interest_id_fk;
    
 END");
 $query->execute();
@@ -142,7 +140,7 @@ FOR EACH ROW BEGIN
 
  UPDATE interests 
  SET interests.participants_TEMP = interests.participants_TEMP - 1 
- WHERE interest_id = old.interest_id;
+ WHERE interest_id = old.interest_id_fk;
  
 END");
 $query->execute();
@@ -150,10 +148,10 @@ $query->execute();
 $query = $PDO->prepare("CREATE TRIGGER IF NOT EXISTS `OnOpinionDelete` BEFORE DELETE ON thoughts 
 FOR EACH ROW BEGIN
 
-DELETE FROM thoughts_temp WHERE thought_id = old.thought_id;
+DELETE FROM thoughts_temp WHERE thought_id_fk_temp = old.thought_id;
 UPDATE thoughts_temp 
  SET opinions = opinions - 1 
- WHERE thought_id = old.root_id AND thought_id != old.thought_id;
+ WHERE thought_id_fk_temp = old.root_id AND thought_id_fk_temp != old.thought_id;
  
 END");
 $query->execute();
@@ -161,11 +159,11 @@ $query->execute();
 $query = $PDO->prepare("CREATE TRIGGER IF NOT EXISTS `OnOpinionInsert` AFTER INSERT ON thoughts 
 FOR EACH ROW BEGIN
 
-INSERT INTO thoughts_temp (thought_id) VALUES (new.thought_id);
+INSERT INTO thoughts_temp (thought_id_fk_temp) VALUES (new.thought_id);
 
  UPDATE thoughts_temp 
  SET opinions = opinions + 1 
- WHERE thought_id = new.root_id AND thought_id != new.thought_id;
+ WHERE thought_id_fk_temp = new.root_id AND thought_id_fk_temp != new.thought_id;
  
 END");
 $query->execute();
@@ -173,7 +171,7 @@ $query->execute();
 $query = $PDO->prepare("CREATE TRIGGER IF NOT EXISTS `OnUserAdd` AFTER INSERT ON users 
 FOR EACH ROW BEGIN
 
-INSERT INTO users_temp (user_id) VALUES (new.user_id);
+INSERT INTO users_temp (user_id_fk_temp) VALUES (new.user_id);
  
 END");
 $query->execute();
@@ -183,7 +181,7 @@ FOR EACH ROW BEGIN
 
 UPDATE thoughts_temp 
  SET likes = likes - 1 
- WHERE thought_id = old.thought_id;
+ WHERE thought_id_fk_temp = old.thought_id_fk_likes;
  
 END");
 $query->execute();
@@ -193,7 +191,7 @@ FOR EACH ROW BEGIN
 
 UPDATE thoughts_temp 
  SET likes = likes + 1 
- WHERE thought_id = new.thought_id;
+ WHERE thought_id_fk_temp = new.thought_id_fk_likes;
  
 END");
 $query->execute();
@@ -203,7 +201,7 @@ FOR EACH ROW BEGIN
 
 UPDATE thoughts_temp 
  SET platons = platons - 1 
- WHERE thought_id = old.thought_id;
+ WHERE thought_id_fk_temp = old.thought_id_fk_platons;
  
 END");
 $query->execute();
@@ -213,7 +211,7 @@ FOR EACH ROW BEGIN
 
 UPDATE thoughts_temp 
  SET platons = platons + 1 
- WHERE thought_id = new.thought_id;
+ WHERE thought_id_fk_temp = new.thought_id_fk_platons;
  
 END");
 $query->execute();
@@ -223,7 +221,7 @@ FOR EACH ROW BEGIN
 
 UPDATE options 
  SET votes = votes + 1 
- WHERE thought_id = new.thought_id AND position = new.option_chosen;
+ WHERE thought_id_fk_options = new.thought_id_fk_ans AND position = new.option_chosen;
  
 END");
 $query->execute();
@@ -233,10 +231,10 @@ FOR EACH ROW BEGIN
 
 UPDATE users_temp 
 SET followings = followings + 1
-WHERE user_id = new.user_id1;
+WHERE user_id_fk_temp = new.user_id1;
 UPDATE users_temp 
 SET followers = followers + 1
-WHERE user_id = new.user_id2;
+WHERE user_id_fk_temp = new.user_id2;
  
 END");
 $query->execute();
@@ -246,10 +244,10 @@ FOR EACH ROW BEGIN
 
 UPDATE users_temp 
 SET followings = followings - 1
-WHERE user_id = old.user_id1;
+WHERE user_id_fk_temp = old.user_id1;
 UPDATE users_temp 
 SET followers = followers - 1
-WHERE user_id = old.user_id2;
+WHERE user_id_fk_temp = old.user_id2;
  
 END");
 $query->execute();

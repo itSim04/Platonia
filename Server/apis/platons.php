@@ -5,6 +5,10 @@ require '../helper/root.php';
 if (check_keys($_GET, "schema")) {
 
     $table_name = "platons";
+    $user_table = "users";
+    $thoughts_table = "thoughts";
+    $user_temp = "users_TEMP";
+    $thoughts_temp = "thoughts_TEMP";
 
     switch ($_GET["schema"]) {
 
@@ -29,7 +33,7 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, PLATONS::USER_ID)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::PLATON_GET_ALL_BY_USER;
-                $output[RESPONSE::PLATONS] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(PLATONS::USER_ID)));
+                $output[RESPONSE::PLATONS] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $thoughts_table, $thoughts_temp), $_GET, array(), array(new condition(PLATONS::USER_ID), new condition(THOUGHTS::ID . " = " . PLATONS::THOUGHT_ID, false), new condition(THOUGHTS::ID . " = " . THOUGHTS_TEMP::ID, false)));
 
             }
             break;
@@ -39,7 +43,7 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, PLATONS::THOUGHT_ID)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::PLATON_GET_ALL_BY_USER;
-                $output[RESPONSE::PLATONS] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(PLATONS::THOUGHT_ID)));
+                $output[RESPONSE::PLATONS] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $user_table, $user_temp), $_GET, array(), array(new condition(PLATONS::THOUGHT_ID), new condition(PLATONS::USER_ID . " = " . USERS::ID, false), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
 
             }
             break;

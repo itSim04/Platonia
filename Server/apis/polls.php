@@ -22,10 +22,10 @@ if (check_keys($_GET, "schema")) {
 
             case POLLS_SCHEMA::GET_OPTION: 
 
-                if (check_keys($_GET, THOUGHTS::ID)) {
+                if (check_keys($_GET, OPTIONS::ID)) {
 
                     $output[RESPONSE::STATUS] = EXIT_CODES::POLLS_GET_OPTION;
-                    $output[RESPONSE::OPTIONS] = process_fetch($PDO, SQLFunctions::SELECT, $option_names, $_GET, array(), array(new condition(THOUGHTS::ID)));
+                    $output[RESPONSE::OPTIONS] = process_fetch($PDO, SQLFunctions::SELECT, $option_name, $_GET, array(), array(new condition(OPTIONS::ID)));
     
                 }
                 break;
