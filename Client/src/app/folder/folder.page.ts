@@ -18,7 +18,7 @@ export class FolderPage implements OnInit {
 
   trigger() {
 
-    this.userService.get_all().subscribe(response => console.log(response));
+    this.userService.add_user({ user_id: 69, username: "Test122345", bio: "", email: "tek5st", birthday: new Date(), gender: 0, join: new Date(), followers: 0, followings: 0 }).subscribe(response => console.log(response));
 
   }
 

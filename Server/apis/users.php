@@ -72,6 +72,8 @@ if (check_keys($_GET, "schema")) {
             $output[RESPONSE::STATUS] = EXIT_CODES::INCORRECT_SCHEMA;
 
     }
-    echo json_encode($output);
+    if (count($output) > 0) {
+        echo json_encode($output);
+    }
 
 }

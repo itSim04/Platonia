@@ -42,18 +42,48 @@ function warnMisc(int $code) {
 }
 
 function process_fetch(PDO $PDO, SQLFunctions $type, array |string $table_name, array $provider, array $params, array $conditions): array {
+    try {
+        $query = $PDO->prepare(build_simple_sql($type, is_array($table_name) ? $table_name : array($table_name), $params, $conditions));
+        if ($type == SQLFunctions::SELECT_COMPLEX) {
 
-    $query = $PDO->prepare(build_simple_sql($type, is_array($table_name) ? $table_name : array($table_name), $params, $conditions));
-    if ($type == SQLFunctions::SELECT_COMPLEX) {
+            foreach (array_keys($provider) as $l) {
 
-        foreach (array_keys($provider) as $l) {
+                $query->bindParam($l, $provider[$l]);
 
-            $query->bindParam($l, $provider[$l]);
+            }
 
+        } else {
+
+            foreach ($params as $l) {
+
+                $query->bindParam($l, $provider[$l]);
+
+            }
+
+            foreach ($conditions as $l) {
+
+                if ($l->injectable) {
+
+                    $query->bindParam($l->term, $provider[$l->term]);
+
+                }
+
+            }
         }
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_CLASS);
 
-    } else {
+    } catch (Exception $e) {
 
+    }
+    return $result;
+
+}
+
+function process_availability(PDO $PDO, SQLFunctions $type, array |string $table_name, array $provider, array $params, array $conditions): bool {
+
+    try {
+        $query = $PDO->prepare(build_simple_sql($type, is_array($table_name) ? $table_name : array($table_name), $params, $conditions));
         foreach ($params as $l) {
 
             $query->bindParam($l, $provider[$l]);
@@ -67,80 +97,69 @@ function process_fetch(PDO $PDO, SQLFunctions $type, array |string $table_name, 
                 $query->bindParam($l->term, $provider[$l->term]);
 
             }
-
         }
+
+        $query->execute();
+        $result = $query->fetchColumn();
+        
+    } catch (Exception $e) {
+        
     }
-    $query->execute();
-    $result = $query->fetchAll(PDO::FETCH_CLASS);
-    return $result;
-
-}
-
-function process_availability(PDO $PDO, SQLFunctions $type, array |string $table_name, array $provider, array $params, array $conditions): bool {
-
-    $query = $PDO->prepare(build_simple_sql($type, is_array($table_name) ? $table_name : array($table_name), $params, $conditions));
-    foreach ($params as $l) {
-
-        $query->bindParam($l, $provider[$l]);
-
-    }
-
-    foreach ($conditions as $l) {
-
-        if ($l->injectable) {
-
-            $query->bindParam($l->term, $provider[$l->term]);
-
-        }
-    }
-
-    $query->execute();
-    $result = $query->fetchColumn();
     return !!$result;
 
 }
 
 function process_fetch_id(PDO $PDO, SQLFunctions $type, array |string $table_name, array $provider, array $params, array $conditions): string {
 
-    $query = $PDO->prepare(build_simple_sql($type, is_array($table_name) ? $table_name : array($table_name), $params, $conditions));
+    try {
+        $query = $PDO->prepare(build_simple_sql($type, is_array($table_name) ? $table_name : array($table_name), $params, $conditions));
 
-    foreach ($params as $l) {
+        foreach ($params as $l) {
 
-        $query->bindParam($l, $provider[$l]);
-
-    }
-    foreach ($conditions as $l) {
-
-        if ($l->injectable) {
-
-            $query->bindParam($l->term, $provider[$l->term]);
+            $query->bindParam($l, $provider[$l]);
 
         }
-    }
+        foreach ($conditions as $l) {
 
-    $query->execute();
+            if ($l->injectable) {
+
+                $query->bindParam($l->term, $provider[$l->term]);
+
+            }
+        }
+
+        $query->execute();
+        
+    } catch (Exception $e) {
+        
+    }
     return $PDO->lastInsertId();
 
 }
 
 function process(PDO $PDO, SQLFunctions $type, array |string $table_name, array $provider, array $params, array $conditions): void {
 
-    $query = $PDO->prepare(build_simple_sql($type, is_array($table_name) ? $table_name : array($table_name), $params, $conditions));
-    foreach ($params as $l) {
+    try {
+        $query = $PDO->prepare(build_simple_sql($type, is_array($table_name) ? $table_name : array($table_name), $params, $conditions));
+        foreach ($params as $l) {
 
-        $query->bindParam($l, $provider[$l]);
-
-    }
-    foreach ($conditions as $l) {
-
-        if ($l->injectable) {
-
-            $query->bindParam($l->term, $provider[$l->term]);
+            $query->bindParam($l, $provider[$l]);
 
         }
-    }
+        foreach ($conditions as $l) {
 
-    $query->execute();
+            if ($l->injectable) {
+
+                $query->bindParam($l->term, $provider[$l->term]);
+
+            }
+        }
+
+        $query->execute();
+
+    } catch (Exception $e) {
+
+    }
 
 }
 
