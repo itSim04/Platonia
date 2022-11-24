@@ -4,6 +4,7 @@ import { map, Observable } from 'rxjs';
 import { APIS, RESPONSE, USERS, USERS_SCHEMA, USERS_TEMP } from '../constants';
 import { USER } from '../models/users-model';
 import { RESPONSE_MODEL } from '../models/response-model';
+import { Form } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -52,12 +53,12 @@ export class UserService {
 
   }
 
-  private unpack(user: USER): FormData {
+  private unpack(user: USER, password: string): FormData {
 
     const form = new FormData();
     form.append(USERS.ID, user.user_id + "");
     form.append(USERS.USERNAME, user.username);
-    form.append(USERS.PASSWORD, "1234");
+    form.append(USERS.PASSWORD, password);
     form.append(USERS.BIO, user.bio);
     form.append(USERS.BIRTHDAY, user.birthday + "");
     form.append(USERS.EMAIL, user.email);
@@ -74,9 +75,9 @@ export class UserService {
 
 
 
-  public add_user(user: USER): Observable<RESPONSE_MODEL> {
+  public add_user(user: USER, password: string): Observable<RESPONSE_MODEL> {
 
-    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.ADD, this.api), this.unpack(user)).pipe(map((data: any) =>
+    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.ADD, this.api), this.unpack(user, password)).pipe(map((data: any) =>
 
       this.response_pack(data)
 
@@ -109,10 +110,10 @@ export class UserService {
 
   public update_user(user: USER) {
 
-    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.UPDATE, this.api), this.unpack(user)).pipe(map((data: any) =>
+    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.UPDATE, this.api), this.unpack(user, "")).pipe(map((data: any) =>
 
       this.response_pack(data)
-      
+
     ));
 
 
@@ -129,9 +130,17 @@ export class UserService {
 
   }
 
-  public authenticate() {
+  public authenticate(username: string, password: string) {
 
+    const form: FormData = new FormData();
+    form.append(USERS.USERNAME, username);
+    form.append(USERS.PASSWORD, password);
 
+    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.AUTHENTICATE, this.api), form).pipe(map((data: any) =>
+
+      this.response_pack(data)
+
+    ));
 
   }
 
