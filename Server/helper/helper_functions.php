@@ -34,10 +34,12 @@ function warnMissing(array $miss) {
 
 }
 
-function warnMisc(int $code) {
+function warnMisc(int $code, string $error = "") {
 
     $output[Response::STATUS] = $code;
+    $output[RESPONSE::ERROR_MESSAGE] = $error;
     echo json_encode($output);
+    exit($code);
 
 }
 
@@ -75,6 +77,8 @@ function process_fetch(PDO $PDO, SQLFunctions $type, array |string $table_name, 
 
     } catch (Exception $e) {
 
+        warnMisc(401, $e->getMessage());
+
     }
     return $result;
 
@@ -104,6 +108,8 @@ function process_availability(PDO $PDO, SQLFunctions $type, array |string $table
         
     } catch (Exception $e) {
         
+        warnMisc(401, $e->getMessage());
+
     }
     return !!$result;
 
@@ -132,6 +138,8 @@ function process_fetch_id(PDO $PDO, SQLFunctions $type, array |string $table_nam
         
     } catch (Exception $e) {
         
+        warnMisc(401, $e->getMessage());
+
     }
     return $PDO->lastInsertId();
 
@@ -158,6 +166,8 @@ function process(PDO $PDO, SQLFunctions $type, array |string $table_name, array 
         $query->execute();
 
     } catch (Exception $e) {
+
+        warnMisc(401, $e->getMessage());
 
     }
 

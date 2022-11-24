@@ -167,6 +167,7 @@ class EXIT_CODES {
 class RESPONSE {
 
 	public const STATUS = "status";
+	public const ERROR_MESSAGE = "error_message";
 	public const MISSING_PARAMS = "missing_parameters";
 	public const USERS = "users";
 	public const USER = "user";

@@ -158,6 +158,7 @@ export enum EXIT_CODES {
 export enum RESPONSE {
 
     STATUS = "status",
+    ERROR = "error_message",
     MISSING_PARAMS = "missing_parameters",
     USERS = "users",
     USER = "user",
@@ -170,8 +171,8 @@ export enum RESPONSE {
     INTEREST = "interest",
     INTERESTS = "interests",
     FOLLOWERS = "followers",
-    FOLLOWINGS = "followings",
     EMAIL_AVAILABLE = "email_taken",
+    FOLLOWINGS = "followings",
     USERNAME_AVAILABLE = "username_taken",
     NAME_AVAILABLE = "name_taken"
 
