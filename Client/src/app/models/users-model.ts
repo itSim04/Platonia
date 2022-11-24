@@ -14,10 +14,11 @@ export interface USER {
 
 }
 
-export interface USER_AUTHENTICATION_RESPONSE {
+export interface USER_RESPONSE {
 
     user_id: number;
-    username: string;
-    password: string;
+    username?: string;
+    email?: string;
+    password?: string;
 
 }
