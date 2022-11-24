@@ -246,9 +246,9 @@ export enum POLLS_SCHEMA {
 export class APIS {
 
     private static BASE_URL = "http://localhost/Platonia/Server/apis/"
-    public static build_url(schema: number, api: string): string {
+    public static build_url(schema: number, api: string, params: string = ""): string {
 
-        return this.BASE_URL + `${api}.php?schema=${schema}`;
+        return this.BASE_URL + `${api}.php?schema=${schema}` + params;
         
     }
 
