@@ -22,3 +22,11 @@ export interface USER_RESPONSE {
     password?: string;
 
 }
+
+export interface FOLLOWS {
+
+    user_id1: number;
+    user_id2: number;
+    follow_date: Date;
+
+}

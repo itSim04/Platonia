@@ -30,3 +30,29 @@ export interface THOUGHTS_RESPONSE {
     owner_id?: number;
 
 }
+
+export interface LIKES {
+
+    thought_id: number;
+    user_id: number;
+    like_date: Date;
+
+}
+
+export interface PLATON {
+
+    thought_id: number;
+    user_id: number;
+    platon_date: Date;
+
+}
+
+export interface ANSWERS {
+
+    thought_id: number;
+    user_id: number;
+    answer_date: Date;
+    option_chosen: number;
+
+}
+
