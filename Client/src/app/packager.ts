@@ -14,8 +14,10 @@ export class Packager {
             error_message: data[RESPONSE.ERROR],
             email_available: data[RESPONSE.EMAIL_AVAILABLE],
             username_available: data[RESPONSE.USERNAME_AVAILABLE],
-            user: data[RESPONSE.USER] != undefined && data[RESPONSE.USER][0] != undefined ? this.userUnpack(data[RESPONSE.USER][0]) : undefined,
-            users: data[RESPONSE.USERS]?.map((user: USER) => this.userUnpack(user)),
+            user: data[RESPONSE.USER] != undefined && data[RESPONSE.USER][0] != undefined ? this.userUnpack(data[RESPONSE.USER][0]) : (data[RESPONSE.THOUGHT] != undefined && data[RESPONSE.THOUGHT][0] != undefined ? this.userUnpack(data[RESPONSE.THOUGHT][0]) : undefined),
+            users: data[RESPONSE.USERS] != undefined ? data[RESPONSE.USERS].map((user: USER) => this.userUnpack(user)) : (data[RESPONSE.THOUGHTS] != undefined ? (data[RESPONSE.THOUGHTS].map((thought: THOUGHTS) => this.userUnpack(thought))) : undefined),
+            thought: data[RESPONSE.THOUGHT] != undefined && data[RESPONSE.THOUGHT][0] != undefined ? this.thoughtUnpack(data[RESPONSE.THOUGHT][0]) : undefined,
+            thoughts: data[RESPONSE.THOUGHTS]?.map((thought: THOUGHT) => this.thoughtUnpack(thought)),
             missing_params: data[RESPONSE.MISSING_PARAMS]
 
         }
@@ -46,7 +48,7 @@ export class Packager {
     public static packUserForPOST(user: USER_RESPONSE): FormData {
 
         const form = new FormData();
-        form.append(USERS.ID, String(user.user_id));
+        if (user.user_id != undefined) form.append(USERS.ID, String(user.user_id));
         if (user.username != undefined) form.append(USERS.USERNAME, user.username);
         if (user.password != undefined) form.append(USERS.PASSWORD, user.password);
         if (user.bio != undefined) form.append(USERS.BIO, user.bio);
@@ -92,9 +94,10 @@ export class Packager {
     public static packThoughtForPOST(thought: THOUGHTS_RESPONSE): FormData {
 
         const form = new FormData();
-        form.append(THOUGHTS.ID, String(thought.thought_id));
-        if (thought.content != undefined) form.append(THOUGHTS.CONTENT, thought.content);
         form.append(THOUGHTS.SHARE_DATE, String(new Date().toISOString().slice(0, 19).replace('T', ' ')));
+        if (thought.thought_id != undefined) form.append(THOUGHTS.ID, String(thought.thought_id));
+        if (thought.user_id != undefined) form.append(USERS.ID, String(thought.user_id));
+        if (thought.content != undefined) form.append(THOUGHTS.CONTENT, thought.content);
         if (thought.type != undefined) form.append(THOUGHTS.TYPE, String(thought.type));
         if (thought.owner_id != undefined) form.append(THOUGHTS.OWNER_ID, String(thought.owner_id));
         if (thought.root_id != undefined) form.append(THOUGHTS.ROOT, String(thought.root_id));

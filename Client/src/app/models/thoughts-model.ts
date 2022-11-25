@@ -25,6 +25,7 @@ export interface THOUGHT {
 
 export interface THOUGHTS_RESPONSE {
 
+    user_id?: number;
     thought_id?: number;
     content?: string;
     type?: number;

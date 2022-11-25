@@ -78,11 +78,11 @@ if (check_keys($_GET, "schema")) {
                 $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_GET_BY;
                 if (array_key_exists(THOUGHTS::ROOT, $_GET)) {
 
-                    $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID], THOUGHTS::ROOT => $_GET[THOUGHTS::ROOT]], $complex, array_merge($linkers, array(new condition(THOUGHTS::ROOT), new condition(THOUGHTS::OWNER_ID))));
+                    $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID], THOUGHTS::ROOT => $_GET[THOUGHTS::ROOT]], $complex, array_merge($linkers, array(new condition(THOUGHTS::ROOT), new condition(THOUGHTS::OWNER_ID))));
 
                 } else {
 
-                    $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::OWNER_ID))));
+                    $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::OWNER_ID))));
 
                 }
             }

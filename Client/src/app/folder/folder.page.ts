@@ -23,7 +23,10 @@ export class FolderPage implements OnInit {
     // this.userService.check({ username: "Test", email: "TEST@gm.com" }).subscribe(r => console.log(r));
     // this.userService.authenticate({ username: "itSim04", password: "Test1234" }).subscribe(r => console.log(r));
 
-    this.thoughtService.addThought({ content: "Hi", type: 0, owner_id: 10 }).subscribe(r => console.log(r));
+    //this.thoughtService.addThought({ content: "Hi", type: 0, owner_id: 10 }).subscribe(r => console.log(r));
+    this.thoughtService.getAll({ user_id: 9 }).subscribe(r => console.log(r));
+    this.thoughtService.getOne({ user_id: 9, thought_id: 9 }).subscribe(r => console.log(r));
+    this.thoughtService.getBy({ user_id: 9, owner_id: 9 }).subscribe(r => console.log(r));
   }
 
 }
