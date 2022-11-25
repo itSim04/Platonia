@@ -1,8 +1,8 @@
 import { formatNumber } from "@angular/common";
-import { USERS, USERS_TEMP, RESPONSE, THOUGHTS, THOUGHTS_TEMP, ANSWERS, OPTIONS } from "./constants";
+import { USERS, USERS_TEMP, RESPONSE, THOUGHTS, THOUGHTS_TEMP, ANSWERS, OPTIONS, EXIT_CODES, APIS } from "./constants";
 import { RESPONSE_MODEL } from "./models/response-model";
-import { THOUGHT, THOUGHTS_RESPONSE } from "./models/thoughts-model";
-import { USER, USER_RESPONSE } from "./models/users-model";
+import { Thought, THOUGHTS_RESPONSE } from "./models/thoughts-model";
+import { User, USER_RESPONSE } from "./models/users-model";
 
 export class Packager {
 
@@ -12,22 +12,63 @@ export class Packager {
 
             status: data[RESPONSE.STATUS],
             error_message: data[RESPONSE.ERROR],
+            missing_params: data[RESPONSE.MISSING_PARAMS],
             email_available: data[RESPONSE.EMAIL_AVAILABLE],
-            username_available: data[RESPONSE.USERNAME_AVAILABLE],
-            user: data[RESPONSE.USER] != undefined && data[RESPONSE.USER][0] != undefined ? this.userUnpack(data[RESPONSE.USER][0]) : (data[RESPONSE.THOUGHT] != undefined && data[RESPONSE.THOUGHT][0] != undefined ? this.userUnpack(data[RESPONSE.THOUGHT][0]) : undefined),
-            users: data[RESPONSE.USERS] != undefined ? data[RESPONSE.USERS].map((user: USER) => this.userUnpack(user)) : (data[RESPONSE.THOUGHTS] != undefined ? (data[RESPONSE.THOUGHTS].map((thought: THOUGHTS) => this.userUnpack(thought))) : undefined),
-            thought: data[RESPONSE.THOUGHT] != undefined && data[RESPONSE.THOUGHT][0] != undefined ? this.thoughtUnpack(data[RESPONSE.THOUGHT][0]) : undefined,
-            thoughts: data[RESPONSE.THOUGHTS]?.map((thought: THOUGHT) => this.thoughtUnpack(thought)),
-            missing_params: data[RESPONSE.MISSING_PARAMS]
+            username_available: data[RESPONSE.USERNAME_AVAILABLE]
+
+        }
+
+        //   : undefined,
+        // thoughts: data[RESPONSE.THOUGHTS]?.map((thought: THOUGHT) => this.thoughtUnpack(thought)),
+
+        switch (response.status) {
+
+            case EXIT_CODES.USERS_ADD:
+            case EXIT_CODES.USERS_AUTHENTICATE:
+            case EXIT_CODES.USERS_GET_ONE:
+
+                response.user = this.userUnpack(data[RESPONSE.USER][0]);
+                break;
+
+            case EXIT_CODES.USERS_GET_ALL:
+
+                response.users = this.packUsersInMap(data[RESPONSE.USERS]);
+                break;
+
+            case EXIT_CODES.THOUGHTS_ADD:
+            case EXIT_CODES.THOUGHTS_GET_ONE:
+
+                response.user = this.userUnpack(data[RESPONSE.THOUGHT][0]);
+                response.thought = this.thoughtUnpack(data[RESPONSE.THOUGHT][0]);
+                break;
+
+            case EXIT_CODES.THOUGHTS_GET_ALL:
+            case EXIT_CODES.THOUGHTS_GET_BY:
+
+                response.users = this.packUsersInMap(data[RESPONSE.THOUGHTS]);
+                response.thoughts = this.packThoughtsInMap(data[RESPONSE.THOUGHTS]);
+                break;
 
         }
         return response;
 
     }
 
-    public static userUnpack(data: any): USER {
+    public static packUsersInMap(json: any): Map<number, User> {
 
-        const current: USER = {
+        const map: Map<number, User> = new Map();
+        json.forEach((element: any) => {
+
+            const current: User = this.userUnpack(element);
+            map.set(current.user_id, current);
+
+        });
+        return map;
+
+    }
+    public static userUnpack(data: any): User {
+
+        const current: User = {
 
             user_id: data[USERS.ID],
             username: data[USERS.USERNAME],
@@ -43,6 +84,7 @@ export class Packager {
 
         return current;
     }
+
 
 
     public static packUserForPOST(user: USER_RESPONSE): FormData {
@@ -61,9 +103,21 @@ export class Packager {
     }
 
 
-    public static thoughtUnpack(data: any): THOUGHT {
+    public static packThoughtsInMap(json: any): Map<number, Thought> {
 
-        const current: THOUGHT = {
+        const map: Map<number, Thought> = new Map();
+        json.forEach((element: any) => {
+
+            const current: Thought = this.thoughtUnpack(element);
+            map.set(current.thought_id, current);
+
+        });
+        return map;
+
+    }
+    public static thoughtUnpack(data: any): Thought {
+
+        const current: Thought = {
 
             thought_id: data[THOUGHTS.ID],
             share_date: data[THOUGHTS.SHARE_DATE],

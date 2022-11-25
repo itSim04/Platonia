@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { APIS, RESPONSE, USERS, USERS_SCHEMA, USERS_TEMP } from '../constants';
-import { USER, USER_RESPONSE } from '../models/users-model';
+import { User, USER_RESPONSE } from '../models/users-model';
 import { RESPONSE_MODEL } from '../models/response-model';
 import { Form } from '@angular/forms';
 import { Packager } from '../packager';

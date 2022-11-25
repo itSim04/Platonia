@@ -1,4 +1,4 @@
-export interface THOUGHT {
+export interface Thought {
 
     thought_id: number;
     share_date: Date;

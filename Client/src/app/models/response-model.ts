@@ -1,16 +1,16 @@
-import { THOUGHT } from "./thoughts-model";
-import { USER } from "./users-model";
+import { Thought } from "./thoughts-model";
+import { User } from "./users-model";
 
 export interface RESPONSE_MODEL {
 
     status: number;
-    error_message: string;
-    username_available: boolean | undefined;
-    email_available: boolean | undefined;
-    user: USER | undefined;
-    users: USER[] | undefined;
-    thought: THOUGHT | undefined;
-    thoughts: THOUGHT[] | undefined;
-    missing_params: string;
+    error_message?: string;
+    username_available: boolean;
+    email_available?: boolean;
+    user?: User;
+    users?: Map<number, User>;
+    thought?: Thought;
+    thoughts?: Map<number, Thought>;
+    missing_params?: string;
 
 }

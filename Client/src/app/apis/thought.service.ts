@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { APIS, THOUGHTS, THOUGHTS_SCHEMA, USERS } from '../constants';
 import { RESPONSE_MODEL } from '../models/response-model';
-import { THOUGHT, THOUGHTS_RESPONSE } from '../models/thoughts-model';
+import { Thought, THOUGHTS_RESPONSE } from '../models/thoughts-model';
 import { Packager } from '../packager';
 
 @Injectable({
