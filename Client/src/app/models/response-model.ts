@@ -6,8 +6,9 @@ export interface RESPONSE_MODEL {
 
     status: number;
     error_message?: string;
-    username_available: boolean;
-    email_available?: boolean;
+    username_taken: boolean;
+    email_taken?: boolean;
+    name_taken?: boolean;
     user?: User;
     users?: Map<number, User>;
     thought?: Thought;

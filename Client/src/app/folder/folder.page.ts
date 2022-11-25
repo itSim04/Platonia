@@ -32,10 +32,12 @@ export class FolderPage implements OnInit {
     // this.thoughtService.delete({ thought_id: 199 }).subscribe(r => console.log(r));
 
     //this.interestService.addInterest({name: "Chemistry", img_src: ""}).subscribe(r => console.log(r));
-    this.interestService.getAll().subscribe(r => console.log(r));
-    this.interestService.getOne({ interest_id: 1 }).subscribe(r => console.log(r));
-    this.interestService.getUsers({ interest_id: 7 }).subscribe(r => console.log(r));
-    this.interestService.getInterestsOfUser({ user_id: 9 }).subscribe(r => console.log(r));
+    // this.interestService.getAll().subscribe(r => console.log(r));
+    // this.interestService.getOne({ interest_id: 1 }).subscribe(r => console.log(r));
+    // this.interestService.getUsers({ interest_id: 7 }).subscribe(r => console.log(r));
+    // this.interestService.getInterestsOfUser({ user_id: 9 }).subscribe(r => console.log(r));
+    // this.interestService.enrollUser({ user_id: 9, interest_id: 1 }).subscribe(r => console.log(r));
+    this.interestService.checkName({ name: "Coding" }).subscribe(r => console.log(r));
 
   }
 

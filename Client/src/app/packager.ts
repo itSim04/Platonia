@@ -14,8 +14,9 @@ export class Packager {
             status: data[RESPONSE.STATUS],
             error_message: data[RESPONSE.ERROR],
             missing_params: data[RESPONSE.MISSING_PARAMS],
-            email_available: data[RESPONSE.EMAIL_AVAILABLE],
-            username_available: data[RESPONSE.USERNAME_AVAILABLE]
+            email_taken: data[RESPONSE.EMAIL_AVAILABLE],
+            username_taken: data[RESPONSE.USERNAME_AVAILABLE],
+            name_taken: data[RESPONSE.NAME_AVAILABLE],
 
         }
 
