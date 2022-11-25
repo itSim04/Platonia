@@ -8,5 +8,6 @@ export interface RESPONSE_MODEL {
     email_available: boolean|undefined;
     user: USER|undefined;
     users: USER[]|undefined;
+    missing_params: string;
 
 }

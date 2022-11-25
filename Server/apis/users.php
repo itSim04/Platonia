@@ -38,10 +38,10 @@ if (check_keys($_GET, "schema")) {
 
         case USERS_SCHEMA::UPDATE:
 
-            if (check_keys($_POST, USERS::ID, USERS::USERNAME, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER, USERS::PICTURE, USERS::BANNER)) {
+            if (check_keys($_POST, USERS::ID, USERS::USERNAME, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_UPDATE;
-                process($PDO, SQLFunctions::UPDATE, $table_name, $_POST, array(USERS::USERNAME, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER, USERS::PICTURE, USERS::BANNER), array(new condition(USERS::ID)));
+                process($PDO, SQLFunctions::UPDATE, $table_name, $_POST, array(USERS::USERNAME, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER), array(new condition(USERS::ID)));
 
             }
             break;

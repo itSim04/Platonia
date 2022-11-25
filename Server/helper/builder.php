@@ -10,8 +10,6 @@ CREATE TABLE IF NOT EXISTS users (
  birthday date NOT NULL,
  join_date date NOT NULL,
  gender varchar(1) NOT NULL,
- picture text DEFAULT NULL,
- banner text DEFAULT NULL,
  PRIMARY KEY (user_id),
  UNIQUE (username),
  UNIQUE (email))");

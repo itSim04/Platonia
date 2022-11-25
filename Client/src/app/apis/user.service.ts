@@ -2,9 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { APIS, RESPONSE, USERS, USERS_SCHEMA, USERS_TEMP } from '../constants';
-import { USER } from '../models/users-model';
+import { USER, USER_RESPONSE } from '../models/users-model';
 import { RESPONSE_MODEL } from '../models/response-model';
 import { Form } from '@angular/forms';
+import { Packager } from '../packager';
 
 @Injectable({
   providedIn: 'root'
@@ -14,72 +15,11 @@ export class UserService {
   private api: string = "users";
   constructor(private http: HttpClient) { }
 
-  private user_pack(data: any): USER {
+  public add_user(user: USER_RESPONSE): Observable<RESPONSE_MODEL> {
 
-    const current: USER = {
+    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.ADD, this.api), Packager.packForPOST(user)).pipe(map((data: any) =>
 
-      user_id: data[USERS.ID],
-      username: data[USERS.USERNAME],
-      bio: data[USERS.BIO],
-      birthday: data[USERS.BIRTHDAY],
-      email: data[USERS.EMAIL],
-      followers: data[USERS_TEMP.FOLLOWERS],
-      followings: data[USERS_TEMP.FOLLOWINGS],
-      gender: data[USERS.GENDER],
-      join: data[USERS.JOIN],
-      banner: data[USERS.BANNER],
-      picture: data[USERS.PICTURE]
-
-    };
-
-    return current;
-  }
-
-  private response_pack(data: any): RESPONSE_MODEL {
-
-    const response: RESPONSE_MODEL = {
-
-      status: data[RESPONSE.STATUS],
-      error_message: data[RESPONSE.ERROR],
-      email_available: data[RESPONSE.EMAIL_AVAILABLE],
-      username_available: data[RESPONSE.USERNAME_AVAILABLE],
-      user: data[RESPONSE.USER] != undefined && data[RESPONSE.USER][0] != undefined ? this.user_pack(data[RESPONSE.USER][0]) : undefined,
-      users: data[RESPONSE.USERS]?.map((user: USER) => this.user_pack(user))
-
-
-    }
-    return response;
-
-
-  }
-
-  private unpack(user: USER, password: string): FormData {
-
-    const form = new FormData();
-    form.append(USERS.ID, user.user_id + "");
-    form.append(USERS.USERNAME, user.username);
-    form.append(USERS.PASSWORD, password);
-    form.append(USERS.BIO, user.bio);
-    form.append(USERS.BIRTHDAY, user.birthday + "");
-    form.append(USERS.EMAIL, user.email);
-    form.append(USERS_TEMP.FOLLOWERS, user.followers + "");
-    form.append(USERS_TEMP.FOLLOWINGS, user.followings + "");
-    form.append(USERS.GENDER, user.gender + "");
-    form.append(USERS.JOIN, user.join + "");
-    form.append(USERS.BANNER, user.banner + "");
-    form.append(USERS.PICTURE, user.picture + "");
-    return form;
-
-
-  }
-
-
-
-  public add_user(user: USER, password: string): Observable<RESPONSE_MODEL> {
-
-    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.ADD, this.api), this.unpack(user, password)).pipe(map((data: any) =>
-
-      this.response_pack(data)
+      Packager.responseUnpack(data)
 
     ));
 
@@ -89,17 +29,17 @@ export class UserService {
 
     return this.http.get<any>(APIS.build_url(USERS_SCHEMA.GET_ALL, this.api)).pipe(map((data: any) =>
 
-      this.response_pack(data)
+      Packager.responseUnpack(data)
 
     ));
 
   }
 
-  public get_one(user_id: number): Observable<RESPONSE_MODEL> {
+  public get_one(user: USER_RESPONSE): Observable<RESPONSE_MODEL> {
 
-    return this.http.get<any>(APIS.build_url(USERS_SCHEMA.GET_ONE, this.api, `& ${USERS.ID}=${user_id}`)).pipe(map((data: any) =>
+    return this.http.get<any>(APIS.build_url(USERS_SCHEMA.GET_ONE, this.api, `& ${USERS.ID}=${user.user_id}`)).pipe(map((data: any) =>
 
-      this.response_pack(data)
+      Packager.responseUnpack(data)
 
     ));
 
@@ -108,37 +48,39 @@ export class UserService {
 
 
 
-  public update_user(user: USER) {
+  public update_user(user: USER_RESPONSE) {
 
-    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.UPDATE, this.api), this.unpack(user, "")).pipe(map((data: any) =>
+    console.log(Packager.packForPOST(user));
 
-      this.response_pack(data)
+    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.UPDATE, this.api), Packager.packForPOST(user)).pipe(map((data: any) =>
 
-    ));
-
-
-  }
-
-  public check(username: string, email: string): Observable<RESPONSE_MODEL> {
-
-    return this.http.get<RESPONSE_MODEL>(APIS.build_url(USERS_SCHEMA.CHECK, this.api, `&${USERS.USERNAME}=${username}&${USERS.EMAIL}=${email}`)).pipe(map((data: any) =>
-
-      this.response_pack(data)
+      Packager.responseUnpack(data)
 
     ));
 
 
   }
 
-  public authenticate(username: string, password: string) {
+  public check(user: USER_RESPONSE): Observable<RESPONSE_MODEL> {
+
+    return this.http.get<RESPONSE_MODEL>(APIS.build_url(USERS_SCHEMA.CHECK, this.api, `&${USERS.USERNAME}=${user.username}&${USERS.EMAIL}=${user.email}`)).pipe(map((data: any) =>
+
+      Packager.responseUnpack(data)
+
+    ));
+
+
+  }
+
+  public authenticate(user: USER_RESPONSE) {
 
     const form: FormData = new FormData();
-    form.append(USERS.USERNAME, username);
-    form.append(USERS.PASSWORD, password);
+    form.append(USERS.USERNAME, user.username!);
+    form.append(USERS.PASSWORD, user.password!);
 
-    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.AUTHENTICATE, this.api), form).pipe(map((data: any) =>
+    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.AUTHENTICATE, this.api), Packager.packForPOST(user)).pipe(map((data: any) =>
 
-      this.response_pack(data)
+      Packager.responseUnpack(data)
 
     ));
 
