@@ -51,6 +51,8 @@ export enum OPTIONS {
 
     ID = "thought_id_fk_options",
     POSITION = "position",
+    VOTES = "votes",
+    CONTENT = "content",
     POLL1 = "poll1",
     POLL2 = "poll2",
     POLL3 = "poll3",

@@ -55,12 +55,21 @@ export interface PLATON {
 
 }
 
-export interface ANSWERS {
+export interface Answers {
 
     thought_id: number;
     user_id: number;
     answer_date: Date;
     option_chosen: number;
+
+}
+
+export interface Option {
+
+    thought_id: number;
+    position: number;
+    content: string;
+    votes: number;
 
 }
 

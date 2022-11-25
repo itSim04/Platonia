@@ -2,7 +2,7 @@ import { formatNumber } from "@angular/common";
 import { USERS, USERS_TEMP, RESPONSE, THOUGHTS, THOUGHTS_TEMP, ANSWERS, OPTIONS, EXIT_CODES, APIS, INTERESTS, INTERESTED_IN } from "./constants";
 import { Interest, INTEREST_RESPONSE } from "./models/interests-model";
 import { RESPONSE_MODEL } from "./models/response-model";
-import { Thought, THOUGHTS_RESPONSE } from "./models/thoughts-model";
+import { Option, Thought, THOUGHTS_RESPONSE } from "./models/thoughts-model";
 import { User, USER_RESPONSE } from "./models/users-model";
 
 export class Packager {
@@ -17,6 +17,7 @@ export class Packager {
             email_taken: data[RESPONSE.EMAIL_AVAILABLE],
             username_taken: data[RESPONSE.USERNAME_AVAILABLE],
             name_taken: data[RESPONSE.NAME_AVAILABLE],
+            options: this.packOptionsInMap(data[RESPONSE.OPTIONS]),
 
         }
 
@@ -96,6 +97,31 @@ export class Packager {
         }
         return response;
 
+    }
+
+    public static packOptionsInMap(json: any): Map<number, Option> {
+
+        const map: Map<number, Option> = new Map();
+        json?.forEach((element: any) => {
+
+            const current: Option = this.optionUnpack(element);
+            map.set(current.position, current);
+
+        });
+        return map;
+
+    }
+    public static optionUnpack(data: any): Option {
+
+        const current: Option = {
+
+            thought_id: data[OPTIONS.ID],
+            content: data[OPTIONS.CONTENT],
+            position: data[OPTIONS.POSITION],
+            votes: data[OPTIONS.VOTES],
+
+        };
+        return current;
     }
 
     public static packUsersInMap(json: any): Map<number, User> {

@@ -1,5 +1,5 @@
 import { Interest } from "./interests-model";
-import { Thought } from "./thoughts-model";
+import { Option, Thought } from "./thoughts-model";
 import { User } from "./users-model";
 
 export interface RESPONSE_MODEL {
@@ -15,6 +15,7 @@ export interface RESPONSE_MODEL {
     thoughts?: Map<number, Thought>;
     interest?: Interest;
     interests?: Map<number, Interest>;
+    options?: Map<number, Option>;
     missing_params?: string;
 
 }

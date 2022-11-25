@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { ANSWERS, APIS, POLLS_SCHEMA } from '../constants';
+import { ANSWERS, APIS, OPTIONS, POLLS_SCHEMA } from '../constants';
 import { RESPONSE_MODEL } from '../models/response-model';
 import { Packager } from '../packager';
 
@@ -21,6 +21,16 @@ export class AnswerService {
     form.append(ANSWERS.THOUGHT_ID, String(thought_id));
     form.append(ANSWERS.ANSWER_DATE, String(new Date().toISOString().slice(0, 19).replace('T', ' ')));
     return this.http.post<any>(APIS.build_url(POLLS_SCHEMA.ANSWER_POLL, this.api), form).pipe(map((data: any) =>
+
+      Packager.responseUnpack(data)
+
+    ));
+
+  }
+
+  public get_option(thought_id: number): Observable<RESPONSE_MODEL> {
+
+    return this.http.get<any>(APIS.build_url(POLLS_SCHEMA.GET_OPTION, this.api, `&${OPTIONS.ID}=${thought_id}`)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 
