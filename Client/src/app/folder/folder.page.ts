@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AnswerService } from '../apis/answer.service';
 import { FollowService } from '../apis/follow.service';
 import { InterestService } from '../apis/interest.service';
 import { LikeService } from '../apis/like.service';
@@ -15,7 +16,7 @@ import { UserService } from '../apis/user.service';
 export class FolderPage implements OnInit {
   public folder!: string;
 
-  constructor(private activatedRoute: ActivatedRoute, private userService: UserService, private thoughtService: ThoughtService, private interestService: InterestService, private followService: FollowService, private likeService: LikeService, private platonService: PlatonService) { }
+  constructor(private activatedRoute: ActivatedRoute, private userService: UserService, private thoughtService: ThoughtService, private interestService: InterestService, private followService: FollowService, private likeService: LikeService, private platonService: PlatonService, private answerServicer: AnswerService) { }
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') as string;
@@ -40,7 +41,7 @@ export class FolderPage implements OnInit {
     // this.interestService.getUsers({ interest_id: 7 }).subscribe(r => console.log(r));
     // this.interestService.getInterestsOfUser({ user_id: 9 }).subscribe(r => console.log(r));
     // this.interestService.enrollUser({ user_id: 9, interest_id: 1 }).subscribe(r => console.log(r));
-    
+
     // this.interestService.checkName({ name: "Coding" }).subscribe(r => console.log(r));
     // this.followService.follow(9, 60).subscribe(r => console.log(r));
     // this.followService.follow(10, 9).subscribe(r => console.log(r));
@@ -54,10 +55,11 @@ export class FolderPage implements OnInit {
 
     // this.platonService.platon(15, 150).subscribe(r => console.log(r));
     // this.platonService.unplaton(15, 150).subscribe(r => console.log(r));
-    this.platonService.getPlatonsByUser(9).subscribe(r => console.log(r));
-    this.platonService.getPlatonsOnThought(150).subscribe(r => console.log(r));
+    // this.platonService.getPlatonsByUser(9).subscribe(r => console.log(r));
+    // this.platonService.getPlatonsOnThought(150).subscribe(r => console.log(r));
 
-    
+    this.answerServicer.answer_poll(9, 200, 2).subscribe(r => console.log(r));
+
 
   }
 

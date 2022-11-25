@@ -11,7 +11,6 @@ if (check_keys($_GET, "schema")) {
 
         case POLLS_SCHEMA::ANSWER_POLL:
 
-
             if (check_keys($_POST, ANSWERS::THOUGHT_ID, ANSWERS::USER_ID, ANSWERS::OPTION_CHOSEN, ANSWERS::ANSWER_DATE)) {
                 
                 $output[RESPONSE::STATUS] = EXIT_CODES::POLLS_ANSWER_POLL;
