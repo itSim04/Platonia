@@ -1,5 +1,6 @@
 import { formatNumber } from "@angular/common";
-import { USERS, USERS_TEMP, RESPONSE, THOUGHTS, THOUGHTS_TEMP, ANSWERS, OPTIONS, EXIT_CODES, APIS } from "./constants";
+import { USERS, USERS_TEMP, RESPONSE, THOUGHTS, THOUGHTS_TEMP, ANSWERS, OPTIONS, EXIT_CODES, APIS, INTERESTS, INTERESTED_IN } from "./constants";
+import { Interest, INTEREST_RESPONSE } from "./models/interests-model";
 import { RESPONSE_MODEL } from "./models/response-model";
 import { Thought, THOUGHTS_RESPONSE } from "./models/thoughts-model";
 import { User, USER_RESPONSE } from "./models/users-model";
@@ -17,9 +18,6 @@ export class Packager {
             username_available: data[RESPONSE.USERNAME_AVAILABLE]
 
         }
-
-        //   : undefined,
-        // thoughts: data[RESPONSE.THOUGHTS]?.map((thought: THOUGHT) => this.thoughtUnpack(thought)),
 
         switch (response.status) {
 
@@ -160,6 +158,45 @@ export class Packager {
         if (thought.poll2 != undefined) form.append(OPTIONS.POLL2, thought.poll2);
         if (thought.poll3 != undefined) form.append(OPTIONS.POLL3, thought.poll3);
         if (thought.poll4 != undefined) form.append(OPTIONS.POLL4, thought.poll4);
+        return form;
+
+    }
+
+    public static packInterestsInMap(json: any): Map<number, Interest> {
+
+        const map: Map<number, Interest> = new Map();
+        json.forEach((element: any) => {
+
+            const current: Interest = this.interestUnpack(element);
+            map.set(current.interest_id, current);
+
+        });
+        return map;
+
+    }
+
+    public static interestUnpack(data: any): Interest {
+
+        const current: Interest = {
+
+            interest_id: data[INTERESTS.ID],
+            img_src: data[INTERESTS.IMG],
+            interest_date: data[INTERESTED_IN.INTEREST_DATE],
+            name: data[INTERESTS.NAME],
+            participants: data[INTERESTS.PARTICIPANTS]
+
+        };
+        return current;
+
+    }
+    public static packInterestForPOST(interest: INTEREST_RESPONSE): FormData {
+
+        const form = new FormData();
+        form.append(INTERESTED_IN.INTEREST_DATE, String(new Date().toISOString().slice(0, 19).replace('T', ' ')));
+        if (interest.user_id != undefined) form.append(USERS.ID, String(interest.user_id));
+        if (interest.img_src != undefined) form.append(INTERESTS.IMG, String(interest.img_src));
+        if (interest.interest_id != undefined) form.append(INTERESTS.ID, String(interest.interest_id));
+        if (interest.name != undefined) form.append(INTERESTS.NAME, interest.name);
         return form;
 
     }
