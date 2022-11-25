@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FollowService } from '../apis/follow.service';
 import { InterestService } from '../apis/interest.service';
+import { LikeService } from '../apis/like.service';
 import { ThoughtService } from '../apis/thought.service';
 import { UserService } from '../apis/user.service';
 
@@ -13,7 +14,7 @@ import { UserService } from '../apis/user.service';
 export class FolderPage implements OnInit {
   public folder!: string;
 
-  constructor(private activatedRoute: ActivatedRoute, private userService: UserService, private thoughtService: ThoughtService, private interestService: InterestService, private followService: FollowService) { }
+  constructor(private activatedRoute: ActivatedRoute, private userService: UserService, private thoughtService: ThoughtService, private interestService: InterestService, private followService: FollowService, private likeService: LikeService) { }
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') as string;
@@ -32,14 +33,22 @@ export class FolderPage implements OnInit {
     // this.thoughtService.update({ thought_id: 199, content: "Hello 2.0" }).subscribe(r => console.log(r));
     // this.thoughtService.delete({ thought_id: 199 }).subscribe(r => console.log(r));
 
-    //this.interestService.addInterest({name: "Chemistry", img_src: ""}).subscribe(r => console.log(r));
+    // this.interestService.addInterest({name: "Chemistry", img_src: ""}).subscribe(r => console.log(r));
     // this.interestService.getAll().subscribe(r => console.log(r));
     // this.interestService.getOne({ interest_id: 1 }).subscribe(r => console.log(r));
     // this.interestService.getUsers({ interest_id: 7 }).subscribe(r => console.log(r));
     // this.interestService.getInterestsOfUser({ user_id: 9 }).subscribe(r => console.log(r));
     // this.interestService.enrollUser({ user_id: 9, interest_id: 1 }).subscribe(r => console.log(r));
-    this.interestService.checkName({ name: "Coding" }).subscribe(r => console.log(r));
-    this.followService.follow(9, 10).subscribe(r => console.log(r));
+    
+    // this.interestService.checkName({ name: "Coding" }).subscribe(r => console.log(r));
+    // this.followService.follow(9, 60).subscribe(r => console.log(r));
+    // this.followService.follow(10, 9).subscribe(r => console.log(r));
+    // this.followService.getFollowers(9).subscribe(r => console.log(r));
+    // this.followService.getFollowings(9).subscribe(r => console.log(r));
+
+    this.likeService.like(9, 9).subscribe(r => console.log(r));
+    this.likeService.unlike(9, 150).subscribe(r => console.log(r));
+    
 
   }
 

@@ -61,6 +61,15 @@ export class Packager {
                 response.interests = this.packInterestsInMap(data[RESPONSE.INTERESTS]);
                 break;
 
+            case EXIT_CODES.FOLLOW_GET_FOLLOWERS:
+                response.users = this.packUsersInMap(data[RESPONSE.FOLLOWERS]);
+                break;
+
+            case EXIT_CODES.FOLLOW_GET_FOLLOWINGS:
+                response.users = this.packUsersInMap(data[RESPONSE.FOLLOWINGS]);
+                break;
+
+
         }
         return response;
 
