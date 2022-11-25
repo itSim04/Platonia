@@ -149,6 +149,7 @@ export class Packager {
 
         const form = new FormData();
         form.append(THOUGHTS.SHARE_DATE, String(new Date().toISOString().slice(0, 19).replace('T', ' ')));
+        form.append(THOUGHTS.EDIT_DATE, String(new Date().toISOString().slice(0, 19).replace('T', ' ')));
         if (thought.thought_id != undefined) form.append(THOUGHTS.ID, String(thought.thought_id));
         if (thought.user_id != undefined) form.append(USERS.ID, String(thought.user_id));
         if (thought.content != undefined) form.append(THOUGHTS.CONTENT, thought.content);

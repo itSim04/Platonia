@@ -54,16 +54,24 @@ export class ThoughtService {
 
   }
 
-  // public update(thought: THOUGHTS_RESPONSE): Observable<RESPONSE_MODEL> {
+  public update(thought: THOUGHTS_RESPONSE): Observable<RESPONSE_MODEL> {
 
+    return this.http.post<any>(APIS.build_url(THOUGHTS_SCHEMA.UPDATE, this.api), Packager.packThoughtForPOST(thought)).pipe(map((data: any) =>
 
+      Packager.responseUnpack(data)
 
-  // }
+    ));
 
-  // public delete(thought: THOUGHTS_RESPONSE): Observable<RESPONSE_MODEL> {
+  }
 
+  public delete(thought: THOUGHTS_RESPONSE): Observable<RESPONSE_MODEL> {
 
+    return this.http.get<any>(APIS.build_url(THOUGHTS_SCHEMA.DELETE, this.api, `&${THOUGHTS.ID}=${thought.thought_id}`)).pipe(map((data: any) =>
 
-  // }
+      Packager.responseUnpack(data)
+
+    ));
+
+  }
 
 }
