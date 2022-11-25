@@ -16,7 +16,7 @@ if (check_keys($_GET, "schema")) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::FOLLOW_ADD;
                 if ($_GET[FOLLOWS::USER_ID1] != $_GET[FOLLOWS::USER_ID2]) {
-                    process($PDO, SQLFunctions::ADD, $table_name, $_GET, array(FOLLOWS::USER_ID1, FOLLOWS::USER_ID2), array());
+                    process($PDO, SQLFunctions::ADD, $table_name, $_GET, array(FOLLOWS::FOLLOW_DATE, FOLLOWS::USER_ID1, FOLLOWS::USER_ID2), array());
                 } else {
                     $output[RESPONSE::STATUS] = EXIT_CODES::INCORRECT_SCHEMA;
                 }
@@ -26,7 +26,7 @@ if (check_keys($_GET, "schema")) {
 
         case FOLLOW_SCHEMA::UNFOLLOW:
 
-            if (check_keys($_GET, FOLLOWS::USER_ID1, FOLLOWS::USER_ID2, FOLLOWS::FOLLOW_DATE)) {
+            if (check_keys($_GET, FOLLOWS::USER_ID1, FOLLOWS::USER_ID2)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::FOLLOW_REMOVE;
                 process($PDO, SQLFunctions::DELETE, $table_name, $_GET, array(), array(new condition(FOLLOWS::USER_ID1), new condition(FOLLOWS::USER_ID2)));

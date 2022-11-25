@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FollowService } from '../apis/follow.service';
 import { InterestService } from '../apis/interest.service';
 import { ThoughtService } from '../apis/thought.service';
 import { UserService } from '../apis/user.service';
@@ -12,7 +13,7 @@ import { UserService } from '../apis/user.service';
 export class FolderPage implements OnInit {
   public folder!: string;
 
-  constructor(private activatedRoute: ActivatedRoute, private userService: UserService, private thoughtService: ThoughtService, private interestService: InterestService) { }
+  constructor(private activatedRoute: ActivatedRoute, private userService: UserService, private thoughtService: ThoughtService, private interestService: InterestService, private followService: FollowService) { }
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') as string;
@@ -38,6 +39,7 @@ export class FolderPage implements OnInit {
     // this.interestService.getInterestsOfUser({ user_id: 9 }).subscribe(r => console.log(r));
     // this.interestService.enrollUser({ user_id: 9, interest_id: 1 }).subscribe(r => console.log(r));
     this.interestService.checkName({ name: "Coding" }).subscribe(r => console.log(r));
+    this.followService.follow(9, 10).subscribe(r => console.log(r));
 
   }
 
