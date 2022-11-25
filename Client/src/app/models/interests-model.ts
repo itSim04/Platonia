@@ -10,9 +10,9 @@ export interface Interest {
 
 export interface INTEREST_RESPONSE {
 
-    user_id: number;
-    interest_id: number;
-    img_src: string;
-    name: string;
+    user_id?: number;
+    interest_id?: number;
+    img_src?: string;
+    name?: string;
 
 }

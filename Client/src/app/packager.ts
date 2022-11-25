@@ -47,6 +47,12 @@ export class Packager {
                 response.thoughts = this.packThoughtsInMap(data[RESPONSE.THOUGHTS]);
                 break;
 
+            case EXIT_CODES.INTERESTS_ADD:
+            case EXIT_CODES.INTERESTS_GET_ONE:
+
+                response.interest = data[RESPONSE.INTEREST][0];
+                break;
+
         }
         return response;
 

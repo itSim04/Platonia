@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { InterestService } from '../apis/interest.service';
 import { ThoughtService } from '../apis/thought.service';
 import { UserService } from '../apis/user.service';
 
@@ -11,7 +12,7 @@ import { UserService } from '../apis/user.service';
 export class FolderPage implements OnInit {
   public folder!: string;
 
-  constructor(private activatedRoute: ActivatedRoute, private userService: UserService, private thoughtService: ThoughtService) { }
+  constructor(private activatedRoute: ActivatedRoute, private userService: UserService, private thoughtService: ThoughtService, private interestService: InterestService) { }
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') as string;
@@ -29,6 +30,8 @@ export class FolderPage implements OnInit {
     // this.thoughtService.getBy({ user_id: 9, owner_id: 9 }).subscribe(r => console.log(r));
     // this.thoughtService.update({ thought_id: 199, content: "Hello 2.0" }).subscribe(r => console.log(r));
     // this.thoughtService.delete({ thought_id: 199 }).subscribe(r => console.log(r));
+
+    this.interestService.addInterest({name: "Chemistry", img_src: ""}).subscribe(r => console.log(r));
   }
 
 }
