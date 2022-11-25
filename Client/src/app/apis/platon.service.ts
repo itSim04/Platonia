@@ -32,4 +32,24 @@ export class PlatonService {
     ));
 
   }
+
+  public getPlatonsByUser(user_id: number): Observable<RESPONSE_MODEL> {
+    
+    return this.http.get<any>(APIS.build_url(PLATONS_SCHEMA.GET_PLATONS_BY_USER, this.api, `&${PLATONS.USER_ID}=${user_id}`)).pipe(map((data: any) =>
+    
+    Packager.responseUnpack(data)
+    
+    ));
+    
+  }
+
+  public getPlatonsOnThought(thought_id: number): Observable<RESPONSE_MODEL> {
+
+    return this.http.get<any>(APIS.build_url(PLATONS_SCHEMA.GET_PLATONS_ON_THOUGHT, this.api, `&${PLATONS.THOUGHT_ID}=${thought_id}`)).pipe(map((data: any) =>
+
+      Packager.responseUnpack(data)
+
+    ));
+
+  }
 }

@@ -82,6 +82,16 @@ export class Packager {
                 response.users = this.packUsersInMap(data[RESPONSE.LIKES]);
                 break;
 
+            case EXIT_CODES.PLATON_GET_ALL_BY_USER:
+
+                response.thoughts = this.packThoughtsInMap(data[RESPONSE.PLATONS]);
+                break;
+
+            case EXIT_CODES.PLATON_GET_ALL_ON_THOUGHT:
+
+                response.users = this.packUsersInMap(data[RESPONSE.PLATONS]);
+                break;
+
 
         }
         return response;
