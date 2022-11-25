@@ -1,7 +1,6 @@
 export interface Interest {
 
     interest_id: number;
-    interest_date: Date;
     name: string;
     img_src: string;
     participants: string;

@@ -140,6 +140,7 @@ class EXIT_CODES {
 	public const INTERESTS_ENROLL_USER = 124;
 	public const INTERESTS_UNENROLL_USER = 125;
 	public const INTERESTS_CHECK_NAME = 126;
+	public const INTERESTS_GET_INTERESTS_BY_USER = 127;
 
 	public const LIKE_ADD = 130;
 	public const LIKE_REMOVE = 131;

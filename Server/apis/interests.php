@@ -41,7 +41,7 @@ if (check_keys($_GET, "schema")) {
 
             if (check_keys($_GET, INTERESTED_IN::INTEREST_ID)) {
 
-                $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_GET_ONE;
+                $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_GET_USERS;
                 $output[RESPONSE::USERS] = process_fetch($PDO, SQLFunctions::SELECT, array($pivot_table, $user_table, $user_temp), $_GET, array(), array(new condition(INTERESTED_IN::INTEREST_ID), new condition(INTERESTED_IN::USER_ID . " = " . USERS::ID, false), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
 
             }
@@ -83,8 +83,8 @@ if (check_keys($_GET, "schema")) {
 
             if (check_keys($_GET, INTERESTED_IN::USER_ID)) {
 
-                $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_GET_ONE;
-                $output[RESPONSE::USERS] = process_fetch($PDO, SQLFunctions::SELECT, array($pivot_table, $table_name), $_GET, array(), array(new condition(INTERESTED_IN::USER_ID), new condition(INTERESTED_IN::INTEREST_ID . " = " . INTERESTS::ID, false)));
+                $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_GET_INTERESTS_BY_USER;
+                $output[RESPONSE::INTERESTS] = process_fetch($PDO, SQLFunctions::SELECT, array($pivot_table, $table_name), $_GET, array(), array(new condition(INTERESTED_IN::USER_ID), new condition(INTERESTED_IN::INTEREST_ID . " = " . INTERESTS::ID, false)));
 
             }
             break;

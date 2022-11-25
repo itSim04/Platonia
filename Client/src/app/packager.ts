@@ -29,6 +29,7 @@ export class Packager {
                 break;
 
             case EXIT_CODES.USERS_GET_ALL:
+            case EXIT_CODES.INTERESTS_GET_USERS:
 
                 response.users = this.packUsersInMap(data[RESPONSE.USERS]);
                 break;
@@ -53,6 +54,12 @@ export class Packager {
                 response.interest = data[RESPONSE.INTEREST][0];
                 break;
 
+            case EXIT_CODES.INTERESTS_GET_INTERESTS_BY_USER:
+            case EXIT_CODES.INTERESTS_GET_ALL:
+
+                response.interests = this.packInterestsInMap(data[RESPONSE.INTERESTS]);
+                break;
+
         }
         return response;
 
@@ -61,7 +68,7 @@ export class Packager {
     public static packUsersInMap(json: any): Map<number, User> {
 
         const map: Map<number, User> = new Map();
-        json.forEach((element: any) => {
+        json?.forEach((element: any) => {
 
             const current: User = this.userUnpack(element);
             map.set(current.user_id, current);
@@ -110,7 +117,7 @@ export class Packager {
     public static packThoughtsInMap(json: any): Map<number, Thought> {
 
         const map: Map<number, Thought> = new Map();
-        json.forEach((element: any) => {
+        json?.forEach((element: any) => {
 
             const current: Thought = this.thoughtUnpack(element);
             map.set(current.thought_id, current);
@@ -171,7 +178,7 @@ export class Packager {
     public static packInterestsInMap(json: any): Map<number, Interest> {
 
         const map: Map<number, Interest> = new Map();
-        json.forEach((element: any) => {
+        json?.forEach((element: any) => {
 
             const current: Interest = this.interestUnpack(element);
             map.set(current.interest_id, current);
@@ -187,7 +194,6 @@ export class Packager {
 
             interest_id: data[INTERESTS.ID],
             img_src: data[INTERESTS.IMG],
-            interest_date: data[INTERESTED_IN.INTEREST_DATE],
             name: data[INTERESTS.NAME],
             participants: data[INTERESTS.PARTICIPANTS]
 

@@ -135,6 +135,7 @@ export enum EXIT_CODES {
     INTERESTS_ENROLL_USER = 124,
     INTERESTS_UNENROLL_USER = 125,
     INTERESTS_CHECK_NAME = 126,
+    INTERESTS_GET_INTERESTS_BY_USER = 127,
 
     LIKE_ADD = 130,
     LIKE_REMOVE = 131,
@@ -254,7 +255,7 @@ export class APIS {
     public static build_url(schema: number, api: string, params: string = ""): string {
 
         return this.BASE_URL + `${api}.php?schema=${schema}` + params;
-        
+
     }
 
 
