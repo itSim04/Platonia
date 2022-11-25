@@ -14,9 +14,9 @@ if (check_keys($_GET, "schema")) {
 
         case PLATONS_SCHEMA::PLATON:
 
-            if (check_keys($_GET, PLATONS::USER_ID, PLATONS::THOUGHT_ID)) {
+            if (check_keys($_GET, PLATONS::USER_ID, PLATONS::THOUGHT_ID, PLATONS::PLATON_DATE)) {
                 $output[RESPONSE::STATUS] = EXIT_CODES::PLATON_ADD;
-                process($PDO, SQLFunctions::ADD, $table_name, $_GET, array(PLATONS::USER_ID, PLATONS::THOUGHT_ID), array());
+                process($PDO, SQLFunctions::ADD, $table_name, $_GET, array(PLATONS::USER_ID, PLATONS::THOUGHT_ID, PLATONS::PLATON_DATE), array());
             }
             break;
 

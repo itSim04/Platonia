@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FollowService } from '../apis/follow.service';
 import { InterestService } from '../apis/interest.service';
 import { LikeService } from '../apis/like.service';
+import { PlatonService } from '../apis/platon.service';
 import { ThoughtService } from '../apis/thought.service';
 import { UserService } from '../apis/user.service';
 
@@ -14,7 +15,7 @@ import { UserService } from '../apis/user.service';
 export class FolderPage implements OnInit {
   public folder!: string;
 
-  constructor(private activatedRoute: ActivatedRoute, private userService: UserService, private thoughtService: ThoughtService, private interestService: InterestService, private followService: FollowService, private likeService: LikeService) { }
+  constructor(private activatedRoute: ActivatedRoute, private userService: UserService, private thoughtService: ThoughtService, private interestService: InterestService, private followService: FollowService, private likeService: LikeService, private platonService: PlatonService) { }
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') as string;
@@ -50,6 +51,9 @@ export class FolderPage implements OnInit {
     // this.likeService.unlike(9, 150).subscribe(r => console.log(r));
     this.likeService.getLikesByUser(9).subscribe(r => console.log(r));
     this.likeService.getLikesOnThought(150).subscribe(r => console.log(r));
+
+    this.platonService.platon(15, 150).subscribe(r => console.log(r));
+    this.platonService.unplaton(15, 150).subscribe(r => console.log(r));
 
     
 
