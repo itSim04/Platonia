@@ -15,9 +15,9 @@ export class UserService {
   private api: string = "users";
   constructor(private http: HttpClient) { }
 
-  public add_user(user: USER_RESPONSE): Observable<RESPONSE_MODEL> {
+  public addUser(user: USER_RESPONSE): Observable<RESPONSE_MODEL> {
 
-    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.ADD, this.api), Packager.packForPOST(user)).pipe(map((data: any) =>
+    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.ADD, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 
@@ -25,7 +25,7 @@ export class UserService {
 
   }
 
-  public get_all(): Observable<RESPONSE_MODEL> {
+  public getAll(): Observable<RESPONSE_MODEL> {
 
     return this.http.get<any>(APIS.build_url(USERS_SCHEMA.GET_ALL, this.api)).pipe(map((data: any) =>
 
@@ -35,7 +35,7 @@ export class UserService {
 
   }
 
-  public get_one(user: USER_RESPONSE): Observable<RESPONSE_MODEL> {
+  public getOne(user: USER_RESPONSE): Observable<RESPONSE_MODEL> {
 
     return this.http.get<any>(APIS.build_url(USERS_SCHEMA.GET_ONE, this.api, `& ${USERS.ID}=${user.user_id}`)).pipe(map((data: any) =>
 
@@ -48,7 +48,7 @@ export class UserService {
 
 
 
-  public update_user(user: USER_RESPONSE) {
+  public updateUser(user: USER_RESPONSE): Observable<RESPONSE_MODEL> {
 
     return this.http.post<any>(APIS.build_url(USERS_SCHEMA.UPDATE, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
 

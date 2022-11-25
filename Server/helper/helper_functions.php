@@ -31,6 +31,7 @@ function warnMissing(array $miss) {
     $output[Response::STATUS] = 400;
     $output[Response::MISSING_PARAMS] = $miss;
     echo json_encode($output);
+    exit();
 
 }
 

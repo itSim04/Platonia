@@ -1,3 +1,4 @@
+import { formatNumber } from "@angular/common";
 import { USERS, USERS_TEMP, RESPONSE, THOUGHTS, THOUGHTS_TEMP, ANSWERS, OPTIONS } from "./constants";
 import { RESPONSE_MODEL } from "./models/response-model";
 import { THOUGHT, THOUGHTS_RESPONSE } from "./models/thoughts-model";
@@ -52,6 +53,7 @@ export class Packager {
         if (user.birthday != undefined) form.append(USERS.BIRTHDAY, String(user.birthday));
         if (user.email != undefined) form.append(USERS.EMAIL, user.email);
         if (user.gender != undefined) form.append(USERS.GENDER, String(user.gender));
+        form.append(USERS.JOIN, new Date().toISOString().slice(0, 10).replace('T', ' '));
         return form;
 
     }
@@ -92,7 +94,14 @@ export class Packager {
         const form = new FormData();
         form.append(THOUGHTS.ID, String(thought.thought_id));
         if (thought.content != undefined) form.append(THOUGHTS.CONTENT, thought.content);
-        form.append(USERS.PASSWORD, Date());
+        form.append(THOUGHTS.SHARE_DATE, String(new Date().toISOString().slice(0, 19).replace('T', ' ')));
+        if (thought.type != undefined) form.append(THOUGHTS.TYPE, String(thought.type));
+        if (thought.owner_id != undefined) form.append(THOUGHTS.OWNER_ID, String(thought.owner_id));
+        if (thought.root_id != undefined) form.append(THOUGHTS.ROOT, String(thought.root_id));
+        if (thought.poll1 != undefined) form.append(OPTIONS.POLL1, thought.poll1);
+        if (thought.poll2 != undefined) form.append(OPTIONS.POLL2, thought.poll2);
+        if (thought.poll3 != undefined) form.append(OPTIONS.POLL3, thought.poll3);
+        if (thought.poll4 != undefined) form.append(OPTIONS.POLL4, thought.poll4);
         return form;
 
     }

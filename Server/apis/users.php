@@ -11,10 +11,10 @@ if (check_keys($_GET, "schema")) {
 
         case USERS_SCHEMA::ADD:
 
-            if (check_keys($_POST, USERS::USERNAME, USERS::PASSWORD, USERS::BIRTHDAY, USERS::EMAIL, USERS::GENDER)) {
+            if (check_keys($_POST, USERS::USERNAME, USERS::JOIN, USERS::PASSWORD, USERS::BIRTHDAY, USERS::EMAIL, USERS::GENDER)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_ADD;
-                $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(USERS::USERNAME, USERS::PASSWORD, USERS::BIRTHDAY, USERS::EMAIL, USERS::GENDER), array());
+                $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(USERS::USERNAME, USERS::JOIN, USERS::PASSWORD, USERS::BIRTHDAY, USERS::EMAIL, USERS::GENDER), array());
                 $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [USERS::ID => $id], array(), array(new condition(USERS::ID)));
 
             }
