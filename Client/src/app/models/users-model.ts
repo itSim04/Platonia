@@ -20,10 +20,7 @@ export interface USER_RESPONSE {
     password?: string;
     bio?: string;
     birthday?: Date;
-    join?: Date;
     gender?: number;
-    followers?: number;
-    followings?: number;
 
 }
 

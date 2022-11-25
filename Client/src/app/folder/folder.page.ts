@@ -18,7 +18,7 @@ export class FolderPage implements OnInit {
 
   trigger() {
 
-    this.userService.update_user({ user_id: 64, username: "Test", bio: "Hello", email: "TEST@gm.com", birthday: new Date(), gender: 0, join: new Date(), followers: 0, followings: 0 }).subscribe(response => console.log(response));
+    this.userService.update_user({ user_id: 64, username: "Test", bio: "Hello", email: "TEST@gm.com", birthday: new Date(), gender: 0 }).subscribe(response => console.log(response));
     this.userService.check({ username: "Test", email: "TEST@gm.com" }).subscribe(r => console.log(r));
     this.userService.authenticate({ username: "itSim04", password: "Test1234" }).subscribe(r => console.log(r));
   }

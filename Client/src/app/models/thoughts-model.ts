@@ -1,4 +1,4 @@
-export interface THOUGHTS {
+export interface THOUGHT {
 
     thought_id: number;
     share_date: Date;
@@ -25,9 +25,8 @@ export interface THOUGHTS {
 
 export interface THOUGHTS_RESPONSE {
 
-    thought_id: number;
-    root_id?: number;
-    owner_id?: number;
+    thought_id?: number;
+    content?: string;
 
 }
 

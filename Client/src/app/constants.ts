@@ -54,7 +54,11 @@ export enum OPTIONS {
     POLL1 = "poll1",
     POLL2 = "poll2",
     POLL3 = "poll3",
-    POLL4 = "poll4"
+    POLL4 = "poll4",
+    VOTES1 = "votes1",
+    VOTES2 = "votes2",
+    VOTES3 = "votes3",
+    VOTES4 = "votes4"
 
 }
 

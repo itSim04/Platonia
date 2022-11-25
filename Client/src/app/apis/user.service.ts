@@ -50,9 +50,7 @@ export class UserService {
 
   public update_user(user: USER_RESPONSE) {
 
-    console.log(Packager.packForPOST(user));
-
-    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.UPDATE, this.api), Packager.packForPOST(user)).pipe(map((data: any) =>
+    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.UPDATE, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 
@@ -78,7 +76,7 @@ export class UserService {
     form.append(USERS.USERNAME, user.username!);
     form.append(USERS.PASSWORD, user.password!);
 
-    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.AUTHENTICATE, this.api), Packager.packForPOST(user)).pipe(map((data: any) =>
+    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.AUTHENTICATE, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 
