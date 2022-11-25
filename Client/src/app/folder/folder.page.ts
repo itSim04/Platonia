@@ -46,8 +46,11 @@ export class FolderPage implements OnInit {
     // this.followService.getFollowers(9).subscribe(r => console.log(r));
     // this.followService.getFollowings(9).subscribe(r => console.log(r));
 
-    this.likeService.like(9, 9).subscribe(r => console.log(r));
-    this.likeService.unlike(9, 150).subscribe(r => console.log(r));
+    // this.likeService.like(9, 9).subscribe(r => console.log(r));
+    // this.likeService.unlike(9, 150).subscribe(r => console.log(r));
+    this.likeService.getLikesByUser(9).subscribe(r => console.log(r));
+    this.likeService.getLikesOnThought(150).subscribe(r => console.log(r));
+
     
 
   }

@@ -42,7 +42,7 @@ if (check_keys($_GET, "schema")) {
 
             if (check_keys($_GET, LIKES::THOUGHT_ID)) {
 
-                $output[RESPONSE::STATUS] = EXIT_CODES::LIKE_GET_ALL_BY_USER;
+                $output[RESPONSE::STATUS] = EXIT_CODES::LIKE_GET_ALL_ON_THOUGHT;
                 $output[RESPONSE::LIKES] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $user_table, $user_temp), $_GET, array(), array(new condition(LIKES::THOUGHT_ID), new condition(LIKES::USER_ID . " = " . USERS::ID, false), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
 
             }

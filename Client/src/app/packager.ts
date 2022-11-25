@@ -62,11 +62,24 @@ export class Packager {
                 break;
 
             case EXIT_CODES.FOLLOW_GET_FOLLOWERS:
+
                 response.users = this.packUsersInMap(data[RESPONSE.FOLLOWERS]);
                 break;
 
             case EXIT_CODES.FOLLOW_GET_FOLLOWINGS:
+
                 response.users = this.packUsersInMap(data[RESPONSE.FOLLOWINGS]);
+                break;
+
+            case EXIT_CODES.LIKE_GET_ALL_BY_USER:
+
+                response.thoughts = this.packThoughtsInMap(data[RESPONSE.LIKES]);
+                break;
+
+            case EXIT_CODES.LIKE_GET_ALL_ON_THOUGHT:
+
+
+                response.users = this.packUsersInMap(data[RESPONSE.LIKES]);
                 break;
 
 
