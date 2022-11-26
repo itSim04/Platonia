@@ -40,6 +40,13 @@ if (check_keys($_GET, "schema")) {
 
             if (check_keys($_POST, USERS::ID, USERS::USERNAME, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER)) {
 
+                if (array_key_exists(USERS::PICTURE, $_POST)) {
+
+                    $img = base64_decode($_POST[USERS::PICTURE]);
+                    mkdir("../assets/{$_POST[USERS::ID]}");
+                    file_put_contents("../assets/{$_POST[USERS::ID]}/profile.png", $img);
+
+                }
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_UPDATE;
                 process($PDO, SQLFunctions::UPDATE, $table_name, $_POST, array(USERS::USERNAME, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER), array(new condition(USERS::ID)));
 

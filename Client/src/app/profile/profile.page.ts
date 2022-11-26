@@ -1,15 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { StorageService } from '../apis/storage.service';
+import { User } from '../models/users-model';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage {
 
-  constructor() { }
+  current_user?: User;
+  constructor(private storage: StorageService) {
 
-  ngOnInit() {
+    this.storage.get("loggedInUser").then(r => {
+      this.current_user = <User>r;
+      console.log(this.current_user);
+    });
+
+
   }
+
+
 
 }
