@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { StorageService } from '../apis/storage.service';
 import { UserService } from '../apis/user.service';
 import { User } from '../models/users-model';
@@ -10,36 +10,38 @@ import { User } from '../models/users-model';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
 
   username: string = "";
   password: string = "";
-  constructor(public router: Router, private userService: UserService, private storageService: StorageService) { }
+  constructor(public router: Router, private userService: UserService, private storageService: StorageService, public toastController: ToastController) { }
 
-  ngOnInit() {
+  private async displayWarning(msg: string) {
 
-    this.storageService.get("loggedInUser").then(r => {
-      if (r != undefined) {
-        this.userService.getOne({ user_id: (<User>r).user_id }).subscribe(response => {
-
-
-          this.storageService.set("loggedInUser", response.user);
-          this.router.navigate(["/profile", { id: response.user?.user_id }]);
-
-
-        })
-      }
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 1500,
+      icon: 'globe'
     });
+
+    await toast.present();
+
   }
+
 
 
   onLogin() {
 
     this.userService.authenticate({ username: this.username, password: this.password }).subscribe(response => {
 
-      this.storageService.set("loggedInUser", response.user);
-      this.router.navigate(["/profile", { id: response.user?.user_id }]);
+      if (response.user != undefined) {
+        this.storageService.set("loggedInUser", response.user);
+        this.router.navigate(["/profile", { id: response.user.user_id }]);
+      } else {
 
+        this.displayWarning("Incorrect Credentials")
+
+      }
     })
 
   }

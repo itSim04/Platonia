@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'splash',
     pathMatch: 'full'
   },
   {
@@ -26,7 +26,12 @@ const routes: Routes = [
   {
     path: 'friend-list',
     loadChildren: () => import('./friend-list/friend-list.module').then(m => m.FriendListPageModule)
+  },
+  {
+    path: 'splash',
+    loadChildren: () => import('./splash/splash.module').then( m => m.SplashPageModule)
   }
+
 
 
 ];
