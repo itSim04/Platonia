@@ -15,7 +15,7 @@
 
   <div [ngSwitch]="section">
     <ion-list *ngSwitchCase="'default'">
-      <ion-card *ngFor="let user of followings">
+      <ion-card *ngFor="let user of followings" (click)="openProfile(user)">
         <ion-card-content>
           <ion-item style="width: 100%">
             <ion-thumbnail slot="start"><img src="user?.picture"
@@ -31,13 +31,16 @@
 
     <ion-list *ngSwitchCase="'followers'">
       <ion-card *ngFor="let user of followers">
-        <ion-card-header>
-          <img [src]="user?.picture" onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'"
-            class="profile">
-          <ion-title>
-            {{user?.username}}
-          </ion-title>
-        </ion-card-header>
+        <ion-card-content>
+          <ion-item style="width: 100%">
+            <ion-thumbnail slot="start"><img src="user?.picture"
+                onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'" class="profile">
+            </ion-thumbnail>
+            <ion-card-title class="friends_labels">
+              {{user?.username}}
+            </ion-card-title>
+          </ion-item>
+        </ion-card-content>
       </ion-card>
     </ion-list>
   </div>

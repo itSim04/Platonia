@@ -1,5 +1,6 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Console } from 'console';
 import { FollowService } from '../apis/follow.service';
 import { StorageService } from '../apis/storage.service';
 import { UserService } from '../apis/user.service';
@@ -16,8 +17,8 @@ export class FriendListPage implements OnInit {
   followers: Set<User> = new Set();
   followings: Set<User> = new Set();
   section: string = "default";
-  
-  constructor(private route: ActivatedRoute, private storage: StorageService, private userService: UserService, private followService: FollowService) {
+
+  constructor(route: ActivatedRoute, private router: Router, private storage: StorageService, private userService: UserService, private followService: FollowService) {
 
     const id_obj = route.snapshot.paramMap.get("id");
     const id: number = Number.parseInt(id_obj != null ? id_obj : "0");
@@ -42,7 +43,7 @@ export class FriendListPage implements OnInit {
 
   }
 
-  generateUsers() {
+  private generateUsers() {
 
     console.log("FOLL");
     this.followService.getFollowings(this.current_user!.user_id).subscribe(response =>
@@ -61,6 +62,13 @@ export class FriendListPage implements OnInit {
     );
     console.log(this.followings);
     console.log(this.followers);
+
+  }
+
+  public openProfile(user: User) {
+
+    this.router.navigate(["/profile", { id: user.user_id }]);
+
 
   }
 
