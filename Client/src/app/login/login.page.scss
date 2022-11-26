@@ -23,7 +23,7 @@ ion-content {
     width: 60px;
     height: 60px;
     --background: url(../../assets/imgs/next-btn-1.png) 0 0/100% 100%;
-    --background-hover: "57CC99"
+    --background-hover-opacity: 10%;
 
 
 
@@ -34,11 +34,11 @@ ion-content {
 
     position: fixed;
     top: 50%;
-    left: 0%;
     font-size: 15px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #9A9A9A;
     --background: #00000000;
+    width: 90%;
 
 }
 
@@ -46,10 +46,10 @@ ion-content {
 
     position: fixed;
     top: 65%;
-    left: 0%;
     font-size: 15px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #9A9A9A;
     --background: #00000000;
+    width: 90%;
 
 }

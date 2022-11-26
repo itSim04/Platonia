@@ -104,24 +104,31 @@ export class Packager {
         const map: Map<number, Option> = new Map();
         json?.forEach((element: any) => {
 
-            const current: Option = this.optionUnpack(element);
-            map.set(current.position, current);
-
+            const current: Option | undefined = this.optionUnpack(element);
+            if (current != undefined) {
+                map.set(current.position, current);
+            }
         });
         return map;
 
     }
-    public static optionUnpack(data: any): Option {
+    public static optionUnpack(data: any): Option | undefined {
 
-        const current: Option = {
+        if (data != undefined) {
+            const current: Option = {
 
-            thought_id: data[OPTIONS.ID],
-            content: data[OPTIONS.CONTENT],
-            position: data[OPTIONS.POSITION],
-            votes: data[OPTIONS.VOTES],
+                thought_id: data[OPTIONS.ID],
+                content: data[OPTIONS.CONTENT],
+                position: data[OPTIONS.POSITION],
+                votes: data[OPTIONS.VOTES],
 
-        };
-        return current;
+            };
+            return current;
+        } else {
+
+            return undefined;
+
+        }
     }
 
     public static packUsersInMap(json: any): Map<number, User> {
@@ -129,30 +136,37 @@ export class Packager {
         const map: Map<number, User> = new Map();
         json?.forEach((element: any) => {
 
-            const current: User = this.userUnpack(element);
-            map.set(current.user_id, current);
-
+            const current: User | undefined = this.userUnpack(element);
+            if (current != undefined) {
+                map.set(current.user_id, current);
+            }
         });
         return map;
 
     }
-    public static userUnpack(data: any): User {
+    public static userUnpack(data: any): User | undefined {
 
-        const current: User = {
+        if (data != undefined) {
+            const current: User = {
 
-            user_id: data[USERS.ID],
-            username: data[USERS.USERNAME],
-            bio: data[USERS.BIO],
-            birthday: data[USERS.BIRTHDAY],
-            email: data[USERS.EMAIL],
-            followers: data[USERS_TEMP.FOLLOWERS],
-            followings: data[USERS_TEMP.FOLLOWINGS],
-            gender: data[USERS.GENDER],
-            join: data[USERS.JOIN]
+                user_id: data[USERS.ID],
+                username: data[USERS.USERNAME],
+                bio: data[USERS.BIO],
+                birthday: data[USERS.BIRTHDAY],
+                email: data[USERS.EMAIL],
+                followers: data[USERS_TEMP.FOLLOWERS],
+                followings: data[USERS_TEMP.FOLLOWINGS],
+                gender: data[USERS.GENDER],
+                join: data[USERS.JOIN]
 
-        };
+            };
 
-        return current;
+            return current;
+        } else {
+
+            return undefined;
+
+        }
     }
 
 
@@ -239,25 +253,33 @@ export class Packager {
         const map: Map<number, Interest> = new Map();
         json?.forEach((element: any) => {
 
-            const current: Interest = this.interestUnpack(element);
-            map.set(current.interest_id, current);
+            const current: Interest | undefined = this.interestUnpack(element);
+            if (current != undefined) {
+                map.set(current.interest_id, current);
+            }
 
         });
         return map;
 
     }
 
-    public static interestUnpack(data: any): Interest {
+    public static interestUnpack(data: any): Interest | undefined {
 
-        const current: Interest = {
+        if (data != undefined) {
+            const current: Interest = {
 
-            interest_id: data[INTERESTS.ID],
-            img_src: data[INTERESTS.IMG],
-            name: data[INTERESTS.NAME],
-            participants: data[INTERESTS.PARTICIPANTS]
+                interest_id: data[INTERESTS.ID],
+                img_src: data[INTERESTS.IMG],
+                name: data[INTERESTS.NAME],
+                participants: data[INTERESTS.PARTICIPANTS]
 
-        };
-        return current;
+            };
+            return current;
+        } else {
+
+            return undefined;
+
+        }
 
     }
     public static packInterestForPOST(interest: INTEREST_RESPONSE): FormData {

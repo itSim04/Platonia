@@ -3,9 +3,8 @@
   <p class="welcome_text">Welcome<br>Back</p>
   
   <ion-item counter="true" class="input1">
-    <ion-label position="floating">Email</ion-label>
-    <ion-input type="email" placeholder="email@domain.com" [(ngModel)] = "email" email></ion-input>
-    <ion-note slot="error">Invalid email</ion-note>
+    <ion-label position="floating">Username</ion-label>
+    <ion-input [(ngModel)] = "username"></ion-input>
   </ion-item>
 
   <ion-item counter="true" class="input2">
@@ -13,7 +12,7 @@
     <ion-input type="password" [(ngModel)] = "password"></ion-input>
   </ion-item>
 
-  <ion-button shape="round" class="signin_button">
+  <ion-button [disabled]="username == '' || password == ''" (click)="onLogin()" shape="round" class="signin_button">
     <!-- <ion-icon slot="icon-only" name="star"></ion-icon> -->
   </ion-button>
 
