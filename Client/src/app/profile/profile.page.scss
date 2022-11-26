@@ -5,11 +5,11 @@ ion-content {
 .name_label {
 
     position: fixed;
-    top: 7.5%;
+    top: 6%;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    font-size: 18px;
+    font-size: 17px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: white;
 
@@ -18,12 +18,12 @@ ion-content {
 .friends_label {
 
     position: fixed;
-    top: 12.5%;
+    top: 11%;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
     text-transform: capitalize;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: light;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: lightgrey;
@@ -35,12 +35,25 @@ ion-content {
 
 }
 
-.profile {
+.extra_label {
 
-    width: 20%;
-    border-radius: 50%;
     position: fixed;
     top: 7.5%;
-    left: 7.5%;
+    right: 7.5%;
 
 }
+
+.profile {
+
+    width: 15%;
+    border-radius: 50%;
+    position: fixed;
+    top: 8%;
+    left: 7.5%;
+    background-color: #00000000;
+    --background: #00000000;
+    --background-hover: #00000000;
+    --background-activated: #00000000;
+    
+}
+

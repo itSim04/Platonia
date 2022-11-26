@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { Console } from 'console';
 import { FollowService } from '../apis/follow.service';
 import { StorageService } from '../apis/storage.service';
@@ -19,7 +20,7 @@ export class FriendListPage implements OnInit {
   followings: Set<User> = new Set();
   section: string = "default";
 
-  constructor(private location: Location, private route: ActivatedRoute, private router: Router, private storage: StorageService, private userService: UserService, private followService: FollowService) {
+  constructor(private location: Location, private route: ActivatedRoute, private router: NavController, private storage: StorageService, private userService: UserService, private followService: FollowService) {
 
   }
 
@@ -73,7 +74,7 @@ export class FriendListPage implements OnInit {
 
   goBack() {
 
-    this.location.back();
+    this.router.pop();
 
   }
 

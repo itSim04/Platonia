@@ -1,8 +1,22 @@
 <ion-content>
   <p class="name_label">{{current_user?.username}}</p>
-  <ion-button (click)="openFriendsList()" class="friends_label">{{current_user?.followers + " Friend" + (current_user?.followers == 1 ? "" : "s")}}
-    </ion-button>
-    <img [src]="current_user?.picture" onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'"
-      class="profile">
+  <ion-button fill="clear" (click)="openFriendsList()" class="friends_label">{{current_user?.followers + " Friend" +
+    (current_user?.followers == 1 ? "" : "s")}}
+  </ion-button>
+  <img [src]="current_user?.picture" onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'"
+    class="profile">
+  <ion-button id="extra-button" fill="clear" class="extra_label">
+    <ion-icon name="ellipsis-horizontal" size="large"></ion-icon>
+  </ion-button>
+  <ion-popover trigger="extra-button" [dismissOnSelect]="true">
+    <ng-template>
+      <ion-content>
+        <ion-list>
+          <ion-item [button]="true" [detail]="false" (click)="logout()">Logout</ion-item>
+          <!-- <ion-item [button]="true" [detail]="false">Option 2</ion-item> -->
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-popover>
 
 </ion-content>

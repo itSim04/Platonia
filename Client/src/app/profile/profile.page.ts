@@ -43,6 +43,12 @@ export class ProfilePage {
 
   }
 
+  public logout() {
+
+    this.storage.set("loggedInUser", undefined).then(r => this.router.navigate(['/login']));
+
+  }
+
 
 
 }
