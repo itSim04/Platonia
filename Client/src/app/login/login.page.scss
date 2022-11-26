@@ -1,0 +1,55 @@
+ion-content {
+    --background: url(../../assets/imgs/main-bg1.png) 0 0/100% 100%;
+}
+
+.welcome_text {
+
+    position: fixed;
+    top: 20%;
+    left: 6%;
+    font-size: 32px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+
+
+}
+
+.signin_button {
+
+    position: fixed;
+    bottom: 6%;
+    right: 6%;
+    --border-radius: 100px;
+    width: 60px;
+    height: 60px;
+    --background: url(../../assets/imgs/next-btn-1.png) 0 0/100% 100%;
+    --background-hover: "57CC99"
+
+
+
+}
+
+
+.input1 {
+
+    position: fixed;
+    top: 50%;
+    left: 0%;
+    font-size: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #9A9A9A;
+    --background: #00000000;
+
+}
+
+.input2 {
+
+    position: fixed;
+    top: 65%;
+    left: 0%;
+    font-size: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #9A9A9A;
+    --background: #00000000;
+
+}
