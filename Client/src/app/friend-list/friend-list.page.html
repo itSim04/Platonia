@@ -1,16 +1,45 @@
 <ion-header>
   <ion-toolbar>
-    <ion-segment value="default" mode="md" color="secondary">
+    <ion-segment value="default" mode="md" color="secondary" [(ngModel)]="section">
       <ion-segment-button value="default">
         <ion-label class="section_labels">Followings</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="segment">
+      <ion-segment-button value="followers">
         <ion-label class="section_labels">Followers</ion-label>
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="followings != undefined && followers != undefined">
+
+  <div [ngSwitch]="section">
+    <ion-list *ngSwitchCase="'default'">
+      <ion-card *ngFor="let user of followings">
+        <ion-card-content>
+          <ion-item style="width: 100%">
+            <ion-thumbnail slot="start"><img src="user?.picture"
+                onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'" class="profile">
+            </ion-thumbnail>
+            <ion-card-title class="friends_labels">
+              {{user?.username}}
+            </ion-card-title>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'followers'">
+      <ion-card *ngFor="let user of followers">
+        <ion-card-header>
+          <img [src]="user?.picture" onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'"
+            class="profile">
+          <ion-title>
+            {{user?.username}}
+          </ion-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-list>
+  </div>
 
 </ion-content>
