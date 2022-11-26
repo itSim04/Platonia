@@ -81,7 +81,7 @@ export class RegisterPage implements OnInit {
           this.userService.addUser(this.new_user).subscribe(response => {
 
             this.storageService.set("loggedInUser", response.user);
-            this.router.navigate(['/profile/0',]);
+            this.router.navigate(['/profile', {id: response.user?.user_id}]);
 
           })
         }

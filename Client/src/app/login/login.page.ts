@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { StorageService } from '../apis/storage.service';
 import { UserService } from '../apis/user.service';
+import { User } from '../models/users-model';
 
 @Component({
   selector: 'app-login',
@@ -12,13 +14,20 @@ export class LoginPage implements OnInit {
 
   username: string = "";
   password: string = "";
-  constructor(private router: Router, private userService: UserService, private storageService: StorageService) { }
+  constructor(public router: Router, private userService: UserService, private storageService: StorageService) { }
 
   ngOnInit() {
 
     this.storageService.get("loggedInUser").then(r => {
       if (r != undefined) {
-        this.router.navigate(['/profile/0']);
+        this.userService.getOne({ user_id: (<User>r).user_id }).subscribe(response => {
+
+
+          this.storageService.set("loggedInUser", response.user);
+          this.router.navigate(["/profile", { id: response.user?.user_id }]);
+
+
+        })
       }
     });
   }
@@ -29,7 +38,7 @@ export class LoginPage implements OnInit {
     this.userService.authenticate({ username: this.username, password: this.password }).subscribe(response => {
 
       this.storageService.set("loggedInUser", response.user);
-      this.router.navigate(['/profile/0']);
+      this.router.navigate(["/profile", { id: response.user?.user_id }]);
 
     })
 

@@ -22,10 +22,16 @@ ion-content {
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
+    text-transform: capitalize;
     font-size: 12px;
     font-weight: light;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: lightgrey;
+    --background: #00000000;
+    --background-hover: #00000000;
+    --background-activated: #00000000;
+    --color-hover: #DDDDDD;
+    --color-activated: white;
 
 }
 
