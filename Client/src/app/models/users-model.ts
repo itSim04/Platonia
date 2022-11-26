@@ -7,6 +7,7 @@ export interface User {
     birthday: Date;
     join: Date;
     gender: number;
+    picture?: string;
     followers: number;
     followings: number;
 

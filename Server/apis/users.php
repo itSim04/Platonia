@@ -43,7 +43,7 @@ if (check_keys($_GET, "schema")) {
                 if (array_key_exists(USERS::PICTURE, $_POST)) {
 
                     $img = base64_decode($_POST[USERS::PICTURE]);
-                    mkdir("../assets/{$_POST[USERS::ID]}");
+                    if(!is_dir("../assets/{$_POST[USERS::ID]}")) mkdir("../assets/{$_POST[USERS::ID]}");
                     file_put_contents("../assets/{$_POST[USERS::ID]}/profile.png", $img);
 
                 }

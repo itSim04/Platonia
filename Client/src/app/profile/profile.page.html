@@ -1,5 +1,6 @@
 <ion-content>
   <p class="name_label">{{current_user?.username}}</p>
-  <img src="http://localhost/Platonia/Server/assets/0/profile.png" class="profile">
+  <p class="friends_label">{{current_user?.followers + " Friend" + (current_user?.followers == 1 ? "" : "s")}}</p>
+  <img [src]="current_user?.picture" onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'" class="profile">
 
 </ion-content>
