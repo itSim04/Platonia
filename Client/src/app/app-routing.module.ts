@@ -21,6 +21,10 @@ const routes: Routes = [
   },  {
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
+    path: 'friend-list',
+    loadChildren: () => import('./friend-list/friend-list.module').then( m => m.FriendListPageModule)
   }
 
 ];
