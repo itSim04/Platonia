@@ -26,6 +26,7 @@ ion-content {
 
 
 }
+
 .lower_buttons {
     position: fixed;
     bottom: 0.1%;
@@ -33,15 +34,18 @@ ion-content {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
     text-decoration: underline;
+    text-transform: capitalize;
     --color: black;
     --background: #00000000;
     --background-hover: #00000000;
     --background-activated: #00000000;
     --color-hover: #DDDDDD;
     --color-activated: white;
+    --border-color: #00000000;
 
-    
+
 }
+
 .signup_button {
 
     left: 3%;
@@ -60,14 +64,10 @@ ion-content {
     position: fixed;
     bottom: 11%;
     right: 6%;
-    --border-radius: 100px;
-    width: 60px;
-    height: 60px;
-    --background: url(../../assets/imgs/next-btn-1.png) 0 0/100% 100%;
-    --background-hover-opacity: 10%;
-    --color-activated: white;
 
 }
+
+
 
 .inputs {
 

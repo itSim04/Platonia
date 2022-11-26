@@ -1,18 +1,23 @@
 <ion-content>
 
   <p class="welcome_text">Welcome<br>Back</p>
-  
+
   <ion-item counter="true" class="input1 inputs">
     <ion-label position="floating">Username</ion-label>
-    <ion-input [(ngModel)] = "username"></ion-input>
+    <ion-input [(ngModel)]="username"></ion-input>
   </ion-item>
 
   <ion-item counter="true" class="input2 inputs">
     <ion-label position="floating">Password</ion-label>
-    <ion-input type="password" [(ngModel)] = "password"></ion-input>
+    <ion-input type="password" [(ngModel)]="password"></ion-input>
   </ion-item>
 
-  <ion-button [disabled]="username == '' || password == ''" (click)="onLogin()" shape="round" class="signin_button"></ion-button>
+  <ion-fab class="signin_button">
+    <ion-fab-button [disabled]="username == '' || password == ''" (click)="onLogin()">
+      <ion-icon name="arrow-forward-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <!-- <ion-button [disabled]="username == '' || password == ''" (click)="onLogin()" shape="round" class="signin_button"></ion-button> -->
 
   <p class="signin_label">Sign In</p>
 
