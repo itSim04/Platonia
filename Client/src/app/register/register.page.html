@@ -4,43 +4,37 @@
   <ion-button (click)="goToLogin()" class="signin_button">
     Already have an Account?
   </ion-button>
-
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button
-      [disabled]="new_user.username == undefined || new_user.email == undefined || new_user.gender == undefined || new_user.birthday == undefined || confirm_password != new_user.password || new_user.password == undefined"
-      (click)="onRegister()">
+    <ion-fab-button (click)="onRegister()"
+      [disabled]="new_user.username == undefined || new_user.email == undefined || new_user.gender == undefined || new_user.birthday == undefined || new_user.password == undefined">
       <ion-icon name="arrow-forward-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
-  <!-- <ion-button
-    [disabled]="new_user.username == undefined || new_user.email == undefined || new_user.gender == undefined || new_user.birthday == undefined || confirm_password != new_user.password || new_user.password == undefined"
-    (click)="onLogin()" shape="round" class="signup_button"></ion-button> -->
-
   <p class="signup_label">Sign In</p>
 
-  <ion-item counter="true" class="input1 inputs">
-    <ion-input [(ngModel)]="new_user.username" placeholder="Username"></ion-input>
+  <ion-item counter="true" class="input1 inputs" ion-invalid>
+    <ion-input name="username" [(ngModel)]="new_user.username" placeholder="Username"></ion-input>
   </ion-item>
 
   <ion-item counter="true" class="input2 inputs">
-    <ion-input [(ngModel)]="new_user.email" type="email" placeholder="Email"></ion-input>
+    <ion-input name="email" [(ngModel)]="new_user.email" type="email" placeholder="Email"></ion-input>
   </ion-item>
 
   <ion-item counter="true" class="input3 inputs">
-    <ion-input type="date" [(ngModel)]="new_user.birthday"></ion-input>
+    <ion-input name="birthday" type="date" [(ngModel)]="new_user.birthday"></ion-input>
   </ion-item>
 
   <ion-item counter="true" class="input4 inputs">
-    <ion-input [(ngModel)]="new_user.gender" placeholder="Gender"></ion-input>
+    <ion-input name="gender" [(ngModel)]="new_user.gender" placeholder="Gender"></ion-input>
   </ion-item>
 
   <ion-item counter="true" class="input5 inputs">
-    <ion-input [(ngModel)]="new_user.password" type="password" placeholder="Password"></ion-input>
+    <ion-input name="password" [(ngModel)]="new_user.password" type="password" placeholder="Password"></ion-input>
   </ion-item>
 
   <ion-item counter="true" class="input6 inputs">
-    <ion-input [(ngModel)]="confirm_password" type="password" placeholder="Confirm Password"></ion-input>
+    <ion-input name="confirm" [(ngModel)]="confirm_password" type="password" placeholder="Confirm Password">
+    </ion-input>
   </ion-item>
 
 </ion-content>
