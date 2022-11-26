@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { FriendListPageRoutingModule } from './friend-list-routing.module';
 
 import { FriendListPage } from './friend-list.page';
+import { UserCardComponent } from '../components/user-card/user-card.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { FriendListPage } from './friend-list.page';
     IonicModule,
     FriendListPageRoutingModule
   ],
-  declarations: [FriendListPage]
+  entryComponents:[],
+  declarations: [FriendListPage, UserCardComponent]
 })
 export class FriendListPageModule {}

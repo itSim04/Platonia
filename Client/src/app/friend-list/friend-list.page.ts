@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Console } from 'console';
@@ -18,28 +19,7 @@ export class FriendListPage implements OnInit {
   followings: Set<User> = new Set();
   section: string = "default";
 
-  constructor(route: ActivatedRoute, private router: Router, private storage: StorageService, private userService: UserService, private followService: FollowService) {
-
-    const id_obj = route.snapshot.paramMap.get("id");
-    const id: number = Number.parseInt(id_obj != null ? id_obj : "0");
-    if (id == null || !id) {
-
-      this.storage.get("loggedInUser").then((r) => {
-
-        this.current_user = <User>r;
-        this.generateUsers();
-
-      });
-
-    } else {
-
-      this.userService.getOne({ user_id: id }).subscribe(r => {
-
-        this.current_user = r.user;
-        this.generateUsers();
-
-      })
-    }
+  constructor(private location: Location, private route: ActivatedRoute, private router: Router, private storage: StorageService, private userService: UserService, private followService: FollowService) {
 
   }
 
@@ -65,14 +45,36 @@ export class FriendListPage implements OnInit {
 
   }
 
-  public openProfile(user: User) {
+  ngOnInit() {
 
-    this.router.navigate(["/profile", { id: user.user_id }]);
+    const id_obj = this.route.snapshot.paramMap.get("id");
+    const id: number = Number.parseInt(id_obj != null ? id_obj : "0");
+    if (id == null || !id) {
+
+      this.storage.get("loggedInUser").then((r) => {
+
+        this.current_user = <User>r;
+        this.generateUsers();
+
+      });
+
+    } else {
+
+      this.userService.getOne({ user_id: id }).subscribe(r => {
+
+        this.current_user = r.user;
+        this.generateUsers();
+
+      })
+    }
 
 
   }
 
-  ngOnInit() {
+  goBack() {
+
+    this.location.back();
+
   }
 
 }

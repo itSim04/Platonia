@@ -1,0 +1,12 @@
+<ion-card (click)="openProfile()">
+  <ion-card-content>
+    <ion-item style="width: 100%">
+      <ion-thumbnail slot="start"><img [src]="user?.picture"
+          onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'" class="profile">
+      </ion-thumbnail>
+      <ion-card-title class="friends_labels">
+        {{user?.username}}
+      </ion-card-title>
+    </ion-item>
+  </ion-card-content>
+</ion-card>

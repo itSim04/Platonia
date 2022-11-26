@@ -1,47 +1,34 @@
 <ion-header>
   <ion-toolbar>
-    <ion-segment value="default" mode="md" color="secondary" [(ngModel)]="section">
-      <ion-segment-button value="default">
-        <ion-label class="section_labels">Followings</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="followers">
-        <ion-label class="section_labels">Followers</ion-label>
-      </ion-segment-button>
-    </ion-segment>
+
+    <ion-button style="--background:#00000000" (click)="goBack()">
+      <ion-icon style="--background:black" name="Back"></ion-icon>
+    </ion-button>
+
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content *ngIf="followings != undefined && followers != undefined">
 
+  <ion-segment value="default" mode="md" color="secondary" [(ngModel)]="section">
+    <ion-segment-button value="default">
+      <ion-label class="section_labels">Followings</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="followers">
+      <ion-label class="section_labels">Followers</ion-label>
+    </ion-segment-button>
+  </ion-segment>
   <div [ngSwitch]="section">
     <ion-list *ngSwitchCase="'default'">
-      <ion-card *ngFor="let user of followings" (click)="openProfile(user)">
-        <ion-card-content>
-          <ion-item style="width: 100%">
-            <ion-thumbnail slot="start"><img src="user?.picture"
-                onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'" class="profile">
-            </ion-thumbnail>
-            <ion-card-title class="friends_labels">
-              {{user?.username}}
-            </ion-card-title>
-          </ion-item>
-        </ion-card-content>
-      </ion-card>
+      <div *ngFor="let user of followings">
+        <app-user-card [user]="user"></app-user-card>
+      </div>
     </ion-list>
-
     <ion-list *ngSwitchCase="'followers'">
-      <ion-card *ngFor="let user of followers">
-        <ion-card-content>
-          <ion-item style="width: 100%">
-            <ion-thumbnail slot="start"><img src="user?.picture"
-                onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'" class="profile">
-            </ion-thumbnail>
-            <ion-card-title class="friends_labels">
-              {{user?.username}}
-            </ion-card-title>
-          </ion-item>
-        </ion-card-content>
-      </ion-card>
+      <div *ngFor="let user of followers">
+        <app-user-card [user]="user"></app-user-card>
+      </div>
     </ion-list>
   </div>
 
