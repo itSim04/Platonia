@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { StorageService } from '../apis/storage.service';
 import { UserService } from '../apis/user.service';
 
@@ -11,7 +12,7 @@ export class LoginPage implements OnInit {
 
   username: string = "";
   password: string = "";
-  constructor(private userService: UserService, private storageService: StorageService) { }
+  constructor(private router: Router, private userService: UserService, private storageService: StorageService) { }
 
   ngOnInit() {
 
@@ -24,6 +25,12 @@ export class LoginPage implements OnInit {
       this.storageService.set("loggedInUser", response.user);
 
     })
+
+  }
+
+  goToRegister() {
+
+    this.router.navigate(['/register']);
 
   }
 
