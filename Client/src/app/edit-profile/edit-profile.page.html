@@ -1,0 +1,30 @@
+<ion-content>
+  <p class="name_label">Edit Profile</p>
+
+  <img [src]="user.picture" onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'"
+    class="profile">
+
+  <ion-item counter="true" class="input1 inputs" ion-invalid>
+    <ion-input name="username" [(ngModel)]="user.username" placeholder="Username"></ion-input>
+  </ion-item>
+
+  <ion-item counter="true" class="input2 inputs">
+    <ion-input name="email" [(ngModel)]="user.email" type="email" placeholder="Email"></ion-input>
+  </ion-item>
+
+  <ion-item counter="true" class="input3 inputs">
+    <ion-input name="birthday" type="date" [(ngModel)]="user.birthday"></ion-input>
+  </ion-item>
+
+  <ion-item counter="true" class="input4 inputs">
+    <ion-input name="gender" [(ngModel)]="user.gender" placeholder="Gender"></ion-input>
+  </ion-item>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="onEdit()"
+      [disabled]="user.username == undefined || user.email == undefined || user.gender == undefined || user.birthday == undefined">
+      <ion-icon name="arrow-forward-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

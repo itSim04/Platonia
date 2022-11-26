@@ -5,18 +5,17 @@
   </ion-button>
   <img [src]="current_user?.picture" onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'"
     class="profile">
-  <ion-button *ngIf="owner" id="extra-button" fill="clear" class="extra_label">
+  <ion-button id="popover-button" fill="clear" class="extra_label">
     <ion-icon name="ellipsis-horizontal" size="large"></ion-icon>
   </ion-button>
-  <ion-popover trigger="extra-button" [dismissOnSelect]="true">
+  <ion-popover trigger="popover-button" [dismissOnSelect]="true">
     <ng-template>
       <ion-content>
         <ion-list>
-          <ion-item [button]="true" [detail]="false" (click)="logout()">Logout</ion-item>
           <ion-item [button]="true" [detail]="false" (click)="edit()">Edit</ion-item>
+          <ion-item [button]="true" [detail]="false" (click)="logout()">Logout</ion-item>
         </ion-list>
       </ion-content>
     </ng-template>
   </ion-popover>
-
 </ion-content>

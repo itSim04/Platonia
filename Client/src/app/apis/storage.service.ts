@@ -12,8 +12,8 @@ export class StorageService {
     });
   }
 
-  public get(key: string) {
-    return localforage.getItem(key);
+  public get<T>(key: string): Promise<T> {
+    return <Promise<T>>localforage.getItem(key);
   }
 
   public set(key: string, value: any) {
