@@ -2,12 +2,12 @@
 
   <p class="welcome_text">Welcome<br>Back</p>
   
-  <ion-item counter="true" class="input1">
+  <ion-item counter="true" class="input1 inputs">
     <ion-label position="floating">Username</ion-label>
     <ion-input [(ngModel)] = "username"></ion-input>
   </ion-item>
 
-  <ion-item counter="true" class="input2">
+  <ion-item counter="true" class="input2 inputs">
     <ion-label position="floating">Password</ion-label>
     <ion-input type="password" [(ngModel)] = "password"></ion-input>
   </ion-item>
@@ -16,11 +16,11 @@
 
   <p class="signin_label">Sign In</p>
 
-  <ion-button (click)="goToRegister()" class="signup_button">
+  <ion-button (click)="goToRegister()" class="lower_buttons signup_button">
     Sign Up
   </ion-button>
 
-  <ion-button class="forget_button">
+  <ion-button class="lower_buttons forget_button">
     Forgot Password?
   </ion-button>
 
