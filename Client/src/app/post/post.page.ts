@@ -1,6 +1,8 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { StorageService } from '../apis/storage.service';
-import { Thought } from '../models/thoughts-model';
+import { ThoughtService } from '../apis/thought.service';
+import { UserService } from '../apis/user.service';
+import { Thought, THOUGHTS_RESPONSE } from '../models/thoughts-model';
 import { User } from '../models/users-model';
 
 @Component({
@@ -8,7 +10,7 @@ import { User } from '../models/users-model';
   templateUrl: './post.page.html',
   styleUrls: ['./post.page.scss'],
 })
-export class PostPage implements DoCheck {
+export class PostPage {
 
   user?: User;
   thought: Thought = {
@@ -24,11 +26,7 @@ export class PostPage implements DoCheck {
     type: 0
 
   }
-  constructor(private storageService: StorageService) { }
-
-  ngDoCheck(): void {
-    console.log(this.thought);
-  }
+  constructor(private storageService: StorageService, private thoughtService: ThoughtService) { }
 
   ionViewWillEnter() {
 
@@ -36,6 +34,19 @@ export class PostPage implements DoCheck {
       this.user = r
       this.thought.owner_id = this.user!.user_id;
     });
+  }
+
+  post() {
+
+    const upload: THOUGHTS_RESPONSE = {
+
+      content: this.thought.content,
+      type: this.thought.type,
+      owner_id: this.thought.owner_id
+
+    }
+    this.thoughtService.addThought(upload).subscribe(r => console.log(r));
+
   }
 
 }

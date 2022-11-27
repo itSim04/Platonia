@@ -3,7 +3,7 @@ export interface Thought {
     thought_id: number;
     share_date: Date;
     edit_date?: Date;
-    content: String;
+    content: string;
     type: number;
     owner_id: number;
     root_id: number;
