@@ -40,7 +40,10 @@ if (check_keys($_GET, "schema")) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::FOLLOW_GET_FOLLOWERS;
                 $output[RESPONSE::FOLLOWERS] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $user_table, $user_temp), [FOLLOWS::USER_ID2 => $_GET[USERS::ID]], array(), array(new condition(FOLLOWS::USER_ID2), new condition(FOLLOWS::USER_ID1 . " = " . USERS::ID, false), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
-            
+                for ($i = 0; $i < count($output[RESPONSE::FOLLOWERS]); $i++) {
+                    $output[RESPONSE::FOLLOWERS][$i]->profile_id = is_dir("../assets/{$output[RESPONSE::FOLLOWERS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/{$output[RESPONSE::FOLLOWERS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                }
+
             }
             break;
 
@@ -50,6 +53,9 @@ if (check_keys($_GET, "schema")) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::FOLLOW_GET_FOLLOWINGS;
                 $output[RESPONSE::FOLLOWINGS] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $user_table, $user_temp), [FOLLOWS::USER_ID1 => $_GET[USERS::ID]], array(), array(new condition(FOLLOWS::USER_ID1), new condition(FOLLOWS::USER_ID2 . " = " . USERS::ID, false), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
+                for ($i = 0; $i < count($output[RESPONSE::FOLLOWINGS]); $i++) {
+                    $output[RESPONSE::FOLLOWINGS][$i]->profile_id = is_dir("../assets/{$output[RESPONSE::FOLLOWINGS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/{$output[RESPONSE::FOLLOWINGS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                }
 
             }
             break;

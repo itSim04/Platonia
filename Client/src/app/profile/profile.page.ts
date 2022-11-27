@@ -3,7 +3,7 @@ import { StorageService } from '../apis/storage.service';
 import { UserService } from '../apis/user.service';
 import { User } from '../models/users-model';
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { EditProfilePage } from '../edit-profile/edit-profile.page';
 
 @Component({
@@ -16,7 +16,7 @@ export class ProfilePage {
   isModalOpen: boolean = false;
   owner: boolean = false;
   current_user?: User;
-  constructor(private modalCtrl: ModalController, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router) {
+  constructor(private modalCtrl: ModalController, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router, private nav: NavController) {
 
 
   }
@@ -80,6 +80,13 @@ export class ProfilePage {
 
   onWillDismiss(event: Event) {
     this.ionViewWillEnter();
+  }
+
+
+  goBack() {
+
+    this.nav.pop();
+
   }
 }
 
