@@ -14,12 +14,6 @@ export class UserCardComponent {
 
   }
 
-  ngAfterViewInit() {
-
-    console.log(this.user);
-
-  }
-
   public openProfile() {
 
     this.router.navigate(["/tabs/profile", { id: this.user!.user_id }]);

@@ -1,0 +1,20 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-subtitle>
+      <img [src]="user?.picture" onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'"
+        class="profile" style="float:left;">
+      <div class="owner_label">{{user?.username}}</div>
+    </ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content class="body">
+    <div class="content">
+      {{thought?.content}}
+    </div>
+    <div class="action"><ion-icon name="chatbubble-outline" style="font-size: 20px;"></ion-icon></div>
+    <div class="action_label" style="font-size: 10px;">{{thought?.opinions}}</div>
+    <div class="action"><ion-icon name="diamond-outline" style="font-size: 20px;"></ion-icon></div>
+    <div class="action_label" style="font-size: 10px;">{{thought?.likes}}</div>
+    <div class="action"><ion-icon name="repeat-outline" style="font-size: 20px;"></ion-icon></div>
+    <div class="action_label" style="font-size: 10px;">{{thought?.platons}}</div>
+  </ion-card-content>
+</ion-card>

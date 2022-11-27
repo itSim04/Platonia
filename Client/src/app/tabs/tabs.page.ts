@@ -13,6 +13,9 @@ export class TabsPage {
   user: string = "";
   constructor(private storageService: StorageService, public router: Router) { }
 
+  ionViewWillEnter() {
+    this.openProfile();
+  }
   openProfile() {
     this.storageService.get<User>("loggedInUser").then(r => {
       this.router.navigate(["tabs/profile/", { id: r.user_id }]);
