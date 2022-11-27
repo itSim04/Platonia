@@ -10,9 +10,10 @@ import { User } from 'src/app/models/users-model';
 export class ThoughtComponent implements OnInit {
 
   @Input() user?: User;
-  @Input() thought?: Thought;
+  @Input() thought!: Thought;
+  @Input() editable?: boolean;
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {console.log(this.editable);}
 
 }

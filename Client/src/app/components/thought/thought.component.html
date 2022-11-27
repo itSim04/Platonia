@@ -7,14 +7,19 @@
     </ion-card-subtitle>
   </ion-card-header>
   <ion-card-content class="body">
-    <div class="content">
-      {{thought?.content}}
+    <ion-input [disabled]="!editable" class="content" [(ngModel)]="thought.content">  
+    </ion-input>
+    <div class="action">
+      <ion-icon name="chatbubble-outline" style="font-size: 20px;"></ion-icon>
     </div>
-    <div class="action"><ion-icon name="chatbubble-outline" style="font-size: 20px;"></ion-icon></div>
-    <div class="action_label" style="font-size: 10px;">{{thought?.opinions}}</div>
-    <div class="action"><ion-icon name="diamond-outline" style="font-size: 20px;"></ion-icon></div>
-    <div class="action_label" style="font-size: 10px;">{{thought?.likes}}</div>
-    <div class="action"><ion-icon name="repeat-outline" style="font-size: 20px;"></ion-icon></div>
-    <div class="action_label" style="font-size: 10px;">{{thought?.platons}}</div>
+    <div class="action_label" style="font-size: 10px;">{{thought.opinions}}</div>
+    <div class="action">
+      <ion-icon name="diamond-outline" style="font-size: 20px;"></ion-icon>
+    </div>
+    <div class="action_label" style="font-size: 10px;">{{thought.likes}}</div>
+    <div class="action">
+      <ion-icon name="repeat-outline" style="font-size: 20px;"></ion-icon>
+    </div>
+    <div class="action_label" style="font-size: 10px;">{{thought.platons}}</div>
   </ion-card-content>
 </ion-card>

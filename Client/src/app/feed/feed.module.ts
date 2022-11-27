@@ -16,6 +16,6 @@ import { ThoughtComponent } from '../components/thought/thought.component';
     IonicModule,
     FeedPageRoutingModule
   ],
-  declarations: [FeedPage, ThoughtComponent]
+  declarations: [FeedPage]
 })
 export class FeedPageModule {}
