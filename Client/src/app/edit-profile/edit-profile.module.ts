@@ -15,6 +15,6 @@ import { EditProfilePage } from './edit-profile.page';
     IonicModule,
     EditProfilePageRoutingModule
   ],
-  declarations: [EditProfilePage]
+  declarations: []
 })
 export class EditProfilePageModule {}

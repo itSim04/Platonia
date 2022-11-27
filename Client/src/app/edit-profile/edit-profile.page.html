@@ -1,9 +1,19 @@
-<ion-content>
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+
+    <ion-button fill="clear" (click)="goBack()">
+      <ion-icon slot="icon-only" color="secondary" name="arrow-back"></ion-icon>
+    </ion-button>
+
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
   <p class="name_label">Edit Profile</p>
 
   <div (click)="uploadProfile()">
-    <img [src]="old.picture" onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'"
-      class="profile">
+    <img [src]="old.picture" onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'" class="profile">
   </div>
 
   <ion-item counter="true" class="input1 inputs" ion-invalid>

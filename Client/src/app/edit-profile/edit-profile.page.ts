@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonicModule, ToastController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController, ToastController } from '@ionic/angular';
 import { StorageService } from '../apis/storage.service';
 import { UserService } from '../apis/user.service';
 import { User, USER_RESPONSE } from '../models/users-model';
@@ -41,11 +41,13 @@ export class EditProfilePage {
 
   };
 
-  constructor(private userService: UserService, private storageService: StorageService, private toastController: ToastController, private router: Router) {
+  constructor(private modalCtrl: ModalController, private userService: UserService, private storageService: StorageService, private toastController: ToastController, private router: Router, private nav: NavController) {
 
     defineCustomElements(window);
 
   }
+
+
 
   ionViewWillEnter() {
 
@@ -76,9 +78,14 @@ export class EditProfilePage {
       resultType: CameraResultType.Base64,
       source: CameraSource.Photos
     }).then(image => {
-      this.userService.uploadPicture({picture: image.base64String, user_id: this.old.user_id}).subscribe(response => {
+      this.userService.uploadPicture({ picture: image.base64String, user_id: this.old.user_id }).subscribe(response => {
 
-        this.old.picture = `http://localhost/Platonia/Server/assets/${this.old.user_id}/profile-${response.profile_id! - 1}.png`
+        this.old.picture = `http://localhost/Platonia/Server/assets/${this.old.user_id}/profile-${response.profile_id! - 1}.png`;
+        this.storageService.get<User>("loggedInUser").then(r =>
+
+          r.picture = this.old.picture
+
+        );
 
       })
     });
@@ -112,13 +119,17 @@ export class EditProfilePage {
           this.userService.updateUser(this.user).subscribe(response => {
 
             this.storageService.set("loggedInUser", response.user);
-            this.router.navigate(['/profile', { id: response.user?.user_id }]);
+            return this.modalCtrl.dismiss(null, 'cancel');
 
           })
         }
       });
     }
+  }
 
+  goBack() {
+
+    return this.modalCtrl.dismiss(null, 'cancel');
 
   }
 

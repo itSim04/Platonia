@@ -20,7 +20,7 @@ export class FriendListPage {
   followings: Set<User> = new Set();
   section: string = "default";
 
-  constructor(private location: Location, private route: ActivatedRoute, private router: NavController, private storage: StorageService, private userService: UserService, private followService: FollowService) {
+  constructor(private route: ActivatedRoute, private router: NavController, private storage: StorageService, private userService: UserService, private followService: FollowService) {
 
   }
 

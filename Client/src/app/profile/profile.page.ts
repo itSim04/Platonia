@@ -1,9 +1,10 @@
-import { Component, DoCheck, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
 import { StorageService } from '../apis/storage.service';
 import { UserService } from '../apis/user.service';
 import { User } from '../models/users-model';
+import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { EditProfilePage } from '../edit-profile/edit-profile.page';
 
 @Component({
   selector: 'app-profile',
@@ -12,13 +13,25 @@ import { User } from '../models/users-model';
 })
 export class ProfilePage {
 
+  isModalOpen: boolean = false;
   owner: boolean = false;
   current_user?: User;
-  constructor(private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router) {
+  constructor(private modalCtrl: ModalController, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router) {
 
 
   }
-  
+
+  async openModal() {
+    const modal = await this.modalCtrl.create({
+      component: EditProfilePage,
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    this.ionViewWillEnter();
+  }
+
   ionViewWillEnter(): void {
 
     const id_obj = this.route.snapshot.paramMap.get("id");
@@ -61,10 +74,12 @@ export class ProfilePage {
 
   public edit() {
 
-    this.router.navigate(['/edit-profile']);
+    this.openModal();
 
   }
 
-
-
+  onWillDismiss(event: Event) {
+    this.ionViewWillEnter();
+  }
 }
+
