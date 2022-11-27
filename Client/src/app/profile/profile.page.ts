@@ -10,15 +10,16 @@ import { User } from '../models/users-model';
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage {
 
   owner: boolean = false;
   current_user?: User;
   constructor(private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router) {
 
-  }
 
-  ngOnInit(): void {
+  }
+  
+  ionViewWillEnter(): void {
 
     const id_obj = this.route.snapshot.paramMap.get("id");
     const id: number = Number.parseInt(id_obj != null ? id_obj : "0");

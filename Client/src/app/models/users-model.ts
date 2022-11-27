@@ -22,6 +22,7 @@ export interface USER_RESPONSE {
     bio?: string;
     birthday?: Date;
     gender?: number;
+    picture?: string;
 
 }
 

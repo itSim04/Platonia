@@ -12,6 +12,7 @@ class USERS {
 	public const GENDER = "gender";
 	public const PICTURE = "picture";
 	public const BANNER = "banner";
+	public const PROFILE_ID = "profile_id";
 
 }
 

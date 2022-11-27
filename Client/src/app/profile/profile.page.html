@@ -3,8 +3,8 @@
   <ion-button fill="clear" (click)="openFriendsList()" class="friends_label">{{current_user?.followers + " Friend" +
     (current_user?.followers == 1 ? "" : "s")}}
   </ion-button>
-  <img [src]="current_user?.picture" onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'"
-    class="profile">
+    <img [src]="current_user?.picture" onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'"
+      class="profile">
   <ion-button id="popover-button" fill="clear" class="extra_label">
     <ion-icon name="ellipsis-horizontal" size="large"></ion-icon>
   </ion-button>

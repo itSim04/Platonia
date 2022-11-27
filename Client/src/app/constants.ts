@@ -10,7 +10,8 @@ export enum USERS {
     JOIN = "join_date",
     GENDER = "gender",
     PICTURE = "picture",
-    BANNER = "banner"
+    BANNER = "banner",
+    MAX_PROFILE = "profile_id"
 
 }
 

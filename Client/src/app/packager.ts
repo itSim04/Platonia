@@ -9,6 +9,7 @@ export class Packager {
 
     public static responseUnpack(data: any): RESPONSE_MODEL {
 
+        console.log(data);
         const response: RESPONSE_MODEL = {
 
             status: data[RESPONSE.STATUS],
@@ -26,6 +27,7 @@ export class Packager {
             case EXIT_CODES.USERS_ADD:
             case EXIT_CODES.USERS_AUTHENTICATE:
             case EXIT_CODES.USERS_GET_ONE:
+            case EXIT_CODES.USERS_UPDATE:
 
                 response.user = this.userUnpack(data[RESPONSE.USER][0]);
                 break;
@@ -146,6 +148,7 @@ export class Packager {
     }
     public static userUnpack(data: any): User | undefined {
 
+        console.log(data);
         if (data != undefined) {
             const current: User = {
 
@@ -156,7 +159,7 @@ export class Packager {
                 email: data[USERS.EMAIL],
                 followers: data[USERS_TEMP.FOLLOWERS],
                 followings: data[USERS_TEMP.FOLLOWINGS],
-                picture: `http://localhost/Platonia/Server/assets/${data[USERS.ID]}/profile.png`,
+                picture: `http://localhost/Platonia/Server/assets/${data[USERS.ID]}/profile-${data[USERS.MAX_PROFILE] - 1}.png`,
                 gender: data[USERS.GENDER],
                 join: data[USERS.JOIN]
 
@@ -182,6 +185,7 @@ export class Packager {
         if (user.birthday != undefined) form.append(USERS.BIRTHDAY, String(user.birthday));
         if (user.email != undefined) form.append(USERS.EMAIL, user.email);
         if (user.gender != undefined) form.append(USERS.GENDER, String(user.gender));
+        if (user.picture != undefined) form.append(USERS.PICTURE, String(user.picture));
         form.append(USERS.JOIN, new Date().toISOString().slice(0, 10).replace('T', ' '));
         return form;
 

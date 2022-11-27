@@ -19,16 +19,21 @@
     "@angular/platform-browser": "^15.0.0",
     "@angular/platform-browser-dynamic": "^15.0.0",
     "@angular/router": "^15.0.0",
+    "@awesome-cordova-plugins/image-picker": "^6.2.0",
     "@awesome-cordova-plugins/splash-screen": "^6.2.0",
+    "@capacitor/android": "4.5.0",
     "@capacitor/app": "^4.0.0",
+    "@capacitor/camera": "^4.1.4",
     "@capacitor/core": "^4.0.0",
     "@capacitor/haptics": "^4.0.0",
     "@capacitor/keyboard": "^4.0.0",
     "@capacitor/status-bar": "^4.0.0",
     "@ionic/angular": "^6.1.9",
+    "@ionic/pwa-elements": "^3.1.1",
     "@ionic/storage": "^3.0.6",
     "@ionic/storage-angular": "^3.0.6",
     "cordova-plugin-splashscreen": "^6.0.2",
+    "cordova-plugin-telerik-imagepicker": "^2.3.6",
     "ionicons": "^6.0.3",
     "localforage": "^1.10.0",
     "native-run": "^1.7.1",
@@ -53,7 +58,6 @@
     "@types/node": "^12.11.1",
     "@typescript-eslint/eslint-plugin": "5.3.0",
     "@typescript-eslint/parser": "5.3.0",
-    "cordova-browser": "^6.0.0",
     "cordova-ios": "^6.2.0",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
@@ -81,7 +85,10 @@
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-webview": {},
-      "cordova-plugin-ionic-keyboard": {}
+      "cordova-plugin-ionic-keyboard": {},
+      "cordova-plugin-telerik-imagepicker": {
+        "PHOTO_LIBRARY_USAGE_DESCRIPTION": " "
+      }
     },
     "platforms": [
       "browser",

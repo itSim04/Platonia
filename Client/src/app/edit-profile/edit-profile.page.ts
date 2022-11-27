@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 import { StorageService } from '../apis/storage.service';
 import { UserService } from '../apis/user.service';
-import { User } from '../models/users-model';
+import { User, USER_RESPONSE } from '../models/users-model';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
+
 
 @Component({
   selector: 'app-edit-profile',
@@ -12,41 +16,42 @@ import { User } from '../models/users-model';
 })
 export class EditProfilePage implements OnInit {
 
-  old: User = {
+
+  picture: string = "";
+  old: USER_RESPONSE = {
 
     user_id: -1,
     bio: "",
     birthday: new Date(),
     email: "",
-    followers: -1,
-    followings: -1,
     gender: -1,
-    join: new Date(),
     picture: "",
     username: ""
 
   };
-  user: User = {
+  user: USER_RESPONSE = {
 
     user_id: -1,
     bio: "",
     birthday: new Date(),
     email: "",
-    followers: -1,
-    followings: -1,
     gender: -1,
-    join: new Date(),
-    picture: "",
     username: ""
 
   };
-  constructor(private userService: UserService, private storageService: StorageService, private toastController: ToastController, private router: Router) { }
+
+  constructor(private userService: UserService, private storageService: StorageService, private toastController: ToastController, private router: Router) {
+
+    defineCustomElements(window);
+
+  }
 
   ngOnInit() {
 
     this.storageService.get<User>("loggedInUser").then(response => {
 
       this.user = response;
+      this.picture = this.user.picture!;
       this.old = response
 
     });
@@ -62,6 +67,25 @@ export class EditProfilePage implements OnInit {
     });
 
     await toast.present();
+
+  }
+
+  public uploadProfile() {
+
+    Camera.getPhoto({
+      resultType: CameraResultType.Base64,
+      source: CameraSource.Photos
+    }).then(image => {
+      console.log(image);
+      this.old.picture = image.base64String!;
+      this.userService.updateUser(this.old).subscribe(response => {
+
+        console.log(response);
+        this.storageService.set("loggedInUser", response.user);
+        this.picture = response.user!.picture;
+
+      })
+    });
 
   }
 
@@ -90,7 +114,7 @@ export class EditProfilePage implements OnInit {
 
           this.userService.updateUser(this.user).subscribe(response => {
 
-            this.storageService.set("loggedInUser", this.user);
+            this.storageService.set("loggedInUser", response.user);
             this.router.navigate(['/profile', { id: response.user?.user_id }]);
 
           })
