@@ -26,7 +26,6 @@ export class FriendListPage {
 
   private generateUsers() {
 
-    console.log("FOLL");
     this.followService.getFollowings(this.current_user!.user_id).subscribe(response =>
 
       response.users?.forEach(current =>
@@ -34,7 +33,6 @@ export class FriendListPage {
 
     );
     this.followService.getFollowers(this.current_user!.user_id).subscribe(response =>
-
 
       response.users?.forEach(current =>
         this.followers.add(current)

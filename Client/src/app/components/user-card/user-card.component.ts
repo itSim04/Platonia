@@ -22,7 +22,7 @@ export class UserCardComponent {
 
   public openProfile() {
 
-    this.router.navigate(["/profile", { id: this.user!.user_id }]);
+    this.router.navigate(["/tabs", { id: this.user!.user_id }]);
 
 
   }

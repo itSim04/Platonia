@@ -69,7 +69,10 @@ if (check_keys($_GET, "schema")) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_AUTHENTICATE;
                 $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $temp_table), $_POST, array(), array(new condition(USERS::USERNAME), new condition(USERS::PASSWORD), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
-                $output[RESPONSE::USER][0]->profile_id = is_dir("../assets/{$output[RESPONSE::USER][0]->user_id}") ? iterator_count(new FilesystemIterator("../assets/{$output[RESPONSE::USER][0]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                if ($output[RESPONSE::USER] != null)
+                    $output[RESPONSE::USER][0]->profile_id = is_dir("../assets/{$output[RESPONSE::USER][0]->user_id}") ? iterator_count(new FilesystemIterator("../assets/{$output[RESPONSE::USER][0]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+
+
 
             }
             break;

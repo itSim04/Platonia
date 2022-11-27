@@ -34,9 +34,12 @@ export class LoginPage {
 
     this.userService.authenticate({ username: this.username, password: this.password }).subscribe(response => {
 
+      console.log(response);
       if (response.user != undefined) {
+
         this.storageService.set("loggedInUser", response.user);
-        this.router.navigate(["/profile", { id: response.user.user_id }]);
+        this.router.navigate(["/tabs", { id: response.user.user_id }]);
+
       } else {
 
         this.displayWarning("Incorrect Credentials")

@@ -22,7 +22,7 @@ export class SplashPage {
         this.userService.getOne({ user_id: (<User>r).user_id }).subscribe(response => {
 
           this.storageService.set("loggedInUser", response.user);
-          this.router.navigate(["/profile", { id: response.user?.user_id }]);
+          this.router.navigate(["tabs", { id: response.user?.user_id }]);
 
         })
       } else {
