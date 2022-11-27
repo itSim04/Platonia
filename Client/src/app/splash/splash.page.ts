@@ -10,11 +10,11 @@ import { User } from '../models/users-model';
   templateUrl: './splash.page.html',
   styleUrls: ['./splash.page.scss'],
 })
-export class SplashPage implements OnInit {
+export class SplashPage {
 
   constructor(private storageService: StorageService, private userService: UserService, private router: Router) { }
 
-  ngOnInit() {
+  ionViewWillEnter() {
 
     this.storageService.get("loggedInUser").then(r => {
       if (r != undefined) {

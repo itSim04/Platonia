@@ -186,6 +186,7 @@ class RESPONSE {
 	public const EMAIL_AVAILABLE = "email_taken";
 	public const USERNAME_AVAILABLE = "username_taken";
 	public const NAME_AVAILABLE = "name_taken";
+	public const MAX_PROFILE = "profile_id";
 
 }
 
@@ -211,6 +212,7 @@ class USERS_SCHEMA {
 	public const UPDATE = 3;
 	public const CHECK = 4;
 	public const AUTHENTICATE = 5;
+	public const UPLOAD_PROFILE = 6;
 
 }
 

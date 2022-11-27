@@ -14,11 +14,9 @@ import { defineCustomElements } from '@ionic/pwa-elements/loader';
   templateUrl: './edit-profile.page.html',
   styleUrls: ['./edit-profile.page.scss'],
 })
-export class EditProfilePage implements OnInit {
+export class EditProfilePage {
 
-
-  picture: string = "";
-  old: USER_RESPONSE = {
+  old: User = {
 
     user_id: -1,
     bio: "",
@@ -26,7 +24,10 @@ export class EditProfilePage implements OnInit {
     email: "",
     gender: -1,
     picture: "",
-    username: ""
+    username: "",
+    join: new Date(),
+    followers: -1,
+    followings: -1
 
   };
   user: USER_RESPONSE = {
@@ -46,12 +47,11 @@ export class EditProfilePage implements OnInit {
 
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
 
     this.storageService.get<User>("loggedInUser").then(response => {
 
       this.user = response;
-      this.picture = this.user.picture!;
       this.old = response
 
     });
@@ -76,13 +76,9 @@ export class EditProfilePage implements OnInit {
       resultType: CameraResultType.Base64,
       source: CameraSource.Photos
     }).then(image => {
-      console.log(image);
-      this.old.picture = image.base64String!;
-      this.userService.updateUser(this.old).subscribe(response => {
+      this.userService.uploadPicture({picture: image.base64String, user_id: this.old.user_id}).subscribe(response => {
 
-        console.log(response);
-        this.storageService.set("loggedInUser", response.user);
-        this.picture = response.user!.picture;
+        this.old.picture = `http://localhost/Platonia/Server/assets/${this.old.user_id}/profile-${response.profile_id! - 1}.png`
 
       })
     });
@@ -90,6 +86,7 @@ export class EditProfilePage implements OnInit {
   }
 
   onEdit() {
+
     if (this.user.username!.length < 4) {
 
       this.displayWarning("Username too Short");

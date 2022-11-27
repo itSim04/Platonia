@@ -182,7 +182,8 @@ export enum RESPONSE {
     EMAIL_AVAILABLE = "email_taken",
     FOLLOWINGS = "followings",
     USERNAME_AVAILABLE = "username_taken",
-    NAME_AVAILABLE = "name_taken"
+    NAME_AVAILABLE = "name_taken",
+    PROFILE_ID = "profile_id"
 
 }
 
@@ -207,7 +208,8 @@ export enum USERS_SCHEMA {
     GET_ONE = 2,
     UPDATE = 3,
     CHECK = 4,
-    AUTHENTICATE = 5
+    AUTHENTICATE = 5,
+    UPLOAD_PROFILE = 6
 
 }
 

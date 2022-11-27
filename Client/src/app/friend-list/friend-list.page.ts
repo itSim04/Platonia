@@ -13,7 +13,7 @@ import { User } from '../models/users-model';
   templateUrl: './friend-list.page.html',
   styleUrls: ['./friend-list.page.scss'],
 })
-export class FriendListPage implements OnInit {
+export class FriendListPage {
 
   current_user?: User;
   followers: Set<User> = new Set();
@@ -46,7 +46,7 @@ export class FriendListPage implements OnInit {
 
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
 
     const id_obj = this.route.snapshot.paramMap.get("id");
     const id: number = Number.parseInt(id_obj != null ? id_obj : "0");

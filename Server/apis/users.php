@@ -48,21 +48,7 @@ if (check_keys($_GET, "schema")) {
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_UPDATE;
                 process($PDO, SQLFunctions::UPDATE, $table_name, $_POST, array(USERS::USERNAME, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER), array(new condition(USERS::ID)));
                 $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $temp_table), [USERS::ID => $_POST[USERS::ID]], array(), array(new condition(USERS::ID), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
-                if (array_key_exists(USERS::PICTURE, $_POST)) {
-
-                    $img = base64_decode($_POST[USERS::PICTURE]);
-                    $id = 0;
-                    if (!is_dir("../assets/{$_POST[USERS::ID]}")) {
-                        mkdir("../assets/{$_POST[USERS::ID]}");
-                    } else {
-
-                        $id = iterator_count(new FilesystemIterator("../assets/{$_POST[USERS::ID]}/", FilesystemIterator::SKIP_DOTS));
-                    }
-                    file_put_contents("../assets/{$_POST[USERS::ID]}/profile-{$id}.png", $img);
-                    $output[RESPONSE::USER][0]->profile_id = $id + 1;
-
-                }
-
+                $output[RESPONSE::USER][0]->profile_id = is_dir("../assets/{$output[RESPONSE::USER][0]->user_id}") ? iterator_count(new FilesystemIterator("../assets/{$output[RESPONSE::USER][0]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
             }
             break;
 
@@ -84,6 +70,24 @@ if (check_keys($_GET, "schema")) {
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_AUTHENTICATE;
                 $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $temp_table), $_POST, array(), array(new condition(USERS::USERNAME), new condition(USERS::PASSWORD), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
                 $output[RESPONSE::USER][0]->profile_id = is_dir("../assets/{$output[RESPONSE::USER][0]->user_id}") ? iterator_count(new FilesystemIterator("../assets/{$output[RESPONSE::USER][0]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+
+            }
+            break;
+
+        case USERS_SCHEMA::UPLOAD_PROFILE:
+
+            if (check_keys($_POST, USERS::PICTURE, USERS::ID)) {
+
+                $img = base64_decode($_POST[USERS::PICTURE]);
+                $id = 0;
+                if (!is_dir("../assets/{$_POST[USERS::ID]}")) {
+                    mkdir("../assets/{$_POST[USERS::ID]}");
+                } else {
+
+                    $id = iterator_count(new FilesystemIterator("../assets/{$_POST[USERS::ID]}/", FilesystemIterator::SKIP_DOTS));
+                }
+                file_put_contents("../assets/{$_POST[USERS::ID]}/profile-{$id}.png", $img);
+                $output[RESPONSE::MAX_PROFILE] = $id + 1;
 
             }
             break;

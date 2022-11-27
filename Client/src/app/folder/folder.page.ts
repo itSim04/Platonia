@@ -13,12 +13,12 @@ import { UserService } from '../apis/user.service';
   templateUrl: './folder.page.html',
   styleUrls: ['./folder.page.scss'],
 })
-export class FolderPage implements OnInit {
+export class FolderPage {
   public folder!: string;
 
   constructor(private activatedRoute: ActivatedRoute, private userService: UserService, private thoughtService: ThoughtService, private interestService: InterestService, private followService: FollowService, private likeService: LikeService, private platonService: PlatonService, private answerServicer: AnswerService) { }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') as string;
   }
 

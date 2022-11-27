@@ -19,6 +19,7 @@ export class Packager {
             username_taken: data[RESPONSE.USERNAME_AVAILABLE],
             name_taken: data[RESPONSE.NAME_AVAILABLE],
             options: this.packOptionsInMap(data[RESPONSE.OPTIONS]),
+            profile_id: data[RESPONSE.PROFILE_ID],
 
         }
 

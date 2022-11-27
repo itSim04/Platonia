@@ -83,5 +83,15 @@ export class UserService {
 
   }
 
+  public uploadPicture(user: USER_RESPONSE) {
+
+    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.UPLOAD_PROFILE, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
+
+      Packager.responseUnpack(data)
+
+    ));
+
+  }
+
 
 }

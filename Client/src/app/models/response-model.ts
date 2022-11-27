@@ -17,5 +17,6 @@ export interface RESPONSE_MODEL {
     interests?: Map<number, Interest>;
     options?: Map<number, Option>;
     missing_params?: string;
+    profile_id?: number;
 
 }
