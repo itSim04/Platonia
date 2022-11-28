@@ -218,6 +218,10 @@ export class Packager {
             platons: data[THOUGHTS_TEMP.PLATONS],
             opinions: data[THOUGHTS_TEMP.OPINIONS],
 
+            is_liked: data[THOUGHTS.IS_LIKED],
+            is_platoned: data[THOUGHTS.IS_PLATONED],
+            option_chosen: data[THOUGHTS.OPTION],
+
             poll1: data[OPTIONS.POLL1],
             poll2: data[OPTIONS.POLL2],
             poll3: data[OPTIONS.POLL3],

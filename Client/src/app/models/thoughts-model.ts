@@ -1,3 +1,5 @@
+import * as internal from "stream";
+
 export interface Thought {
 
     thought_id: number;
@@ -10,6 +12,11 @@ export interface Thought {
     likes: number;
     platons: number;
     opinions: number;
+
+    is_liked: boolean;
+    is_platoned: boolean;
+    option_chosen: number;
+    
 
     poll1?: string;
     poll2?: string;

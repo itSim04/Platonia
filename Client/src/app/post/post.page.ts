@@ -23,7 +23,10 @@ export class PostPage {
     root_id: -1,
     thought_id: -1,
     share_date: new Date(),
-    type: 0
+    type: 0,
+    is_liked: false,
+    is_platoned: false,
+    option_chosen: 0
 
   }
   constructor(private storageService: StorageService, private thoughtService: ThoughtService) { }

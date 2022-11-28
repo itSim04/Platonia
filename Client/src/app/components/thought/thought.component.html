@@ -24,7 +24,7 @@
           </div>
           <div class="action_label" style="font-size: 10px;">{{thought.opinions}}</div>
           <div class="action">
-            <ion-icon name="diamond-outline" style="font-size: 20px;"></ion-icon>
+            <ion-icon [color]="thought.is_liked ? 'tertiary' : ''" name="diamond-outline" style="font-size: 20px;"></ion-icon>
           </div>
           <div class="action_label" style="font-size: 10px;">{{thought.likes}}</div>
           <div class="action">
