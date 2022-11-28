@@ -14,6 +14,6 @@ export class ThoughtComponent implements OnInit {
   @Input() editable?: boolean;
   constructor() { }
 
-  ngOnInit() {console.log(this.editable);}
+  ngOnInit() { console.log(this.editable); }
 
 }

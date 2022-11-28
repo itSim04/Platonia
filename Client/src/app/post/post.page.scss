@@ -1,0 +1,13 @@
+ion-content {
+    --background: url(../../assets/imgs/main-bg0.png) 0 0/100% 100%;
+}
+
+.post {
+
+    align-items: center;
+    justify-items: center;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+
+}

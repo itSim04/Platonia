@@ -38,7 +38,7 @@ export class LoginPage {
       if (response.user != undefined) {
 
         this.storageService.set("loggedInUser", response.user);
-        this.router.navigate(["/tabs", { id: response.user.user_id }]);
+        this.router.navigate(["/tabs/profile", { id: response.user.user_id }]);
 
       } else {
 

@@ -1,7 +1,7 @@
 <ion-content>
-  <app-thought [user]="user" [thought]="thought" [editable]="true"></app-thought>
+  <app-thought class="post" [user]="user" [thought]="thought" [editable]="true"></app-thought>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="post()"
+    <ion-fab-button color="tertiary" (click)="post()"
       [disabled]="thought.content.length < 3">
       <ion-icon name="arrow-forward-outline"></ion-icon>
     </ion-fab-button>
