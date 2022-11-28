@@ -13,7 +13,7 @@ export class FeedPage {
 
   owner?: User;
   users?: Map<number, User>;
-  thoughts: Set<Thought> = new Set();
+  thoughts: Array<Thought> = new Array();
   constructor(private thoughtService: ThoughtService, private storageService: StorageService) { }
 
   ionViewWillEnter() {
@@ -22,8 +22,9 @@ export class FeedPage {
 
       this.owner = u;
       this.thoughtService.getAll({ user_id: this.owner.user_id }).subscribe(r => {
+        this.thoughts.splice(0);
         this.users = r.users;
-        r.thoughts?.forEach(t => this.thoughts?.add(t));
+        r.thoughts?.forEach(t => this.thoughts?.unshift(t));
       });
       console.log(this.users);
 
