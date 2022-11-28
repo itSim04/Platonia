@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageService } from '../apis/storage.service';
+import { ThoughtService } from '../apis/thought.service';
 import { Thought } from '../models/thoughts-model';
 import { User } from '../models/users-model';
 
@@ -10,29 +11,24 @@ import { User } from '../models/users-model';
 })
 export class FeedPage {
 
-  user?: User;
-  thought: Thought = {
-
-    content: "Lorem Ipsum Dolor Sit",
-    likes: 12,
-    opinions: 23,
-    owner_id: 9,
-    platons: 24,
-    root_id: 0,
-    thought_id: 0,
-    share_date: new Date(),
-    type: 0
-
-  }
-  constructor(private storageService: StorageService) { }
+  owner?: User;
+  users?: Map<number, User>;
+  thoughts: Set<Thought> = new Set();
+  constructor(private thoughtService: ThoughtService, private storageService: StorageService) { }
 
   ionViewWillEnter() {
 
-    this.storageService.get<User>("loggedInUser").then(r =>
+    this.storageService.get<User>("loggedInUser").then(u => {
 
-      this.user = r
+      this.owner = u;
+      this.thoughtService.getAll({ user_id: this.owner.user_id }).subscribe(r => {
+        this.users = r.users;
+        r.thoughts?.forEach(t => this.thoughts?.add(t));
+      });
+      console.log(this.users);
 
-    );
+    });
+
 
   }
 

@@ -1,3 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Feed
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
-  <app-thought [user]="user" [thought]="thought"></app-thought>
+  <ng-container *ngFor="let thought of thoughts">
+    <app-thought [user]="users?.get(thought.owner_id)" [thought]="thought"></app-thought>
+  </ng-container>
+
 </ion-content>

@@ -7,13 +7,17 @@ import { User } from 'src/app/models/users-model';
   templateUrl: './thought.component.html',
   styleUrls: ['./thought.component.scss'],
 })
-export class ThoughtComponent implements OnInit {
+export class ThoughtComponent {
 
   @Input() user?: User;
   @Input() thought!: Thought;
   @Input() editable?: boolean;
-  constructor() { }
+  constructor() {
+  }
 
-  ngOnInit() { console.log(this.editable); }
+  click() {
+    console.log(this.user?.username, this.user);
+
+  }
 
 }

@@ -9,7 +9,6 @@ export class Packager {
 
     public static responseUnpack(data: any): RESPONSE_MODEL {
 
-        console.log(data);
         const response: RESPONSE_MODEL = {
 
             status: data[RESPONSE.STATUS],
@@ -149,7 +148,6 @@ export class Packager {
     }
     public static userUnpack(data: any): User | undefined {
 
-        console.log(data);
         if (data != undefined) {
             const current: User = {
 

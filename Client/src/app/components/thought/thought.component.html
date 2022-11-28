@@ -1,25 +1,38 @@
 <ion-card>
-  <ion-card-header>
+  <ion-card-header class="header">
     <ion-card-subtitle>
       <img [src]="user?.picture" onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'"
         class="profile" style="float:left;">
-      <div class="owner_label">{{user?.username}}</div>
+      <div (click)="click()" class="owner_label">{{user?.username}}</div>
     </ion-card-subtitle>
   </ion-card-header>
   <ion-card-content class="body">
-    <ion-input [disabled]="!editable" class="content" [(ngModel)]="thought.content" placeholder="Hello Friends...">
-    </ion-input>
-    <div class="action">
-      <ion-icon name="chatbubble-outline" style="font-size: 20px;"></ion-icon>
-    </div>
-    <div class="action_label" style="font-size: 10px;">{{thought.opinions}}</div>
-    <div class="action">
-      <ion-icon name="diamond-outline" style="font-size: 20px;"></ion-icon>
-    </div>
-    <div class="action_label" style="font-size: 10px;">{{thought.likes}}</div>
-    <div class="action">
-      <ion-icon name="repeat-outline" style="font-size: 20px;"></ion-icon>
-    </div>
-    <div class="action_label" style="font-size: 10px;">{{thought.platons}}</div>
+    <ion-grid class="grid">
+      <ion-row>
+        <ion-col>
+          <ion-input *ngIf="editable; else feed" text-wrap class="content" [(ngModel)]="thought.content"
+            placeholder="Hello Friends..."></ion-input>
+          <ng-template #feed>
+            <ion-text class="content">{{thought.content}}</ion-text>
+          </ng-template>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div class="action">
+            <ion-icon name="chatbubble-outline" style="font-size: 20px;"></ion-icon>
+          </div>
+          <div class="action_label" style="font-size: 10px;">{{thought.opinions}}</div>
+          <div class="action">
+            <ion-icon name="diamond-outline" style="font-size: 20px;"></ion-icon>
+          </div>
+          <div class="action_label" style="font-size: 10px;">{{thought.likes}}</div>
+          <div class="action">
+            <ion-icon name="repeat-outline" style="font-size: 20px;"></ion-icon>
+          </div>
+          <div class="action_label" style="font-size: 10px;">{{thought.platons}}</div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-card-content>
 </ion-card>
