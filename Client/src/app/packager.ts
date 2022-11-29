@@ -158,7 +158,7 @@ export class Packager {
                 email: data[USERS.EMAIL],
                 followers: data[USERS_TEMP.FOLLOWERS],
                 followings: data[USERS_TEMP.FOLLOWINGS],
-                picture: `http://localhost/Platonia/Server/assets/users/${data[USERS.ID]}/profile-${data[USERS.MAX_PROFILE] - 1}.png`,
+                picture: `http://localhost/Platonia/Server/assets/users/${data[USERS.ID]}/profile-${data[RESPONSE.PROFILE_ID] - 1}.png`,
                 gender: data[USERS.GENDER],
                 join: data[USERS.JOIN]
 
@@ -279,7 +279,9 @@ export class Packager {
                 interest_id: data[INTERESTS.ID],
                 img_src: data[INTERESTS.IMG],
                 name: data[INTERESTS.NAME],
-                participants: data[INTERESTS.PARTICIPANTS]
+                participants: data[INTERESTS.PARTICIPANTS],
+                logo: `http://localhost/Platonia/Server/assets/interests/${data[USERS.ID]}/profile-${data[RESPONSE.PROFILE_ID] - 1}.png`,
+
 
             };
             return current;
@@ -298,6 +300,7 @@ export class Packager {
         if (interest.img_src != undefined) form.append(INTERESTS.IMG, String(interest.img_src));
         if (interest.interest_id != undefined) form.append(INTERESTS.ID, String(interest.interest_id));
         if (interest.name != undefined) form.append(INTERESTS.NAME, interest.name);
+        if (interest.logo != undefined) form.append(INTERESTS.LOGO, String(interest.logo));
         return form;
 
     }

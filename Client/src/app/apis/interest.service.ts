@@ -95,4 +95,14 @@ export class InterestService {
     ));
 
   }
+
+  public uploadPicture(interest: INTEREST_RESPONSE) {
+
+    return this.http.post<any>(APIS.build_url(INTERESTS_SCHEMA.UPLOAD_LOGO, this.api), Packager.packInterestForPOST(interest)).pipe(map((data: any) =>
+
+      Packager.responseUnpack(data)
+
+    ));
+
+  }
 }

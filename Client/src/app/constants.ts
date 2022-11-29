@@ -11,7 +11,6 @@ export enum USERS {
     GENDER = "gender",
     PICTURE = "picture",
     BANNER = "banner",
-    MAX_PROFILE = "profile_id"
 
 }
 
@@ -70,6 +69,7 @@ export enum INTERESTS {
     ID = "interest_id",
     NAME = "name",
     IMG = "img_src",
+    LOGO = "logo",
     PARTICIPANTS = "participants_TEMP"
 
 }
@@ -123,6 +123,7 @@ export enum EXIT_CODES {
     USERS_UPDATE = 103,
     USERS_CHECK = 104,
     USERS_AUTHENTICATE = 105,
+    USER_UPLOAD_PROFILE = 106,
 
     THOUGHTS_ADD = 110,
     THOUGHTS_GET_ALL = 111,
@@ -139,6 +140,7 @@ export enum EXIT_CODES {
     INTERESTS_UNENROLL_USER = 125,
     INTERESTS_CHECK_NAME = 126,
     INTERESTS_GET_INTERESTS_BY_USER = 127,
+    INTERESTS_UPLOAD_LOGO = 128,
 
     LIKE_ADD = 130,
     LIKE_REMOVE = 131,
@@ -197,7 +199,8 @@ export enum INTERESTS_SCHEMA {
     ENROLL_USER = 4,
     UNENROLL_USER = 5,
     CHECK_NAME = 6,
-    GET_INTERESTS = 7
+    GET_INTERESTS = 7,
+    UPLOAD_LOGO = 8
 
 }
 

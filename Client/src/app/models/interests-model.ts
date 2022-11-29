@@ -3,7 +3,8 @@ export interface Interest {
     interest_id: number;
     name: string;
     img_src: string;
-    participants: string;
+    logo: string;
+    participants: number;
 
 }
 
@@ -13,5 +14,6 @@ export interface INTEREST_RESPONSE {
     interest_id?: number;
     img_src?: string;
     name?: string;
+    logo?: string;
 
 }
