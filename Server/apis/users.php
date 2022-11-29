@@ -91,6 +91,7 @@ if (check_keys($_GET, "schema")) {
                 }
                 file_put_contents("../assets/users/{$_POST[USERS::ID]}/profile-{$id}.png", $img);
                 $output[RESPONSE::MAX_PROFILE] = $id + 1;
+                $output[RESPONSE::STATUS] = EXIT_CODES::USERS_UPLOAD_PROFILE;
 
             }
             break;

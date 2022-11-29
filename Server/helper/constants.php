@@ -73,6 +73,7 @@ class INTERESTS {
 	public const ID = "interest_id";
 	public const NAME = "name";
 	public const IMG = "img_src";
+	public const LOGO = "logo";
 	public const PARTICIPANTS = "participants_TEMP";
 
 }
@@ -126,6 +127,7 @@ class EXIT_CODES {
 	public const USERS_UPDATE = 103;
 	public const USERS_CHECK = 104;
 	public const USERS_AUTHENTICATE = 105;
+	public const USERS_UPLOAD_PROFILE = 106;
 
 	public const THOUGHTS_ADD = 110;
 	public const THOUGHTS_GET_ALL = 111;
@@ -142,6 +144,7 @@ class EXIT_CODES {
 	public const INTERESTS_UNENROLL_USER = 125;
 	public const INTERESTS_CHECK_NAME = 126;
 	public const INTERESTS_GET_INTERESTS_BY_USER = 127;
+	public const INTERESTS_UPLOAD_LOGO = 128;
 
 	public const LIKE_ADD = 130;
 	public const LIKE_REMOVE = 131;
@@ -201,6 +204,7 @@ class INTERESTS_SCHEMA {
 	public const UNENROLL_USER = 5;
 	public const CHECK_NAME = 6;
 	public const GET_INTERESTS = 7;
+	public const UPLOAD_LOGO = 8;
 
 }
 

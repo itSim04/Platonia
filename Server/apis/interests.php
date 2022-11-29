@@ -89,6 +89,26 @@ if (check_keys($_GET, "schema")) {
             }
             break;
 
+            case INTERESTS_SCHEMA::UPLOAD_LOGO:
+
+                if (check_keys($_POST, INTERESTS::LOGO, INTERESTS::ID)) {
+    
+                    $img = base64_decode($_POST[INTERESTS::LOGO]);
+                    $id = 0;
+                    if (!is_dir("../assets/interests/{$_POST[INTERESTS::ID]}")) {
+                        mkdir("../assets/interests/{$_POST[INTERESTS::ID]}");
+                    } else {
+    
+                        $id = iterator_count(new FilesystemIterator("../assets/interests/{$_POST[INTERESTS::ID]}/", FilesystemIterator::SKIP_DOTS));
+                    }
+                    file_put_contents("../assets/interests/{$_POST[INTERESTS::ID]}/profile-{$id}.png", $img);
+                    $output[RESPONSE::MAX_PROFILE] = $id + 1;
+                    $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_UPLOAD_LOGO;
+               
+    
+                }
+                break;
+
         default:
             $output[RESPONSE::STATUS] = EXIT_CODES::INCORRECT_SCHEMA;
 
