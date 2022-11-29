@@ -19,4 +19,4 @@ import { InterestCardComponent } from './interest-card.component';
         InterestCardComponent,
     ]
 })
-export class InterestModule { }
+export class InterestCardModule { }

@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { FeedPageRoutingModule } from './feed-routing.module';
 
 import { FeedPage } from './feed.page';
-import { ThoughtModule } from '../components/thought/thought.module';
+import { ThoughtCardModule } from '../components/thought/thought-card.module';
 
 @NgModule({
   imports: [
@@ -15,7 +15,7 @@ import { ThoughtModule } from '../components/thought/thought.module';
     FormsModule,
     IonicModule,
     FeedPageRoutingModule,
-    ThoughtModule
+    ThoughtCardModule
   ],
   declarations: [FeedPage]
 })

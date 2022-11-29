@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ThoughtComponent } from './thought.component';
+import { ThoughtCardComponent } from './thought-card.component';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +9,7 @@ import { UserCardModule } from '../user-card/user-card.module';
 
 @NgModule({
     declarations: [
-        ThoughtComponent
+        ThoughtCardComponent
     ],
     imports: [
         CommonModule,
@@ -18,7 +18,7 @@ import { UserCardModule } from '../user-card/user-card.module';
         UserCardModule
     ],
     exports: [
-        ThoughtComponent,
+        ThoughtCardComponent,
     ]
 })
-export class ThoughtModule { }
+export class ThoughtCardModule { }

@@ -45,7 +45,7 @@ if (check_keys($_GET, "schema")) {
                 $output[RESPONSE::STATUS] = EXIT_CODES::LIKE_GET_ALL_ON_THOUGHT;
                 $output[RESPONSE::LIKES] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $user_table, $user_temp), $_GET, array(), array(new condition(LIKES::THOUGHT_ID), new condition(LIKES::USER_ID . " = " . USERS::ID, false), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
                 for ($i = 0; $i < count($output[RESPONSE::LIKES]); $i++) {
-                    $output[RESPONSE::LIKES][$i]->profile_id = is_dir("../assets/{$output[RESPONSE::LIKES][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/{$output[RESPONSE::LIKES][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                    $output[RESPONSE::LIKES][$i]->profile_id = is_dir("../assets/users/{$output[RESPONSE::LIKES][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::LIKES][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
                 }
             }
             break;

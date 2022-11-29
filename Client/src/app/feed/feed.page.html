@@ -8,7 +8,7 @@
 
 <ion-content>
   <ng-container *ngFor="let thought of thoughts">
-    <app-thought [user]="users?.get(thought.owner_id)" [thought]="thought"></app-thought>
+    <app-card-thought [user]="users?.get(thought.owner_id)" [thought]="thought"></app-card-thought>
   </ng-container>
 
 </ion-content>

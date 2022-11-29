@@ -7,11 +7,11 @@ import { Thought } from 'src/app/models/thoughts-model';
 import { User } from 'src/app/models/users-model';
 
 @Component({
-  selector: 'app-thought',
-  templateUrl: './thought.component.html',
-  styleUrls: ['./thought.component.scss'],
+  selector: 'app-card-thought',
+  templateUrl: './thought-card.component.html',
+  styleUrls: ['./thought-card.component.scss'],
 })
-export class ThoughtComponent implements OnInit {
+export class ThoughtCardComponent implements OnInit {
 
   session_user?: User;
   @Input() user?: User;

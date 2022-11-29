@@ -60,7 +60,10 @@ export class ProfilePage {
       this.userService.getOne({ user_id: id }).subscribe(r => {
 
         this.current_user = r.user;
-        this.storage.get("loggedInUser").then(r => this.owner = (<User>r).user_id == this.current_user!.user_id);
+        this.storage.get("loggedInUser").then(r => {
+          this.owner = (<User>r).user_id == this.current_user!.user_id;
+          this.new_bio = this.current_user!.bio
+        });
 
       })
 

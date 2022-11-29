@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ThoughtComponent } from './thought.component';
+import { ThoughtCardComponent } from './thought-card.component';
 
-describe('ThoughtComponent', () => {
-  let component: ThoughtComponent;
-  let fixture: ComponentFixture<ThoughtComponent>;
+describe('ThoughtCardComponent', () => {
+  let component: ThoughtCardComponent;
+  let fixture: ComponentFixture<ThoughtCardComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ThoughtComponent ],
+      declarations: [ ThoughtCardComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ThoughtComponent);
+    fixture = TestBed.createComponent(ThoughtCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
