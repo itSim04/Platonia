@@ -34,6 +34,16 @@ if (check_keys($_GET, "schema")) {
             }
             break;
 
+        case FOLLOW_SCHEMA::IS_FOLLOWING:
+
+            if (check_keys($_GET, FOLLOWS::USER_ID1, FOLLOWS::USER_ID2)) {
+
+                $output[RESPONSE::STATUS] = EXIT_CODES::FOLLOW_IS_FOLLOWING;
+                $output[RESPONSE::FOLLOWS] = process_availability($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(FOLLOWS::USER_ID1), new condition(FOLLOWS::USER_ID2)));
+
+            }
+            break;
+
         case FOLLOW_SCHEMA::GET_FOLLOWERS:
 
             if (check_keys($_GET, USERS::ID)) {

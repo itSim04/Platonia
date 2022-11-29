@@ -16,7 +16,7 @@ import { InterestService } from '../apis/interest.service';
 export class ProfilePage {
 
   is_modal_open: boolean = false;
-  owner: boolean = false;
+  owner: number = 0;
   current_user?: User;
   bio_edit_mode: boolean = false;
   new_bio: string = "";
@@ -53,7 +53,7 @@ export class ProfilePage {
       this.storage.get("loggedInUser").then((r) => {
 
         this.current_user = <User>r;
-        this.owner = true;
+        this.owner = 0;
         this.new_bio = this.current_user!.bio;
 
       });
@@ -64,7 +64,7 @@ export class ProfilePage {
 
         this.current_user = r.user;
         this.storage.get("loggedInUser").then(r => {
-          this.owner = (<User>r).user_id == this.current_user!.user_id;
+          this.owner = (<User>r).user_id == this.current_user!.user_id ? 0 : 1;
           this.new_bio = this.current_user!.bio
         });
 

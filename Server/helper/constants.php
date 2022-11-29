@@ -163,6 +163,7 @@ class EXIT_CODES {
 	public const FOLLOW_REMOVE = 161;
 	public const FOLLOW_GET_FOLLOWERS = 162;
 	public const FOLLOW_GET_FOLLOWINGS = 163;
+	public const FOLLOW_IS_FOLLOWING = 164;
 
 	public const MISSING_PARAMS = 400;
 	public const INCORRECT_SCHEMA = 405;
@@ -189,6 +190,7 @@ class RESPONSE {
 	public const EMAIL_AVAILABLE = "email_taken";
 	public const USERNAME_AVAILABLE = "username_taken";
 	public const NAME_AVAILABLE = "name_taken";
+	public const FOLLOWS = "is_following";
 	public const MAX_PROFILE = "profile_id";
 
 }
@@ -234,6 +236,7 @@ class FOLLOW_SCHEMA {
 	public const UNFOLLOW = 1;
 	public const GET_FOLLOWERS = 2;
 	public const GET_FOLLOWINGS = 3;
+	public const IS_FOLLOWING = 4;
 }
 class PLATONS_SCHEMA {
 
