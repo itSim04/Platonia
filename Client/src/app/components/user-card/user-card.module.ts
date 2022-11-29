@@ -1,24 +1,22 @@
 import { NgModule } from '@angular/core';
-import { ThoughtComponent } from './thought.component';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-import { UserCardModule } from '../user-card/user-card.module';
+import { UserCardComponent } from './user-card.component';
 
 @NgModule({
     declarations: [
-        ThoughtComponent
+        UserCardComponent
     ],
     imports: [
         CommonModule,
         FormsModule,
-        IonicModule,
-        UserCardModule
+        IonicModule
     ],
     exports: [
-        ThoughtComponent,
+        UserCardComponent,
     ]
 })
-export class ThoughtModule { }
+export class UserCardModule { }

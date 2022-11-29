@@ -24,9 +24,10 @@
           </div>
           <div class="action_label" style="font-size: 10px;">{{thought.opinions}}</div>
           <div (click)="like()" class="action">
-            <ion-icon [color]="thought.is_liked ? 'danger' : ''" name="diamond-outline" style="font-size: 20px;"></ion-icon>
+            <ion-icon [color]="thought.is_liked ? 'danger' : ''" name="diamond-outline" style="font-size: 20px;">
+            </ion-icon>
           </div>
-          <div class="action_label" style="font-size: 10px;">{{thought.likes}}</div>
+          <div (click)="setLikesOpen(true)" class="action_label" style="font-size: 10px;">{{thought.likes}}</div>
           <div class="action">
             <ion-icon name="repeat-outline" style="font-size: 20px;"></ion-icon>
           </div>
@@ -36,3 +37,20 @@
     </ion-grid>
   </ion-card-content>
 </ion-card>
+<ion-modal [isOpen]="isLikesOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Likes</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="setLikesOpen(false)">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ng-container *ngFor="let like of likes">
+        <app-user-card [user]="like"></app-user-card>
+      </ng-container>
+    </ion-content>
+  </ng-template>
+</ion-modal>
