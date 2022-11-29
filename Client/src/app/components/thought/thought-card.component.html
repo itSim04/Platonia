@@ -1,8 +1,8 @@
 <ion-card *ngIf="thought != undefined && user != undefined && session_user != undefined">
   <ion-card-header class="header">
     <ion-card-subtitle>
-      <img [src]="user.picture" onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'"
-        class="profile" style="float:left;">
+      <img [src]="user.picture" onerror="this.src='http://localhost/Platonia/Server/assets/users/0/profile.png'"
+        class="profile">
       <div class="owner_label">{{user.username}}</div>
     </ion-card-subtitle>
   </ion-card-header>

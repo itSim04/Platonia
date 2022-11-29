@@ -1,0 +1,29 @@
+.profile {
+
+    width: 20%;
+    border-radius: 50%;
+    border: 0.5px solid #000000;
+    float:left;
+
+}
+
+.header {
+
+    padding-top: 5%;
+    padding-bottom: 20%;
+
+}
+
+.owner_label {
+
+    text-transform: none;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --color-hover: #DDDDDD;
+    --color-activated: white;
+    float: left;
+    padding-left: 5%;
+    padding-top: 3%;
+
+}

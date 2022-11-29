@@ -9,7 +9,7 @@ import { User } from 'src/app/models/users-model';
 })
 export class UserCardComponent {
 
-  @Input() public user?: User;
+  @Input() public user!: User;
   constructor(private router: Router) {
 
   }

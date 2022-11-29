@@ -5,6 +5,8 @@ import { User } from '../models/users-model';
 import { Component, ViewChild } from '@angular/core';
 import { IonPopover, ModalController, NavController } from '@ionic/angular';
 import { EditProfilePage } from '../edit-profile/edit-profile.page';
+import { Interest } from '../models/interests-model';
+import { InterestService } from '../apis/interest.service';
 
 @Component({
   selector: 'app-profile',
@@ -18,6 +20,7 @@ export class ProfilePage {
   current_user?: User;
   bio_edit_mode: boolean = false;
   new_bio: string = "";
+
   @ViewChild('options') option!: IonPopover;
 
   constructor(private modalCtrl: ModalController, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router, private nav: NavController) {

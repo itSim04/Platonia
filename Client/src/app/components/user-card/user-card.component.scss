@@ -1,4 +1,20 @@
-.friends_labels {
+.header {
+
+    padding-top: 5%;
+    padding-bottom: 20%;
+
+}
+
+.profile {
+
+    width: 20%;
+    border-radius: 50%;
+    border: 0.5px solid #000000;
+    float:left;
+
+}
+
+.owner_label {
 
     text-transform: none;
     font-size: 16px;
@@ -6,16 +22,8 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     --color-hover: #DDDDDD;
     --color-activated: white;
+    float: left;
+    padding-left: 5%;
+    padding-top: 3%;
 
-}
-
-.profile {
-
-    border-radius: 50%;
-    border: 1px solid #000000;
-
-}
-
-ion-item {
-    --padding-start: 0;
 }

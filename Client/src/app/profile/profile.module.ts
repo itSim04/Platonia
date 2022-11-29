@@ -8,13 +8,15 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 
 import { ProfilePage } from './profile.page';
 import { EditProfilePage } from '../edit-profile/edit-profile.page';
+import { InterestCardModule } from '../components/interest-card/interest-card.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ProfilePageRoutingModule
+    ProfilePageRoutingModule,
+    InterestCardModule
   ],
   declarations: [ProfilePage, EditProfilePage]
 })

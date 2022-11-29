@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { IonInput } from '@ionic/angular';
+import { Interest } from 'src/app/models/interests-model';
 
 @Component({
   selector: 'app-interest-card',
@@ -7,8 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InterestCardComponent implements OnInit {
 
+  @Input() interest?: Interest;
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
 }
