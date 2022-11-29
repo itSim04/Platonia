@@ -1,13 +1,23 @@
 <ion-content>
+
+  <!-- Username -->
   <p class="name_label">{{current_user?.username}}</p>
+
+  <!-- Friends list -->
   <ion-button fill="clear" (click)="openFriendsList()" class="friends_label">{{current_user?.followers + " Friend" +
     (current_user?.followers == 1 ? "" : "s")}}
   </ion-button>
-    <img [src]="current_user?.picture" onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'"
-      class="profile">
+
+  <!-- Profile Picture -->
+  <img [src]="current_user?.picture" onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'"
+    class="profile">
+
+  <!-- Options Opener -->
   <ion-button (click)="openOptions()" fill="clear" class="extra_label">
     <ion-icon name="ellipsis-horizontal" size="large"></ion-icon>
   </ion-button>
+
+  <!-- Options Tab -->
   <ion-popover #options [dismissOnSelect]="true">
     <ng-template>
       <ion-content>
@@ -18,4 +28,16 @@
       </ion-content>
     </ng-template>
   </ion-popover>
+
+  <!-- Bio -->
+  <ion-card class="bio">
+    <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+    <ion-card-header>
+      <ion-card-title>About</ion-card-title>
+     </ion-card-header>
+
+    <ion-card-content>
+      {{current_user?.bio}}
+    </ion-card-content>
+  </ion-card>
 </ion-content>
