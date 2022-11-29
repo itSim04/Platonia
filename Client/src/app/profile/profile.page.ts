@@ -2,8 +2,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from '../apis/storage.service';
 import { UserService } from '../apis/user.service';
 import { User } from '../models/users-model';
-import { Component } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonPopover, ModalController, NavController } from '@ionic/angular';
 import { EditProfilePage } from '../edit-profile/edit-profile.page';
 
 @Component({
@@ -16,9 +16,18 @@ export class ProfilePage {
   isModalOpen: boolean = false;
   owner: boolean = false;
   current_user?: User;
+  @ViewChild('options') option!: IonPopover;
+
   constructor(private modalCtrl: ModalController, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router, private nav: NavController) {
+  }
 
+  openOptions() {
 
+    if (this.option.isOpen) {
+      this.option.dismiss();
+    } else {
+      this.option.present();
+    }
   }
 
   async openModal() {
@@ -26,8 +35,6 @@ export class ProfilePage {
       component: EditProfilePage,
     });
     modal.present();
-
-    const { data, role } = await modal.onWillDismiss();
 
     this.ionViewWillEnter();
   }

@@ -5,10 +5,10 @@
   </ion-button>
     <img [src]="current_user?.picture" onerror="this.src='http://localhost/Platonia/Server/assets/0/profile.png'"
       class="profile">
-  <ion-button id="popover-button" fill="clear" class="extra_label">
+  <ion-button (click)="openOptions()" fill="clear" class="extra_label">
     <ion-icon name="ellipsis-horizontal" size="large"></ion-icon>
   </ion-button>
-  <ion-popover trigger="popover-button" [dismissOnSelect]="true">
+  <ion-popover #options [dismissOnSelect]="true">
     <ng-template>
       <ion-content>
         <ion-list>
