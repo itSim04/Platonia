@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Toolbar</ion-title>
+    </ion-toolbar>
+    <ion-toolbar>
+      <ion-searchbar (ionChange)="handleChange($event)"></ion-searchbar>
+    </ion-toolbar>
+  </ion-header>
+</ion-header>
+
+<ion-content>
+  <app-user-card *ngFor="let user of users" [user]="user"></app-user-card>
+</ion-content>
