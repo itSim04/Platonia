@@ -35,6 +35,20 @@ ion-content {
 
 }
 
+.content {
+
+    font-size: 11px;
+    font-weight: light;
+    --padding-start: 0px;
+    --padding-top: 0px;
+    --padding-bottom: 0px;
+    --badding-end: 0px;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: black;
+
+}
+
 .extra_label {
 
     position: fixed;
@@ -61,8 +75,5 @@ ion-content {
     --background: #00000000;
     --background-hover: #00000000;
     --background-activated: #00000000;
-    
+
 }
-
-
-

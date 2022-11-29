@@ -22,7 +22,7 @@
     <ng-template>
       <ion-content>
         <ion-list>
-          <ion-item [button]="true" [detail]="false" (click)="edit()">Edit</ion-item>
+          <ion-item [button]="true" [detail]="false" (click)="editProfile()">Edit</ion-item>
           <ion-item [button]="true" [detail]="false" (click)="logout()">Logout</ion-item>
         </ion-list>
       </ion-content>
@@ -33,11 +33,17 @@
   <ion-card class="bio">
     <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
     <ion-card-header>
-      <ion-card-title>About</ion-card-title>
-     </ion-card-header>
+      <ion-card-title style="width: auto">About
+        <div style="display:inline" (click)="editBio()">
+          <ion-icon style="font-size: 100%;" [name]="bio_edit_mode ? 'checkmark-circle-outline' : 'pencil-sharp'">
+          </ion-icon>
+        </div>
+      </ion-card-title>
+    </ion-card-header>
 
     <ion-card-content>
-      {{current_user?.bio}}
+      <ion-textarea  autoGrow="true" [disabled]="!bio_edit_mode" text-wrap class="content" [(ngModel)]="new_bio"
+        placeholder="Hello Friends..."></ion-textarea>
     </ion-card-content>
   </ion-card>
 </ion-content>

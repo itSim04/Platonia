@@ -13,9 +13,11 @@ import { EditProfilePage } from '../edit-profile/edit-profile.page';
 })
 export class ProfilePage {
 
-  isModalOpen: boolean = false;
+  is_modal_open: boolean = false;
   owner: boolean = false;
   current_user?: User;
+  bio_edit_mode: boolean = false;
+  new_bio: string = "";
   @ViewChild('options') option!: IonPopover;
 
   constructor(private modalCtrl: ModalController, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router, private nav: NavController) {
@@ -49,6 +51,7 @@ export class ProfilePage {
 
         this.current_user = <User>r;
         this.owner = true;
+        this.new_bio = this.current_user!.bio;
 
       });
 
@@ -66,6 +69,23 @@ export class ProfilePage {
 
   }
 
+  public editBio() {
+
+    if (this.bio_edit_mode) {
+
+      this.bio_edit_mode = false;
+      this.current_user!.bio = this.new_bio;
+      this.userService.updateUser(this.current_user!).subscribe(r => this.bio_edit_mode = false);
+
+    } else {
+
+      this.bio_edit_mode = true;
+      this.new_bio = this.current_user!.bio;
+
+    }
+
+  }
+
 
   public openFriendsList() {
 
@@ -79,7 +99,7 @@ export class ProfilePage {
 
   }
 
-  public edit() {
+  public editProfile() {
 
     this.openModal();
 
