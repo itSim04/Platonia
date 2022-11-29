@@ -13,14 +13,14 @@ import { USER_RESPONSE } from '../models/users-model';
 export class RegisterPage implements OnInit {
 
   is_submitted: boolean = false;
-  confirm_password?: string = "TEST123";
+  confirm_password?: string = "";
   new_user: USER_RESPONSE = {
 
-    username: "TRY1",
-    email: "TRY1@gmail",
+    username: "",
+    email: "",
     gender: 0,
     birthday: new Date(),
-    password: "TEST123"
+    password: ""
 
   };
   constructor(private userService: UserService, private storageService: StorageService, private router: Router, private toastController: ToastController) { }
@@ -81,7 +81,7 @@ export class RegisterPage implements OnInit {
           this.userService.addUser(this.new_user).subscribe(response => {
 
             this.storageService.set("loggedInUser", response.user);
-            this.router.navigate(['/tabs', {id: response.user?.user_id}]);
+            this.router.navigate(['/tabs/profile', {id: response.user?.user_id}]);
 
           })
         }

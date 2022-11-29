@@ -80,7 +80,7 @@ export class EditProfilePage {
     }).then(image => {
       this.userService.uploadPicture({ picture: image.base64String, user_id: this.old.user_id }).subscribe(response => {
 
-        this.old.picture = `http://localhost/Platonia/Server/assets/${this.old.user_id}/profile-${response.profile_id! - 1}.png`;
+        this.old.picture = `http://localhost/Platonia/Server/assets/users/${this.old.user_id}/profile-${response.profile_id! - 1}.png`;
         this.storageService.get<User>("loggedInUser").then(r =>
 
           r.picture = this.old.picture

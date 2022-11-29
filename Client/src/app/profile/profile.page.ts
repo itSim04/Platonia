@@ -41,6 +41,8 @@ export class ProfilePage {
     });
     modal.present();
 
+    await modal.onWillDismiss();
+
     this.ionViewWillEnter();
   }
 
