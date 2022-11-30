@@ -13,25 +13,48 @@
   <p class="name_label">Edit Profile</p>
 
   <div (click)="uploadProfile()">
-    <img [src]="old.picture" onerror="this.src='http://localhost/Platonia/Server/assets/users/0/profile.png'" class="profile">
+    <img [src]="old.picture" onerror="this.src='http://localhost/Platonia/Server/assets/users/0/profile.png'"
+      class="profile">
   </div>
+  <ion-grid class="inputs_grid">
+    <ion-row>
+      <ion-col>
+        <ion-item counter="true" class="inputs">
+          <ion-input name="username" [(ngModel)]="user.username" placeholder="Username"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
 
-  <ion-item counter="true" class="input1 inputs" ion-invalid>
-    <ion-input name="username" [(ngModel)]="user.username" placeholder="Username"></ion-input>
-  </ion-item>
+    <ion-row>
+      <ion-col>
+        <ion-item counter="true" class="inputs">
+          <ion-input name="email" [(ngModel)]="user.email" type="email" placeholder="Email"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
 
-  <ion-item counter="true" class="input2 inputs">
-    <ion-input name="email" [(ngModel)]="user.email" type="email" placeholder="Email"></ion-input>
-  </ion-item>
+    <ion-row>
+      <ion-col>
+        <ion-item counter="true" class="inputs">
+          <ion-input name="birthday" type="date" [(ngModel)]="new_birthday"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
 
-  <ion-item counter="true" class="input3 inputs">
-    <ion-input name="birthday" type="date" [(ngModel)]="user.birthday"></ion-input>
-  </ion-item>
+    <ion-row>
+      <ion-col>
+        <ion-list class="inputs">
+          <ion-item>
+            <ion-select (ionChange)="setGender($event)" interface="popover" placeholder="Select Gender">
+              <ion-select-option class="inputs" *ngFor="let gender of genders" [value]="gender">{{gender}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
 
-  <ion-item counter="true" class="input4 inputs">
-    <ion-input name="gender" [(ngModel)]="user.gender" placeholder="Gender"></ion-input>
-  </ion-item>
-
+  </ion-grid>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="onEdit()"
       [disabled]="user.username == undefined || user.email == undefined || user.gender == undefined || user.birthday == undefined">

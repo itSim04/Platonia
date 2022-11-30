@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonicModule, ModalController, NavController, ToastController } from '@ionic/angular';
+import { ModalController, NavController, ToastController } from '@ionic/angular';
 import { StorageService } from '../apis/storage.service';
 import { UserService } from '../apis/user.service';
 import { User, USER_RESPONSE } from '../models/users-model';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
+import { Genders } from '../helper/constants/general';
 
 
 
@@ -40,14 +41,14 @@ export class EditProfilePage {
     username: ""
 
   };
+  genders: Array<string> = new Array(...Genders);
+  new_birthday: string = "";
 
   constructor(private modalCtrl: ModalController, private userService: UserService, private storageService: StorageService, private toastController: ToastController, private router: Router, private nav: NavController) {
 
     defineCustomElements(window);
 
   }
-
-
 
   ionViewWillEnter() {
 
@@ -92,6 +93,12 @@ export class EditProfilePage {
 
   }
 
+  setGender(e: any) {
+
+    this.user.gender = e.detail.value;
+
+  }
+
   onEdit() {
 
     if (this.user.username!.length < 4) {
@@ -116,6 +123,7 @@ export class EditProfilePage {
 
         } else {
 
+          this.user.birthday = new Date(this.new_birthday);
           this.userService.updateUser(this.user).subscribe(response => {
 
             this.storageService.set("loggedInUser", response.user);
