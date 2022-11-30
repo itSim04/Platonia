@@ -33,10 +33,42 @@ export class ProfilePage {
 
   openOptions() {
 
-    if (this.option.isOpen) {
-      this.option.dismiss();
+    if (this.owner) {
+
+      if (this.option.isOpen) {
+
+        this.option.dismiss();
+
+
+      } else {
+
+        this.option.present();
+
+      }
     } else {
-      this.option.present();
+
+      this.storage.get<User>("loggedInUser").then(current_profile => {
+
+        if (this.is_followed) {
+
+          this.followService.unfollow(current_profile.user_id, this.current_user!.user_id).subscribe(r =>
+
+            this.is_followed = false
+
+          );
+
+        } else {
+
+          this.followService.follow(current_profile.user_id, this.current_user!.user_id).subscribe(r =>
+
+            this.is_followed = true
+
+          );
+
+        }
+
+      });
+
     }
   }
 
@@ -72,15 +104,15 @@ export class ProfilePage {
         this.current_user = current_profile.user;
         this.storage.get<User>("loggedInUser").then(current_user => {
 
-          if(current_user.user_id == this.current_user!.user_id) {
-            
+          if (current_user.user_id == this.current_user!.user_id) {
+
             this.owner = true;
 
           } else {
 
             this.owner = false;
             this.followService.isFollowing(current_user.user_id, current_profile.user!.user_id).subscribe(r => this.is_followed = r.follows!)
-          
+
           }
 
           this.new_bio = this.current_user!.bio
