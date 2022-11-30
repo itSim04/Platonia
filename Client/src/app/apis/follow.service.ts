@@ -46,7 +46,17 @@ export class FollowService {
 
   public getFollowings(user_id: number): Observable<RESPONSE_MODEL> {
 
-    return this.http.get<any>(APIS.build_url(FOLLOW_SCHEMA.GET_FOLLOWINGS, this.api, `&${USERS. ID}=${user_id}`)).pipe(map((data: any) =>
+    return this.http.get<any>(APIS.build_url(FOLLOW_SCHEMA.GET_FOLLOWINGS, this.api, `&${USERS.ID}=${user_id}`)).pipe(map((data: any) =>
+
+      Packager.responseUnpack(data)
+
+    ));
+
+  }
+
+  public isFollowing(user_id1: number, user_id2: number): Observable<RESPONSE_MODEL> {
+
+    return this.http.get<any>(APIS.build_url(FOLLOW_SCHEMA.IS_FOLLOWING, this.api, `&${FOLLOWS.USER_ID1}=${user_id1}&${FOLLOWS.USER_ID2}=${user_id2}`)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 

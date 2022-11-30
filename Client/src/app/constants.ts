@@ -95,6 +95,7 @@ export enum FOLLOWS {
     USER_ID1 = "user_id1",
     USER_ID2 = "user_id2",
     FOLLOW_DATE = "follow_date"
+
 }
 
 export enum LIKES {
@@ -159,6 +160,7 @@ export enum EXIT_CODES {
     FOLLOW_REMOVE = 161,
     FOLLOW_GET_FOLLOWERS = 162,
     FOLLOW_GET_FOLLOWINGS = 163,
+    FOLLOW_IS_FOLLOWING = 164,
 
     MISSING_PARAMS = 400,
     INCORRECT_SCHEMA = 405
@@ -185,7 +187,8 @@ export enum RESPONSE {
     FOLLOWINGS = "followings",
     USERNAME_AVAILABLE = "username_taken",
     NAME_AVAILABLE = "name_taken",
-    PROFILE_ID = "profile_id"
+    PROFILE_ID = "profile_id",
+    FOLLOWS = "is_following"
 
 }
 
@@ -229,7 +232,8 @@ export enum FOLLOW_SCHEMA {
     FOLLOW = 0,
     UNFOLLOW = 1,
     GET_FOLLOWERS = 2,
-    GET_FOLLOWINGS = 3
+    GET_FOLLOWINGS = 3,
+    IS_FOLLOWING = 4
 }
 export enum PLATONS_SCHEMA {
 
