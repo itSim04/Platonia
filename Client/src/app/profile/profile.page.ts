@@ -7,6 +7,7 @@ import { IonPopover, ModalController, NavController } from '@ionic/angular';
 import { EditProfilePage } from '../edit-profile/edit-profile.page';
 import { Interest } from '../models/interests-model';
 import { InterestService } from '../apis/interest.service';
+import { FollowService } from '../apis/follow.service';
 
 @Component({
   selector: 'app-profile',
@@ -16,14 +17,18 @@ import { InterestService } from '../apis/interest.service';
 export class ProfilePage {
 
   is_modal_open: boolean = false;
-  owner: number = 0;
+
+  owner: boolean = false;
+  is_followed: boolean = false;
+
   current_user?: User;
+
   bio_edit_mode: boolean = false;
   new_bio: string = "";
 
   @ViewChild('options') option!: IonPopover;
 
-  constructor(private modalCtrl: ModalController, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router, private nav: NavController) {
+  constructor(private modalCtrl: ModalController, private followService: FollowService, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router, private nav: NavController) {
   }
 
   openOptions() {
@@ -55,18 +60,29 @@ export class ProfilePage {
       this.storage.get("loggedInUser").then((r) => {
 
         this.current_user = <User>r;
-        this.owner = 0;
+        this.owner = true;
         this.new_bio = this.current_user!.bio;
 
       });
 
     } else {
 
-      this.userService.getOne({ user_id: id }).subscribe(r => {
+      this.userService.getOne({ user_id: id }).subscribe(current_profile => {
 
-        this.current_user = r.user;
-        this.storage.get("loggedInUser").then(r => {
-          this.owner = (<User>r).user_id == this.current_user!.user_id ? 0 : 1;
+        this.current_user = current_profile.user;
+        this.storage.get<User>("loggedInUser").then(current_user => {
+
+          if(current_user.user_id == this.current_user!.user_id) {
+            
+            this.owner = true;
+
+          } else {
+
+            this.owner = false;
+            this.followService.isFollowing(current_user.user_id, current_profile.user!.user_id).subscribe(r => this.is_followed = r.follows!)
+          
+          }
+
           this.new_bio = this.current_user!.bio
         });
 

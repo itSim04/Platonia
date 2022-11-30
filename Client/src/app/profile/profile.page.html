@@ -14,7 +14,8 @@
 
   <!-- Options Opener -->
   <ion-button (click)="openOptions()" fill="clear" class="extra_label">
-    <ion-icon name="ellipsis-horizontal" size="large"></ion-icon>
+    <ion-icon [name]="owner ? 'ellipsis-horizontal' : ( !is_followed ? 'add-circle-outline' : 'close-circle-outline' )"
+      size="large"></ion-icon>
   </ion-button>
 
   <!-- Options Tab -->
@@ -42,7 +43,7 @@
     </ion-card-header>
 
     <ion-card-content>
-      <ion-textarea  autoGrow="true" [disabled]="!bio_edit_mode" text-wrap class="content" [(ngModel)]="new_bio"
+      <ion-textarea autoGrow="true" [disabled]="!bio_edit_mode" text-wrap class="content" [(ngModel)]="new_bio"
         placeholder="Hello Friends..."></ion-textarea>
     </ion-card-content>
   </ion-card>
