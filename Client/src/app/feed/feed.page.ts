@@ -18,7 +18,14 @@ export class FeedPage {
   thoughts: Array<Thought> = new Array();
   constructor(private thoughtService: ThoughtService, private storageService: StorageService, private followService: FollowService) { }
 
-  ionViewWillEnter() {
+  async handleRefresh(event: any) {
+    await setTimeout(() => {
+      this.retrieveDate();
+      event.target.complete();
+    }, 2000);
+  };
+
+  retrieveDate() {
 
     this.storageService.get<User>("loggedInUser").then(owner => {
 
@@ -32,7 +39,7 @@ export class FeedPage {
         this.users = followings.users;
 
         this.thoughtService.getByUsers({ user_id: owner.user_id, owner_ids: Array.from(followings.users!.values()).map(r => r.user_id) }).subscribe(r => {
-          
+
           console.log(r);
           r.thoughts?.forEach(t => temp_thoughts.splice(sortedInsertion<Thought>(
 
@@ -45,6 +52,12 @@ export class FeedPage {
       });
 
     });
+
+  }
+
+  ionViewWillEnter() {
+
+    this.retrieveDate();
 
   }
 

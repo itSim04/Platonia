@@ -7,6 +7,9 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ng-container *ngFor="let thought of thoughts">
     <app-card-thought [user]="users?.get(thought.owner_id)" [thought]="thought"></app-card-thought>
   </ng-container>
