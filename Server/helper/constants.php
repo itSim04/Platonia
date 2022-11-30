@@ -135,6 +135,7 @@ class EXIT_CODES {
 	public const THOUGHTS_GET_BY = 113;
 	public const THOUGHTS_UPDATE = 114;
 	public const THOUGHTS_DELETE = 115;
+	public const THOUGHTS_GET_BY_USERS = 116;
 
 	public const INTERESTS_ADD = 120;
 	public const INTERESTS_GET_ALL = 121;
@@ -254,6 +255,7 @@ class THOUGHTS_SCHEMA {
 	public const GET_BY = 3;
 	public const UPDATE = 4;
 	public const DELETE = 5;
+	public const GET_BY_USERS = 6;
 
 }
 

@@ -45,7 +45,7 @@
       <ion-col>
         <ion-list class="inputs">
           <ion-item>
-            <ion-select (ionChange)="setGender($event)" interface="popover" placeholder="Select Gender">
+            <ion-select (ionChange)="setGender($event)" interface="popover" [placeholder]="genders[user.gender!]">
               <ion-select-option class="inputs" *ngFor="let gender of genders" [value]="gender">{{gender}}
               </ion-select-option>
             </ion-select>

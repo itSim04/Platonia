@@ -41,6 +41,7 @@ export class EditProfilePage {
     username: ""
 
   };
+  
   genders: Array<string> = new Array(...Genders);
   new_birthday: string = "";
 
@@ -95,7 +96,29 @@ export class EditProfilePage {
 
   setGender(e: any) {
 
-    this.user.gender = e.detail.value;
+    switch (e.detail.value) {
+
+      case this.genders[0]:
+
+        this.user.gender = 0;
+        break;
+
+      case this.genders[1]:
+
+        this.user.gender = 1;
+        break;
+
+      case this.genders[2]:
+
+        this.user.gender = 2;
+        break;
+
+      case this.genders[3]:
+
+        this.user.gender = 3;
+        break;
+    }
+
 
   }
 

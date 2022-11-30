@@ -109,6 +109,58 @@ if (check_keys($_GET, "schema")) {
             }
             break;
 
+        case THOUGHTS_SCHEMA::GET_BY:
+
+            if (check_keys($_GET, USERS::ID, THOUGHTS::OWNER_ID)) {
+
+                $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_GET_BY;
+                if (array_key_exists(THOUGHTS::ROOT, $_GET)) {
+
+                    $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID], THOUGHTS::ROOT => $_GET[THOUGHTS::ROOT]], $complex, array_merge($linkers, array(new condition(THOUGHTS::ROOT), new condition(THOUGHTS::OWNER_ID))));
+
+                } else {
+
+                    $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::OWNER_ID))));
+
+                }
+                for ($i = 0; $i < count($output[RESPONSE::THOUGHTS]); $i++) {
+                    $output[RESPONSE::THOUGHTS][$i]->profile_id = is_dir("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                }
+
+            }
+            break;
+
+
+        case THOUGHTS_SCHEMA::GET_BY_USERS:
+
+            if (check_keys($_GET, USERS::ID, THOUGHTS::OWNER_ID)) {
+
+                $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_GET_BY_USERS;
+                if (array_key_exists(THOUGHTS::ROOT, $_GET)) {
+
+                    $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::ROOT => $_GET[THOUGHTS::ROOT]], $complex, array_merge($linkers, array(new condition(THOUGHTS::ROOT), new condition(THOUGHTS::OWNER_ID . " IN (" . implode(", ", $_GET[THOUGHTS::OWNER_ID]) . ")", false))));
+
+                } else {
+
+                    $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::OWNER_ID . " IN (" . implode(", ", $_GET[THOUGHTS::OWNER_ID]) . ")", false))));
+
+                }
+                for ($i = 0; $i < count($output[RESPONSE::THOUGHTS]); $i++) {
+                    $output[RESPONSE::THOUGHTS][$i]->profile_id = is_dir("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                }
+
+            }
+            break;
+
+        case THOUGHTS_SCHEMA::UPDATE:
+
+            if (check_keys($_POST, THOUGHTS::ID, THOUGHTS::CONTENT, THOUGHTS::EDIT_DATE)) {
+
+                $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_UPDATE;
+                process($PDO, SQLFunctions::UPDATE, $table_name, $_POST, array(THOUGHTS::CONTENT, THOUGHTS::EDIT_DATE), array(new condition(THOUGHTS::ID)));
+
+            }
+
         case THOUGHTS_SCHEMA::DELETE:
 
             if (check_keys($_GET, THOUGHTS::ID)) {
