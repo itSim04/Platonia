@@ -55,6 +55,18 @@ export class ThoughtService {
 
   }
 
+  public getByUsers(thought: THOUGHTS_RESPONSE): Observable<RESPONSE_MODEL> {
+
+    let params: string = "";
+    thought.owner_ids?.forEach(s => params += `&${THOUGHTS.OWNER_ID}[]=${s}`);
+    return this.http.get<any>(APIS.build_url(THOUGHTS_SCHEMA.GET_BY_USERS, this.api, `&${USERS.ID}=${thought.user_id}&${THOUGHTS.OWNER_ID}=${thought.owner_id}${params}`)).pipe(map((data: any) =>
+
+      Packager.responseUnpack(data)
+
+    ));
+
+  }
+
   public update(thought: THOUGHTS_RESPONSE): Observable<RESPONSE_MODEL> {
 
     return this.http.post<any>(APIS.build_url(THOUGHTS_SCHEMA.UPDATE, this.api), Packager.packThoughtForPOST(thought)).pipe(map((data: any) =>

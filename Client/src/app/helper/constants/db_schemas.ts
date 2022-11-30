@@ -14,6 +14,7 @@ export enum EXIT_CODES {
     THOUGHTS_GET_BY = 113,
     THOUGHTS_UPDATE = 114,
     THOUGHTS_DELETE = 115,
+    THOUGHTS_GET_BY_USERS = 116,
 
     INTERESTS_ADD = 120,
     INTERESTS_GET_ALL = 121,
@@ -132,7 +133,8 @@ export enum THOUGHTS_SCHEMA {
     GET_ONE = 2,
     GET_BY = 3,
     UPDATE = 4,
-    DELETE = 5
+    DELETE = 5,
+    GET_BY_USERS = 6
 
 }
 

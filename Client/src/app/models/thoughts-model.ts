@@ -37,6 +37,7 @@ export interface THOUGHTS_RESPONSE {
     content?: string;
     type?: number;
     owner_id?: number;
+    owner_ids?: number[];
     root_id?: number;
 
     poll1?: string;

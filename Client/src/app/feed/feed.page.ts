@@ -27,23 +27,24 @@ export class FeedPage {
       this.followService.getFollowings(owner.user_id).subscribe(followings => {
 
         this.thoughts.splice(0);
-        followings.users?.forEach(user => {
 
-          this.users?.set(user.user_id, user);
+        const temp_thoughts: Array<Thought> = new Array();
+        this.users = followings.users;
 
-          this.thoughtService.getBy({ user_id: owner.user_id, owner_id: user.user_id }).subscribe(r => {
+        this.thoughtService.getByUsers({ user_id: owner.user_id, owner_ids: Array.from(followings.users!.values()).map(r => r.user_id) }).subscribe(r => {
+          
+          console.log(r);
+          r.thoughts?.forEach(t => temp_thoughts.splice(sortedInsertion<Thought>(
 
-            r.thoughts?.forEach(t => this.thoughts.splice(sortedInsertion<Thought>(
-
-              this.thoughts, t, (a: Thought, b: Thought) => { return (b.share_date.getTime() - a.share_date.getTime()); }), 0, t));
-
-          });
+            temp_thoughts, t, (a: Thought, b: Thought) => { return (b.share_date.getTime() - a.share_date.getTime()); }), 0, t));
 
         });
+        this.thoughts = temp_thoughts;
+
 
       });
 
-    })
+    });
 
   }
 

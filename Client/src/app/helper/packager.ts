@@ -1,4 +1,4 @@
-import { USERS, USERS_TEMP,  THOUGHTS, THOUGHTS_TEMP,  OPTIONS,  INTERESTS, INTERESTED_IN } from "./constants/db_columns";
+import { USERS, USERS_TEMP, THOUGHTS, THOUGHTS_TEMP, OPTIONS, INTERESTS, INTERESTED_IN } from "./constants/db_columns";
 import { Interest, INTEREST_RESPONSE } from "../models/interests-model";
 import { RESPONSE_MODEL } from "../models/response-model";
 import { Option, Thought, THOUGHTS_RESPONSE } from "../models/thoughts-model";
@@ -48,6 +48,7 @@ export class Packager {
 
             case EXIT_CODES.THOUGHTS_GET_ALL:
             case EXIT_CODES.THOUGHTS_GET_BY:
+            case EXIT_CODES.THOUGHTS_GET_BY_USERS:
 
                 response.users = this.packUsersInMap(data[RESPONSE.THOUGHTS]);
                 response.thoughts = this.packThoughtsInMap(data[RESPONSE.THOUGHTS]);
