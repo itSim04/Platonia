@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { APIS, THOUGHTS, THOUGHTS_SCHEMA, USERS } from '../constants';
+import {  THOUGHTS, USERS } from '../helper/constants/db_columns';
 import { RESPONSE_MODEL } from '../models/response-model';
-import { Thought, THOUGHTS_RESPONSE } from '../models/thoughts-model';
-import { Packager } from '../packager';
+import { Packager } from '../helper/packager';
+import { APIS, THOUGHTS_SCHEMA } from '../helper/constants/db_schemas';
+import { THOUGHTS_RESPONSE } from '../models/thoughts-model';
 
 @Injectable({
   providedIn: 'root'

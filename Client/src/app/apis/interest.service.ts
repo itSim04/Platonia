@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { APIS, INTERESTED_IN, INTERESTS, INTERESTS_SCHEMA, THOUGHTS_SCHEMA } from '../constants';
+import { INTERESTED_IN, INTERESTS } from '../helper/constants/db_columns';
 import { INTEREST_RESPONSE } from '../models/interests-model';
 import { RESPONSE_MODEL } from '../models/response-model';
-import { Packager } from '../packager';
+import { Packager } from '../helper/packager';
+import { APIS, INTERESTS_SCHEMA } from '../helper/constants/db_schemas';
 
 @Injectable({
   providedIn: 'root'

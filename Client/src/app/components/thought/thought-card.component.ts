@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { LikeService } from 'src/app/apis/like.service';
 import { StorageService } from 'src/app/apis/storage.service';
-import { EXIT_CODES } from 'src/app/constants';
+import { EXIT_CODES } from 'src/app/helper/constants/db_schemas';
 import { Thought } from 'src/app/models/thoughts-model';
 import { User } from 'src/app/models/users-model';
 

@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { APIS, RESPONSE, USERS, USERS_SCHEMA, USERS_TEMP } from '../constants';
-import { User, USER_RESPONSE } from '../models/users-model';
+import { USERS, } from '../helper/constants/db_columns';
+import { USER_RESPONSE } from '../models/users-model';
 import { RESPONSE_MODEL } from '../models/response-model';
-import { Packager } from '../packager';
+import { Packager } from '../helper/packager';
+import { APIS, USERS_SCHEMA } from '../helper/constants/db_schemas';
 
 @Injectable({
   providedIn: 'root'

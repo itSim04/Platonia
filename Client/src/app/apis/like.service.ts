@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { APIS, FOLLOWS, LIKES, LIKES_SCHEMA, THOUGHTS, USERS } from '../constants';
+import { FOLLOWS, LIKES, THOUGHTS, USERS } from '../helper/constants/db_columns';
 import { RESPONSE_MODEL } from '../models/response-model';
-import { Packager } from '../packager';
+import { Packager } from '../helper/packager';
+import { APIS, LIKES_SCHEMA } from '../helper/constants/db_schemas';
 
 @Injectable({
   providedIn: 'root'

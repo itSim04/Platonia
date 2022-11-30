@@ -1,9 +1,9 @@
-import { formatNumber } from "@angular/common";
-import { USERS, USERS_TEMP, RESPONSE, THOUGHTS, THOUGHTS_TEMP, ANSWERS, OPTIONS, EXIT_CODES, APIS, INTERESTS, INTERESTED_IN } from "./constants";
-import { Interest, INTEREST_RESPONSE } from "./models/interests-model";
-import { RESPONSE_MODEL } from "./models/response-model";
-import { Option, Thought, THOUGHTS_RESPONSE } from "./models/thoughts-model";
-import { User, USER_RESPONSE } from "./models/users-model";
+import { USERS, USERS_TEMP,  THOUGHTS, THOUGHTS_TEMP,  OPTIONS,  INTERESTS, INTERESTED_IN } from "./constants/db_columns";
+import { Interest, INTEREST_RESPONSE } from "../models/interests-model";
+import { RESPONSE_MODEL } from "../models/response-model";
+import { Option, Thought, THOUGHTS_RESPONSE } from "../models/thoughts-model";
+import { User, USER_RESPONSE } from "../models/users-model";
+import { RESPONSE, EXIT_CODES } from "./constants/db_schemas";
 
 export class Packager {
 
@@ -155,7 +155,7 @@ export class Packager {
                 user_id: data[USERS.ID],
                 username: data[USERS.USERNAME],
                 bio: data[USERS.BIO],
-                birthday: data[USERS.BIRTHDAY],
+                birthday: new Date(data[USERS.BIRTHDAY]),
                 email: data[USERS.EMAIL],
                 followers: data[USERS_TEMP.FOLLOWERS],
                 followings: data[USERS_TEMP.FOLLOWINGS],
@@ -209,8 +209,8 @@ export class Packager {
         const current: Thought = {
 
             thought_id: data[THOUGHTS.ID],
-            share_date: data[THOUGHTS.SHARE_DATE],
-            edit_date: data[THOUGHTS.EDIT_DATE],
+            share_date: new Date(data[THOUGHTS.SHARE_DATE]),
+            edit_date: new Date(data[THOUGHTS.EDIT_DATE]),
             content: data[THOUGHTS.CONTENT],
             type: data[THOUGHTS.TYPE],
             owner_id: data[THOUGHTS.OWNER_ID],

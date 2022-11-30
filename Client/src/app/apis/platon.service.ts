@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { APIS, LIKES_SCHEMA, LIKES, PLATONS_SCHEMA, PLATONS } from '../constants';
+import { LIKES, PLATONS } from '../helper/constants/db_columns';
 import { RESPONSE_MODEL } from '../models/response-model';
-import { Packager } from '../packager';
+import { Packager } from '../helper/packager';
+import { APIS, PLATONS_SCHEMA } from '../helper/constants/db_schemas';
 
 @Injectable({
   providedIn: 'root'
