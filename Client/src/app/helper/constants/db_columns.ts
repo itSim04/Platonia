@@ -11,6 +11,7 @@ export enum USERS {
     GENDER = "gender",
     PICTURE = "picture",
     BANNER = "banner",
+    IS_VERIFIED = "is_verified"
 
 }
 

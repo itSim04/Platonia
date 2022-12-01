@@ -3,11 +3,12 @@ import { StorageService } from '../apis/storage.service';
 import { UserService } from '../apis/user.service';
 import { User } from '../models/users-model';
 import { Component, ViewChild } from '@angular/core';
-import { IonPopover, ModalController, NavController } from '@ionic/angular';
+import { AlertController, IonPopover, ModalController, NavController } from '@ionic/angular';
 import { EditProfilePage } from '../edit-profile/edit-profile.page';
 import { Interest } from '../models/interests-model';
 import { InterestService } from '../apis/interest.service';
 import { FollowService } from '../apis/follow.service';
+import { presentAlert } from '../helper/utility';
 
 @Component({
   selector: 'app-profile',
@@ -28,7 +29,7 @@ export class ProfilePage {
 
   @ViewChild('options') option!: IonPopover;
 
-  constructor(private modalCtrl: ModalController, private followService: FollowService, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router, private nav: NavController) {
+  constructor(private alertController: AlertController, private modalCtrl: ModalController, private followService: FollowService, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router, private nav: NavController) {
   }
 
   openOptions() {
@@ -119,6 +120,32 @@ export class ProfilePage {
         });
 
       })
+
+    }
+
+    if (this.owner && !this.current_user?.is_verified) {
+
+      presentAlert(this.alertController, "Please Verify Your Email", [{
+        placeholder: '123456',
+        min: 100000,
+        max: 999999,
+      }], [{
+        text: "Send", handler: inputsData => {
+
+          return false;
+
+        }
+      },
+      {
+        text: "Verify", handler: inputsData => {
+
+          if(inputsData[0] == 123456) {
+            return true;
+          }
+          return false;
+
+        }
+      }]);
 
     }
 

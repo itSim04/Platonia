@@ -160,6 +160,7 @@ export class Packager {
                 email: data[USERS.EMAIL],
                 followers: data[USERS_TEMP.FOLLOWERS],
                 followings: data[USERS_TEMP.FOLLOWINGS],
+                is_verified: data[USERS.IS_VERIFIED],
                 picture: `http://localhost/Platonia/Server/assets/users/${data[USERS.ID]}/profile-${data[RESPONSE.PROFILE_ID] - 1}.png`,
                 gender: data[USERS.GENDER],
                 join: data[USERS.JOIN]

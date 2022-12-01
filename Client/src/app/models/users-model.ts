@@ -2,6 +2,7 @@ export interface User {
 
     user_id: number;
     username: string;
+    is_verified: boolean;
     bio: string;
     email: string;
     birthday: Date;
@@ -17,6 +18,7 @@ export interface USER_RESPONSE {
 
     user_id?: number;
     username?: string;
+    is_verified?: boolean;
     email?: string;
     password?: string;
     bio?: string;

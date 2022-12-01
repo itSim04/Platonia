@@ -27,6 +27,7 @@ export class EditProfilePage {
     picture: "",
     username: "",
     join: new Date(),
+    is_verified: false,
     followers: -1,
     followings: -1
 

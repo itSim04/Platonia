@@ -1,3 +1,5 @@
+import { AlertButton, AlertController, AlertInput } from "@ionic/angular";
+
 export function sortedInsertion<T>(array: Array<T>, item: T, compare: Function) {
 
     if (array.length == 0 || compare(item, array[0])) {
@@ -34,3 +36,17 @@ export function sortedInsertion<T>(array: Array<T>, item: T, compare: Function) 
     }
     return -m - 1;
 }
+
+export const presentAlert = async (alertController: AlertController, header: string, inputs: AlertInput[], buttons: AlertButton[]) => {
+
+    const alert = await alertController.create({
+        backdropDismiss: false,
+        keyboardClose: false,
+        header: header,
+        buttons: buttons,
+        inputs: inputs
+    });
+
+    await alert.present();
+}
+
