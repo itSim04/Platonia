@@ -8,13 +8,14 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { HttpClientModule } from '@angular/common/http';
-import { ImagePicker } from '@awesome-cordova-plugins/image-picker/ngx';
+import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 import { NavParams } from '@ionic/angular';
+
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, NavParams, ImagePicker],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, NavParams, EmailComposer],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

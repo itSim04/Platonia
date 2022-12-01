@@ -2,20 +2,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from '../apis/storage.service';
 import { UserService } from '../apis/user.service';
 import { User } from '../models/users-model';
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, IonPopover, ModalController, NavController } from '@ionic/angular';
 import { EditProfilePage } from '../edit-profile/edit-profile.page';
-import { Interest } from '../models/interests-model';
-import { InterestService } from '../apis/interest.service';
 import { FollowService } from '../apis/follow.service';
 import { presentAlert } from '../helper/utility';
+import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
+import { EXIT_CODES } from '../helper/constants/db_schemas';
+
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage {
+export class ProfilePage implements OnInit {
 
   is_modal_open: boolean = false;
 
@@ -29,7 +30,13 @@ export class ProfilePage {
 
   @ViewChild('options') option!: IonPopover;
 
-  constructor(private alertController: AlertController, private modalCtrl: ModalController, private followService: FollowService, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router, private nav: NavController) {
+  constructor(private emailComposer: EmailComposer, private alertController: AlertController, private modalCtrl: ModalController, private followService: FollowService, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router, private nav: NavController) {
+  }
+
+  ngOnInit(): void {
+
+    this.ionViewWillEnter();
+    
   }
 
   openOptions() {
@@ -125,30 +132,9 @@ export class ProfilePage {
 
     if (this.owner && !this.current_user?.is_verified) {
 
-      presentAlert(this.alertController, "Please Verify Your Email", [{
-        placeholder: '123456',
-        min: 100000,
-        max: 999999,
-      }], [{
-        text: "Send", handler: inputsData => {
-
-          return false;
-
-        }
-      },
-      {
-        text: "Verify", handler: inputsData => {
-
-          if(inputsData[0] == 123456) {
-            return true;
-          }
-          return false;
-
-        }
-      }]);
+      this.displayVerification();
 
     }
-
 
   }
 
@@ -198,5 +184,49 @@ export class ProfilePage {
     this.nav.pop();
 
   }
+
+
+  displayVerification() {
+    presentAlert(this.alertController, "Please Verify Your Email", [{
+      id: 'verification',
+      placeholder: '123456',
+      min: 100000,
+      max: 999999,
+    }], [{
+      text: "Send", handler: inputsData => {
+
+        let email = {
+          to: 'moawadsimon@gmail.com',
+          subject: 'Verification code',
+          body: 'How are you? Nice greetings',
+          isHtml: true
+        }
+
+        this.emailComposer.open(email);
+        return false;
+
+      }
+    },
+    {
+      text: "Verify", handler: inputsData => {
+
+        if (inputsData[0] == 123456) {
+          this.userService.updateUser({ user_id: this.current_user?.user_id, is_verified: true }).subscribe(response => {
+
+            console.log(response);
+            if (response.status == EXIT_CODES.USERS_UPDATE) {
+              this.alertController.dismiss('verification');
+            }
+            return false;
+
+          })
+        }
+        return false;
+
+      }
+    }]).then(r => r);;
+
+  }
+
 }
 

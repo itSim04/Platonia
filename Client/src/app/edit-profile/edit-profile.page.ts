@@ -147,7 +147,8 @@ export class EditProfilePage {
 
         } else {
 
-          this.user.birthday = new Date(this.new_birthday);
+          this.user.birthday =  new Date(this.new_birthday);
+          console.log(this.user.birthday);
           this.userService.updateUser(this.user).subscribe(response => {
 
             this.storageService.set("loggedInUser", response.user);

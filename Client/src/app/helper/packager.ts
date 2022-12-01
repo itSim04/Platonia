@@ -183,8 +183,9 @@ export class Packager {
         if (user.user_id != undefined) form.append(USERS.ID, String(user.user_id));
         if (user.username != undefined) form.append(USERS.USERNAME, user.username);
         if (user.password != undefined) form.append(USERS.PASSWORD, user.password);
+        if (user.is_verified != undefined) form.append(USERS.IS_VERIFIED, String(user.is_verified ? 1 : 0));
         if (user.bio != undefined) form.append(USERS.BIO, user.bio);
-        if (user.birthday != undefined) form.append(USERS.BIRTHDAY, String(user.birthday));
+        if (user.birthday != undefined) form.append(USERS.BIRTHDAY, user.birthday.toISOString().slice(0, 10).replace('T', ' '));
         if (user.email != undefined) form.append(USERS.EMAIL, user.email);
         if (user.gender != undefined) form.append(USERS.GENDER, String(user.gender));
         if (user.picture != undefined) form.append(USERS.PICTURE, String(user.picture));

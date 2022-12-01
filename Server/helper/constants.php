@@ -172,6 +172,13 @@ class EXIT_CODES {
 
 }
 
+class EMAIL {
+
+	public const MESSAGE = "message";
+
+
+}
+
 class RESPONSE {
 
 	public const STATUS = "status";
@@ -264,5 +271,11 @@ class POLLS_SCHEMA {
 
 	public const ANSWER_POLL = 0;
 	public const GET_OPTION = 1;
+
+}
+
+class UTILITIES {
+
+	public const EMAIL = 0;
 
 }
