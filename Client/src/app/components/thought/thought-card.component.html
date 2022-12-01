@@ -19,7 +19,7 @@
 
           <!-- Text Thoughts -->
 
-          <!-- Edit mode -->
+          <!-- Edit Mode -->
           <ion-input *ngIf="editable; else feed" text-wrap class="content" [(ngModel)]="thought.content"
             placeholder="Hello Friends..."></ion-input>
 
@@ -30,11 +30,15 @@
 
           <!-- Poll Thoughts -->
 
-          <app-poll-block [progress]="12"></app-poll-block>
-          <app-poll-block [progress]="34"></app-poll-block>
-          <app-poll-block [progress]="52"></app-poll-block>
-          <app-poll-block [progress]="23"></app-poll-block>
+          <!-- Edit Mode -->
 
+          <!-- Feed Mode -->
+          <div *ngIf="thought.type == 3">
+            <app-poll-block [progress]="12"></app-poll-block>
+            <app-poll-block [progress]="34"></app-poll-block>
+            <app-poll-block [progress]="52"></app-poll-block>
+            <app-poll-block [progress]="23"></app-poll-block>
+          </div>
         </ion-col>
       </ion-row>
       <ion-row>

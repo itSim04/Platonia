@@ -41,12 +41,10 @@ export class FeedPage {
         this.thoughtService.getByUsers({ user_id: owner.user_id, owner_ids: Array.from(followings.users!.values()).map(r => r.user_id) }).subscribe(r => {
 
           console.log(r);
-          r.thoughts?.forEach(t => temp_thoughts.splice(sortedInsertion<Thought>(
-
-            temp_thoughts, t, (a: Thought, b: Thought) => { return (b.share_date.getTime() - a.share_date.getTime()); }), 0, t));
+          r.thoughts?.forEach(t => temp_thoughts.unshift(t));
 
         });
-        this.thoughts = temp_thoughts;
+        this.thoughts = temp_thoughts.sort((a: Thought, b: Thought) => { return (b.share_date.getTime() - a.share_date.getTime()); });
 
 
       });

@@ -30,8 +30,7 @@ if (check_keys($_GET, "schema")) {
 
                     }
                     $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [THOUGHTS::ID => $id], array(), array(new condition(THOUGHTS::ID)));
-                    $output[RESPONSE::THOUGHT][0]->profile_id = is_dir("../assets/users/{$output[RESPONSE::THOUGHTS][0]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::THOUGHTS][0]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
-
+                
                     if ($_POST[THOUGHTS::TYPE] == 3) {
                         process($PDO, SQLFunctions::ADD, $option_name, [OPTIONS::ID => $id, THOUGHTS::CONTENT => $_POST[THOUGHTS::POLL1], THOUGHTS::POSITION => 1], array(OPTIONS::ID, THOUGHTS::CONTENT, THOUGHTS::POSITION), array());
                         process($PDO, SQLFunctions::ADD, $option_name, [OPTIONS::ID => $id, THOUGHTS::CONTENT => $_POST[THOUGHTS::POLL2], THOUGHTS::POSITION => 2], array(OPTIONS::ID, THOUGHTS::CONTENT, THOUGHTS::POSITION), array());
