@@ -13,6 +13,7 @@ class USERS {
 	public const PICTURE = "picture";
 	public const BANNER = "banner";
 	public const PROFILE_ID = "profile_id";
+	public const IS_VERIFIED = "is_verified";
 
 }
 

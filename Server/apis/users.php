@@ -43,12 +43,27 @@ if (check_keys($_GET, "schema")) {
 
         case USERS_SCHEMA::UPDATE:
 
-            if (check_keys($_POST, USERS::ID, USERS::USERNAME, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER)) {
+            if (check_keys($_POST, USERS::ID)) {
 
-                $output[RESPONSE::STATUS] = EXIT_CODES::USERS_UPDATE;
-                process($PDO, SQLFunctions::UPDATE, $table_name, $_POST, array(USERS::USERNAME, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER), array(new condition(USERS::ID)));
-                $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $temp_table), [USERS::ID => $_POST[USERS::ID]], array(), array(new condition(USERS::ID), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
-                $output[RESPONSE::USER][0]->profile_id = is_dir("../assets/users/{$output[RESPONSE::USER][0]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::USER][0]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                $keys = array(USERS::USERNAME, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER, USERS::IS_VERIFIED);
+                $keys_to_take = array();
+                for ($i = 0, $j = 0; $i < count($keys); $i++) {
+                    if (array_key_exists($keys[$i], $_POST)) {
+                        $keys_to_take[$j++] = $keys[$i];
+                    }
+                }
+                if (count($keys_to_take) == 0) {
+
+                    $output[RESPONSE::STATUS] = EXIT_CODES::INCORRECT_SCHEMA;
+                    $output[RESPONSE::ERROR_MESSAGE] = "Nothing to Update";
+
+                } else {
+
+                    $output[RESPONSE::STATUS] = EXIT_CODES::USERS_UPDATE;
+                    process($PDO, SQLFunctions::UPDATE, $table_name, $_POST, $keys_to_take, array(new condition(USERS::ID)));
+                    $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $temp_table), [USERS::ID => $_POST[USERS::ID]], array(), array(new condition(USERS::ID), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
+                    $output[RESPONSE::USER][0]->profile_id = is_dir("../assets/users/{$output[RESPONSE::USER][0]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::USER][0]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                }
             }
             break;
 

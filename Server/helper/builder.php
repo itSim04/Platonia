@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS users (
  birthday date NOT NULL,
  join_date date NOT NULL,
  gender varchar(1) NOT NULL,
+ is_verified BOOLEAN NOT NULL DEFAULT FALSE,
  PRIMARY KEY (user_id),
  UNIQUE (username),
  UNIQUE (email))");
