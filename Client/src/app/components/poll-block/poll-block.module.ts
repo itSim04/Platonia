@@ -19,4 +19,4 @@ import { PollBlockComponent } from './poll-block.component';
         PollBlockComponent,
     ]
 })
-export class InterestCardModule { }
+export class PollBlockModule { }

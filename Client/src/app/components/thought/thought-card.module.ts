@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 import { UserCardModule } from '../user-card/user-card.module';
+import { PollBlockModule } from '../poll-block/poll-block.module';
 
 @NgModule({
     declarations: [
@@ -15,7 +16,8 @@ import { UserCardModule } from '../user-card/user-card.module';
         CommonModule,
         FormsModule,
         IonicModule,
-        UserCardModule
+        UserCardModule,
+        PollBlockModule
     ],
     exports: [
         ThoughtCardComponent,

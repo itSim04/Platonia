@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-poll-block',
@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PollBlockComponent implements OnInit {
 
+  @Input() progress: number = 0;
+  @Input() subject: string = "";
   constructor() { }
 
   ngOnInit() {}
