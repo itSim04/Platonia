@@ -1,42 +1,72 @@
 <ion-card *ngIf="thought != undefined && user != undefined && session_user != undefined">
+
+
   <ion-card-header class="header">
     <ion-card-subtitle>
+
       <img [src]="user.picture" onerror="this.src='http://localhost/Platonia/Server/assets/users/0/profile.png'"
         class="profile">
+
       <div class="owner_label">{{user.username}}</div>
+
     </ion-card-subtitle>
   </ion-card-header>
+
   <ion-card-content class="body">
     <ion-grid class="grid">
       <ion-row>
         <ion-col>
+
+          <!-- Text Thoughts -->
+
+          <!-- Edit mode -->
           <ion-input *ngIf="editable; else feed" text-wrap class="content" [(ngModel)]="thought.content"
             placeholder="Hello Friends..."></ion-input>
+
+          <!-- Feed Mode -->
           <ng-template #feed>
             <ion-text class="content">{{thought.content}}</ion-text>
           </ng-template>
+
+          <!-- Poll Thoughts -->
+
+
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
+
+          <!-- Opinions button -->
           <div class="action">
             <ion-icon name="chatbubble-outline" style="font-size: 20px;"></ion-icon>
           </div>
+
+          <!-- Opinions Counter -->
           <div class="action_label" style="font-size: 10px;">{{thought.opinions}}</div>
+
+          <!-- Likes Button -->
           <div (click)="like()" class="action">
             <ion-icon [color]="thought.is_liked ? 'danger' : ''" name="diamond-outline" style="font-size: 20px;">
             </ion-icon>
           </div>
+
+          <!-- Likes Counter -->
           <div (click)="setLikesOpen(true)" class="action_label" style="font-size: 10px;">{{thought.likes}}</div>
+
+          <!-- Platons Button -->
           <div class="action">
             <ion-icon name="repeat-outline" style="font-size: 20px;"></ion-icon>
           </div>
+          <!-- Platons counter -->
           <div class="action_label" style="font-size: 10px;">{{thought.platons}}</div>
+
         </ion-col>
       </ion-row>
     </ion-grid>
   </ion-card-content>
 </ion-card>
+
+<!-- Likes list -->
 <ion-modal [isOpen]="isLikesOpen">
   <ng-template>
     <ion-header>
