@@ -36,7 +36,7 @@
     <ion-row>
       <ion-col>
         <ion-item counter="true" class="inputs">
-          <ion-input name="birthday" type="date" [(ngModel)]="new_birthday"></ion-input>
+          <ion-input name="birthday" type="date" (ngModelChange)="debug($event)" [(ngModel)]="new_birthday"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>

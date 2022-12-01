@@ -16,6 +16,9 @@ import { Genders } from '../helper/constants/general';
   styleUrls: ['./edit-profile.page.scss'],
 })
 export class EditProfilePage {
+  debug(event: any) {
+    console.log(event);
+  }
 
   old: User = {
 
@@ -42,7 +45,7 @@ export class EditProfilePage {
     username: ""
 
   };
-  
+
   genders: Array<string> = new Array(...Genders);
   new_birthday: string = "";
 
@@ -57,7 +60,8 @@ export class EditProfilePage {
     this.storageService.get<User>("loggedInUser").then(response => {
 
       this.user = response;
-      this.old = response
+      this.old = response;
+      this.new_birthday = this.user.birthday!.toISOString().slice(0, 10).replace('T', ' ');
 
     });
 
@@ -147,7 +151,7 @@ export class EditProfilePage {
 
         } else {
 
-          this.user.birthday =  new Date(this.new_birthday);
+          this.user.birthday = new Date(this.new_birthday);
           console.log(this.user.birthday);
           this.userService.updateUser(this.user).subscribe(response => {
 
