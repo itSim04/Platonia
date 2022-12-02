@@ -19,6 +19,9 @@ export class ThoughtCardComponent implements OnInit {
   @Input() thought!: Thought;
   @Input() editable?: boolean;
 
+  max: number = 0;
+  max_index: number = 0;
+
   isLikesOpen: boolean = false;
   likes: Array<User> = new Array;
 
@@ -41,6 +44,35 @@ export class ThoughtCardComponent implements OnInit {
         this.thought.poll4 = response.options!.get(4)?.content;
 
         this.thought.votes = this.thought.votes1! + this.thought.votes2! + this.thought.votes3! + this.thought.votes4!;
+
+        if (this.thought.votes1! > this.max) {
+
+          this.max = this.thought.votes1!;
+          this.max_index = 1;
+
+        }
+
+        if (this.thought.votes2! > this.max) {
+
+          this.max = this.thought.votes2!
+          ;
+          this.max_index = 2;
+
+        }
+
+        if (this.thought.votes3! > this.max) {
+
+          this.max = this.thought.votes3!;
+          this.max_index = 3;
+
+        }
+
+        if (this.thought.votes4! > this.max) {
+
+          this.max = this.thought.votes4!;
+          this.max_index = 4;
+
+        }
 
       });
     }

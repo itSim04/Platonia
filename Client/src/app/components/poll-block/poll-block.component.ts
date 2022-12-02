@@ -9,6 +9,7 @@ export class PollBlockComponent implements OnInit {
 
   @Input() progress: number = 0;
   @Input() subject: string = "";
+  @Input() is_max: boolean = false;
   constructor() { }
 
   ngOnInit() {}
