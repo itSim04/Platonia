@@ -59,7 +59,7 @@ export class ThoughtService {
 
     let params: string = "";
     thought.owner_ids?.forEach(s => params += `&${THOUGHTS.OWNER_ID}[]=${s}`);
-    return this.http.get<any>(APIS.build_url(THOUGHTS_SCHEMA.GET_BY_USERS, this.api, `&${USERS.ID}=${thought.user_id}&${THOUGHTS.OWNER_ID}=${thought.owner_id}${params}`)).pipe(map((data: any) =>
+    return this.http.get<any>(APIS.build_url(THOUGHTS_SCHEMA.GET_BY_USERS, this.api, `&${USERS.ID}=${thought.user_id}&${THOUGHTS.OWNER_ID}=${thought.owner_id}${params}&${THOUGHTS.OFFSET}=${thought.offset}&${THOUGHTS.QUANTITY}=${thought.quantity}`)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 

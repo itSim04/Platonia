@@ -10,6 +10,7 @@ export class PollBlockComponent implements OnInit {
   @Input() progress: number = 0;
   @Input() subject: string = "";
   @Input() is_max: boolean = false;
+  @Input() is_modifiable: boolean = false;
   @Output() subjectEvent = new EventEmitter<string>();
 
   constructor() { }

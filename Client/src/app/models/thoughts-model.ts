@@ -1,5 +1,3 @@
-import * as internal from "stream";
-
 export interface Thought {
 
     thought_id: number;
@@ -46,6 +44,9 @@ export interface THOUGHTS_RESPONSE {
     poll2?: string;
     poll3?: string;
     poll4?: string;
+
+    offset?: number;
+    quantity?: number;
 
 }
 

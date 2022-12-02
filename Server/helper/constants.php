@@ -14,8 +14,7 @@ class USERS {
 	public const BANNER = "banner";
 	public const PROFILE_ID = "profile_id";
 	public const IS_VERIFIED = "is_verified";
-	public const OFFSET = "offset";
-	public const QUANTITY = "quantity";
+	
 
 }
 
@@ -40,6 +39,10 @@ class THOUGHTS {
 	public const POLL2 = "poll2";
 	public const POLL3 = "poll3";
 	public const POLL4 = "poll4";
+
+	
+	public const OFFSET = "offset";
+	public const QUANTITY = "quantity";
 
 }
 

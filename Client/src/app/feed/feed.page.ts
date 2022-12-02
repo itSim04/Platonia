@@ -12,15 +12,20 @@ import { InfiniteScrollCustomEvent } from '@ionic/angular';
   templateUrl: './feed.page.html',
   styleUrls: ['./feed.page.scss'],
 })
-export class FeedPage {
+export class FeedPage implements OnInit {
 
   owner?: User;
   users?: Map<number, User> = new Map();
   thoughts: Array<Thought> = new Array();
+  anchor: number = 0;
+  quantity: number = 5;
   constructor(private thoughtService: ThoughtService, private storageService: StorageService, private followService: FollowService) { }
 
   async handleRefresh(event: any) {
     await setTimeout(() => {
+      this.thoughts.splice(0);
+      this.users?.clear();
+      this.anchor = 0;
       this.retrieveDate();
       event.target.complete();
     }, 2000);
@@ -34,22 +39,17 @@ export class FeedPage {
 
       this.followService.getFollowings(owner.user_id).subscribe(followings => {
 
-        this.thoughts.splice(0);
-
         const temp_thoughts: Array<Thought> = new Array();
-        this.users = followings.users;
+        followings.users!.forEach((k, u) => this.users?.set(u, k));
+        this.users?.set(owner.user_id, owner);
 
         const ids: number[] = Array.from(followings.users!.values()).map(r => r.user_id);
         ids.push(owner.user_id);
-        console.log(ids);
-        this.thoughtService.getByUsers({ user_id: owner.user_id, owner_ids: ids}).subscribe(r => {
+        this.thoughtService.getByUsers({ user_id: owner.user_id, owner_ids: ids, offset: this.anchor, quantity: this.quantity }).subscribe(r => {
 
-          console.log(r);
-          r.thoughts?.forEach(t => temp_thoughts.unshift(t));
+          r.thoughts?.forEach(t => this.thoughts.push(t));
 
         });
-        this.thoughts = temp_thoughts.sort((a: Thought, b: Thought) => { return (b.share_date.getTime() < a.share_date.getTime() ? -1 : 1); });
-        console.log(this.thoughts);
 
 
       });
@@ -58,14 +58,15 @@ export class FeedPage {
 
   }
 
-  ionViewWillEnter() {
+  ngOnInit() {
 
     this.retrieveDate();
 
   }
 
   onIonInfinite(ev: any) {
-    //this.generateItems();
+    this.anchor += this.quantity;
+    this.retrieveDate();
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
     }, 500);

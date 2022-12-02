@@ -29,6 +29,8 @@ export enum THOUGHTS {
     IS_LIKED = "is_liked",
     IS_PLATONED = "is_platoned",
     OPTION = "is_voted",
+    OFFSET = "offset",
+    QUANTITY = "quantity"
 
 }
 

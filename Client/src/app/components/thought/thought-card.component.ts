@@ -27,8 +27,9 @@ export class ThoughtCardComponent implements OnInit {
 
   constructor(private optionService: AnswerService, private storageService: StorageService, private likeService: LikeService) {
   }
-
+  
   ngOnInit(): void {
+
     this.storageService.get<User>("loggedInUser").then(r => this.session_user = r);
     if (this.thought.type == 3) {
       this.optionService.get_option(this.thought.thought_id).subscribe(response => {

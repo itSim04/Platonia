@@ -4,7 +4,7 @@
       [style.background-color]="is_max ? 'var(--ion-color-secondary)' : 'var(--ion-color-primary)'"
       [style.width]="progress + '%'"></div>
     <ion-text class="progress-inner-label" [style.margin-left]="(-progress + 5) + '%'">{{progress}}%</ion-text>
-    <ion-input (ionChange)="emit($event)" class="progress-inner-input" 
+    <ion-input [readonly]="!is_modifiable" (ionChange)="emit($event)" class="progress-inner-input" 
       [value]="subject"></ion-input>
   </div>
 </div>
