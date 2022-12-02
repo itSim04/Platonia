@@ -26,7 +26,19 @@ export class PostPage {
     type: 0,
     is_liked: false,
     is_platoned: false,
-    option_chosen: 0
+    option_chosen: 0,
+
+    poll1: "Choice 1",
+    poll2: "Choice 2",
+    poll3: "Choice 3",
+    poll4: "Choice 4",
+
+    votes1: 0,
+    votes2: 0,
+    votes3: 0,
+    votes4: 0,
+
+    votes: 0
 
   }
   constructor(private storageService: StorageService, private thoughtService: ThoughtService) { }
@@ -38,6 +50,13 @@ export class PostPage {
       this.thought.owner_id = this.user!.user_id;
     });
   }
+
+  setType(mode: number) {
+
+    this.thought.type = mode;
+
+  }
+
 
   post() {
 

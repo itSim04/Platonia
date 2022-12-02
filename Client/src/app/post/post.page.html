@@ -1,8 +1,41 @@
 <ion-content>
+
+  <!-- Thought Area -->
   <app-card-thought class="post" [user]="user" [thought]="thought" [editable]="true"></app-card-thought>
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button color="tertiary" (click)="post()"
-      [disabled]="thought.content.length < 3">
+
+  <ion-grid class="section">
+    <ion-row>
+      <ion-col>
+
+        <ion-fab-button (click)="setType(0)" [color]="thought.type == 0 ? 'tertiary' : 'light'">
+          <ion-icon name="document-text-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-col>
+      <ion-col>
+
+        <ion-fab-button (click)="setType(1)" [color]="thought.type == 1 ? 'tertiary' : 'light'">
+          <ion-icon name="image-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-col>
+      <ion-col>
+
+        <ion-fab-button (click)="setType(2)" [color]="thought.type == 2 ? 'tertiary' : 'light'">
+          <ion-icon name="videocam-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-col>
+
+      <ion-col>
+        <ion-fab-button (click)="setType(3)" [color]="thought.type == 3 ? 'tertiary' : 'light'">
+          <ion-icon name="podium-outline"></ion-icon>
+        </ion-fab-button>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Posting button -->
+  <ion-fab slot="fixed" vertical="top" horizontal="end">
+    <ion-fab-button color="primary" (click)="post()" [disabled]="thought.content.length < 3">
       <ion-icon name="arrow-forward-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
