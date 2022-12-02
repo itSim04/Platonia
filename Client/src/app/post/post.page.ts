@@ -28,10 +28,10 @@ export class PostPage {
     is_platoned: false,
     option_chosen: 0,
 
-    poll1: "Choice 1",
-    poll2: "Choice 2",
-    poll3: "Choice 3",
-    poll4: "Choice 4",
+    poll1: "Choice 1...",
+    poll2: "Choice 2...",
+    poll3: "Choice 3...",
+    poll4: "Choice 4...",
 
     votes1: 0,
     votes2: 0,
@@ -64,9 +64,16 @@ export class PostPage {
 
       content: this.thought.content,
       type: this.thought.type,
-      owner_id: this.thought.owner_id
+      owner_id: this.thought.owner_id,
+
 
     }
+
+    if (this.thought.poll1 != undefined) upload.poll1 = this.thought.poll1;
+    if (this.thought.poll2 != undefined) upload.poll2 = this.thought.poll2;
+    if (this.thought.poll3 != undefined) upload.poll3 = this.thought.poll3;
+    if (this.thought.poll4 != undefined) upload.poll4 = this.thought.poll4;
+
     this.thoughtService.addThought(upload).subscribe(r => console.log(r));
 
   }
