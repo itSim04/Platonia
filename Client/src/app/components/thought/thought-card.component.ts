@@ -40,8 +40,16 @@ export class ThoughtCardComponent implements OnInit {
         this.thought.poll3 = response.options!.get(3)?.content;
         this.thought.poll4 = response.options!.get(4)?.content;
 
+        this.thought.votes = this.thought.votes1! + this.thought.votes2! + this.thought.votes3! + this.thought.votes4!;
+
       });
     }
+  }
+
+  round(n: number): number {
+
+    return Math.round(n);
+
   }
 
   async setLikesOpen(state: boolean) {

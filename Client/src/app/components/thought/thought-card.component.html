@@ -34,10 +34,14 @@
 
           <!-- Feed Mode -->
           <div *ngIf="thought.type == 3">
-            <app-poll-block [progress]="thought.votes1!" [subject]="thought.poll1!"></app-poll-block>
-            <app-poll-block [progress]="thought.votes2!" [subject]="thought.poll2!"></app-poll-block>
-            <app-poll-block [progress]="thought.votes3!" [subject]="thought.poll3!"></app-poll-block>
-            <app-poll-block [progress]="thought.votes4!" [subject]="thought.poll4!"></app-poll-block>
+            <app-poll-block [progress]="round((thought.votes1! * 100) / thought.votes!)" [subject]="thought.poll1!">
+            </app-poll-block>
+            <app-poll-block [progress]="round((thought.votes2! * 100) / thought.votes!)" [subject]="thought.poll2!">
+            </app-poll-block>
+            <app-poll-block [progress]="round((thought.votes3! * 100) / thought.votes!)" [subject]="thought.poll3!">
+            </app-poll-block>
+            <app-poll-block [progress]="round((thought.votes4! * 100) / thought.votes!)" [subject]="thought.poll4!">
+            </app-poll-block>
           </div>
         </ion-col>
       </ion-row>
