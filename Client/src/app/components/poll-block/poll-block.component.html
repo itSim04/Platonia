@@ -1,10 +1,15 @@
-<div class="progress-outer">
+<div (click)="answerPoll()" class="progress-outer">
   <div class="progress-container">
     <div class="progress-inner"
       [style.background-color]="is_max ? 'var(--ion-color-secondary)' : 'var(--ion-color-primary)'"
       [style.width]="progress + '%'"></div>
     <ion-text class="progress-inner-label" [style.margin-left]="(-progress + 5) + '%'">{{progress}}%</ion-text>
-    <ion-input [readonly]="!is_modifiable" (ionChange)="emit($event)" class="progress-inner-input" 
+
+
+    <ion-input *ngIf="is_modifiable; else feed" (ionChange)="emit($event)" class="progress-inner-input"
       [value]="subject"></ion-input>
+    <ng-template #feed>
+      <ion-text class="progress-inner-text">{{subject}}</ion-text>
+    </ng-template>
   </div>
 </div>

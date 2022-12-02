@@ -23,4 +23,10 @@ export class PollBlockComponent implements OnInit {
     
   }
 
+  answerPoll() {
+
+    this.progress++;
+
+  }
+
 }

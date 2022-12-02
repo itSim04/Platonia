@@ -6,11 +6,13 @@
     text-align: center;
     //color: #fff;
     border-radius: 20px;
+    user-select: none;
 }
 
 .progress-container {
 
     display: flex;
+    user-select: none;
 
 }
 
@@ -19,9 +21,11 @@
     white-space: nowrap;
     overflow: hidden;
     height: 30px;
-    padding: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
+    user-select: none;
     // background-color: var(--ion-color-primary);
 }
 
@@ -32,6 +36,7 @@
     height: 12px;
     text-align: start;
     padding-right: 3px;
+    user-select: none;
 
 }
 
@@ -41,5 +46,16 @@
     margin-top: 10px;
     height: 12px;
     text-align: start;
+    user-select: none;
+
+}
+
+.progress-inner-text {
+
+    font-size: 12px;
+    margin-top: 7px;
+    height: 12px;
+    text-align: start;
+    user-select: none;
 
 }
