@@ -5,6 +5,7 @@ import { ThoughtService } from '../apis/thought.service';
 import { Thought } from '../models/thoughts-model';
 import { User } from '../models/users-model';
 import { sortedInsertion } from '../helper/utility';
+import { InfiniteScrollCustomEvent } from '@ionic/angular';
 
 @Component({
   selector: 'app-feed',
@@ -38,13 +39,17 @@ export class FeedPage {
         const temp_thoughts: Array<Thought> = new Array();
         this.users = followings.users;
 
-        this.thoughtService.getByUsers({ user_id: owner.user_id, owner_ids: Array.from(followings.users!.values()).map(r => r.user_id) }).subscribe(r => {
+        const ids: number[] = Array.from(followings.users!.values()).map(r => r.user_id);
+        ids.push(owner.user_id);
+        console.log(ids);
+        this.thoughtService.getByUsers({ user_id: owner.user_id, owner_ids: ids}).subscribe(r => {
 
           console.log(r);
           r.thoughts?.forEach(t => temp_thoughts.unshift(t));
 
         });
-        this.thoughts = temp_thoughts.sort((a: Thought, b: Thought) => { return (b.share_date.getTime() - a.share_date.getTime()); });
+        this.thoughts = temp_thoughts.sort((a: Thought, b: Thought) => { return (b.share_date.getTime() < a.share_date.getTime() ? -1 : 1); });
+        console.log(this.thoughts);
 
 
       });
@@ -57,6 +62,13 @@ export class FeedPage {
 
     this.retrieveDate();
 
+  }
+
+  onIonInfinite(ev: any) {
+    //this.generateItems();
+    setTimeout(() => {
+      (ev as InfiniteScrollCustomEvent).target.complete();
+    }, 500);
   }
 
 

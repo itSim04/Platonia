@@ -109,7 +109,6 @@ export class ThoughtCardComponent implements OnInit {
 
 
     }
-    console.log(e);
 
   }
 

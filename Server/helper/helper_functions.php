@@ -44,9 +44,9 @@ function warnMisc(int $code, string $error = "") {
 
 }
 
-function process_fetch(PDO $PDO, SQLFunctions $type, array |string $table_name, array $provider, array $params, array $conditions): array {
+function process_fetch(PDO $PDO, SQLFunctions $type, array |string $table_name, array $provider, array $params, array $conditions, string $postfix = null): array {
     try {
-        $query = $PDO->prepare(build_simple_sql($type, is_array($table_name) ? $table_name : array($table_name), $params, $conditions));
+        $query = $PDO->prepare(build_simple_sql($type, is_array($table_name) ? $table_name : array($table_name), $params, $conditions, $postfix));
         if ($type == SQLFunctions::SELECT_COMPLEX) {
 
             foreach (array_keys($provider) as $l) {
@@ -106,9 +106,9 @@ function process_availability(PDO $PDO, SQLFunctions $type, array |string $table
 
         $query->execute();
         $result = $query->fetchColumn();
-        
+
     } catch (Exception $e) {
-        
+
         warnMisc(401, $e->getMessage());
 
     }
@@ -136,9 +136,9 @@ function process_fetch_id(PDO $PDO, SQLFunctions $type, array |string $table_nam
         }
 
         $query->execute();
-        
+
     } catch (Exception $e) {
-        
+
         warnMisc(401, $e->getMessage());
 
     }
@@ -194,7 +194,7 @@ enum SQLStyle {
 
 }
 
-function build_simple_sql(SQLFunctions $type, array $table_name, array $params, array $conditions): string {
+function build_simple_sql(SQLFunctions $type, array $table_name, array $params, array $conditions, string $postfix = null): string {
 
     $result = "";
     switch ($type) {
@@ -241,6 +241,9 @@ function build_simple_sql(SQLFunctions $type, array $table_name, array $params, 
                 $result .= " WHERE ";
                 $result .= build_params(SQLStyle::INJECTABLE_CONDITION, $conditions);
 
+            }
+            if ($postfix != null) {
+                $result .= " " . $postfix;
             }
             break;
     }

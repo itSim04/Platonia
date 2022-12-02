@@ -14,6 +14,8 @@ class USERS {
 	public const BANNER = "banner";
 	public const PROFILE_ID = "profile_id";
 	public const IS_VERIFIED = "is_verified";
+	public const OFFSET = "offset";
+	public const QUANTITY = "quantity";
 
 }
 

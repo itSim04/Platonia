@@ -19,8 +19,7 @@ export class PollBlockComponent implements OnInit {
   emit(e: any) {
 
     this.subjectEvent.emit(e.detail.value);
-    console.log(e);
-
+    
   }
 
 }

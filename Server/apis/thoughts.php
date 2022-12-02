@@ -30,7 +30,7 @@ if (check_keys($_GET, "schema")) {
 
                     }
                     $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [THOUGHTS::ID => $id], array(), array(new condition(THOUGHTS::ID)));
-                
+
                     if ($_POST[THOUGHTS::TYPE] == 3) {
                         process($PDO, SQLFunctions::ADD, $option_name, [OPTIONS::ID => $id, THOUGHTS::CONTENT => $_POST[THOUGHTS::POLL1], THOUGHTS::POSITION => 1], array(OPTIONS::ID, THOUGHTS::CONTENT, THOUGHTS::POSITION), array());
                         process($PDO, SQLFunctions::ADD, $option_name, [OPTIONS::ID => $id, THOUGHTS::CONTENT => $_POST[THOUGHTS::POLL2], THOUGHTS::POSITION => 2], array(OPTIONS::ID, THOUGHTS::CONTENT, THOUGHTS::POSITION), array());
@@ -132,7 +132,7 @@ if (check_keys($_GET, "schema")) {
 
         case THOUGHTS_SCHEMA::GET_BY_USERS:
 
-            if (check_keys($_GET, USERS::ID, THOUGHTS::OWNER_ID)) {
+            if (check_keys($_GET, USERS::ID, THOUGHTS::OWNER_ID, USERS::OFFSET, USERS::QUANTITY)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_GET_BY_USERS;
                 if (array_key_exists(THOUGHTS::ROOT, $_GET)) {
@@ -141,7 +141,7 @@ if (check_keys($_GET, "schema")) {
 
                 } else {
 
-                    $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::OWNER_ID . " IN (" . implode(", ", $_GET[THOUGHTS::OWNER_ID]) . ")", false))));
+                    $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::OWNER_ID . " IN (" . implode(", ", $_GET[THOUGHTS::OWNER_ID]) . ")", false))), "ORDER BY share_date LIMIT " . $_GET[USERS::OFFSET] . ", " . $_GET[USERS::QUANTITY]);
 
                 }
                 for ($i = 0; $i < count($output[RESPONSE::THOUGHTS]); $i++) {
