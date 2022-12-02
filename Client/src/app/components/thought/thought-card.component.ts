@@ -55,7 +55,7 @@ export class ThoughtCardComponent implements OnInit {
         if (this.thought.votes2! > this.max) {
 
           this.max = this.thought.votes2!
-          ;
+            ;
           this.max_index = 2;
 
         }
@@ -76,6 +76,41 @@ export class ThoughtCardComponent implements OnInit {
 
       });
     }
+  }
+
+  updatePollSubject(e: string, position: number) {
+
+
+    switch (position) {
+
+      case 1:
+
+        this.thought.poll1 = e;
+
+        break;
+
+      case 2:
+
+        this.thought.poll2 = e;
+
+        break;
+
+      case 3:
+
+        this.thought.poll3 = e;
+
+        break;
+
+      case 4:
+
+        this.thought.poll4 = e;
+
+        break;
+
+
+    }
+    console.log(e);
+
   }
 
   round(n: number): number {

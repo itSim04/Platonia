@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-poll-block',
@@ -10,8 +10,17 @@ export class PollBlockComponent implements OnInit {
   @Input() progress: number = 0;
   @Input() subject: string = "";
   @Input() is_max: boolean = false;
+  @Output() subjectEvent = new EventEmitter<string>();
+
   constructor() { }
 
   ngOnInit() {}
+
+  emit(e: any) {
+
+    this.subjectEvent.emit(e.detail.value);
+    console.log(e);
+
+  }
 
 }
