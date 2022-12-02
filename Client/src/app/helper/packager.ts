@@ -234,7 +234,9 @@ export class Packager {
             votes1: data[OPTIONS.VOTES1],
             votes2: data[OPTIONS.VOTES2],
             votes3: data[OPTIONS.VOTES3],
-            votes4: data[OPTIONS.VOTES4]
+            votes4: data[OPTIONS.VOTES4],
+
+            votes: data[OPTIONS.VOTES1] + data[OPTIONS.VOTES2] + data[OPTIONS.VOTES3] + data[OPTIONS.VOTES4]
         };
 
         return current;

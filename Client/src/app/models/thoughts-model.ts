@@ -28,6 +28,8 @@ export interface Thought {
     votes3?: number;
     votes4?: number;
 
+    votes?: number;
+
 }
 
 export interface THOUGHTS_RESPONSE {

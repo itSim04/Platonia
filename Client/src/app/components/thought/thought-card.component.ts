@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { AnswerService } from 'src/app/apis/answer.service';
 import { LikeService } from 'src/app/apis/like.service';
 import { StorageService } from 'src/app/apis/storage.service';
 import { EXIT_CODES } from 'src/app/helper/constants/db_schemas';
@@ -21,11 +22,26 @@ export class ThoughtCardComponent implements OnInit {
   isLikesOpen: boolean = false;
   likes: Array<User> = new Array;
 
-  constructor(private modalCtrl: ModalController, private storageService: StorageService, private likeService: LikeService) {
+  constructor(private optionService: AnswerService, private storageService: StorageService, private likeService: LikeService) {
   }
 
   ngOnInit(): void {
     this.storageService.get<User>("loggedInUser").then(r => this.session_user = r);
+    if (this.thought.type == 3) {
+      this.optionService.get_option(this.thought.thought_id).subscribe(response => {
+
+        this.thought.votes1 = response.options!.get(1)?.votes;
+        this.thought.votes2 = response.options!.get(2)?.votes;
+        this.thought.votes3 = response.options!.get(3)?.votes;
+        this.thought.votes4 = response.options!.get(4)?.votes;
+
+        this.thought.poll1 = response.options!.get(1)?.content;
+        this.thought.poll2 = response.options!.get(2)?.content;
+        this.thought.poll3 = response.options!.get(3)?.content;
+        this.thought.poll4 = response.options!.get(4)?.content;
+
+      });
+    }
   }
 
   async setLikesOpen(state: boolean) {
