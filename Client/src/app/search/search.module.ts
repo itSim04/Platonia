@@ -8,6 +8,7 @@ import { SearchPageRoutingModule } from './search-routing.module';
 
 import { SearchPage } from './search.page';
 import { UserCardModule } from '../components/user-card/user-card.module';
+import { InterestCardModule } from '../components/interest-card/interest-card.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { UserCardModule } from '../components/user-card/user-card.module';
     FormsModule,
     IonicModule,
     SearchPageRoutingModule,
-    UserCardModule
+    UserCardModule,
+    InterestCardModule
   ],
   declarations: [SearchPage]
 })

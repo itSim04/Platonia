@@ -25,6 +25,9 @@ if (check_keys($_GET, "schema")) {
 
             $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_GET_ALL;
             $output[RESPONSE::INTERESTS] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array());
+            for ($i = 0; $i < count($output[RESPONSE::INTERESTS]); $i++) {
+                $output[RESPONSE::INTERESTS][$i]->profile_id = is_dir("../assets/interests/{$output[RESPONSE::INTERESTS][$i]->interest_id}") ? iterator_count(new FilesystemIterator("../assets/interests/{$output[RESPONSE::INTERESTS][$i]->interest_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+            }
             break;
 
         case INTERESTS_SCHEMA::GET_ONE:
@@ -43,7 +46,9 @@ if (check_keys($_GET, "schema")) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_GET_USERS;
                 $output[RESPONSE::USERS] = process_fetch($PDO, SQLFunctions::SELECT, array($pivot_table, $user_table, $user_temp), $_GET, array(), array(new condition(INTERESTED_IN::INTEREST_ID), new condition(INTERESTED_IN::USER_ID . " = " . USERS::ID, false), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
-
+                for ($i = 0; $i < count($output[RESPONSE::USERS]); $i++) {
+                    $output[RESPONSE::USERS][$i]->profile_id = is_dir("../assets/users/{$output[RESPONSE::USERS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::USERS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                }
             }
             break;
 
@@ -86,6 +91,9 @@ if (check_keys($_GET, "schema")) {
                 $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_GET_INTERESTS_BY_USER;
                 $output[RESPONSE::INTERESTS] = process_fetch($PDO, SQLFunctions::SELECT, array($pivot_table, $table_name), $_GET, array(), array(new condition(INTERESTED_IN::USER_ID), new condition(INTERESTED_IN::INTEREST_ID . " = " . INTERESTS::ID, false)));
 
+                for ($i = 0; $i < count($output[RESPONSE::INTERESTS]); $i++) {
+                    $output[RESPONSE::INTERESTS][$i]->profile_id = is_dir("../assets/interests/{$output[RESPONSE::INTERESTS][$i]->interest_id}") ? iterator_count(new FilesystemIterator("../assets/interests/{$output[RESPONSE::INTERESTS][$i]->interest_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                }
             }
             break;
 

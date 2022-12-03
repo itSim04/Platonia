@@ -10,5 +10,24 @@
 </ion-header>
 
 <ion-content>
-  <app-user-card *ngFor="let user of users" [user]="user"></app-user-card>
+
+  <ion-segment value="default" mode="md" color="secondary" [(ngModel)]="section">
+    <ion-segment-button value="default">
+      <ion-label class="section_labels">Users</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="interests">
+      <ion-label class="section_labels">Interests</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div [ngSwitch]="section">
+    <ion-list *ngSwitchCase="'default'">
+      <app-user-card *ngFor="let user of users" [user]="user"></app-user-card>
+    </ion-list>
+    <ion-list *ngSwitchCase="'interests'">
+      <app-interest-card *ngFor="let interest of interests" [interest]="interest"></app-interest-card>
+    </ion-list>
+  </div>
+
+
 </ion-content>
