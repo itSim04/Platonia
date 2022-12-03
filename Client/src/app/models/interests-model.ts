@@ -5,6 +5,7 @@ export interface Interest {
     img_src: string;
     logo: string;
     participants: number;
+    is_followed: boolean;
 
 }
 

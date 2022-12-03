@@ -25,9 +25,9 @@ export class InterestService {
 
   }
 
-  public getAll(): Observable<RESPONSE_MODEL> {
+  public getAll(interest: INTEREST_RESPONSE): Observable<RESPONSE_MODEL> {
 
-    return this.http.get<any>(APIS.build_url(INTERESTS_SCHEMA.GET_ALL, this.api)).pipe(map((data: any) =>
+    return this.http.get<any>(APIS.build_url(INTERESTS_SCHEMA.GET_ALL, this.api, `&${INTERESTED_IN.USER_ID}=${interest.user_id}`)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 

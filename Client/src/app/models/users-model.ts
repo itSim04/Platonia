@@ -25,8 +25,7 @@ export interface USER_RESPONSE {
     birthday?: Date;
     gender?: number;
     picture?: string;
-    offset?: number;
-    quantity?: number;
+
 
 }
 

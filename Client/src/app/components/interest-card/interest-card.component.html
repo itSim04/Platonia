@@ -3,7 +3,13 @@
     <ion-card-subtitle>
       <img [src]="interest?.logo" onerror="this.src='http://localhost/Platonia/Server/assets/users/0/profile.png'"
         class="profile">
-      <div class="owner_label">{{interest?.name}}</div>
+      
+        <div class="owner_label">{{interest?.name}}</div>
+
+      <ion-button (click)="toggleInterest()" fill="clear" class="interest_toggle">
+        <ion-icon color="secondary" [name]="!interest!.is_followed ? 'add-circle-outline' : 'close-circle-outline'"
+          size="large"></ion-icon>
+      </ion-button>
     </ion-card-subtitle>
   </ion-card-header>
 </ion-card>

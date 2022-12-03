@@ -161,7 +161,7 @@ export class Packager {
                 followers: data[USERS_TEMP.FOLLOWERS],
                 followings: data[USERS_TEMP.FOLLOWINGS],
                 is_verified: data[USERS.IS_VERIFIED],
-                picture: `http://localhost/Platonia/Server/assets/users/${data[USERS.ID]}/profile-${data[RESPONSE.PROFILE_ID] - 1}.png`,
+                picture: data[RESPONSE.PROFILE_ID] != 0 ? `http://localhost/Platonia/Server/assets/users/${data[USERS.ID]}/profile-${data[RESPONSE.PROFILE_ID] - 1}.png` : `http://localhost/Platonia/Server/assets/users/0/profile.png`,
                 gender: data[USERS.GENDER],
                 join: data[USERS.JOIN]
 
@@ -285,6 +285,7 @@ export class Packager {
                 interest_id: data[INTERESTS.ID],
                 img_src: data[INTERESTS.IMG],
                 name: data[INTERESTS.NAME],
+                is_followed: data[INTERESTS.IS_INTERESTED],
                 participants: data[INTERESTS.PARTICIPANTS],
                 logo: `http://localhost/Platonia/Server/assets/interests/${data[INTERESTS.ID]}/logo-${data[RESPONSE.PROFILE_ID] - 1}.png`,
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { InterestService } from '../apis/interest.service';
+import { StorageService } from '../apis/storage.service';
 import { UserService } from '../apis/user.service';
 import { Interest } from '../models/interests-model';
 import { User } from '../models/users-model';
@@ -18,7 +19,7 @@ export class SearchPage implements OnInit {
   interests: Array<Interest> = new Array();
 
   section: string = "default";
-  constructor(private userService: UserService, private interestService: InterestService) { }
+  constructor(private userService: UserService, private storageService: StorageService, private interestService: InterestService) { }
 
   ngOnInit(): void {
 
@@ -31,14 +32,19 @@ export class SearchPage implements OnInit {
     }));
 
 
-    this.interestService.getAll().subscribe(r => r.interests?.forEach(u => {
+    this.storageService.get<User>("loggedInUser").then(u => {
 
-      this.complete_interests.splice(0);
-      this.complete_interests.push(u);
-      this.interests.push(u);
-      console.log(u);
+      this.interestService.getAll({ user_id: u.user_id }).subscribe(r => {
 
-    }));
+        r.interests?.forEach(u => {
+
+          this.complete_interests.splice(0);
+          this.complete_interests.push(u);
+          this.interests.push(u);
+
+        });
+      });
+    });
 
   }
 

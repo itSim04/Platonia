@@ -124,7 +124,9 @@ if (check_keys($_GET, "schema")) {
             break;
 
         default:
+
             $output[RESPONSE::STATUS] = EXIT_CODES::INCORRECT_SCHEMA;
+            $output[RESPONSE::ERROR_MESSAGE] = "Incorrect Schema: " . $_GET['schema'];
 
     }
 

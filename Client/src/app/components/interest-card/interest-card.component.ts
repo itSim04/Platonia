@@ -14,4 +14,9 @@ export class InterestCardComponent implements OnInit {
 
   ngOnInit() { }
 
+  toggleInterest() {
+
+
+    
+  }
 }

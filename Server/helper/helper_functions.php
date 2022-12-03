@@ -247,7 +247,6 @@ function build_simple_sql(SQLFunctions $type, array $table_name, array $params, 
             }
             break;
     }
-    echo $result;
     return $result;
 
 

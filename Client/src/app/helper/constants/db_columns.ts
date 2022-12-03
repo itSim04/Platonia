@@ -67,14 +67,15 @@ export enum OPTIONS {
 
 }
 
+
 export enum INTERESTS {
 
     ID = "interest_id",
     NAME = "name",
     IMG = "img_src",
     LOGO = "logo",
-    PARTICIPANTS = "participants_TEMP"
-
+    PARTICIPANTS = "participants_TEMP",
+    IS_INTERESTED = "is_interested"
 }
 
 export enum INTERESTED_IN {
