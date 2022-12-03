@@ -9,6 +9,8 @@ if (check_keys($_GET, "schema")) {
     $user_table = "users";
     $user_temp = "users_TEMP";
 
+    $complex = array("*", "CASE WHEN (SELECT EXISTS(SELECT * FROM interested_in WHERE " . INTERESTED_IN::USER_ID . " = :user_id && " . INTERESTED_IN::INTEREST_ID . " = " . INTERESTS::ID . ")) THEN true ELSE false END as is_interested");
+
     switch ($_GET["schema"]) {
 
         case INTERESTS_SCHEMA::ADD:
@@ -23,10 +25,12 @@ if (check_keys($_GET, "schema")) {
 
         case INTERESTS_SCHEMA::GET_ALL:
 
-            $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_GET_ALL;
-            $output[RESPONSE::INTERESTS] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array());
-            for ($i = 0; $i < count($output[RESPONSE::INTERESTS]); $i++) {
-                $output[RESPONSE::INTERESTS][$i]->profile_id = is_dir("../assets/interests/{$output[RESPONSE::INTERESTS][$i]->interest_id}") ? iterator_count(new FilesystemIterator("../assets/interests/{$output[RESPONSE::INTERESTS][$i]->interest_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+            if (check_keys($_GET, INTERESTED_IN::USER_ID)) {
+                $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_GET_ALL;
+                $output[RESPONSE::INTERESTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $table_name, [USERS::ID => $_GET[INTERESTED_IN::USER_ID]], $complex, array());
+                for ($i = 0; $i < count($output[RESPONSE::INTERESTS]); $i++) {
+                    $output[RESPONSE::INTERESTS][$i]->profile_id = is_dir("../assets/interests/{$output[RESPONSE::INTERESTS][$i]->interest_id}") ? iterator_count(new FilesystemIterator("../assets/interests/{$output[RESPONSE::INTERESTS][$i]->interest_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                }
             }
             break;
 
