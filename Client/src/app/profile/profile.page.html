@@ -1,4 +1,4 @@
-<ion-header class="header" no-border no-shadow>
+<ion-header class="header">
 
   <!-- Username -->
   <p class="name_label">{{current_user?.username}}</p>
@@ -20,7 +20,7 @@
 
 </ion-header>
 
-<ion-content [fullscreen]="true" no-border>
+<ion-content>
 
 
   <!-- Options Tab -->
@@ -52,6 +52,17 @@
         placeholder="Hello Friends..."></ion-textarea>
     </ion-card-content>
   </ion-card>
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ng-container *ngFor="let thought of thoughts">
+    <app-card-thought [user]="current_user" [thought]="thought"></app-card-thought>
+  </ng-container>
+
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 
 </ion-content>

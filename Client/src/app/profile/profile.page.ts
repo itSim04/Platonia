@@ -3,12 +3,14 @@ import { StorageService } from '../apis/storage.service';
 import { UserService } from '../apis/user.service';
 import { User } from '../models/users-model';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController, IonPopover, ModalController, NavController } from '@ionic/angular';
+import { AlertController, InfiniteScrollCustomEvent, IonPopover, ModalController, NavController } from '@ionic/angular';
 import { EditProfilePage } from '../edit-profile/edit-profile.page';
 import { FollowService } from '../apis/follow.service';
 import { presentAlert } from '../helper/utility';
 import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 import { EXIT_CODES } from '../helper/constants/db_schemas';
+import { ThoughtService } from '../apis/thought.service';
+import { Thought } from '../models/thoughts-model';
 
 
 @Component({
@@ -28,15 +30,20 @@ export class ProfilePage implements OnInit {
   bio_edit_mode: boolean = false;
   new_bio: string = "";
 
+  thoughts: Array<Thought> = new Array();
+  anchor: number = 0;
+  quantity: number = 5;
+
   @ViewChild('options') option!: IonPopover;
 
-  constructor(private emailComposer: EmailComposer, private alertController: AlertController, private modalCtrl: ModalController, private followService: FollowService, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router, private nav: NavController) {
+
+  constructor(private thoughtService: ThoughtService, private emailComposer: EmailComposer, private alertController: AlertController, private modalCtrl: ModalController, private followService: FollowService, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router, private nav: NavController) {
   }
 
   ngOnInit(): void {
 
     this.ionViewWillEnter();
-    
+
   }
 
   openOptions() {
@@ -75,6 +82,8 @@ export class ProfilePage implements OnInit {
 
         }
 
+
+
       });
 
     }
@@ -95,46 +104,37 @@ export class ProfilePage implements OnInit {
 
     const id_obj = this.route.snapshot.paramMap.get("id");
     const id: number = Number.parseInt(id_obj != null ? id_obj : "0");
-    if (id == null || !id) {
 
-      this.storage.get("loggedInUser").then((r) => {
+    this.userService.getOne({ user_id: id }).subscribe(current_profile => {
 
-        this.current_user = <User>r;
-        this.owner = true;
+      this.current_user = current_profile.user;
+      this.storage.get<User>("loggedInUser").then(current_user => {
+
+        if (current_user.user_id == this.current_user!.user_id) {
+
+          this.owner = true;
+
+        } else {
+
+          this.owner = false;
+          this.followService.isFollowing(current_user.user_id, current_profile.user!.user_id).subscribe(r => this.is_followed = r.follows!)
+
+        }
+
         this.new_bio = this.current_user!.bio;
+        this.retrieveDate();
+
+        if (this.owner && !this.current_user?.is_verified) {
+
+          this.displayVerification();
+
+        }
 
       });
 
-    } else {
+    });
 
-      this.userService.getOne({ user_id: id }).subscribe(current_profile => {
 
-        this.current_user = current_profile.user;
-        this.storage.get<User>("loggedInUser").then(current_user => {
-
-          if (current_user.user_id == this.current_user!.user_id) {
-
-            this.owner = true;
-
-          } else {
-
-            this.owner = false;
-            this.followService.isFollowing(current_user.user_id, current_profile.user!.user_id).subscribe(r => this.is_followed = r.follows!)
-
-          }
-
-          this.new_bio = this.current_user!.bio
-        });
-
-      })
-
-    }
-
-    if (this.owner && !this.current_user?.is_verified) {
-
-      this.displayVerification();
-
-    }
 
   }
 
@@ -155,6 +155,37 @@ export class ProfilePage implements OnInit {
 
   }
 
+  retrieveDate() {
+
+
+
+    this.thoughtService.getBy({ user_id: this.current_user!.user_id, owner_id: this.current_user!.user_id, offset: this.anchor, quantity: this.quantity }).subscribe(r => {
+
+      r.thoughts?.forEach(t => this.thoughts.push(t));
+
+    });
+
+
+
+
+  }
+
+  onIonInfinite(ev: any) {
+    this.anchor += this.quantity;
+    this.retrieveDate();
+    setTimeout(() => {
+      (ev as InfiniteScrollCustomEvent).target.complete();
+    }, 500);
+  }
+
+  async handleRefresh(event: any) {
+    await setTimeout(() => {
+      this.thoughts.splice(0);
+      this.anchor = 0;
+      this.retrieveDate();
+      event.target.complete();
+    }, 2000);
+  };
 
   public openFriendsList() {
 

@@ -9,6 +9,7 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 import { ProfilePage } from './profile.page';
 import { EditProfilePage } from '../edit-profile/edit-profile.page';
 import { InterestCardModule } from '../components/interest-card/interest-card.module';
+import { ThoughtCardModule } from '../components/thought/thought-card.module';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { InterestCardModule } from '../components/interest-card/interest-card.mo
     FormsModule,
     IonicModule,
     ProfilePageRoutingModule,
-    InterestCardModule
+    InterestCardModule,
+    ThoughtCardModule
   ],
   declarations: [ProfilePage, EditProfilePage]
 })
