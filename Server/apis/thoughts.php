@@ -77,26 +77,26 @@ if (check_keys($_GET, "schema")) {
             }
             break;
 
-        case THOUGHTS_SCHEMA::GET_BY:
+        // case THOUGHTS_SCHEMA::GET_BY:
 
-            if (check_keys($_GET, USERS::ID, THOUGHTS::OWNER_ID)) {
+        //     if (check_keys($_GET, USERS::ID, THOUGHTS::OWNER_ID)) {
 
-                $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_GET_BY;
-                if (array_key_exists(THOUGHTS::ROOT, $_GET)) {
+        //         $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_GET_BY;
+        //         if (array_key_exists(THOUGHTS::ROOT, $_GET)) {
 
-                    $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID], THOUGHTS::ROOT => $_GET[THOUGHTS::ROOT]], $complex, array_merge($linkers, array(new condition(THOUGHTS::ROOT), new condition(THOUGHTS::OWNER_ID))));
+        //             $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID], THOUGHTS::ROOT => $_GET[THOUGHTS::ROOT]], $complex, array_merge($linkers, array(new condition(THOUGHTS::ROOT), new condition(THOUGHTS::OWNER_ID))));
 
-                } else {
+        //         } else {
 
-                    $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::OWNER_ID))));
+        //             $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::OWNER_ID))));
 
-                }
-                for ($i = 0; $i < count($output[RESPONSE::THOUGHTS]); $i++) {
-                    $output[RESPONSE::THOUGHTS][$i]->profile_id = is_dir("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
-                }
+        //         }
+        //         for ($i = 0; $i < count($output[RESPONSE::THOUGHTS]); $i++) {
+        //             $output[RESPONSE::THOUGHTS][$i]->profile_id = is_dir("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+        //         }
 
-            }
-            break;
+        //     }
+        //     break;
 
         case THOUGHTS_SCHEMA::UPDATE:
 
@@ -110,7 +110,7 @@ if (check_keys($_GET, "schema")) {
 
         case THOUGHTS_SCHEMA::GET_BY:
 
-            if (check_keys($_GET, USERS::ID, THOUGHTS::OWNER_ID)) {
+            if (check_keys($_GET, USERS::ID, THOUGHTS::OWNER_ID, THOUGHTS::OFFSET, THOUGHTS::QUANTITY)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_GET_BY;
                 if (array_key_exists(THOUGHTS::ROOT, $_GET)) {
@@ -119,7 +119,7 @@ if (check_keys($_GET, "schema")) {
 
                 } else {
 
-                    $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::OWNER_ID))));
+                    $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::OWNER_ID))), "ORDER BY share_date DESC LIMIT " . $_GET[THOUGHTS::OFFSET] . ", " . $_GET[THOUGHTS::QUANTITY]);
 
                 }
                 for ($i = 0; $i < count($output[RESPONSE::THOUGHTS]); $i++) {

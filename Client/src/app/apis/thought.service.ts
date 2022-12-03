@@ -47,7 +47,7 @@ export class ThoughtService {
 
   public getBy(thought: THOUGHTS_RESPONSE): Observable<RESPONSE_MODEL> {
 
-    return this.http.get<any>(APIS.build_url(THOUGHTS_SCHEMA.GET_BY, this.api, `&${USERS.ID}=${thought.user_id}&${THOUGHTS.OWNER_ID}=${thought.owner_id}`)).pipe(map((data: any) =>
+    return this.http.get<any>(APIS.build_url(THOUGHTS_SCHEMA.GET_BY, this.api, `&${USERS.ID}=${thought.user_id}&${THOUGHTS.OWNER_ID}=${thought.owner_id}&${THOUGHTS.OFFSET}=${thought.offset}&${THOUGHTS.QUANTITY}=${thought.quantity}`)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 
