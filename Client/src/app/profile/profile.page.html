@@ -1,4 +1,4 @@
-<ion-content>
+<ion-header class="header" no-border no-shadow>
 
   <!-- Username -->
   <p class="name_label">{{current_user?.username}}</p>
@@ -18,6 +18,11 @@
       size="large"></ion-icon>
   </ion-button>
 
+</ion-header>
+
+<ion-content [fullscreen]="true" no-border>
+
+
   <!-- Options Tab -->
   <ion-popover #options [dismissOnSelect]="true">
     <ng-template>
@@ -31,7 +36,7 @@
   </ion-popover>
 
   <!-- Bio -->
-  <ion-card class="bio">
+  <ion-card>
     <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
     <ion-card-header>
       <ion-card-title style="width: auto">About

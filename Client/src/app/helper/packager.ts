@@ -286,7 +286,7 @@ export class Packager {
                 img_src: data[INTERESTS.IMG],
                 name: data[INTERESTS.NAME],
                 participants: data[INTERESTS.PARTICIPANTS],
-                logo: `http://localhost/Platonia/Server/assets/interests/${data[INTERESTS.ID]}/profile-${data[RESPONSE.PROFILE_ID] - 1}.png`,
+                logo: `http://localhost/Platonia/Server/assets/interests/${data[INTERESTS.ID]}/logo-${data[RESPONSE.PROFILE_ID] - 1}.png`,
 
 
             };
