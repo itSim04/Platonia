@@ -83,63 +83,126 @@ export class ThoughtCardComponent implements OnInit {
 
   incrementPoll(position: number) {
 
+    if (this.thought.option_chosen == 0) {
 
-    this.thought.votes!++;
-    switch (position) {
+      this.thought.option_chosen = position;
+      this.thought.votes!++;
+      switch (position) {
 
-      case 1:
+        case 1:
 
-        this.thought.votes1!++;
-        break;
+          this.thought.votes1!++;
+          break;
 
-      case 2:
+        case 2:
 
-        this.thought.votes2!++;
-        break;
+          this.thought.votes2!++;
+          break;
 
-      case 3:
+        case 3:
 
-        this.thought.votes3!++;
-        break;
+          this.thought.votes3!++;
+          break;
 
-      case 4:
+        case 4:
 
-        this.thought.votes4!++;
-        break;
-
-    }
-    this.optionService.answer_poll(this.session_user!.user_id, this.thought.thought_id, position).subscribe(p => {
-
-      if (p.status != EXIT_CODES.POLLS_ANSWER_POLL) {
-
-        this.thought.votes!--;
-        switch (position) {
-    
-          case 1:
-    
-            this.thought.votes1!--;
-            break;
-    
-          case 2:
-    
-            this.thought.votes2!--;
-            break;
-    
-          case 3:
-    
-            this.thought.votes3!--;
-            break;
-    
-          case 4:
-    
-            this.thought.votes4!--;
-            break;
-    
-        }
+          this.thought.votes4!++;
+          break;
 
       }
 
-    });
+      if (this.thought.votes1! > this.max) {
+
+        this.max = this.thought.votes1!;
+        this.max_index = 1;
+
+      }
+
+      if (this.thought.votes2! > this.max) {
+
+        this.max = this.thought.votes2!
+          ;
+        this.max_index = 2;
+
+      }
+
+      if (this.thought.votes3! > this.max) {
+
+        this.max = this.thought.votes3!;
+        this.max_index = 3;
+
+      }
+
+      if (this.thought.votes4! > this.max) {
+
+        this.max = this.thought.votes4!;
+        this.max_index = 4;
+
+      }
+
+      this.optionService.answer_poll(this.session_user!.user_id, this.thought.thought_id, position).subscribe(p => {
+
+        if (p.status != EXIT_CODES.POLLS_ANSWER_POLL) {
+
+          this.thought.option_chosen = 0;
+          this.thought.votes!--;
+          switch (position) {
+
+            case 1:
+
+              this.thought.votes1!--;
+              break;
+
+            case 2:
+
+              this.thought.votes2!--;
+              break;
+
+            case 3:
+
+              this.thought.votes3!--;
+              break;
+
+            case 4:
+
+              this.thought.votes4!--;
+              break;
+
+          }
+
+          if (this.thought.votes1! > this.max) {
+
+            this.max = this.thought.votes1!;
+            this.max_index = 1;
+
+          }
+
+          if (this.thought.votes2! > this.max) {
+
+            this.max = this.thought.votes2!
+              ;
+            this.max_index = 2;
+
+          }
+
+          if (this.thought.votes3! > this.max) {
+
+            this.max = this.thought.votes3!;
+            this.max_index = 3;
+
+          }
+
+          if (this.thought.votes4! > this.max) {
+
+            this.max = this.thought.votes4!;
+            this.max_index = 4;
+
+          }
+
+        }
+
+      });
+    }
   }
 
   updatePollSubject(e: string, position: number) {

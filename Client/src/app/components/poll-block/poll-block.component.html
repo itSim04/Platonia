@@ -1,6 +1,7 @@
 <div (click)="answerPoll()" class="progress-outer">
   <div class="progress-container">
-    <div class="progress-inner"
+    <div class="progress-inner" [style.border-top-right-radius]="is_alone ? '20px' : '0px'"
+      [style.border-bottom-right-radius]="is_alone ? '20px' : '0px'"
       [style.background-color]="is_max ? 'var(--ion-color-secondary)' : 'var(--ion-color-primary)'"
       [style.width]="progress + '%'"></div>
     <ion-text class="progress-inner-label" [style.margin-left]="(-progress + 5) + '%'">{{progress}}%</ion-text>
@@ -11,5 +12,8 @@
     <ng-template #feed>
       <ion-text class="progress-inner-text">{{subject}}</ion-text>
     </ng-template>
+
+    <ion-icon *ngIf="is_voted" class="progress-inner-check" name="checkmark-circle-outline"></ion-icon>
+
   </div>
 </div>
