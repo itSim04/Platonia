@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { exitCode } from 'process';
 import { AnswerService } from 'src/app/apis/answer.service';
 import { LikeService } from 'src/app/apis/like.service';
 import { StorageService } from 'src/app/apis/storage.service';
@@ -14,6 +15,7 @@ import { User } from 'src/app/models/users-model';
 })
 export class ThoughtCardComponent implements OnInit {
 
+
   session_user?: User;
   @Input() user?: User;
   @Input() thought!: Thought;
@@ -27,7 +29,7 @@ export class ThoughtCardComponent implements OnInit {
 
   constructor(private optionService: AnswerService, private storageService: StorageService, private likeService: LikeService) {
   }
-  
+
   ngOnInit(): void {
 
     this.storageService.get<User>("loggedInUser").then(r => this.session_user = r);
@@ -77,6 +79,67 @@ export class ThoughtCardComponent implements OnInit {
 
       });
     }
+  }
+
+  incrementPoll(position: number) {
+
+
+    this.thought.votes!++;
+    switch (position) {
+
+      case 1:
+
+        this.thought.votes1!++;
+        break;
+
+      case 2:
+
+        this.thought.votes2!++;
+        break;
+
+      case 3:
+
+        this.thought.votes3!++;
+        break;
+
+      case 4:
+
+        this.thought.votes4!++;
+        break;
+
+    }
+    this.optionService.answer_poll(this.session_user!.user_id, this.thought.thought_id, position).subscribe(p => {
+
+      if (p.status != EXIT_CODES.POLLS_ANSWER_POLL) {
+
+        this.thought.votes!--;
+        switch (position) {
+    
+          case 1:
+    
+            this.thought.votes1!--;
+            break;
+    
+          case 2:
+    
+            this.thought.votes2!--;
+            break;
+    
+          case 3:
+    
+            this.thought.votes3!--;
+            break;
+    
+          case 4:
+    
+            this.thought.votes4!--;
+            break;
+    
+        }
+
+      }
+
+    });
   }
 
   updatePollSubject(e: string, position: number) {

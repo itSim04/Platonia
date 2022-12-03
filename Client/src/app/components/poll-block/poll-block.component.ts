@@ -12,20 +12,26 @@ export class PollBlockComponent implements OnInit {
   @Input() is_max: boolean = false;
   @Input() is_modifiable: boolean = false;
   @Output() subjectEvent = new EventEmitter<string>();
+  @Output() incrementer = new EventEmitter<never>();
 
   constructor() { }
 
   ngOnInit() {}
 
-  emit(e: any) {
+  emitSubject(e: any) {
 
     this.subjectEvent.emit(e.detail.value);
     
   }
 
-  answerPoll() {
+  emitIncrement(e: any) {
 
-    this.progress++;
+    
+  }
+  
+  answerPoll() {
+    
+    this.incrementer.emit();
 
   }
 

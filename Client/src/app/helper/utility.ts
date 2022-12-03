@@ -1,4 +1,5 @@
 import { AlertButton, AlertController, AlertInput } from "@ionic/angular";
+import { Thought } from "../models/thoughts-model";
 
 export function sortedInsertion<T>(array: Array<T>, item: T, compare: Function) {
 
@@ -36,6 +37,7 @@ export function sortedInsertion<T>(array: Array<T>, item: T, compare: Function) 
     }
     return -m - 1;
 }
+
 
 export const presentAlert = async (alertController: AlertController, header: string, inputs: AlertInput[], buttons: AlertButton[]) => {
 
