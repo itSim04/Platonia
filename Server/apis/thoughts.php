@@ -59,7 +59,8 @@ if (check_keys($_GET, "schema")) {
 
                 }
                 for ($i = 0; $i < count($output[RESPONSE::THOUGHTS]); $i++) {
-                    $output[RESPONSE::THOUGHTS][$i]->profile_id = is_dir("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                    $output[RESPONSE::THOUGHTS][$i]->profile_id = is_dir("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                    $output[RESPONSE::THOUGHTS][$i]->banner_id = is_dir("../assets/users/banners/{$output[RESPONSE::THOUGHTS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/banners/{$output[RESPONSE::THOUGHTS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
                 }
             }
             break;
@@ -71,7 +72,8 @@ if (check_keys($_GET, "schema")) {
                 $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_GET_ONE;
                 $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::ID => $_GET[THOUGHTS::ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::ID))));
 
-                $output[RESPONSE::THOUGHT][0]->profile_id = is_dir("../assets/users/{$output[RESPONSE::THOUGHTS][0]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::THOUGHTS][0]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                $output[RESPONSE::THOUGHT][0]->profile_id = is_dir("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][0]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][0]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                $output[RESPONSE::THOUGHT][0]->banner_id = is_dir("../assets/users/banners/{$output[RESPONSE::THOUGHTS][0]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/banners/{$output[RESPONSE::THOUGHTS][0]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
 
 
             }
@@ -123,7 +125,8 @@ if (check_keys($_GET, "schema")) {
 
                 }
                 for ($i = 0; $i < count($output[RESPONSE::THOUGHTS]); $i++) {
-                    $output[RESPONSE::THOUGHTS][$i]->profile_id = is_dir("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                    $output[RESPONSE::THOUGHTS][$i]->profile_id = is_dir("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                    $output[RESPONSE::THOUGHTS][$i]->banner_id = is_dir("../assets/users/banners/{$output[RESPONSE::THOUGHTS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/banners/{$output[RESPONSE::THOUGHTS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
                 }
 
             }
@@ -145,7 +148,8 @@ if (check_keys($_GET, "schema")) {
 
                 }
                 for ($i = 0; $i < count($output[RESPONSE::THOUGHTS]); $i++) {
-                    $output[RESPONSE::THOUGHTS][$i]->profile_id = is_dir("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                    $output[RESPONSE::THOUGHTS][$i]->profile_id = is_dir("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                    $output[RESPONSE::THOUGHTS][$i]->banner_id = is_dir("../assets/users/banners/{$output[RESPONSE::THOUGHTS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/banners/{$output[RESPONSE::THOUGHTS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
                 }
 
             }

@@ -28,6 +28,7 @@ export class EditProfilePage {
     email: "",
     gender: -1,
     picture: "",
+    banner: "",
     username: "",
     join: new Date(),
     is_verified: false,
@@ -83,11 +84,12 @@ export class EditProfilePage {
 
     Camera.getPhoto({
       resultType: CameraResultType.Base64,
-      source: CameraSource.Photos
+      source: CameraSource.Photos,
+
     }).then(image => {
       this.userService.uploadPicture({ picture: image.base64String, user_id: this.old.user_id }).subscribe(response => {
 
-        this.old.picture = `http://localhost/Platonia/Server/assets/users/${this.old.user_id}/profile-${response.profile_id! - 1}.png`;
+        this.old.picture = `http://localhost/Platonia/Server/assets/users/${this.old.user_id}/profiles/profile-${response.profile_id! - 1}.png`;
         this.storageService.get<User>("loggedInUser").then(r =>
 
           r.picture = this.old.picture

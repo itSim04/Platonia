@@ -19,7 +19,7 @@ $query->execute();
 $query = $PDO->prepare("
 CREATE TABLE IF NOT EXISTS thoughts (
   thought_id int(11) NOT NULL AUTO_INCREMENT,
-  share_date datetime NOT NULL,
+  share_date VARCHAR(27) NOT NULL,
   edit_date varchar(16) DEFAULT NULL,
   content longtext NOT NULL,
   type tinyint(4) NOT NULL,

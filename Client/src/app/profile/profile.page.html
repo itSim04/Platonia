@@ -37,7 +37,10 @@
 
   <!-- Bio -->
   <ion-card>
-    <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+    <div (click)="uploadBanner()">
+      <img alt="Silhouette of mountains" [src]="current_user?.banner"
+        onerror="this.src='http://localhost/Platonia/Server/assets/users/0/profile.png'" />
+    </div>
     <ion-card-header>
       <ion-card-title style="width: auto">About
         <div style="display:inline" (click)="editBio()">

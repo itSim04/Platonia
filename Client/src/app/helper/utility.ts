@@ -56,8 +56,7 @@ export function formatRemainingDate(date: Date): string {
 
     // Turns a date into a remaining amount
     let seconds: number = (new Date().getTime() / 1000) - (date.getTime() / 1000);
-    console.log(date + " " + new Date());
-
+    
     let number_of_days: number;
     let number_of_hours: number;
     let number_of_minutes: number;
@@ -65,8 +64,6 @@ export function formatRemainingDate(date: Date): string {
     number_of_days = Math.floor(seconds / 86400);
     number_of_hours = Math.floor((seconds % 86400) / 3600);
     number_of_minutes = Math.floor(((seconds % 86400) % 3600) / 60);
-
-   // console.log(content, seconds + " " + number_of_days + " " + number_of_hours + " " + number_of_minutes);
 
     if (number_of_days == 0 && number_of_hours == 0 && number_of_minutes == 0) {
         return "Now";

@@ -120,7 +120,6 @@ export class ThoughtCardComponent implements AfterViewInit {
       this.deleted = true;
       this.thoughtService.delete({ thought_id: this.thought.thought_id }).subscribe(d => { 
         
-        console.log(d);
         this.deleted = d.status == EXIT_CODES.THOUGHTS_DELETE; 
       
       });

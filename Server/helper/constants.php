@@ -206,6 +206,7 @@ class RESPONSE {
 	public const NAME_AVAILABLE = "name_taken";
 	public const FOLLOWS = "is_following";
 	public const MAX_PROFILE = "profile_id";
+	public const MAX_BANNER = "banner_id";
 
 }
 
@@ -233,6 +234,7 @@ class USERS_SCHEMA {
 	public const CHECK = 4;
 	public const AUTHENTICATE = 5;
 	public const UPLOAD_PROFILE = 6;
+	public const UPLOAD_BANNER = 7;
 
 }
 

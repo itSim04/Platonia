@@ -44,7 +44,10 @@ if (check_keys($_GET, "schema")) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::PLATON_GET_ALL_ON_THOUGHT;
                 $output[RESPONSE::PLATONS] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $user_table, $user_temp), $_GET, array(), array(new condition(PLATONS::THOUGHT_ID), new condition(PLATONS::USER_ID . " = " . USERS::ID, false), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
-
+                for ($i = 0; $i < count($output[RESPONSE::LIKES]); $i++) {
+                    $output[RESPONSE::LIKES][$i]->profile_id = is_dir("../assets/users/profiles/{$output[RESPONSE::LIKES][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/profiles/{$output[RESPONSE::LIKES][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                    $output[RESPONSE::LIKES][$i]->profile_id = is_dir("../assets/users/banners/{$output[RESPONSE::LIKES][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/banners/{$output[RESPONSE::LIKES][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                }
             }
             break;
 

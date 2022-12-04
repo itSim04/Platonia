@@ -18,6 +18,7 @@ export interface RESPONSE_MODEL {
     options?: Map<number, Option>;
     missing_params?: string;
     profile_id?: number;
+    banner_id?: number;
     follows?: boolean;
 
 }

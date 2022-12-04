@@ -11,6 +11,7 @@ import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 import { EXIT_CODES } from '../helper/constants/db_schemas';
 import { ThoughtService } from '../apis/thought.service';
 import { Thought } from '../models/thoughts-model';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 
 @Component({
@@ -44,6 +45,29 @@ export class ProfilePage implements OnInit {
 
     this.ionViewWillEnter();
 
+  }
+
+  public uploadBanner() {
+
+    if (this.owner) {
+      Camera.getPhoto({
+        resultType: CameraResultType.Base64,
+        source: CameraSource.Photos,
+
+      }).then(image => {
+        this.userService.uploadBanner({ picture: image.base64String, user_id: this.current_user!.user_id }).subscribe(response => {
+
+          console.log(response);
+          this.current_user!.banner = `http://localhost/Platonia/Server/assets/users/${this.current_user!.user_id}/banners/banner-${response.banner_id! - 1}.png`;
+          this.storage.get<User>("loggedInUser").then(r =>
+
+            r.banner = this.current_user!.banner
+
+          );
+
+        })
+      });
+    }
   }
 
   openOptions() {

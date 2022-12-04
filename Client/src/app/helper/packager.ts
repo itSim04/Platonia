@@ -19,6 +19,7 @@ export class Packager {
             name_taken: data[RESPONSE.NAME_AVAILABLE],
             options: this.packOptionsInMap(data[RESPONSE.OPTIONS]),
             profile_id: data[RESPONSE.PROFILE_ID],
+            banner_id: data[RESPONSE.BANNER_ID],
             follows: data[RESPONSE.FOLLOWS],
 
         }
@@ -161,7 +162,8 @@ export class Packager {
                 followers: data[USERS_TEMP.FOLLOWERS],
                 followings: data[USERS_TEMP.FOLLOWINGS],
                 is_verified: data[USERS.IS_VERIFIED],
-                picture: data[RESPONSE.PROFILE_ID] != 0 ? `http://localhost/Platonia/Server/assets/users/${data[USERS.ID]}/profile-${data[RESPONSE.PROFILE_ID] - 1}.png` : `http://localhost/Platonia/Server/assets/users/0/profile.png`,
+                picture: data[RESPONSE.PROFILE_ID] != 0 ? `http://localhost/Platonia/Server/assets/users/${data[USERS.ID]}/profiles/profile-${data[RESPONSE.PROFILE_ID] - 1}.png` : `../assets/icon/profile-default.png`,
+                banner: data[RESPONSE.PROFILE_ID] != 0 ? `http://localhost/Platonia/Server/assets/users/${data[USERS.ID]}/banners/banner-${data[RESPONSE.BANNER_ID] - 1}.png` : `https://ionicframework.com/docs/img/demos/card-media.png`,
                 gender: data[USERS.GENDER],
                 join: data[USERS.JOIN]
 
@@ -185,11 +187,12 @@ export class Packager {
         if (user.password != undefined) form.append(USERS.PASSWORD, user.password);
         if (user.is_verified != undefined) form.append(USERS.IS_VERIFIED, String(user.is_verified ? 1 : 0));
         if (user.bio != undefined) form.append(USERS.BIO, user.bio);
-        if (user.birthday != undefined) form.append(USERS.BIRTHDAY, user.birthday.toISOString().slice(0, 10).replace('T', ' '));
+        if (user.birthday != undefined) form.append(USERS.BIRTHDAY, user.birthday.toISOString());
         if (user.email != undefined) form.append(USERS.EMAIL, user.email);
         if (user.gender != undefined) form.append(USERS.GENDER, String(user.gender));
-        if (user.picture != undefined) form.append(USERS.PICTURE, String(user.picture));
-        form.append(USERS.JOIN, new Date().toISOString().slice(0, 10).replace('T', ' '));
+        if (user.picture != undefined) form.append(USERS.PICTURE, user.picture);
+        if (user.banner != undefined) form.append(USERS.BANNER, user.banner);
+        form.append(USERS.JOIN, new Date().toISOString());
         return form;
 
     }

@@ -9,6 +9,7 @@ export interface User {
     join: Date;
     gender: number;
     picture: string;
+    banner: string;
     followers: number;
     followings: number;
 
@@ -25,6 +26,7 @@ export interface USER_RESPONSE {
     birthday?: Date;
     gender?: number;
     picture?: string;
+    banner?: string;
 
 
 }

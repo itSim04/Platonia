@@ -95,4 +95,15 @@ export class UserService {
   }
 
 
+  public uploadBanner(user: USER_RESPONSE) {
+
+    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.UPLOAD_BANNER, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
+
+      Packager.responseUnpack(data)
+
+    ));
+
+  }
+
+
 }

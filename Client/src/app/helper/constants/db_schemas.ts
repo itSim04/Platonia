@@ -71,6 +71,7 @@ export enum RESPONSE {
     USERNAME_AVAILABLE = "username_taken",
     NAME_AVAILABLE = "name_taken",
     PROFILE_ID = "profile_id",
+    BANNER_ID = "banner_id",
     FOLLOWS = "is_following"
 
 }
@@ -98,7 +99,8 @@ export enum USERS_SCHEMA {
     UPDATE = 3,
     CHECK = 4,
     AUTHENTICATE = 5,
-    UPLOAD_PROFILE = 6
+    UPLOAD_PROFILE = 6,
+    UPLOAD_BANNER = 7
 
 }
 
