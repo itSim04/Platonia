@@ -24,3 +24,31 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.ios button.alert-button.alert-button-cancel {
+
+    color: var(--ion-color-danger);
+    font-weight: normal;
+
+}
+
+.ios button.alert-button.alert-button-confirm {
+
+    color: var(--ion-color-secondary);
+    font-weight: normal;
+
+}
+
+.md button.alert-button.alert-button-cancel {
+
+    color: var(--ion-color-danger);
+    font-weight: normal;
+
+}
+
+.md button.alert-button.alert-button-confirm {
+
+    color: var(--ion-color-secondary);
+    font-weight: normal;
+
+}

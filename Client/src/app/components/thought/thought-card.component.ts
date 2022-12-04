@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { IonPopover, ModalController } from '@ionic/angular';
+import { AlertController, IonPopover, ModalController } from '@ionic/angular';
 import { exitCode } from 'process';
 import { AnswerService } from 'src/app/apis/answer.service';
 import { LikeService } from 'src/app/apis/like.service';
 import { StorageService } from 'src/app/apis/storage.service';
+import { ThoughtService } from 'src/app/apis/thought.service';
 import { EXIT_CODES } from 'src/app/helper/constants/db_schemas';
 import { formatRemainingDate } from 'src/app/helper/utility';
 import { Thought } from 'src/app/models/thoughts-model';
@@ -22,16 +23,17 @@ export class ThoughtCardComponent implements AfterViewInit {
   @Input() thought!: Thought;
   @Input() editable?: boolean;
   date: string = "1970-01-01";
+  deleted: boolean = false;
 
   max: number = 0;
   max_index: number = 0;
 
   isLikesOpen: boolean = false;
   likes: Array<User> = new Array;
-  
+
   @ViewChild('options') option!: IonPopover;
 
-  constructor(private optionService: AnswerService, private storageService: StorageService, private likeService: LikeService) {
+  constructor(private thoughtService: ThoughtService, private alertController: AlertController, private optionService: AnswerService, private storageService: StorageService, private likeService: LikeService) {
   }
 
   ngAfterViewInit(): void {
@@ -101,10 +103,30 @@ export class ThoughtCardComponent implements AfterViewInit {
 
   }
 
-  delete() {
+  async delete() {
 
+    const alert = await this.alertController.create({
+      header: 'Delete Thought',
+      message: 'Are you sure you want to delete this Thought?',
+      buttons: [{ role: "Delete", text: "Yes", cssClass: "alert-button-confirm" }, { text: "Cancel", cssClass: "alert-button-cancel" }],
+    });
 
-    
+    await alert.present();
+
+    const { role } = await alert.onDidDismiss();
+
+    if (role == 'Delete') {
+
+      this.deleted = true;
+      this.thoughtService.delete({ thought_id: this.thought.thought_id }).subscribe(d => { 
+        
+        console.log(d);
+        this.deleted = d.status == EXIT_CODES.THOUGHTS_DELETE; 
+      
+      });
+
+    }
+
   }
 
 
