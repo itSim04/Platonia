@@ -11,15 +11,38 @@
       <!-- Username -->
       <div class="owner_label">{{user.username}}</div>
 
+      <!-- Options -->
+      <ion-button *ngIf="session_user.user_id== user.user_id" (click)="openOptions()" fill="clear" class="option">
+        <ion-icon name="ellipsis-horizontal"></ion-icon>
+      </ion-button>
+
       <!-- Date -->
       <ion-text class="date">
         {{date}}
       </ion-text>
 
+
     </ion-card-subtitle>
   </ion-card-header>
 
   <ion-card-content class="body">
+
+
+    <!-- Options Tab -->
+    <ion-popover #options [dismissOnSelect]="true">
+      <ng-template>
+        <ion-content>
+          <ion-list>
+            <ion-item [button]="true" [detail]="false" (click)="delete()">
+              <ion-icon [style.margin-right]="2 + '%'" color="danger" name="trash-bin-outline"></ion-icon>
+              <ion-text color="danger">Delete Thought</ion-text>
+            </ion-item>
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+
+
     <ion-grid class="grid">
       <ion-row>
         <ion-col>

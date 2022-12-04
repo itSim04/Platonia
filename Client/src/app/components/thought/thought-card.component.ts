@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { IonPopover, ModalController } from '@ionic/angular';
 import { exitCode } from 'process';
 import { AnswerService } from 'src/app/apis/answer.service';
 import { LikeService } from 'src/app/apis/like.service';
@@ -28,6 +28,8 @@ export class ThoughtCardComponent implements AfterViewInit {
 
   isLikesOpen: boolean = false;
   likes: Array<User> = new Array;
+  
+  @ViewChild('options') option!: IonPopover;
 
   constructor(private optionService: AnswerService, private storageService: StorageService, private likeService: LikeService) {
   }
@@ -83,6 +85,29 @@ export class ThoughtCardComponent implements AfterViewInit {
       });
     }
   }
+
+  openOptions() {
+
+    if (this.option.isOpen) {
+
+      this.option.dismiss();
+
+
+    } else {
+
+      this.option.present();
+
+    }
+
+  }
+
+  delete() {
+
+
+    
+  }
+
+
 
   incrementPoll(position: number) {
 
