@@ -57,7 +57,7 @@ export class InterestService {
 
   public enrollUser(interest: INTEREST_RESPONSE): Observable<RESPONSE_MODEL> {
 
-    return this.http.get<any>(APIS.build_url(INTERESTS_SCHEMA.ENROLL_USER, this.api, `&${INTERESTED_IN.INTEREST_ID}=${interest.interest_id}&${INTERESTED_IN.USER_ID}=${interest.user_id}&${INTERESTED_IN.INTEREST_DATE}=${new Date().toISOString().slice(0, 10).replace('T', ' ')}`)).pipe(map((data: any) =>
+    return this.http.get<any>(APIS.build_url(INTERESTS_SCHEMA.ENROLL_USER, this.api, `&${INTERESTED_IN.INTEREST_ID}=${interest.interest_id}&${INTERESTED_IN.USER_ID}=${interest.user_id}&${INTERESTED_IN.INTEREST_DATE}=${new Date().toISOString()}`)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 
@@ -68,7 +68,7 @@ export class InterestService {
   public unenrollUser(interest: INTEREST_RESPONSE): Observable<RESPONSE_MODEL> {
 
 
-    return this.http.get<any>(APIS.build_url(INTERESTS_SCHEMA.UNENROLL_USER, this.api, `&${INTERESTED_IN.INTEREST_ID}=${interest.interest_id}&${INTERESTED_IN.USER_ID}=${interest.user_id}&${INTERESTED_IN.INTEREST_DATE}=${new Date().toISOString().slice(0, 10).replace('T', ' ')}`)).pipe(map((data: any) =>
+    return this.http.get<any>(APIS.build_url(INTERESTS_SCHEMA.UNENROLL_USER, this.api, `&${INTERESTED_IN.INTEREST_ID}=${interest.interest_id}&${INTERESTED_IN.USER_ID}=${interest.user_id}&${INTERESTED_IN.INTEREST_DATE}=${new Date().toISOString()}`)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 

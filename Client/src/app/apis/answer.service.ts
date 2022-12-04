@@ -20,7 +20,7 @@ export class AnswerService {
     form.append(ANSWERS.USER_ID, String(user_id));
     form.append(ANSWERS.OPTION_CHOSEN, String(option));
     form.append(ANSWERS.THOUGHT_ID, String(thought_id));
-    form.append(ANSWERS.ANSWER_DATE, String(new Date().toISOString().slice(0, 19).replace('T', ' ')));
+    form.append(ANSWERS.ANSWER_DATE, String(new Date().toISOString()));
     return this.http.post<any>(APIS.build_url(POLLS_SCHEMA.ANSWER_POLL, this.api), form).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)

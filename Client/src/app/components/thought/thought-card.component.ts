@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { exitCode } from 'process';
 import { AnswerService } from 'src/app/apis/answer.service';
 import { LikeService } from 'src/app/apis/like.service';
 import { StorageService } from 'src/app/apis/storage.service';
 import { EXIT_CODES } from 'src/app/helper/constants/db_schemas';
+import { formatRemainingDate } from 'src/app/helper/utility';
 import { Thought } from 'src/app/models/thoughts-model';
 import { User } from 'src/app/models/users-model';
 
@@ -13,13 +14,14 @@ import { User } from 'src/app/models/users-model';
   templateUrl: './thought-card.component.html',
   styleUrls: ['./thought-card.component.scss'],
 })
-export class ThoughtCardComponent implements OnInit {
+export class ThoughtCardComponent implements AfterViewInit {
 
 
   session_user?: User;
   @Input() user?: User;
   @Input() thought!: Thought;
   @Input() editable?: boolean;
+  date: string = "1970-01-01";
 
   max: number = 0;
   max_index: number = 0;
@@ -30,8 +32,9 @@ export class ThoughtCardComponent implements OnInit {
   constructor(private optionService: AnswerService, private storageService: StorageService, private likeService: LikeService) {
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
 
+    this.date = formatRemainingDate(this.thought.share_date);
     this.storageService.get<User>("loggedInUser").then(r => this.session_user = r);
     if (this.thought.type == 3) {
       this.optionService.get_option(this.thought.thought_id).subscribe(response => {

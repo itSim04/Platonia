@@ -17,7 +17,7 @@ export class FollowService {
 
   public follow(user_id1: number, user_id2: number): Observable<RESPONSE_MODEL> {
 
-    return this.http.get<any>(APIS.build_url(FOLLOW_SCHEMA.FOLLOW, this.api, `&${FOLLOWS.USER_ID1}=${user_id1}&${FOLLOWS.USER_ID2}=${user_id2}&${FOLLOWS.FOLLOW_DATE}=${new Date().toISOString().slice(0, 19).replace('T', ' ')}`)).pipe(map((data: any) =>
+    return this.http.get<any>(APIS.build_url(FOLLOW_SCHEMA.FOLLOW, this.api, `&${FOLLOWS.USER_ID1}=${user_id1}&${FOLLOWS.USER_ID2}=${user_id2}&${FOLLOWS.FOLLOW_DATE}=${new Date().toISOString()}`)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 

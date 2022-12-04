@@ -246,8 +246,8 @@ export class Packager {
     public static packThoughtForPOST(thought: THOUGHTS_RESPONSE): FormData {
 
         const form = new FormData();
-        form.append(THOUGHTS.SHARE_DATE, String(new Date().toISOString().slice(0, 19).replace('T', ' ')));
-        form.append(THOUGHTS.EDIT_DATE, String(new Date().toISOString().slice(0, 19).replace('T', ' ')));
+        form.append(THOUGHTS.SHARE_DATE, new Date().toISOString());
+        form.append(THOUGHTS.EDIT_DATE, new Date().toISOString());
         if (thought.thought_id != undefined) form.append(THOUGHTS.ID, String(thought.thought_id));
         if (thought.user_id != undefined) form.append(USERS.ID, String(thought.user_id));
         if (thought.content != undefined) form.append(THOUGHTS.CONTENT, thought.content);
@@ -302,7 +302,7 @@ export class Packager {
     public static packInterestForPOST(interest: INTEREST_RESPONSE): FormData {
 
         const form = new FormData();
-        form.append(INTERESTED_IN.INTEREST_DATE, String(new Date().toISOString().slice(0, 19).replace('T', ' ')));
+        form.append(INTERESTED_IN.INTEREST_DATE, new Date().toISOString());
         if (interest.user_id != undefined) form.append(USERS.ID, String(interest.user_id));
         if (interest.img_src != undefined) form.append(INTERESTS.IMG, String(interest.img_src));
         if (interest.interest_id != undefined) form.append(INTERESTS.ID, String(interest.interest_id));

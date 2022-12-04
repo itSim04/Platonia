@@ -16,7 +16,7 @@ export class PlatonService {
 
   public platon(user_id: number, thought_id: number): Observable<RESPONSE_MODEL> {
 
-    return this.http.get<any>(APIS.build_url(PLATONS_SCHEMA.PLATON, this.api, `&${PLATONS.USER_ID}=${user_id}&${PLATONS.THOUGHT_ID}=${thought_id}&${PLATONS.PLATON_DATE}=${new Date().toISOString().slice(0, 19).replace('T', ' ')}`)).pipe(map((data: any) =>
+    return this.http.get<any>(APIS.build_url(PLATONS_SCHEMA.PLATON, this.api, `&${PLATONS.USER_ID}=${user_id}&${PLATONS.THOUGHT_ID}=${thought_id}&${PLATONS.PLATON_DATE}=${new Date()}`)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 
