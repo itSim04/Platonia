@@ -1,26 +1,26 @@
 import { USERS, USERS_TEMP, THOUGHTS, THOUGHTS_TEMP, OPTIONS, INTERESTS, INTERESTED_IN } from "./constants/db_columns";
-import { Interest, INTEREST_RESPONSE } from "../models/interests-model";
-import { RESPONSE_MODEL } from "../models/response-model";
-import { Option, Thought, THOUGHTS_RESPONSE } from "../models/thoughts-model";
-import { User, USER_RESPONSE } from "../models/users-model";
-import { RESPONSE, EXIT_CODES } from "./constants/db_schemas";
+import { Interest, INTEREST_RESPONSE } from "../linking/models/interests-model";
+import { RESPONSE } from "../linking/models/response-model";
+import { Option, Thought, THOUGHTS_RESPONSE } from "../linking/models/thoughts-model";
+import { User, USER_RESPONSE } from "../linking/models/users-model";
+import { RESPONSES, EXIT_CODES } from "./constants/db_schemas";
 
 export class Packager {
 
-    public static responseUnpack(data: any): RESPONSE_MODEL {
+    public static responseUnpack(data: any): RESPONSE {
 
-        const response: RESPONSE_MODEL = {
+        const response: RESPONSE = {
 
-            status: data[RESPONSE.STATUS],
-            error_message: data[RESPONSE.ERROR],
-            missing_params: data[RESPONSE.MISSING_PARAMS],
-            email_taken: data[RESPONSE.EMAIL_AVAILABLE],
-            username_taken: data[RESPONSE.USERNAME_AVAILABLE],
-            name_taken: data[RESPONSE.NAME_AVAILABLE],
-            options: this.packOptionsInMap(data[RESPONSE.OPTIONS]),
-            profile_id: data[RESPONSE.PROFILE_ID],
-            banner_id: data[RESPONSE.BANNER_ID],
-            follows: data[RESPONSE.FOLLOWS],
+            status: data[RESPONSES.STATUS],
+            error_message: data[RESPONSES.ERROR],
+            missing_params: data[RESPONSES.MISSING_PARAMS],
+            email_taken: data[RESPONSES.EMAIL_AVAILABLE],
+            username_taken: data[RESPONSES.USERNAME_AVAILABLE],
+            name_taken: data[RESPONSES.NAME_AVAILABLE],
+            options: this.packOptionsInMap(data[RESPONSES.OPTIONS]),
+            profile_id: data[RESPONSES.PROFILE_ID],
+            banner_id: data[RESPONSES.BANNER_ID],
+            follows: data[RESPONSES.FOLLOWS],
 
         }
 
@@ -31,71 +31,71 @@ export class Packager {
             case EXIT_CODES.USERS_GET_ONE:
             case EXIT_CODES.USERS_UPDATE:
 
-                response.user = this.userUnpack(data[RESPONSE.USER][0]);
+                response.user = this.userUnpack(data[RESPONSES.USER][0]);
                 break;
 
             case EXIT_CODES.USERS_GET_ALL:
             case EXIT_CODES.INTERESTS_GET_USERS:
 
-                response.users = this.packUsersInMap(data[RESPONSE.USERS]);
+                response.users = this.packUsersInMap(data[RESPONSES.USERS]);
                 break;
 
             case EXIT_CODES.THOUGHTS_ADD:
             case EXIT_CODES.THOUGHTS_GET_ONE:
 
-                response.user = this.userUnpack(data[RESPONSE.THOUGHT][0]);
-                response.thought = this.thoughtUnpack(data[RESPONSE.THOUGHT][0]);
+                response.user = this.userUnpack(data[RESPONSES.THOUGHT][0]);
+                response.thought = this.thoughtUnpack(data[RESPONSES.THOUGHT][0]);
                 break;
 
             case EXIT_CODES.THOUGHTS_GET_ALL:
             case EXIT_CODES.THOUGHTS_GET_BY:
             case EXIT_CODES.THOUGHTS_GET_BY_USERS:
 
-                response.users = this.packUsersInMap(data[RESPONSE.THOUGHTS]);
-                response.thoughts = this.packThoughtsInMap(data[RESPONSE.THOUGHTS]);
+                response.users = this.packUsersInMap(data[RESPONSES.THOUGHTS]);
+                response.thoughts = this.packThoughtsInMap(data[RESPONSES.THOUGHTS]);
                 break;
 
             case EXIT_CODES.INTERESTS_ADD:
             case EXIT_CODES.INTERESTS_GET_ONE:
 
-                response.interest = this.interestUnpack(data[RESPONSE.INTEREST][0]);
+                response.interest = this.interestUnpack(data[RESPONSES.INTEREST][0]);
                 break;
 
             case EXIT_CODES.INTERESTS_GET_INTERESTS_BY_USER:
             case EXIT_CODES.INTERESTS_GET_ALL:
 
-                response.interests = this.packInterestsInMap(data[RESPONSE.INTERESTS]);
+                response.interests = this.packInterestsInMap(data[RESPONSES.INTERESTS]);
                 break;
 
             case EXIT_CODES.FOLLOW_GET_FOLLOWERS:
 
-                response.users = this.packUsersInMap(data[RESPONSE.FOLLOWERS]);
+                response.users = this.packUsersInMap(data[RESPONSES.FOLLOWERS]);
                 break;
 
             case EXIT_CODES.FOLLOW_GET_FOLLOWINGS:
 
-                response.users = this.packUsersInMap(data[RESPONSE.FOLLOWINGS]);
+                response.users = this.packUsersInMap(data[RESPONSES.FOLLOWINGS]);
                 break;
 
             case EXIT_CODES.LIKE_GET_ALL_BY_USER:
 
-                response.thoughts = this.packThoughtsInMap(data[RESPONSE.LIKES]);
+                response.thoughts = this.packThoughtsInMap(data[RESPONSES.LIKES]);
                 break;
 
             case EXIT_CODES.LIKE_GET_ALL_ON_THOUGHT:
 
 
-                response.users = this.packUsersInMap(data[RESPONSE.LIKES]);
+                response.users = this.packUsersInMap(data[RESPONSES.LIKES]);
                 break;
 
             case EXIT_CODES.PLATON_GET_ALL_BY_USER:
 
-                response.thoughts = this.packThoughtsInMap(data[RESPONSE.PLATONS]);
+                response.thoughts = this.packThoughtsInMap(data[RESPONSES.PLATONS]);
                 break;
 
             case EXIT_CODES.PLATON_GET_ALL_ON_THOUGHT:
 
-                response.users = this.packUsersInMap(data[RESPONSE.PLATONS]);
+                response.users = this.packUsersInMap(data[RESPONSES.PLATONS]);
                 break;
 
 
@@ -162,8 +162,8 @@ export class Packager {
                 followers: data[USERS_TEMP.FOLLOWERS],
                 followings: data[USERS_TEMP.FOLLOWINGS],
                 is_verified: data[USERS.IS_VERIFIED],
-                picture: data[RESPONSE.PROFILE_ID] != 0 ? `http://localhost/Platonia/Server/assets/users/${data[USERS.ID]}/profiles/profile-${data[RESPONSE.PROFILE_ID] - 1}.png` : `../assets/icon/profile-default.png`,
-                banner: data[RESPONSE.PROFILE_ID] != 0 ? `http://localhost/Platonia/Server/assets/users/${data[USERS.ID]}/banners/banner-${data[RESPONSE.BANNER_ID] - 1}.png` : `https://ionicframework.com/docs/img/demos/card-media.png`,
+                picture: data[RESPONSES.PROFILE_ID] != 0 ? `http://localhost/Platonia/Server/assets/users/${data[USERS.ID]}/profiles/profile-${data[RESPONSES.PROFILE_ID] - 1}.png` : `../assets/icon/profile-default.png`,
+                banner: data[RESPONSES.PROFILE_ID] != 0 ? `http://localhost/Platonia/Server/assets/users/${data[USERS.ID]}/banners/banner-${data[RESPONSES.BANNER_ID] - 1}.png` : `https://ionicframework.com/docs/img/demos/card-media.png`,
                 gender: data[USERS.GENDER],
                 join: data[USERS.JOIN]
 
@@ -290,7 +290,7 @@ export class Packager {
                 name: data[INTERESTS.NAME],
                 is_followed: data[INTERESTS.IS_INTERESTED],
                 participants: data[INTERESTS.PARTICIPANTS],
-                logo: `http://localhost/Platonia/Server/assets/interests/${data[INTERESTS.ID]}/logo-${data[RESPONSE.PROFILE_ID] - 1}.png`,
+                logo: `http://localhost/Platonia/Server/assets/interests/${data[INTERESTS.ID]}/logo-${data[RESPONSES.PROFILE_ID] - 1}.png`,
 
 
             };

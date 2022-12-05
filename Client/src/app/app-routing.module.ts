@@ -9,30 +9,31 @@ const routes: Routes = [
   },
   {
     path: 'folder',
-    loadChildren: () => import('./folder/folder.module').then(m => m.FolderPageModule)
+    loadChildren: () => import('./navigation/folder/folder.module').then(m => m.FolderPageModule)
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
+    loadChildren: () => import('./pages/outline/login/login.module').then(m => m.LoginPageModule)
   },
   {
     path: 'register',
-    loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule)
+    loadChildren: () => import('./pages/outline/register/register.module').then(m => m.RegisterPageModule)
   },
   {
     path: 'friend-list',
-    loadChildren: () => import('./friend-list/friend-list.module').then(m => m.FriendListPageModule)
+    loadChildren: () => import('./pages/browsing/friend-list/friend-list.module').then(m => m.FriendListPageModule)
   },
   {
     path: 'splash',
-    loadChildren: () => import('./splash/splash.module').then( m => m.SplashPageModule)
+    loadChildren: () => import('./pages/outline/splash/splash.module').then( m => m.SplashPageModule)
   },
   {
     path: 'tabs',
-    loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
-  },  {
+    loadChildren: () => import('./navigation/tabs/tabs.module').then( m => m.TabsPageModule)
+  },
+  {
     path: 'search',
-    loadChildren: () => import('./search/search.module').then( m => m.SearchPageModule)
+    loadChildren: () => import('./pages/browsing/search/search.module').then( m => m.SearchPageModule)
   }
 
 

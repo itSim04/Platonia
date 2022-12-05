@@ -50,7 +50,7 @@ export enum EXIT_CODES {
 
 }
 
-export enum RESPONSE {
+export enum RESPONSES {
 
     STATUS = "status",
     ERROR = "error_message",
