@@ -1,7 +1,7 @@
 import { UserParts, TempUserParts, ThoughtParts, TempThoughtParts, OptionParts, InterestParts, InterestPivotParts } from "./constants/db_columns";
-import { Interest, InterestRequest } from "../linking/models/interests-model";
+import { Interest, InterestRequest } from "../linking/models/interests-request";
 import { Response } from "../linking/models/response-model";
-import { Option, Thought, ThoughtRequest } from "../linking/models/thoughts-model";
+import { Option, Thought, ThoughtRequest } from "../linking/models/thoughts-request";
 import { User, UserRequest } from "../linking/models/users-request";
 import { ResponseParts, ExitCodes } from "./constants/db_schemas";
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { InterestService } from '../../../linking/apis/interest.service';
 import { StorageService } from '../../../linking/apis/storage.service';
 import { UserService } from '../../../linking/apis/user.service';
-import { Interest } from '../../../linking/models/interests-model';
+import { Interest } from '../../../linking/models/interests-request';
 import { User } from '../../../linking/models/users-request';
 
 @Component({

@@ -3,7 +3,7 @@ import { IonInput } from '@ionic/angular';
 import { InterestService } from 'src/app/linking/apis/interest.service';
 import { StorageService } from 'src/app/linking/apis/storage.service';
 import { ExitCodes } from 'src/app/helper/constants/db_schemas';
-import { Interest } from 'src/app/linking/models/interests-model';
+import { Interest } from 'src/app/linking/models/interests-request';
 import { User } from 'src/app/linking/models/users-request';
 
 @Component({

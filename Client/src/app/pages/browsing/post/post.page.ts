@@ -2,7 +2,7 @@ import { Component, DoCheck, OnInit } from '@angular/core';
 import { StorageService } from '../../../linking/apis/storage.service';
 import { ThoughtService } from '../../../linking/apis/thought.service';
 import { UserService } from '../../../linking/apis/user.service';
-import { Thought, ThoughtRequest } from '../../../linking/models/thoughts-model';
+import { Thought, ThoughtRequest } from '../../../linking/models/thoughts-request';
 import { User } from '../../../linking/models/users-request';
 
 @Component({

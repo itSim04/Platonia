@@ -1,5 +1,5 @@
 import { AlertButton, AlertController, AlertInput } from "@ionic/angular";
-import { Thought } from "../linking/models/thoughts-model";
+import { Thought } from "../linking/models/thoughts-request";
 
 export function sortedInsertion<T>(array: Array<T>, item: T, compare: Function) {
 

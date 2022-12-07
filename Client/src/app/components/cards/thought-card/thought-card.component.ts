@@ -7,7 +7,7 @@ import { StorageService } from 'src/app/linking/apis/storage.service';
 import { ThoughtService } from 'src/app/linking/apis/thought.service';
 import { ExitCodes } from 'src/app/helper/constants/db_schemas';
 import { formatRemainingDate } from 'src/app/helper/utility';
-import { Thought } from 'src/app/linking/models/thoughts-model';
+import { Thought } from 'src/app/linking/models/thoughts-request';
 import { User } from 'src/app/linking/models/users-request';
 
 @Component({

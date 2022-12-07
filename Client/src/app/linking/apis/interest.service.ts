@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { InterestPivotParts, InterestParts } from '../../helper/constants/db_columns';
-import { InterestRequest } from '../models/interests-model';
+import { InterestRequest } from '../models/interests-request';
 import { Response } from '../models/response-model';
 import { Packager } from '../../helper/packager';
 import { BuildAPIs, InterestAPIs } from '../../helper/constants/db_schemas';

@@ -10,7 +10,7 @@ import { presentAlert } from '../../../helper/utility';
 import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 import { ExitCodes } from '../../../helper/constants/db_schemas';
 import { ThoughtService } from '../../../linking/apis/thought.service';
-import { Thought } from '../../../linking/models/thoughts-model';
+import { Thought } from '../../../linking/models/thoughts-request';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 

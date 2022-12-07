@@ -1,6 +1,7 @@
-import { Interest } from "./interests-model";
-import { Option, Thought } from "./thoughts-model";
+import { Interest } from "./interest-main";
+import { Option } from "./thoughts-request";
 import { User } from "./user-main";
+import { Thought } from "./thought-main"
 
 export interface Response {
 
