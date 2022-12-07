@@ -1,6 +1,6 @@
 import { Interest } from "../linking/models/interest-main";
 import { UserRequest, ThoughtRequest, InterestRequest, ResponseReceipt, Option } from "../linking/models/request-models";
-import { Thought } from "../linking/models/thought-main";
+import { ImageThought, PollThought, TextThought, Thought, VideoThought } from "../linking/models/thought-main";
 import { User } from "../linking/models/user-main";
 import { OptionParts, UserParts, TempUserParts, ThoughtParts, TempThoughtParts, InterestParts, InterestPivotParts } from "./constants/db_columns";
 import { ResponseParts, ExitCodes } from "./constants/db_schemas";
@@ -211,35 +211,60 @@ export class Packager {
     }
     public static thoughtUnpack(data: any): Thought {
 
-        const current: Thought = {
+        let current: Thought;
+        switch (data[ThoughtParts.TYPE]) {
 
-            thought_id: data[ThoughtParts.ID],
-            share_date: new Date(data[ThoughtParts.SHARE_DATE]),
-            edit_date: new Date(data[ThoughtParts.EDIT_DATE]),
-            content: data[ThoughtParts.CONTENT],
-            type: data[ThoughtParts.TYPE],
-            owner_id: data[ThoughtParts.OWNER_ID],
-            root_id: data[ThoughtParts.ROOT],
-            likes: data[TempThoughtParts.LIKES],
-            platons: data[TempThoughtParts.PLATONS],
-            opinions: data[TempThoughtParts.OPINIONS],
 
-            is_liked: data[ThoughtParts.IS_LIKED],
-            is_platoned: data[ThoughtParts.IS_PLATONED],
-            option_chosen: data[ThoughtParts.OPTION],
+            case 1:
 
-            poll1: data[OptionParts.POLL1],
-            poll2: data[OptionParts.POLL2],
-            poll3: data[OptionParts.POLL3],
-            poll4: data[OptionParts.POLL4],
+                // Image
+                current = new ImageThought(data[ThoughtParts.CONTENT]);
+                break;
 
-            votes1: data[OptionParts.VOTES1],
-            votes2: data[OptionParts.VOTES2],
-            votes3: data[OptionParts.VOTES3],
-            votes4: data[OptionParts.VOTES4],
+            case 2:
 
-            votes: data[OptionParts.VOTES1] + data[OptionParts.VOTES2] + data[OptionParts.VOTES3] + data[OptionParts.VOTES4]
-        };
+                // Video
+                current = new VideoThought(data[ThoughtParts.CONTENT]);
+                break;
+
+            case 3:
+
+                // Poll
+                current = new PollThought(
+
+                    data[ThoughtParts.CONTENT],
+                    data[ThoughtParts.OPTION],
+                    data[OptionParts.POLL1],
+                    data[OptionParts.POLL2],
+                    data[OptionParts.POLL3],
+                    data[OptionParts.POLL4],
+                    data[OptionParts.VOTES1],
+                    data[OptionParts.VOTES2],
+                    data[OptionParts.VOTES3],
+                    data[OptionParts.VOTES4],
+
+                );
+                break;
+
+            default:
+
+                // Text
+                current = new TextThought(data[ThoughtParts.CONTENT]);
+                break;
+
+        }
+
+        current.type = data[ThoughtParts.TYPE];
+        current.thought_id = data[ThoughtParts.ID];
+        current.share_date = new Date(data[ThoughtParts.SHARE_DATE]);
+        current.edit_date = new Date(data[ThoughtParts.EDIT_DATE]);
+        current.is_liked = data[ThoughtParts.IS_LIKED];
+        current.is_platoned = data[ThoughtParts.IS_PLATONED];
+        current.likes = data[TempThoughtParts.LIKES];
+        current.opinions = data[TempThoughtParts.OPINIONS];
+        current.owner_id = data[ThoughtParts.OWNER_ID];
+        current.root_id = data[ThoughtParts.ROOT];
+        current.platons = data[TempThoughtParts.PLATONS];
 
         return current;
     }
@@ -284,16 +309,15 @@ export class Packager {
         if (data != undefined) {
             return new Interest(
 
-                interest_id: data[InterestParts.ID],
-                img_src: data[InterestParts.IMG],
-                name: data[InterestParts.NAME],
-                is_followed: data[InterestParts.IS_INTERESTED],
-                participants: data[InterestParts.PARTICIPANTS],
-                logo: `http://localhost/Platonia/Server/assets/interests/${data[InterestParts.ID]}/logo-${data[ResponseParts.PROFILE_ID] - 1}.png`,
+                data[InterestParts.ID],
+                data[InterestParts.NAME],
+                `http://localhost/Platonia/Server/assets/interests/${data[InterestParts.ID]}/logo-${data[ResponseParts.PROFILE_ID] - 1}.png`,
+                data[InterestParts.PARTICIPANTS],
+                data[InterestParts.IS_INTERESTED],
 
 
             );
-            
+
         } else {
 
             return undefined;
