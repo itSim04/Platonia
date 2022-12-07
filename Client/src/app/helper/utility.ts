@@ -1,5 +1,4 @@
-import { AlertButton, AlertController, AlertInput } from "@ionic/angular";
-import { Thought } from "../linking/models/thoughts-request";
+import { AlertButton, AlertController, AlertInput, ToastController } from "@ionic/angular";
 
 export function sortedInsertion<T>(array: Array<T>, item: T, compare: Function) {
 
@@ -56,7 +55,7 @@ export function formatRemainingDate(date: Date): string {
 
     // Turns a date into a remaining amount
     let seconds: number = (new Date().getTime() / 1000) - (date.getTime() / 1000);
-    
+
     let number_of_days: number;
     let number_of_hours: number;
     let number_of_minutes: number;
@@ -76,5 +75,17 @@ export function formatRemainingDate(date: Date): string {
     } else {
         return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
     }
+
+}
+
+export const displayWarning = async (msg: string, toastController: ToastController) => {
+
+    const toast = await toastController.create({
+        message: msg,
+        duration: 1500,
+        icon: 'globe'
+    });
+
+    await toast.present();
 
 }

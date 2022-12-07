@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
-import { StorageService } from '../../../linking/apis/storage.service';
-import { UserService } from '../../../linking/apis/user.service';
-import { UserRequest } from '../../../linking/models/users-request';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { ToastController } from "@ionic/angular";
+import { StorageService } from "src/app/linking/apis/storage.service";
+import { UserService } from "src/app/linking/apis/user.service";
+import { UserRequest } from "src/app/linking/models/request-models";
 
 @Component({
   selector: 'app-register',

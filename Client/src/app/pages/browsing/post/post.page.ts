@@ -1,9 +1,10 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ThoughtRequest } from 'src/app/linking/models/request-models';
+import { Thought } from 'src/app/linking/models/thought-main';
+import { User } from 'src/app/linking/models/user-main';
 import { StorageService } from '../../../linking/apis/storage.service';
 import { ThoughtService } from '../../../linking/apis/thought.service';
-import { UserService } from '../../../linking/apis/user.service';
-import { Thought, ThoughtRequest } from '../../../linking/models/thoughts-request';
-import { User } from '../../../linking/models/users-request';
+
 
 @Component({
   selector: 'app-post',

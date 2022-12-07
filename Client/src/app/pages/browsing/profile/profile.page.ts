@@ -1,17 +1,15 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { StorageService } from '../../../linking/apis/storage.service';
-import { UserService } from '../../../linking/apis/user.service';
-import { User } from '../../../linking/models/users-request';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController, InfiniteScrollCustomEvent, IonPopover, ModalController, NavController } from '@ionic/angular';
-import { EditProfilePage } from '../edit-profile/edit-profile.page';
-import { FollowService } from '../../../linking/apis/follow.service';
-import { presentAlert } from '../../../helper/utility';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
-import { ExitCodes } from '../../../helper/constants/db_schemas';
-import { ThoughtService } from '../../../linking/apis/thought.service';
-import { Thought } from '../../../linking/models/thoughts-request';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { AlertController, InfiniteScrollCustomEvent, IonPopover, ModalController, NavController } from '@ionic/angular';
+import { ExitCodes } from '../../../helper/constants/db_schemas';
+import { presentAlert } from '../../../helper/utility';
+import { FollowService } from '../../../linking/apis/follow.service';
+import { StorageService } from '../../../linking/apis/storage.service';
+import { ThoughtService } from '../../../linking/apis/thought.service';
+import { UserService } from '../../../linking/apis/user.service';
+import { EditProfilePage } from '../edit-profile/edit-profile.page';
 
 
 @Component({

@@ -15,14 +15,14 @@
 
 
   <div (click)="uploadProfile()">
-    <img [src]="old.picture" onerror="this.src='http://localhost/Platonia/Server/assets/users/0/profile.png'"
+    <img [src]="picture" onerror="this.src='http://localhost/Platonia/Server/assets/users/0/profile.png'"
       class="profile">
   </div>
   <ion-grid class="inputs_grid">
     <ion-row>
       <ion-col>
         <ion-item counter="true" class="inputs">
-          <ion-input name="username" [(ngModel)]="user.username" placeholder="Username"></ion-input>
+          <ion-input name="username" [(ngModel)]="username" placeholder="Username"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -30,7 +30,7 @@
     <ion-row>
       <ion-col>
         <ion-item counter="true" class="inputs">
-          <ion-input name="email" [(ngModel)]="user.email" type="email" placeholder="Email"></ion-input>
+          <ion-input name="email" [(ngModel)]="email" type="email" placeholder="Email"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -38,7 +38,7 @@
     <ion-row>
       <ion-col>
         <ion-item counter="true" class="inputs">
-          <ion-input name="birthday" type="date" (ngModelChange)="debug($event)" [(ngModel)]="new_birthday"></ion-input>
+          <ion-input name="birthday" type="date" [(ngModel)]="birthday"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -47,7 +47,7 @@
       <ion-col>
         <ion-list class="inputs">
           <ion-item>
-            <ion-select (ionChange)="setGender($event)" interface="popover" [placeholder]="genders[user.gender!]">
+            <ion-select (ionChange)="setGender($event)" interface="popover" [placeholder]="genders[gender!]">
               <ion-select-option class="inputs" *ngFor="let gender of genders" [value]="gender">{{gender}}
               </ion-select-option>
             </ion-select>
@@ -58,8 +58,8 @@
 
   </ion-grid>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="onEdit()"
-      [disabled]="user.username == undefined || user.email == undefined || user.gender == undefined || user.birthday == undefined">
+    <ion-fab-button (click)="onEdit()">
+      <!-- [disabled]="user.username == undefined || user.email == undefined || user.gender == undefined || user.birthday == undefined" -->
       <ion-icon name="arrow-forward-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>

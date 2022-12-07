@@ -1,4 +1,7 @@
+import { Genders } from "src/app/helper/constants/general";
+
 export class User {
+
 
     private _user_id: number;
     private _username: string;
@@ -124,6 +127,33 @@ export class User {
 
     public set followings(followings: number) {
         this._followings = followings;
+    }
+
+    static numericalGender(value: string): number {
+
+        switch (value) {
+
+            case Genders[0]:
+
+                return 0;
+
+            case Genders[1]:
+
+                return 1;
+
+            case Genders[2]:
+
+                return 2;
+
+            case Genders[3]:
+
+                return 3;
+
+            default:
+
+                throw new Error("Illegal argument");
+
+        }
     }
 
 

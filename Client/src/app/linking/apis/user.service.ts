@@ -44,9 +44,6 @@ export class UserService {
 
   }
 
-
-
-
   public updateUser(user: UserRequest): Observable<ResponseReceipt> {
 
     return this.http.post<any>(BuildAPIs.build_url(UserAPIs.UPDATE, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
@@ -69,11 +66,7 @@ export class UserService {
 
   }
 
-  public authenticate(user: UserRequest) {
-
-    const form: FormData = new FormData();
-    form.append(UserParts.USERNAME, user.username!);
-    form.append(UserParts.PASSWORD, user.password!);
+  public authenticate(user: UserRequest): Observable<ResponseReceipt> {
 
     return this.http.post<any>(BuildAPIs.build_url(UserAPIs.AUTHENTICATE, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
 
@@ -83,7 +76,7 @@ export class UserService {
 
   }
 
-  public uploadPicture(user: UserRequest) {
+  public uploadPicture(user: UserRequest): Observable<ResponseReceipt> {
 
     return this.http.post<any>(BuildAPIs.build_url(UserAPIs.UPLOAD_PROFILE, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
 
@@ -94,7 +87,7 @@ export class UserService {
   }
 
 
-  public uploadBanner(user: UserRequest) {
+  public uploadBanner(user: UserRequest): Observable<ResponseReceipt> {
 
     return this.http.post<any>(BuildAPIs.build_url(UserAPIs.UPLOAD_BANNER, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
 

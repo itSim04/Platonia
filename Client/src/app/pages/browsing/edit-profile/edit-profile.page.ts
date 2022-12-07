@@ -1,14 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ModalController, NavController, ToastController } from '@ionic/angular';
-import { StorageService } from '../../../linking/apis/storage.service';
-import { UserService } from '../../../linking/apis/user.service';
-import { User, UserRequest } from '../../../linking/models/users-request';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { defineCustomElements } from '@ionic/pwa-elements/loader';
-import { Genders } from '../../../helper/constants/general';
-
-
+import { Component } from "@angular/core";
+import { Router } from "@angular/router";
+import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
+import { ModalController, ToastController, NavController } from "@ionic/angular";
+import { Genders } from "src/app/helper/constants/general";
+import { displayWarning } from "src/app/helper/utility";
+import { StorageService } from "src/app/linking/apis/storage.service";
+import { UserService } from "src/app/linking/apis/user.service";
+import { User } from "src/app/linking/models/user-main";
 
 @Component({
   selector: 'app-edit-profile',
@@ -16,83 +14,55 @@ import { Genders } from '../../../helper/constants/general';
   styleUrls: ['./edit-profile.page.scss'],
 })
 export class EditProfilePage {
-  debug(event: any) {
-    console.log(event);
-  }
 
-  old: User = {
+  readonly genders: Array<string> = new Array(...Genders);
 
-    user_id: -1,
-    bio: "",
-    birthday: new Date(),
-    email: "",
-    gender: -1,
-    picture: "",
-    banner: "",
-    username: "",
-    join: new Date(),
-    is_verified: false,
-    followers: -1,
-    followings: -1
+  user_id?: number;
+  username?: string;
+  birthday?: string;
+  gender?: number;
+  email?: string;
 
-  };
-  user: UserRequest = {
+  old_email?: string;
+  old_username?: string;
 
-    user_id: -1,
-    bio: "",
-    birthday: new Date(),
-    email: "",
-    gender: -1,
-    username: ""
-
-  };
-
-  genders: Array<string> = new Array(...Genders);
-  new_birthday: string = "";
+  picture?: string;
 
   constructor(private modalCtrl: ModalController, private userService: UserService, private storageService: StorageService, private toastController: ToastController, private router: Router, private nav: NavController) {
 
-    defineCustomElements(window);
+    // defineCustomElements(window);
 
   }
 
   ionViewWillEnter() {
 
-    this.storageService.get<User>("loggedInUser").then(response => {
+    this.storageService.get<User>("loggedInUser").then(user => {
 
-      this.user = response;
-      this.old = response;
-      this.new_birthday = this.user.birthday!.toISOString().slice(0, 10).replace('T', ' ');
+      this.user_id = user.user_id;
+      this.birthday = user.birthday.toISOString();
+      this.gender = user.gender;
+      this.email = this.old_email = user.email;
+      this.username = this.old_username = user.username;
+      this.picture = user.picture;
 
     });
-
-  }
-
-  private async displayWarning(msg: string) {
-
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 1500,
-      icon: 'globe'
-    });
-
-    await toast.present();
 
   }
 
   public uploadProfile() {
 
     Camera.getPhoto({
+
       resultType: CameraResultType.Base64,
       source: CameraSource.Photos,
 
     }).then(image => {
-      this.userService.uploadPicture({ picture: image.base64String, user_id: this.old.user_id }).subscribe(response => {
+      this.userService.uploadPicture({ picture: image.base64String, user_id: this.user_id }).subscribe(response => {
 
-        this.old.picture = `http://localhost/Platonia/Server/assets/users/${this.old.user_id}/profiles/profile-${response.profile_id! - 1}.png`;
+        this.picture = `http://localhost/Platonia/Server/assets/users/${this.user_id}/profiles/profile-${response.profile_id! - 1}.png`;
         this.storageService.get<User>("loggedInUser").then(r =>
 
-          r.picture = this.old.picture
+          r.picture = this.picture!
 
         );
 
@@ -101,61 +71,38 @@ export class EditProfilePage {
 
   }
 
+
   setGender(e: any) {
 
-    switch (e.detail.value) {
-
-      case this.genders[0]:
-
-        this.user.gender = 0;
-        break;
-
-      case this.genders[1]:
-
-        this.user.gender = 1;
-        break;
-
-      case this.genders[2]:
-
-        this.user.gender = 2;
-        break;
-
-      case this.genders[3]:
-
-        this.user.gender = 3;
-        break;
-    }
-
+    this.gender = User.numericalGender(e.detail.value);
 
   }
 
   onEdit() {
 
-    if (this.user.username!.length < 4) {
+    if (this.username!.length < 4) {
 
-      this.displayWarning("Username too Short");
+      displayWarning("Username too Short", this.toastController);
 
-    } else if (this.user.email!.length < 4 || !this.user.email?.includes("@") || !this.user.email?.includes(".")) {
+    } else if (this.email!.length < 4 || !this.email?.includes("@") || !this.email?.includes(".")) {
 
-      this.displayWarning("Invalid email");
+      displayWarning("Invalid email", this.toastController);
 
     } else {
 
-      this.userService.check({ username: this.user.username, email: this.user.email }).subscribe(response => {
+      this.userService.check({ username: this.username, email: this.email }).subscribe(response => {
 
-        if (response.email_taken && this.old.email != this.user.email) {
+        if (response.email_taken && this.old_email != this.email) {
 
-          this.displayWarning("Email Taken");
+          displayWarning("Email Taken", this.toastController);
 
-        } else if (response.username_taken && this.old.username != this.user.username) {
+        } else if (response.username_taken && this.old_username != this.username) {
 
-          this.displayWarning("Username Taken");
+          displayWarning("Username Taken", this.toastController);
 
         } else {
 
-          this.user.birthday = new Date(this.new_birthday);
-          console.log(this.user.birthday);
-          this.userService.updateUser(this.user).subscribe(response => {
+          this.userService.updateUser({ username: this.username, birthday: new Date(this.birthday!), email: this.email, gender: this.gender }).subscribe(response => {
 
             this.storageService.set("loggedInUser", response.user);
             return this.modalCtrl.dismiss(null, 'cancel');
