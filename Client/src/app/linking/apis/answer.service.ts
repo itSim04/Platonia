@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { AnswerParts, OptionParts } from '../../helper/constants/db_columns';
-import { Response } from '../models/response-model';
 import { Packager } from '../../helper/packager';
 import { BuildAPIs, PollAPIs } from '../../helper/constants/db_schemas';
+import { ResponseReceipt } from '../models/request-models';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class AnswerService {
   api: string = "polls";
   constructor(private http: HttpClient) { }
 
-  public answer_poll(user_id: number, thought_id: number, option: number): Observable<Response> {
+  public answer_poll(user_id: number, thought_id: number, option: number): Observable<ResponseReceipt> {
 
     const form: FormData = new FormData();
     form.append(AnswerParts.USER_ID, String(user_id));
@@ -29,7 +29,7 @@ export class AnswerService {
 
   }
 
-  public get_option(thought_id: number): Observable<Response> {
+  public get_option(thought_id: number): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(PollAPIs.GET_OPTION, this.api, `&${OptionParts.ID}=${thought_id}`)).pipe(map((data: any) =>
 

@@ -91,7 +91,7 @@ export interface Option {
 
 }
 
-export interface Response {
+export interface ResponseReceipt {
 
     status: number;
     error_message?: string;

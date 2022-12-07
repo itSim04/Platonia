@@ -1,11 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-import { InterestPivotParts, InterestParts } from '../../helper/constants/db_columns';
-import { InterestRequest } from '../models/interests-request';
-import { Response } from '../models/response-model';
-import { Packager } from '../../helper/packager';
-import { BuildAPIs, InterestAPIs } from '../../helper/constants/db_schemas';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable, map } from "rxjs";
+import { InterestPivotParts, InterestParts } from "src/app/helper/constants/db_columns";
+import { BuildAPIs, InterestAPIs } from "src/app/helper/constants/db_schemas";
+import { Packager } from "src/app/helper/packager";
+import { InterestRequest, ResponseReceipt } from "../models/request-models";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +14,7 @@ export class InterestService {
   private api: string = "interests";
   constructor(private http: HttpClient) { }
 
-  public addInterest(interest: InterestRequest): Observable<Response> {
+  public addInterest(interest: InterestRequest): Observable<ResponseReceipt> {
 
     return this.http.post<any>(BuildAPIs.build_url(InterestAPIs.ADD, this.api), Packager.packInterestForPOST(interest)).pipe(map((data: any) =>
 
@@ -25,7 +24,7 @@ export class InterestService {
 
   }
 
-  public getAll(interest: InterestRequest): Observable<Response> {
+  public getAll(interest: InterestRequest): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(InterestAPIs.GET_ALL, this.api, `&${InterestPivotParts.USER_ID}=${interest.user_id}`)).pipe(map((data: any) =>
 
@@ -35,7 +34,7 @@ export class InterestService {
 
   }
 
-  public getOne(interest: InterestRequest): Observable<Response> {
+  public getOne(interest: InterestRequest): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(InterestAPIs.GET_ONE, this.api, `&${InterestParts.ID}=${interest.interest_id}`)).pipe(map((data: any) =>
 
@@ -45,7 +44,7 @@ export class InterestService {
 
   }
 
-  public getUsers(interest: InterestRequest): Observable<Response> {
+  public getUsers(interest: InterestRequest): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(InterestAPIs.GET_USERS, this.api, `&${InterestPivotParts.INTEREST_ID}=${interest.interest_id}`)).pipe(map((data: any) =>
 
@@ -55,7 +54,7 @@ export class InterestService {
 
   }
 
-  public enrollUser(interest: InterestRequest): Observable<Response> {
+  public enrollUser(interest: InterestRequest): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(InterestAPIs.ENROLL_USER, this.api, `&${InterestPivotParts.INTEREST_ID}=${interest.interest_id}&${InterestPivotParts.USER_ID}=${interest.user_id}&${InterestPivotParts.INTEREST_DATE}=${new Date().toISOString()}`)).pipe(map((data: any) =>
 
@@ -65,7 +64,7 @@ export class InterestService {
 
   }
 
-  public unenrollUser(interest: InterestRequest): Observable<Response> {
+  public unenrollUser(interest: InterestRequest): Observable<ResponseReceipt> {
 
 
     return this.http.get<any>(BuildAPIs.build_url(InterestAPIs.UNENROLL_USER, this.api, `&${InterestPivotParts.INTEREST_ID}=${interest.interest_id}&${InterestPivotParts.USER_ID}=${interest.user_id}&${InterestPivotParts.INTEREST_DATE}=${new Date().toISOString()}`)).pipe(map((data: any) =>
@@ -76,7 +75,7 @@ export class InterestService {
 
   }
 
-  public checkName(interest: InterestRequest): Observable<Response> {
+  public checkName(interest: InterestRequest): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(InterestAPIs.CHECK_NAME, this.api, `&${InterestParts.NAME}=${interest.name}`)).pipe(map((data: any) =>
 
@@ -87,7 +86,7 @@ export class InterestService {
 
   }
 
-  public getInterestsOfUser(interest: InterestRequest): Observable<Response> {
+  public getInterestsOfUser(interest: InterestRequest): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(InterestAPIs.GET_INTERESTS, this.api, `&${InterestPivotParts.USER_ID}=${interest.user_id}`)).pipe(map((data: any) =>
 

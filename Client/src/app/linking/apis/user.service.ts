@@ -1,11 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-import { UserParts, } from '../../helper/constants/db_columns';
-import { UserRequest } from '../models/users-request';
-import { Response } from '../models/response-model';
-import { Packager } from '../../helper/packager';
-import { BuildAPIs, UserAPIs } from '../../helper/constants/db_schemas';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable, map } from "rxjs";
+import { UserParts } from "src/app/helper/constants/db_columns";
+import { BuildAPIs, UserAPIs } from "src/app/helper/constants/db_schemas";
+import { Packager } from "src/app/helper/packager";
+import { ResponseReceipt, UserRequest } from "../models/request-models";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +14,7 @@ export class UserService {
   private api: string = "users";
   constructor(private http: HttpClient) { }
 
-  public addUser(user: UserRequest): Observable<Response> {
+  public addUser(user: UserRequest): Observable<ResponseReceipt> {
 
     return this.http.post<any>(BuildAPIs.build_url(UserAPIs.ADD, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
 
@@ -25,7 +24,7 @@ export class UserService {
 
   }
 
-  public getAll(): Observable<Response> {
+  public getAll(): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(UserAPIs.GET_ALL, this.api)).pipe(map((data: any) =>
 
@@ -35,7 +34,7 @@ export class UserService {
 
   }
 
-  public getOne(user: UserRequest): Observable<Response> {
+  public getOne(user: UserRequest): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(UserAPIs.GET_ONE, this.api, `& ${UserParts.ID}=${user.user_id}`)).pipe(map((data: any) =>
 
@@ -48,7 +47,7 @@ export class UserService {
 
 
 
-  public updateUser(user: UserRequest): Observable<Response> {
+  public updateUser(user: UserRequest): Observable<ResponseReceipt> {
 
     return this.http.post<any>(BuildAPIs.build_url(UserAPIs.UPDATE, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
 
@@ -59,9 +58,9 @@ export class UserService {
 
   }
 
-  public check(user: UserRequest): Observable<Response> {
+  public check(user: UserRequest): Observable<ResponseReceipt> {
 
-    return this.http.get<Response>(BuildAPIs.build_url(UserAPIs.CHECK, this.api, `&${UserParts.USERNAME}=${user.username}&${UserParts.EMAIL}=${user.email}`)).pipe(map((data: any) =>
+    return this.http.get<ResponseReceipt>(BuildAPIs.build_url(UserAPIs.CHECK, this.api, `&${UserParts.USERNAME}=${user.username}&${UserParts.EMAIL}=${user.email}`)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 

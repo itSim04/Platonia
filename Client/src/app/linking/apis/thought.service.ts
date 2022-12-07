@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import {  ThoughtParts, UserParts } from '../../helper/constants/db_columns';
-import { Response } from '../models/response-model';
+import { ResponseReceipt } from '../models/request-models';
 import { Packager } from '../../helper/packager';
 import { BuildAPIs, ThoughtAPIs } from '../../helper/constants/db_schemas';
-import { ThoughtRequest } from '../models/thoughts-request';
+import { ThoughtRequest } from '../models/request-models';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class ThoughtService {
   private api: string = "thoughts";
   constructor(private http: HttpClient) { }
 
-  public addThought(thought: ThoughtRequest): Observable<Response> {
+  public addThought(thought: ThoughtRequest): Observable<ResponseReceipt> {
 
     return this.http.post<any>(BuildAPIs.build_url(ThoughtAPIs.ADD, this.api), Packager.packThoughtForPOST(thought)).pipe(map((data: any) =>
 
@@ -25,7 +25,7 @@ export class ThoughtService {
 
   }
 
-  public getAll(thought: ThoughtRequest): Observable<Response> {
+  public getAll(thought: ThoughtRequest): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(ThoughtAPIs.GET_ALL, this.api, `&${UserParts.ID}=${thought.user_id}`)).pipe(map((data: any) =>
 
@@ -35,7 +35,7 @@ export class ThoughtService {
 
   }
 
-  public getOne(thought: ThoughtRequest): Observable<Response> {
+  public getOne(thought: ThoughtRequest): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(ThoughtAPIs.GET_ONE, this.api, `&${UserParts.ID}=${thought.user_id}&${ThoughtParts.ID}=${thought.thought_id}`)).pipe(map((data: any) =>
 
@@ -45,7 +45,7 @@ export class ThoughtService {
 
   }
 
-  public getBy(thought: ThoughtRequest): Observable<Response> {
+  public getBy(thought: ThoughtRequest): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(ThoughtAPIs.GET_BY, this.api, `&${UserParts.ID}=${thought.user_id}&${ThoughtParts.OWNER_ID}=${thought.owner_id}&${ThoughtParts.OFFSET}=${thought.offset}&${ThoughtParts.QUANTITY}=${thought.quantity}`)).pipe(map((data: any) =>
 
@@ -55,7 +55,7 @@ export class ThoughtService {
 
   }
 
-  public getByUsers(thought: ThoughtRequest): Observable<Response> {
+  public getByUsers(thought: ThoughtRequest): Observable<ResponseReceipt> {
 
     let params: string = "";
     thought.owner_ids?.forEach(s => params += `&${ThoughtParts.OWNER_ID}[]=${s}`);
@@ -67,7 +67,7 @@ export class ThoughtService {
 
   }
 
-  public update(thought: ThoughtRequest): Observable<Response> {
+  public update(thought: ThoughtRequest): Observable<ResponseReceipt> {
 
     return this.http.post<any>(BuildAPIs.build_url(ThoughtAPIs.UPDATE, this.api), Packager.packThoughtForPOST(thought)).pipe(map((data: any) =>
 
@@ -77,7 +77,7 @@ export class ThoughtService {
 
   }
 
-  public delete(thought: ThoughtRequest): Observable<Response> {
+  public delete(thought: ThoughtRequest): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(ThoughtAPIs.DELETE, this.api, `&${ThoughtParts.ID}=${thought.thought_id}`)).pipe(map((data: any) =>
 

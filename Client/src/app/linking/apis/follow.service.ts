@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { FollowParts, UserParts } from '../../helper/constants/db_columns';
-import { Response } from '../models/response-model';
 import { Packager } from '../../helper/packager';
 import { BuildAPIs, FollowAPIs } from '../../helper/constants/db_schemas';
+import { ResponseReceipt } from '../models/request-models';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class FollowService {
   constructor(private http: HttpClient) { }
 
 
-  public follow(user_id1: number, user_id2: number): Observable<Response> {
+  public follow(user_id1: number, user_id2: number): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(FollowAPIs.FOLLOW, this.api, `&${FollowParts.USER_ID1}=${user_id1}&${FollowParts.USER_ID2}=${user_id2}&${FollowParts.FOLLOW_DATE}=${new Date().toISOString()}`)).pipe(map((data: any) =>
 
@@ -25,7 +25,7 @@ export class FollowService {
 
   }
 
-  public unfollow(user_id1: number, user_id2: number): Observable<Response> {
+  public unfollow(user_id1: number, user_id2: number): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(FollowAPIs.UNFOLLOW, this.api, `&${FollowParts.USER_ID1}=${user_id1}&${FollowParts.USER_ID2}=${user_id2}`)).pipe(map((data: any) =>
 
@@ -35,7 +35,7 @@ export class FollowService {
 
   }
 
-  public getFollowers(user_id: number): Observable<Response> {
+  public getFollowers(user_id: number): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(FollowAPIs.GET_FOLLOWERS, this.api, `&${UserParts.ID}=${user_id}`)).pipe(map((data: any) =>
 
@@ -45,7 +45,7 @@ export class FollowService {
 
   }
 
-  public getFollowings(user_id: number): Observable<Response> {
+  public getFollowings(user_id: number): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(FollowAPIs.GET_FOLLOWINGS, this.api, `&${UserParts.ID}=${user_id}`)).pipe(map((data: any) =>
 
@@ -55,7 +55,7 @@ export class FollowService {
 
   }
 
-  public isFollowing(user_id1: number, user_id2: number): Observable<Response> {
+  public isFollowing(user_id1: number, user_id2: number): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(FollowAPIs.IS_FOLLOWING, this.api, `&${FollowParts.USER_ID1}=${user_id1}&${FollowParts.USER_ID2}=${user_id2}`)).pipe(map((data: any) =>
 

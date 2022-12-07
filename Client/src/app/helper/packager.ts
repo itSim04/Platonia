@@ -1,15 +1,15 @@
-import { UserParts, TempUserParts, ThoughtParts, TempThoughtParts, OptionParts, InterestParts, InterestPivotParts } from "./constants/db_columns";
-import { Interest, InterestRequest } from "../linking/models/interests-request";
-import { Response } from "../linking/models/response-model";
-import { Option, Thought, ThoughtRequest } from "../linking/models/thoughts-request";
-import { User, UserRequest } from "../linking/models/users-request";
+import { Interest } from "../linking/models/interest-main";
+import { UserRequest, ThoughtRequest, InterestRequest, ResponseReceipt, Option } from "../linking/models/request-models";
+import { Thought } from "../linking/models/thought-main";
+import { User } from "../linking/models/user-main";
+import { OptionParts, UserParts, TempUserParts, ThoughtParts, TempThoughtParts, InterestParts, InterestPivotParts } from "./constants/db_columns";
 import { ResponseParts, ExitCodes } from "./constants/db_schemas";
 
 export class Packager {
 
-    public static responseUnpack(data: any): Response {
+    public static responseUnpack(data: any): ResponseReceipt {
 
-        const response: Response = {
+        const response: ResponseReceipt = {
 
             status: data[ResponseParts.STATUS],
             error_message: data[ResponseParts.ERROR],
@@ -152,24 +152,23 @@ export class Packager {
     public static userUnpack(data: any): User | undefined {
 
         if (data != undefined) {
-            const current: User = {
+            return new User(
 
-                user_id: data[UserParts.ID],
-                username: data[UserParts.USERNAME],
-                bio: data[UserParts.BIO],
-                birthday: new Date(data[UserParts.BIRTHDAY]),
-                email: data[UserParts.EMAIL],
-                followers: data[TempUserParts.FOLLOWERS],
-                followings: data[TempUserParts.FOLLOWINGS],
-                is_verified: data[UserParts.IS_VERIFIED],
-                picture: data[ResponseParts.PROFILE_ID] != 0 ? `http://localhost/Platonia/Server/assets/users/${data[UserParts.ID]}/profiles/profile-${data[ResponseParts.PROFILE_ID] - 1}.png` : `../assets/icon/profile-default.png`,
-                banner: data[ResponseParts.PROFILE_ID] != 0 ? `http://localhost/Platonia/Server/assets/users/${data[UserParts.ID]}/banners/banner-${data[ResponseParts.BANNER_ID] - 1}.png` : `https://ionicframework.com/docs/img/demos/card-media.png`,
-                gender: data[UserParts.GENDER],
-                join: data[UserParts.JOIN]
+                data[UserParts.ID],
+                data[UserParts.USERNAME],
+                data[UserParts.IS_VERIFIED],
+                data[UserParts.BIO],
+                data[UserParts.EMAIL],
+                new Date(data[UserParts.BIRTHDAY]),
+                data[UserParts.JOIN],
+                data[UserParts.GENDER],
+                data[ResponseParts.PROFILE_ID] != 0 ? `http://localhost/Platonia/Server/assets/users/${data[UserParts.ID]}/profiles/profile-${data[ResponseParts.PROFILE_ID] - 1}.png` : `../assets/icon/profile-default.png`,
+                data[ResponseParts.BANNER_ID] != 0 ? `http://localhost/Platonia/Server/assets/users/${data[UserParts.ID]}/banners/banner-${data[ResponseParts.BANNER_ID] - 1}.png` : `https://ionicframework.com/docs/img/demos/card-media.png`,
+                data[TempUserParts.FOLLOWERS],
+                data[TempUserParts.FOLLOWINGS]
 
-            };
+            );
 
-            return current;
         } else {
 
             return undefined;
@@ -283,7 +282,7 @@ export class Packager {
     public static interestUnpack(data: any): Interest | undefined {
 
         if (data != undefined) {
-            const current: Interest = {
+            return new Interest(
 
                 interest_id: data[InterestParts.ID],
                 img_src: data[InterestParts.IMG],
@@ -293,8 +292,8 @@ export class Packager {
                 logo: `http://localhost/Platonia/Server/assets/interests/${data[InterestParts.ID]}/logo-${data[ResponseParts.PROFILE_ID] - 1}.png`,
 
 
-            };
-            return current;
+            );
+            
         } else {
 
             return undefined;

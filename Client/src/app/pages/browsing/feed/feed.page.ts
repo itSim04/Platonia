@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FollowService } from '../../../linking/apis/follow.service';
 import { StorageService } from '../../../linking/apis/storage.service';
 import { ThoughtService } from '../../../linking/apis/thought.service';
-import { Thought } from '../../../linking/models/thoughts-request';
+import { Thought } from '../../../linking/models/thought-main';
 import { User } from '../../../linking/models/user-main';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 
