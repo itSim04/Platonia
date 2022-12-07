@@ -1,4 +1,4 @@
-export enum EXIT_CODES {
+export enum ExitCodes {
 
     USERS_ADD = 100,
     USERS_GET_ALL = 101,
@@ -50,7 +50,7 @@ export enum EXIT_CODES {
 
 }
 
-export enum RESPONSES {
+export enum ResponseParts {
 
     STATUS = "status",
     ERROR = "error_message",
@@ -76,7 +76,7 @@ export enum RESPONSES {
 
 }
 
-export enum INTERESTS_SCHEMA {
+export enum InterestAPIs {
 
 
     ADD = 0,
@@ -91,7 +91,7 @@ export enum INTERESTS_SCHEMA {
 
 }
 
-export enum USERS_SCHEMA {
+export enum UserAPIs {
 
     ADD = 0,
     GET_ALL = 1,
@@ -104,7 +104,7 @@ export enum USERS_SCHEMA {
 
 }
 
-export enum LIKES_SCHEMA {
+export enum LikeAPIs {
 
     LIKE = 0,
     UNLIKE = 1,
@@ -112,7 +112,7 @@ export enum LIKES_SCHEMA {
     GET_LIKES_ON_THOUGHT = 3
 }
 
-export enum FOLLOW_SCHEMA {
+export enum FollowAPIs {
 
     FOLLOW = 0,
     UNFOLLOW = 1,
@@ -120,7 +120,7 @@ export enum FOLLOW_SCHEMA {
     GET_FOLLOWINGS = 3,
     IS_FOLLOWING = 4
 }
-export enum PLATONS_SCHEMA {
+export enum PlatonAPIs {
 
     PLATON = 0,
     UNPLATON = 1,
@@ -128,7 +128,7 @@ export enum PLATONS_SCHEMA {
     GET_PLATONS_ON_THOUGHT = 3
 }
 
-export enum THOUGHTS_SCHEMA {
+export enum ThoughtAPIs {
 
     ADD = 0,
     GET_ALL = 1,
@@ -140,14 +140,14 @@ export enum THOUGHTS_SCHEMA {
 
 }
 
-export enum POLLS_SCHEMA {
+export enum PollAPIs {
 
     ANSWER_POLL = 0,
     GET_OPTION = 1
 
 }
 
-export class APIS {
+export class BuildAPIs {
 
     private static BASE_URL = "http://localhost/Platonia/Server/apis/"
     public static build_url(schema: number, api: string, params: string = ""): string {

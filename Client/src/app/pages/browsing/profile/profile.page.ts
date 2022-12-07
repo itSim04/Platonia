@@ -1,14 +1,14 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from '../../../linking/apis/storage.service';
 import { UserService } from '../../../linking/apis/user.service';
-import { User } from '../../../linking/models/users-model';
+import { User } from '../../../linking/models/users-request';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, InfiniteScrollCustomEvent, IonPopover, ModalController, NavController } from '@ionic/angular';
 import { EditProfilePage } from '../edit-profile/edit-profile.page';
 import { FollowService } from '../../../linking/apis/follow.service';
 import { presentAlert } from '../../../helper/utility';
 import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
-import { EXIT_CODES } from '../../../helper/constants/db_schemas';
+import { ExitCodes } from '../../../helper/constants/db_schemas';
 import { ThoughtService } from '../../../linking/apis/thought.service';
 import { Thought } from '../../../linking/models/thoughts-model';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
@@ -269,7 +269,7 @@ export class ProfilePage implements OnInit {
           this.userService.updateUser({ user_id: this.current_user?.user_id, is_verified: true }).subscribe(response => {
 
             console.log(response);
-            if (response.status == EXIT_CODES.USERS_UPDATE) {
+            if (response.status == ExitCodes.USERS_UPDATE) {
               this.alertController.dismiss('verification');
             }
             return false;

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { StorageService } from '../../../linking/apis/storage.service';
 import { UserService } from '../../../linking/apis/user.service';
-import { USER_RESPONSE } from '../../../linking/models/users-model';
+import { UserRequest } from '../../../linking/models/users-request';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +14,7 @@ export class RegisterPage implements OnInit {
 
   is_submitted: boolean = false;
   confirm_password?: string = "";
-  new_user: USER_RESPONSE = {
+  new_user: UserRequest = {
 
     username: "",
     email: "",

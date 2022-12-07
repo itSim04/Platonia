@@ -1,5 +1,5 @@
 
-export enum USERS {
+export enum UserParts {
 
     ID = "user_id",
     USERNAME = "username",
@@ -17,7 +17,7 @@ export enum USERS {
 
 
 
-export enum THOUGHTS {
+export enum ThoughtParts {
 
     ID = "thought_id",
     SHARE_DATE = "share_date",
@@ -34,7 +34,7 @@ export enum THOUGHTS {
 
 }
 
-export enum THOUGHTS_TEMP {
+export enum TempThoughtParts {
 
     ID = "thought_id_fk_temp",
     LIKES = "likes",
@@ -42,7 +42,7 @@ export enum THOUGHTS_TEMP {
     OPINIONS = "opinions"
 
 }
-export enum USERS_TEMP {
+export enum TempUserParts {
 
     ID = "user_id_fk_temp",
     FOLLOWINGS = "followings",
@@ -50,7 +50,7 @@ export enum USERS_TEMP {
 
 }
 
-export enum OPTIONS {
+export enum OptionParts {
 
     ID = "thought_id_fk_options",
     POSITION = "position",
@@ -68,7 +68,7 @@ export enum OPTIONS {
 }
 
 
-export enum INTERESTS {
+export enum InterestParts {
 
     ID = "interest_id",
     NAME = "name",
@@ -78,7 +78,7 @@ export enum INTERESTS {
     IS_INTERESTED = "is_interested"
 }
 
-export enum INTERESTED_IN {
+export enum InterestPivotParts {
 
     USER_ID = "user_id_fk_interested",
     INTEREST_ID = "interest_id_fk",
@@ -86,7 +86,7 @@ export enum INTERESTED_IN {
 
 }
 
-export enum PLATONS {
+export enum PlatonParts {
 
     USER_ID = "user_id_fk_platons",
     THOUGHT_ID = "thought_id_fk_platons",
@@ -94,7 +94,7 @@ export enum PLATONS {
 
 }
 
-export enum FOLLOWS {
+export enum FollowParts {
 
     USER_ID1 = "user_id1",
     USER_ID2 = "user_id2",
@@ -102,7 +102,7 @@ export enum FOLLOWS {
 
 }
 
-export enum LIKES {
+export enum LikeParts {
 
     USER_ID = "user_id_fk_likes",
     THOUGHT_ID = "thought_id_fk_likes",
@@ -110,7 +110,7 @@ export enum LIKES {
 
 }
 
-export enum ANSWERS {
+export enum AnswerParts {
 
     USER_ID = "user_id_fk_ans",
     THOUGHT_ID = "thought_id_fk_ans",

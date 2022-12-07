@@ -2,8 +2,8 @@ import { Component, DoCheck, OnInit } from '@angular/core';
 import { StorageService } from '../../../linking/apis/storage.service';
 import { ThoughtService } from '../../../linking/apis/thought.service';
 import { UserService } from '../../../linking/apis/user.service';
-import { Thought, THOUGHTS_RESPONSE } from '../../../linking/models/thoughts-model';
-import { User } from '../../../linking/models/users-model';
+import { Thought, ThoughtRequest } from '../../../linking/models/thoughts-model';
+import { User } from '../../../linking/models/users-request';
 
 @Component({
   selector: 'app-post',
@@ -60,7 +60,7 @@ export class PostPage {
 
   post() {
 
-    const upload: THOUGHTS_RESPONSE = {
+    const upload: ThoughtRequest = {
 
       content: this.thought.content,
       type: this.thought.type,

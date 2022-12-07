@@ -9,7 +9,7 @@ export interface Interest {
 
 }
 
-export interface INTEREST_RESPONSE {
+export interface InterestRequest {
 
     user_id?: number;
     interest_id?: number;

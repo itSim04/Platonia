@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ModalController, NavController, ToastController } from '@ionic/angular';
 import { StorageService } from '../../../linking/apis/storage.service';
 import { UserService } from '../../../linking/apis/user.service';
-import { User, USER_RESPONSE } from '../../../linking/models/users-model';
+import { User, UserRequest } from '../../../linking/models/users-request';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import { Genders } from '../../../helper/constants/general';
@@ -36,7 +36,7 @@ export class EditProfilePage {
     followings: -1
 
   };
-  user: USER_RESPONSE = {
+  user: UserRequest = {
 
     user_id: -1,
     bio: "",

@@ -6,7 +6,7 @@ import { Console } from 'console';
 import { FollowService } from '../../../linking/apis/follow.service';
 import { StorageService } from '../../../linking/apis/storage.service';
 import { UserService } from '../../../linking/apis/user.service';
-import { User } from '../../../linking/models/users-model';
+import { User } from '../../../linking/models/users-request';
 
 @Component({
   selector: 'app-friend-list',

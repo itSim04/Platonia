@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { USERS, } from '../../helper/constants/db_columns';
-import { USER_RESPONSE } from '../models/users-model';
-import { RESPONSE } from '../models/response-model';
+import { UserParts, } from '../../helper/constants/db_columns';
+import { UserRequest } from '../models/users-request';
+import { Response } from '../models/response-model';
 import { Packager } from '../../helper/packager';
-import { APIS, USERS_SCHEMA } from '../../helper/constants/db_schemas';
+import { BuildAPIs, UserAPIs } from '../../helper/constants/db_schemas';
 
 @Injectable({
   providedIn: 'root'
@@ -15,19 +15,9 @@ export class UserService {
   private api: string = "users";
   constructor(private http: HttpClient) { }
 
-  public addUser(user: USER_RESPONSE): Observable<RESPONSE> {
+  public addUser(user: UserRequest): Observable<Response> {
 
-    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.ADD, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
-
-      Packager.responseUnpack(data)
-
-    ));
-
-  }
-
-  public getAll(): Observable<RESPONSE> {
-
-    return this.http.get<any>(APIS.build_url(USERS_SCHEMA.GET_ALL, this.api)).pipe(map((data: any) =>
+    return this.http.post<any>(BuildAPIs.build_url(UserAPIs.ADD, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 
@@ -35,9 +25,19 @@ export class UserService {
 
   }
 
-  public getOne(user: USER_RESPONSE): Observable<RESPONSE> {
+  public getAll(): Observable<Response> {
 
-    return this.http.get<any>(APIS.build_url(USERS_SCHEMA.GET_ONE, this.api, `& ${USERS.ID}=${user.user_id}`)).pipe(map((data: any) =>
+    return this.http.get<any>(BuildAPIs.build_url(UserAPIs.GET_ALL, this.api)).pipe(map((data: any) =>
+
+      Packager.responseUnpack(data)
+
+    ));
+
+  }
+
+  public getOne(user: UserRequest): Observable<Response> {
+
+    return this.http.get<any>(BuildAPIs.build_url(UserAPIs.GET_ONE, this.api, `& ${UserParts.ID}=${user.user_id}`)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 
@@ -48,20 +48,9 @@ export class UserService {
 
 
 
-  public updateUser(user: USER_RESPONSE): Observable<RESPONSE> {
+  public updateUser(user: UserRequest): Observable<Response> {
 
-    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.UPDATE, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
-
-      Packager.responseUnpack(data)
-
-    ));
-
-
-  }
-
-  public check(user: USER_RESPONSE): Observable<RESPONSE> {
-
-    return this.http.get<RESPONSE>(APIS.build_url(USERS_SCHEMA.CHECK, this.api, `&${USERS.USERNAME}=${user.username}&${USERS.EMAIL}=${user.email}`)).pipe(map((data: any) =>
+    return this.http.post<any>(BuildAPIs.build_url(UserAPIs.UPDATE, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 
@@ -70,23 +59,24 @@ export class UserService {
 
   }
 
-  public authenticate(user: USER_RESPONSE) {
+  public check(user: UserRequest): Observable<Response> {
+
+    return this.http.get<Response>(BuildAPIs.build_url(UserAPIs.CHECK, this.api, `&${UserParts.USERNAME}=${user.username}&${UserParts.EMAIL}=${user.email}`)).pipe(map((data: any) =>
+
+      Packager.responseUnpack(data)
+
+    ));
+
+
+  }
+
+  public authenticate(user: UserRequest) {
 
     const form: FormData = new FormData();
-    form.append(USERS.USERNAME, user.username!);
-    form.append(USERS.PASSWORD, user.password!);
+    form.append(UserParts.USERNAME, user.username!);
+    form.append(UserParts.PASSWORD, user.password!);
 
-    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.AUTHENTICATE, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
-
-      Packager.responseUnpack(data)
-
-    ));
-
-  }
-
-  public uploadPicture(user: USER_RESPONSE) {
-
-    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.UPLOAD_PROFILE, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
+    return this.http.post<any>(BuildAPIs.build_url(UserAPIs.AUTHENTICATE, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 
@@ -94,10 +84,20 @@ export class UserService {
 
   }
 
+  public uploadPicture(user: UserRequest) {
 
-  public uploadBanner(user: USER_RESPONSE) {
+    return this.http.post<any>(BuildAPIs.build_url(UserAPIs.UPLOAD_PROFILE, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
 
-    return this.http.post<any>(APIS.build_url(USERS_SCHEMA.UPLOAD_BANNER, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
+      Packager.responseUnpack(data)
+
+    ));
+
+  }
+
+
+  public uploadBanner(user: UserRequest) {
+
+    return this.http.post<any>(BuildAPIs.build_url(UserAPIs.UPLOAD_BANNER, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 

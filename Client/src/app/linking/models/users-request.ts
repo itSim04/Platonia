@@ -1,21 +1,4 @@
-export interface User {
-
-    user_id: number;
-    username: string;
-    is_verified: boolean;
-    bio: string;
-    email: string;
-    birthday: Date;
-    join: Date;
-    gender: number;
-    picture: string;
-    banner: string;
-    followers: number;
-    followings: number;
-
-}
-
-export interface USER_RESPONSE {
+export interface UserRequest {
 
     user_id?: number;
     username?: string;
@@ -30,6 +13,7 @@ export interface USER_RESPONSE {
 
 
 }
+
 
 export interface FOLLOWS {
 

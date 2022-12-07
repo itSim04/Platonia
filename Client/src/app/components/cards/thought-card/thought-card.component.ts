@@ -5,10 +5,10 @@ import { AnswerService } from 'src/app/linking/apis/answer.service';
 import { LikeService } from 'src/app/linking/apis/like.service';
 import { StorageService } from 'src/app/linking/apis/storage.service';
 import { ThoughtService } from 'src/app/linking/apis/thought.service';
-import { EXIT_CODES } from 'src/app/helper/constants/db_schemas';
+import { ExitCodes } from 'src/app/helper/constants/db_schemas';
 import { formatRemainingDate } from 'src/app/helper/utility';
 import { Thought } from 'src/app/linking/models/thoughts-model';
-import { User } from 'src/app/linking/models/users-model';
+import { User } from 'src/app/linking/models/users-request';
 
 @Component({
   selector: 'app-card-thought',
@@ -120,7 +120,7 @@ export class ThoughtCardComponent implements AfterViewInit {
       this.deleted = true;
       this.thoughtService.delete({ thought_id: this.thought.thought_id }).subscribe(d => { 
         
-        this.deleted = d.status == EXIT_CODES.THOUGHTS_DELETE; 
+        this.deleted = d.status == ExitCodes.THOUGHTS_DELETE; 
       
       });
 
@@ -191,7 +191,7 @@ export class ThoughtCardComponent implements AfterViewInit {
 
       this.optionService.answer_poll(this.session_user!.user_id, this.thought.thought_id, position).subscribe(p => {
 
-        if (p.status != EXIT_CODES.POLLS_ANSWER_POLL) {
+        if (p.status != ExitCodes.POLLS_ANSWER_POLL) {
 
           this.thought.option_chosen = 0;
           this.thought.votes!--;
@@ -314,7 +314,7 @@ export class ThoughtCardComponent implements AfterViewInit {
       this.likeService.unlike(this.session_user!.user_id, this.thought.thought_id).subscribe(r => {
 
         console.log(r);
-        if (r.status != EXIT_CODES.LIKE_REMOVE) {
+        if (r.status != ExitCodes.LIKE_REMOVE) {
           this.thought.is_liked = true;
           this.thought.likes++;
         }
@@ -327,7 +327,7 @@ export class ThoughtCardComponent implements AfterViewInit {
       this.thought.likes++;
       this.likeService.like(this.session_user!.user_id, this.thought.thought_id).subscribe(r => {
 
-        if (r.status != EXIT_CODES.LIKE_ADD) {
+        if (r.status != ExitCodes.LIKE_ADD) {
           this.thought.is_liked = false;
           this.thought.likes--;
         }

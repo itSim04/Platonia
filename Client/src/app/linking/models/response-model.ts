@@ -1,8 +1,8 @@
 import { Interest } from "./interests-model";
 import { Option, Thought } from "./thoughts-model";
-import { User } from "./users-model";
+import { User } from "./user-main";
 
-export interface RESPONSE {
+export interface Response {
 
     status: number;
     error_message?: string;

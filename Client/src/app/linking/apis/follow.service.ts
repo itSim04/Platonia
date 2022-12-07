@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { FOLLOWS, USERS } from '../../helper/constants/db_columns';
-import { RESPONSE } from '../models/response-model';
+import { FollowParts, UserParts } from '../../helper/constants/db_columns';
+import { Response } from '../models/response-model';
 import { Packager } from '../../helper/packager';
-import { APIS, FOLLOW_SCHEMA } from '../../helper/constants/db_schemas';
+import { BuildAPIs, FollowAPIs } from '../../helper/constants/db_schemas';
 
 @Injectable({
   providedIn: 'root'
@@ -15,19 +15,9 @@ export class FollowService {
   constructor(private http: HttpClient) { }
 
 
-  public follow(user_id1: number, user_id2: number): Observable<RESPONSE> {
+  public follow(user_id1: number, user_id2: number): Observable<Response> {
 
-    return this.http.get<any>(APIS.build_url(FOLLOW_SCHEMA.FOLLOW, this.api, `&${FOLLOWS.USER_ID1}=${user_id1}&${FOLLOWS.USER_ID2}=${user_id2}&${FOLLOWS.FOLLOW_DATE}=${new Date().toISOString()}`)).pipe(map((data: any) =>
-
-      Packager.responseUnpack(data)
-
-    ));
-
-  }
-
-  public unfollow(user_id1: number, user_id2: number): Observable<RESPONSE> {
-
-    return this.http.get<any>(APIS.build_url(FOLLOW_SCHEMA.UNFOLLOW, this.api, `&${FOLLOWS.USER_ID1}=${user_id1}&${FOLLOWS.USER_ID2}=${user_id2}`)).pipe(map((data: any) =>
+    return this.http.get<any>(BuildAPIs.build_url(FollowAPIs.FOLLOW, this.api, `&${FollowParts.USER_ID1}=${user_id1}&${FollowParts.USER_ID2}=${user_id2}&${FollowParts.FOLLOW_DATE}=${new Date().toISOString()}`)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 
@@ -35,19 +25,9 @@ export class FollowService {
 
   }
 
-  public getFollowers(user_id: number): Observable<RESPONSE> {
+  public unfollow(user_id1: number, user_id2: number): Observable<Response> {
 
-    return this.http.get<any>(APIS.build_url(FOLLOW_SCHEMA.GET_FOLLOWERS, this.api, `&${USERS.ID}=${user_id}`)).pipe(map((data: any) =>
-
-      Packager.responseUnpack(data)
-
-    ));
-
-  }
-
-  public getFollowings(user_id: number): Observable<RESPONSE> {
-
-    return this.http.get<any>(APIS.build_url(FOLLOW_SCHEMA.GET_FOLLOWINGS, this.api, `&${USERS.ID}=${user_id}`)).pipe(map((data: any) =>
+    return this.http.get<any>(BuildAPIs.build_url(FollowAPIs.UNFOLLOW, this.api, `&${FollowParts.USER_ID1}=${user_id1}&${FollowParts.USER_ID2}=${user_id2}`)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 
@@ -55,9 +35,29 @@ export class FollowService {
 
   }
 
-  public isFollowing(user_id1: number, user_id2: number): Observable<RESPONSE> {
+  public getFollowers(user_id: number): Observable<Response> {
 
-    return this.http.get<any>(APIS.build_url(FOLLOW_SCHEMA.IS_FOLLOWING, this.api, `&${FOLLOWS.USER_ID1}=${user_id1}&${FOLLOWS.USER_ID2}=${user_id2}`)).pipe(map((data: any) =>
+    return this.http.get<any>(BuildAPIs.build_url(FollowAPIs.GET_FOLLOWERS, this.api, `&${UserParts.ID}=${user_id}`)).pipe(map((data: any) =>
+
+      Packager.responseUnpack(data)
+
+    ));
+
+  }
+
+  public getFollowings(user_id: number): Observable<Response> {
+
+    return this.http.get<any>(BuildAPIs.build_url(FollowAPIs.GET_FOLLOWINGS, this.api, `&${UserParts.ID}=${user_id}`)).pipe(map((data: any) =>
+
+      Packager.responseUnpack(data)
+
+    ));
+
+  }
+
+  public isFollowing(user_id1: number, user_id2: number): Observable<Response> {
+
+    return this.http.get<any>(BuildAPIs.build_url(FollowAPIs.IS_FOLLOWING, this.api, `&${FollowParts.USER_ID1}=${user_id1}&${FollowParts.USER_ID2}=${user_id2}`)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 

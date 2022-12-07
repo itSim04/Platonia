@@ -30,7 +30,7 @@ export interface Thought {
 
 }
 
-export interface THOUGHTS_RESPONSE {
+export interface ThoughtRequest {
 
     user_id?: number;
     thought_id?: number;
