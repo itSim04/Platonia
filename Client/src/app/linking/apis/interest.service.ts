@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { INTERESTED_IN, INTERESTS } from '../../helper/constants/db_columns';
-import { INTEREST_RESPONSE } from '../../models/interests-model';
+import { INTEREST_RESPONSE } from '../models/interests-model';
 import { RESPONSE } from '../models/response-model';
 import { Packager } from '../../helper/packager';
 import { APIS, INTERESTS_SCHEMA } from '../../helper/constants/db_schemas';

@@ -28,13 +28,13 @@ export class FriendListPage {
 
     this.followService.getFollowings(this.current_user!.user_id).subscribe(response =>
 
-      RESPONSES.users?.forEach(current =>
+      response.users?.forEach(current =>
         this.followings.add(current))
 
     );
     this.followService.getFollowers(this.current_user!.user_id).subscribe(response =>
 
-      RESPONSES.users?.forEach(current =>
+      response.users?.forEach(current =>
         this.followers.add(current)
       )
 

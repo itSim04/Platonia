@@ -43,15 +43,15 @@ export class ThoughtCardComponent implements AfterViewInit {
     if (this.thought.type == 3) {
       this.optionService.get_option(this.thought.thought_id).subscribe(response => {
 
-        this.thought.votes1 = RESPONSES.options!.get(1)?.votes;
-        this.thought.votes2 = RESPONSES.options!.get(2)?.votes;
-        this.thought.votes3 = RESPONSES.options!.get(3)?.votes;
-        this.thought.votes4 = RESPONSES.options!.get(4)?.votes;
+        this.thought.votes1 = response.options!.get(1)?.votes;
+        this.thought.votes2 = response.options!.get(2)?.votes;
+        this.thought.votes3 = response.options!.get(3)?.votes;
+        this.thought.votes4 = response.options!.get(4)?.votes;
 
-        this.thought.poll1 = RESPONSES.options!.get(1)?.content;
-        this.thought.poll2 = RESPONSES.options!.get(2)?.content;
-        this.thought.poll3 = RESPONSES.options!.get(3)?.content;
-        this.thought.poll4 = RESPONSES.options!.get(4)?.content;
+        this.thought.poll1 = response.options!.get(1)?.content;
+        this.thought.poll2 = response.options!.get(2)?.content;
+        this.thought.poll3 = response.options!.get(3)?.content;
+        this.thought.poll4 = response.options!.get(4)?.content;
 
         this.thought.votes = this.thought.votes1! + this.thought.votes2! + this.thought.votes3! + this.thought.votes4!;
 

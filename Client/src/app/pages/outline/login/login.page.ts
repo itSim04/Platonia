@@ -35,10 +35,10 @@ export class LoginPage {
     this.userService.authenticate({ username: this.username, password: this.password }).subscribe(response => {
 
       console.log(response);
-      if (RESPONSES.user != undefined) {
+      if (response.user != undefined) {
 
-        this.storageService.set("loggedInUser", RESPONSES.user);
-        this.router.navigate(["/tabs/profile", { id: RESPONSES.user.user_id }]);
+        this.storageService.set("loggedInUser", response.user);
+        this.router.navigate(["/tabs/profile", { id: response.user.user_id }]);
 
       } else {
 

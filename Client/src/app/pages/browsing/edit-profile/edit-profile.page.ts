@@ -89,7 +89,7 @@ export class EditProfilePage {
     }).then(image => {
       this.userService.uploadPicture({ picture: image.base64String, user_id: this.old.user_id }).subscribe(response => {
 
-        this.old.picture = `http://localhost/Platonia/Server/assets/users/${this.old.user_id}/profiles/profile-${RESPONSES.profile_id! - 1}.png`;
+        this.old.picture = `http://localhost/Platonia/Server/assets/users/${this.old.user_id}/profiles/profile-${response.profile_id! - 1}.png`;
         this.storageService.get<User>("loggedInUser").then(r =>
 
           r.picture = this.old.picture
@@ -143,11 +143,11 @@ export class EditProfilePage {
 
       this.userService.check({ username: this.user.username, email: this.user.email }).subscribe(response => {
 
-        if (RESPONSES.email_taken && this.old.email != this.user.email) {
+        if (response.email_taken && this.old.email != this.user.email) {
 
           this.displayWarning("Email Taken");
 
-        } else if (RESPONSES.username_taken && this.old.username != this.user.username) {
+        } else if (response.username_taken && this.old.username != this.user.username) {
 
           this.displayWarning("Username Taken");
 
@@ -157,7 +157,7 @@ export class EditProfilePage {
           console.log(this.user.birthday);
           this.userService.updateUser(this.user).subscribe(response => {
 
-            this.storageService.set("loggedInUser", RESPONSES.user);
+            this.storageService.set("loggedInUser", response.user);
             return this.modalCtrl.dismiss(null, 'cancel');
 
           })

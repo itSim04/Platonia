@@ -5,7 +5,7 @@ import {  THOUGHTS, USERS } from '../../helper/constants/db_columns';
 import { RESPONSE } from '../models/response-model';
 import { Packager } from '../../helper/packager';
 import { APIS, THOUGHTS_SCHEMA } from '../../helper/constants/db_schemas';
-import { THOUGHTS_RESPONSE } from '../../models/thoughts-model';
+import { THOUGHTS_RESPONSE } from '../models/thoughts-model';
 
 @Injectable({
   providedIn: 'root'

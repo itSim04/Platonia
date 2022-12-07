@@ -21,8 +21,8 @@ export class SplashPage {
 
         this.userService.getOne({ user_id: (<User>r).user_id }).subscribe(response => {
 
-          this.storageService.set("loggedInUser", RESPONSES.user);
-          this.router.navigate(["tabs/profile/", { id: RESPONSES.user?.user_id }]);
+          this.storageService.set("loggedInUser", response.user);
+          this.router.navigate(["tabs/profile/", { id: response.user?.user_id }]);
 
         })
       } else {

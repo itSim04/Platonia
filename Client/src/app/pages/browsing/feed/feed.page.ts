@@ -21,16 +21,16 @@ export class FeedPage implements OnInit {
   constructor(private thoughtService: ThoughtService, private storageService: StorageService, private followService: FollowService) { }
 
   async handleRefresh(event: any) {
-    await setTimeout(() => {
+    setTimeout(() => {
       this.thoughts.splice(0);
       this.users?.clear();
       this.anchor = 0;
-      this.retrieveDate();
+      this.retrieveData();
       event.target.complete();
     }, 2000);
   };
 
-  retrieveDate() {
+  retrieveData() {
 
     this.storageService.get<User>("loggedInUser").then(owner => {
 
@@ -58,13 +58,13 @@ export class FeedPage implements OnInit {
 
   ngOnInit() {
 
-    this.retrieveDate();
+    this.retrieveData();
 
   }
 
   onIonInfinite(ev: any) {
     this.anchor += this.quantity;
-    this.retrieveDate();
+    this.retrieveData();
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
     }, 500);

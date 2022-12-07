@@ -68,11 +68,11 @@ export class RegisterPage implements OnInit {
 
       this.userService.check({ username: this.new_user.username, email: this.new_user.email }).subscribe(response => {
 
-        if (RESPONSES.email_taken) {
+        if (response.email_taken) {
 
           this.displayWarning("Email Taken");
 
-        } else if (RESPONSES.username_taken) {
+        } else if (response.username_taken) {
 
           this.displayWarning("Username Taken");
 
@@ -80,8 +80,8 @@ export class RegisterPage implements OnInit {
 
           this.userService.addUser(this.new_user).subscribe(response => {
 
-            this.storageService.set("loggedInUser", RESPONSES.user);
-            this.router.navigate(['/tabs/profile', {id: RESPONSES.user?.user_id}]);
+            this.storageService.set("loggedInUser", response.user);
+            this.router.navigate(['/tabs/profile', {id: response.user?.user_id}]);
 
           })
         }
