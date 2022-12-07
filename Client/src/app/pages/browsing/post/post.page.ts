@@ -14,47 +14,29 @@ import { ThoughtService } from '../../../linking/apis/thought.service';
 export class PostPage {
 
   user?: User;
-  thought: Thought = {
 
-    content: "",
-    likes: 0,
-    opinions: 0,
-    owner_id: -1,
-    platons: 0,
-    root_id: -1,
-    thought_id: -1,
-    share_date: new Date(),
-    type: 0,
-    is_liked: false,
-    is_platoned: false,
-    option_chosen: 0,
+  type?: number;
+  content?: string;
 
-    poll1: "Choice 1...",
-    poll2: "Choice 2...",
-    poll3: "Choice 3...",
-    poll4: "Choice 4...",
+  poll1?: string;
+  poll2?: string;
+  poll3?: string;
+  poll4?: string;
 
-    votes1: 0,
-    votes2: 0,
-    votes3: 0,
-    votes4: 0,
-
-    votes: 0
-
-  }
   constructor(private storageService: StorageService, private thoughtService: ThoughtService) { }
 
   ionViewWillEnter() {
 
-    this.storageService.get<User>("loggedInUser").then(r => {
-      this.user = r
-      this.thought.owner_id = this.user!.user_id;
+    this.storageService.get<User>("loggedInUser").then(user => {
+
+      this.user = user;
+
     });
   }
 
   setType(mode: number) {
 
-    this.thought.type = mode;
+    this.type = mode;
 
   }
 
@@ -63,17 +45,16 @@ export class PostPage {
 
     const upload: ThoughtRequest = {
 
-      content: this.thought.content,
-      type: this.thought.type,
-      owner_id: this.thought.owner_id,
-
+      content: this.content,
+      type: this.type,
+      owner_id: this.user?.user_id
 
     }
 
-    if (this.thought.poll1 != undefined) upload.poll1 = this.thought.poll1;
-    if (this.thought.poll2 != undefined) upload.poll2 = this.thought.poll2;
-    if (this.thought.poll3 != undefined) upload.poll3 = this.thought.poll3;
-    if (this.thought.poll4 != undefined) upload.poll4 = this.thought.poll4;
+    if (this.poll1 != undefined) upload.poll1 = this.poll1;
+    if (this.poll2 != undefined) upload.poll2 = this.poll2;
+    if (this.poll3 != undefined) upload.poll3 = this.poll3;
+    if (this.poll4 != undefined) upload.poll4 = this.poll4;
 
     this.thoughtService.addThought(upload).subscribe(r => console.log(r));
 
