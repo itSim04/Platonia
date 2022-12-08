@@ -42,7 +42,6 @@ export class ThoughtCardComponent implements AfterViewInit {
       if (this.thought?.owner_id == -1) this.thought.owner_id = r.user_id;
 
     });
-    console.log(this.pollThought.getMaxPosition())
 
   }
 
@@ -122,6 +121,18 @@ export class ThoughtCardComponent implements AfterViewInit {
   set pollThought(pollThought: PollThought) {
 
     this.thought = pollThought;
+
+  }
+  
+  get imageThought(): ImageThought {
+
+    return this.thought as ImageThought;
+
+  }
+
+  set imageThought(imageThought: ImageThought) {
+
+    this.thought = imageThought;
 
   }
 
