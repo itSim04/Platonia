@@ -5,8 +5,7 @@
     <ion-card-subtitle>
 
       <!-- Profile -->
-      <img [src]="user.picture" onerror="this.src='../../../../assets/icon/profile-default.png'"
-        class="profile">
+      <img [src]="user.picture" onerror="this.src='../../../../assets/icon/profile-default.png'" class="profile">
 
       <!-- Username -->
       <div class="owner_label">{{user.username}}</div>
@@ -50,48 +49,34 @@
           <!-- Text Thoughts -->
           <div *ngIf="thought.type == 0">
 
-            <!-- Edit Mode -->
-            <ion-input *ngIf="editable; else text" text-wrap class="content" [(ngModel)]="textThought.content"
-              placeholder="Hello Friends..."></ion-input>
-
-            <!-- Feed Mode -->
-            <ng-template #text>
-              <ion-text class="content">{{textThought.content}}</ion-text>
-            </ng-template>
+            <ion-text class="content">{{textThought.content}}</ion-text>
 
           </div>
 
           <!-- Poll Thoughts -->
           <div *ngIf="thought.type == 3">
 
-            <!-- Edit Mode -->
-            <ion-input *ngIf="editable; else poll" text-wrap class="content" [(ngModel)]="pollThought.prompt"
-              placeholder="Hello Friends..."></ion-input>
+            <ion-text class="content">{{pollThought.prompt}}</ion-text>
 
-            <!-- Feed Mode -->
-            <ng-template #poll>
-              <ion-text class="content">{{pollThought.prompt}}</ion-text>
-            </ng-template>
-            
             <app-poll-block (incrementer)="pollThought.answerPoll(1, session_user.user_id, optionService)"
               (subjectEvent)="pollThought.updatePollSubject(1, $event)" [is_max]="pollThought.getMaxPosition() == 1"
               [is_alone]="pollThought.isSingleValued()" [is_voted]="pollThought.option_chosen == 1"
-              [is_modifiable]="editable!" [progress]="pollThought.votes1_percentage" [subject]="pollThought.poll1">
+              [is_modifiable]="false" [progress]="pollThought.votes1_percentage" [subject]="pollThought.poll1">
             </app-poll-block>
             <app-poll-block (incrementer)="pollThought.answerPoll(2, session_user.user_id, optionService)"
               (subjectEvent)="pollThought.updatePollSubject(2, $event)" [is_max]="pollThought.getMaxPosition() == 2"
               [is_alone]="pollThought.isSingleValued()" [is_voted]="pollThought.option_chosen == 2"
-              [is_modifiable]="editable!" [progress]="pollThought.votes2_percentage" [subject]="pollThought.poll2">
+              [is_modifiable]="false" [progress]="pollThought.votes2_percentage" [subject]="pollThought.poll2">
             </app-poll-block>
             <app-poll-block (incrementer)="pollThought.answerPoll(3, session_user.user_id, optionService)"
               (subjectEvent)="pollThought.updatePollSubject(3, $event)" [is_max]="pollThought.getMaxPosition() == 3"
               [is_alone]="pollThought.isSingleValued()" [is_voted]="pollThought.option_chosen == 3"
-              [is_modifiable]="editable!" [progress]="pollThought.votes3_percentage" [subject]="pollThought.poll3">
+              [is_modifiable]="false" [progress]="pollThought.votes3_percentage" [subject]="pollThought.poll3">
             </app-poll-block>
             <app-poll-block (incrementer)="pollThought.answerPoll(4, session_user.user_id, optionService)"
               (subjectEvent)="pollThought.updatePollSubject(4, $event)" [is_max]="pollThought.getMaxPosition() == 4"
               [is_alone]="pollThought.isSingleValued()" [is_voted]="pollThought.option_chosen == 4"
-              [is_modifiable]="editable!" [progress]="pollThought.votes4_percentage" [subject]="pollThought.poll4">
+              [is_modifiable]="false" [progress]="pollThought.votes4_percentage" [subject]="pollThought.poll4">
             </app-poll-block>
             <ion-text class="voters">{{pollThought.totalVotes}} Voters</ion-text>
           </div>

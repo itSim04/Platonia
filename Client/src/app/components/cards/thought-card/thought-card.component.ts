@@ -22,15 +22,6 @@ export class ThoughtCardComponent implements AfterViewInit {
   @Input() user?: User;
   @Input() thought?: Thought;
 
-  @Input() content?: string;
-  @Input() type?: number;
-
-  @Input() poll1?: string;
-  @Input() poll2?: string;
-  @Input() poll3?: string;
-  @Input() poll4?: string;
-
-  editable?: boolean;
   date: string = "1970-01-01";
   deleted: boolean = false;
 
@@ -44,52 +35,14 @@ export class ThoughtCardComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    if (this.thought == undefined) {
-
-      this.editable = true;
-      switch (this.type) {
-
-        case 2:
-
-          this.thought = new ImageThought(this.content!);
-          break;
-
-        case 3:
-
-          this.thought = new VideoThought(this.content!);
-          break;
-
-        case 4:
-
-          this.thought = new PollThought(this.content!, 0, this.poll1!, this.poll2!, this.poll3!, this.poll4!, 0, 0, 0, 0);
-          break;
-
-        default:
-
-          this.thought = new TextThought(this.content!);
-          break;
-
-      }
-
-      this.thought.share_date = new Date();
-      this.thought.type = this.type!;
-      this.thought.likes = 0;
-      this.thought.opinions = 0;
-      this.thought.platons = 0;
-
-    } else {
-
-      this.editable = false;
-
-    }
-
-    this.date = formatRemainingDate(this.thought.share_date);
+    this.date = formatRemainingDate(this.thought!.share_date);
     this.storageService.getSessionUser().then(r => {
 
       this.session_user = r;
       if (this.thought?.owner_id == -1) this.thought.owner_id = r.user_id;
 
     });
+    console.log(this.pollThought.getMaxPosition())
 
   }
 

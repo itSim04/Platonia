@@ -458,27 +458,25 @@ export class PollThought extends Thought {
 
     getMaxPosition(): number {
 
-        let max_index: number = 0;
-
         if (this.votes1! == this.getMax()) {
 
             return 1;
 
         }
 
-        if (this.votes2! > this.getMax()) {
+        if (this.votes2! == this.getMax()) {
 
             return 2;
 
         }
 
-        if (this.votes3! > this.getMax()) {
+        if (this.votes3! == this.getMax()) {
 
             return 3;
 
         }
 
-        if (this.votes4! > this.getMax()) {
+        if (this.votes4! == this.getMax()) {
 
             return 4;
 

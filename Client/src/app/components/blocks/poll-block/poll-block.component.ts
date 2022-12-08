@@ -5,7 +5,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './poll-block.component.html',
   styleUrls: ['./poll-block.component.scss'],
 })
-export class PollBlockComponent implements OnInit {
+export class PollBlockComponent {
 
   @Input() progress: number = 0;
   @Input() subject: string = "";
@@ -17,8 +17,6 @@ export class PollBlockComponent implements OnInit {
   @Output() incrementer = new EventEmitter<never>();
 
   constructor() { }
-
-  ngOnInit() { }
 
   emitSubject(e: any) {
 
