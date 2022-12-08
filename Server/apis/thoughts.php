@@ -14,35 +14,14 @@ if (check_keys($_GET, "schema")) {
 
         case THOUGHTS_SCHEMA::ADD:
 
-
-
-            if (check_keys($_POST, THOUGHTS::TYPE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID)) {
+            if (check_keys($_POST, THOUGHTS::TYPE, THOUGHTS::OWNER_ID)) {
 
                 switch ($_POST[THOUGHTS::TYPE]) {
 
                     case 0:
 
-                        $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_ADD;
-                        if (array_key_exists(THOUGHTS::ROOT, $_POST)) {
-
-                            $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID, THOUGHTS::ROOT), array());
-
-                        } else {
-
-                            $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID), array());
-                            process($PDO, SQLFunctions::UPDATE, $table_name, [THOUGHTS::ROOT => $id, THOUGHTS::ID => $id], array(THOUGHTS::ROOT), array(new condition(THOUGHTS::ID)));
-
-                        }
-                        $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [THOUGHTS::ID => $id], array(), array(new condition(THOUGHTS::ID)));
-                        break;
-
-                    case 1:
-
-                        if (check_keys($_POST, THOUGHTS::MEDIA)) {
-
-                            $output[RESPONSE::STATUS] = EXIT_CODES::USERS_UPLOAD_PROFILE;
+                        if (check_keys($_POST, THOUGHTS::CONTENT)) {
                             $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_ADD;
-                            
                             if (array_key_exists(THOUGHTS::ROOT, $_POST)) {
 
                                 $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID, THOUGHTS::ROOT), array());
@@ -52,6 +31,28 @@ if (check_keys($_GET, "schema")) {
                                 $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID), array());
                                 process($PDO, SQLFunctions::UPDATE, $table_name, [THOUGHTS::ROOT => $id, THOUGHTS::ID => $id], array(THOUGHTS::ROOT), array(new condition(THOUGHTS::ID)));
 
+                            }
+                            $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [THOUGHTS::ID => $id], array(), array(new condition(THOUGHTS::ID)));
+                        }
+                        break;
+
+                    case 1:
+
+                        if (check_keys($_POST, THOUGHTS::MEDIA)) {
+
+                            
+                            $output[RESPONSE::STATUS] = EXIT_CODES::USERS_UPLOAD_PROFILE;
+                            $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_ADD;
+
+                            if (array_key_exists(THOUGHTS::ROOT, $_POST)) {
+                                
+                                $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID, THOUGHTS::ROOT), array());
+
+                            } else {
+                                
+                                $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID), array());
+                                process($PDO, SQLFunctions::UPDATE, $table_name, [THOUGHTS::ROOT => $id, THOUGHTS::ID => $id], array(THOUGHTS::ROOT), array(new condition(THOUGHTS::ID)));
+                                
                             }
                             $img = base64_decode($_POST[THOUGHTS::MEDIA]);
                             mkdir("../assets/thoughts/{$id}");
@@ -63,7 +64,7 @@ if (check_keys($_GET, "schema")) {
 
                     case 3:
 
-                        if (check_keys($_POST, THOUGHTS::POLL1, THOUGHTS::POLL2) || $_POST[THOUGHTS::TYPE] != 3) {
+                        if (check_keys($_POST, THOUGHTS::POLL1, THOUGHTS::POLL2, THOUGHTS::CONTENT)) {
 
                             $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_ADD;
                             if (array_key_exists(THOUGHTS::ROOT, $_POST)) {
@@ -86,17 +87,11 @@ if (check_keys($_GET, "schema")) {
                             }
 
                         }
+                        break;
                 }
 
 
             }
-
-            if (check_keys($_POST, THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID)) {
-
-
-
-            }
-
             break;
 
         case THOUGHTS_SCHEMA::GET_ALL:

@@ -20,6 +20,8 @@ export class PostPage {
   type?: number = 0;
   content?: string;
 
+  media?: string;
+
   poll1?: string;
   poll2?: string;
   poll3?: string;
@@ -42,6 +44,13 @@ export class PostPage {
 
   }
 
+  debug($event: any) {
+
+    console.log($event);
+    this.media = $event;
+
+  }
+
   post() {
 
     const upload: ThoughtRequest = {
@@ -52,12 +61,18 @@ export class PostPage {
 
     }
 
-    if (this.poll1 != undefined) upload.poll1 = this.poll1;
-    if (this.poll2 != undefined) upload.poll2 = this.poll2;
-    if (this.poll3 != undefined) upload.poll3 = this.poll3;
-    if (this.poll4 != undefined) upload.poll4 = this.poll4;
+    if (this.type == 1) {
+      if (this.media != undefined) upload.media = this.media;
+    }
 
-    this.thoughtService.addThought(upload).subscribe();
+    if (this.type == 3) {
+      if (this.poll1 != undefined) upload.poll1 = this.poll1;
+      if (this.poll2 != undefined) upload.poll2 = this.poll2;
+      if (this.poll3 != undefined) upload.poll3 = this.poll3;
+      if (this.poll4 != undefined) upload.poll4 = this.poll4;
+    }
+
+    this.thoughtService.addThought(upload).subscribe(r => console.log(r));
 
   }
 

@@ -283,6 +283,7 @@ export class Packager {
         if (thought.type != undefined) form.append(ThoughtParts.TYPE, String(thought.type));
         if (thought.owner_id != undefined) form.append(ThoughtParts.OWNER_ID, String(thought.owner_id));
         if (thought.root_id != undefined) form.append(ThoughtParts.ROOT, String(thought.root_id));
+        if(thought.media != undefined) form.append(ThoughtParts.MEDIA, thought.media);
         if (thought.poll1 != undefined) form.append(OptionParts.POLL1, thought.poll1);
         if (thought.poll2 != undefined) form.append(OptionParts.POLL2, thought.poll2);
         if (thought.poll3 != undefined) form.append(OptionParts.POLL3, thought.poll3);

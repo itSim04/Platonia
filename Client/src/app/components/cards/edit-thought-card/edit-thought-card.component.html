@@ -27,18 +27,34 @@
         <ion-col>
 
           <!-- Text Thoughts -->
-          <ion-input text-wrap class="content" [(ngModel)]="content" (ionChange)="contentEmitter.emit(content)" placeholder="Hello Friends...">
-          </ion-input>
+          <div *ngIf="type == 0">
+            <ion-input text-wrap class="content" [(ngModel)]="content" (ionChange)="contentEmitter.emit(content)"
+              placeholder="Hello Friends...">
+            </ion-input>
+          </div>
+
+          <div *ngIf="type == 1">
+            <div (click)="addImage()">
+              <img class="picture" [src]="'data:image/png;base64,' + media" onerror="this.src='../../../../assets/imgs/image-placeholder.png'">
+            </div>
+          </div>
 
           <!-- Poll Thoughts -->
           <div *ngIf="type == 3">
-            <app-poll-block (subjectEvent)="poll1Emitter.emit($event)" [is_modifiable]="true" [progress]="0" [subject]="''">
+            <ion-input text-wrap class="content" [(ngModel)]="content" (ionChange)="contentEmitter.emit(content)"
+              placeholder="Hello Friends...">
+            </ion-input>
+            <app-poll-block (subjectEvent)="poll1Emitter.emit($event)" [is_modifiable]="true" [progress]="0"
+              [subject]="''">
             </app-poll-block>
-            <app-poll-block (subjectEvent)="poll2Emitter.emit($event)" [is_modifiable]="true" [progress]="0" [subject]="''">
+            <app-poll-block (subjectEvent)="poll2Emitter.emit($event)" [is_modifiable]="true" [progress]="0"
+              [subject]="''">
             </app-poll-block>
-            <app-poll-block (subjectEvent)="poll3Emitter.emit($event)" [is_modifiable]="true" [progress]="0" [subject]="''">
+            <app-poll-block (subjectEvent)="poll3Emitter.emit($event)" [is_modifiable]="true" [progress]="0"
+              [subject]="''">
             </app-poll-block>
-            <app-poll-block (subjectEvent)="poll4Emitter.emit($event)" [is_modifiable]="true" [progress]="0" [subject]="''">
+            <app-poll-block (subjectEvent)="poll4Emitter.emit($event)" [is_modifiable]="true" [progress]="0"
+              [subject]="''">
             </app-poll-block>
             <ion-text class="voters">0 Voters</ion-text>
           </div>

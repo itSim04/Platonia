@@ -30,7 +30,8 @@ export enum ThoughtParts {
     IS_PLATONED = "is_platoned",
     OPTION = "is_voted",
     OFFSET = "offset",
-    QUANTITY = "quantity"
+    QUANTITY = "quantity",
+    MEDIA = "media"
 
 }
 
