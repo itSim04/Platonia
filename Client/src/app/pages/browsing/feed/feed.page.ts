@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FollowService } from '../../../linking/apis/follow.service';
 import { StorageService } from '../../../linking/apis/storage.service';
 import { ThoughtService } from '../../../linking/apis/thought.service';
 import { Thought } from '../../../linking/models/thought-main';
 import { User } from '../../../linking/models/user-main';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-feed',
@@ -18,7 +19,7 @@ export class FeedPage implements OnInit {
   thoughts: Array<Thought> = new Array();
   anchor: number = 0;
   quantity: number = 5;
-  constructor(private thoughtService: ThoughtService, private storageService: StorageService, private followService: FollowService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private thoughtService: ThoughtService, private storageService: StorageService, private followService: FollowService) { }
 
   async handleRefresh(event: any) {
     setTimeout(() => {
@@ -45,7 +46,9 @@ export class FeedPage implements OnInit {
         ids.push(owner.user_id);
         this.thoughtService.getByUsers({ user_id: owner.user_id, owner_ids: ids, offset: this.anchor, quantity: this.quantity }).subscribe(r => {
 
+          console.log(r);
           r.thoughts?.forEach(t => this.thoughts.push(t));
+          //this.router.navigate(["tabs/feed/"]);
 
         });
 
@@ -58,7 +61,22 @@ export class FeedPage implements OnInit {
 
   ngOnInit() {
 
+
     this.retrieveData();
+
+  }
+
+  ionViewWillEnter() {
+
+    this.storageService.getRefreshFlag().then(r => {
+      if (r) {
+        this.thoughts.splice(0);
+        this.users?.clear();
+        this.anchor = 0;
+        this.retrieveData();
+
+      }
+    });
 
   }
 

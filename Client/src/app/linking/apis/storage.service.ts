@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as localforage from 'localforage';
+import { setFlagsFromString } from 'v8';
 import { User } from '../models/user-main';
 
 @Injectable({
@@ -16,7 +17,7 @@ export class StorageService {
   public async getSessionUser(): Promise<User> {
 
     let user: User;
-    await localforage.getItem("loggedInUser").then((r: any|undefined) => {
+    await localforage.getItem("loggedInUser").then((r: any | undefined) => {
 
       user = new User(
         r?._user_id,
@@ -46,16 +47,27 @@ export class StorageService {
     return localforage.setItem(key, value);
   }
 
-  public remove(key: string) {
-    return localforage.removeItem(key);
+  public setRefreshFlag(flag: boolean) {
+
+    return localforage.setItem("refreshFlag", flag);
+
   }
 
-  public clear() {
-    return localforage.clear();
-  }
+  public async getRefreshFlag(): Promise<boolean> {
 
-  public listKeys() {
-    return localforage.keys();
+    let flag: boolean = false;
+    await localforage.getItem<boolean>("refreshFlag").then(r => {
+
+      if (r != undefined) {
+
+        flag = r;
+
+      }
+      this.setRefreshFlag(false);
+
+    });
+    return flag;
+
   }
 
 }

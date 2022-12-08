@@ -24,5 +24,4 @@ export class TabsPage {
       this.user = `profile;id=${r.user_id}`;
     });
   }
-
 }

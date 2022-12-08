@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { ExitCodes } from 'src/app/helper/constants/db_schemas';
 import { ThoughtRequest } from 'src/app/linking/models/request-models';
 import { Thought } from 'src/app/linking/models/thought-main';
 import { User } from 'src/app/linking/models/user-main';
@@ -27,7 +29,7 @@ export class PostPage {
   poll3?: string;
   poll4?: string;
 
-  constructor(private storageService: StorageService, private thoughtService: ThoughtService) { }
+  constructor(private storageService: StorageService, private thoughtService: ThoughtService, private router: Router) { }
 
   ionViewWillEnter() {
 
@@ -41,13 +43,6 @@ export class PostPage {
   setType(mode: number) {
 
     this.type = mode;
-
-  }
-
-  debug($event: any) {
-
-    console.log($event);
-    this.media = $event;
 
   }
 
@@ -72,7 +67,17 @@ export class PostPage {
       if (this.poll4 != undefined) upload.poll4 = this.poll4;
     }
 
-    this.thoughtService.addThought(upload).subscribe(r => console.log(r));
+    this.thoughtService.addThought(upload).subscribe(r => {
+
+      console.log(r);
+      if (r.status == ExitCodes.THOUGHTS_ADD) {
+
+        this.storageService.setRefreshFlag(true).then(r => this.router.navigate(["tabs/feed/"]));
+
+      }
+
+
+    });
 
   }
 
