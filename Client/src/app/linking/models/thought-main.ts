@@ -1,20 +1,29 @@
+import { inject, Injector } from "@angular/core";
+import { ExitCodes } from "src/app/helper/constants/db_schemas";
+import { LikeService } from "../apis/like.service";
+import { StorageService } from "../apis/storage.service";
+import { User } from "./user-main";
+
 export abstract class Thought {
 
-    private _thought_id: number;
-    private _share_date: Date;
-    private _edit_date: Date;
-    private _owner_id: number;
-    private _type: number;
+    protected _thought_id: number;
+    protected _share_date: Date;
+    protected _edit_date: Date;
+    protected _owner_id: number;
+    protected _type: number;
 
-    private _likes: number;
-    private _platons: number;
-    private _opinions: number;
+    protected _likes: number;
+    protected _platons: number;
+    protected _opinions: number;
 
-    private _root_id: number;
-    private _is_liked: boolean;
-    private _is_platoned: boolean;
+    protected _root_id: number;
+    protected _is_liked: boolean;
+    protected _is_platoned: boolean;
 
-    constructor(thought_id: number = -1, share_date: Date = new Date(), edit_date: Date = new Date(), owner_id: number = -1, type: number = -1, likes: number = -1, platons: number = -1, opinions: number = -1, root_id: number = -1, is_liked: boolean = false, is_platoned: boolean = false) {
+    protected likeService: LikeService;
+    protected storageService: StorageService;
+
+    constructor(injector: Injector, thought_id: number = -1, share_date: Date = new Date(), edit_date: Date = new Date(), owner_id: number = -1, type: number = -1, likes: number = -1, platons: number = -1, opinions: number = -1, root_id: number = -1, is_liked: boolean = false, is_platoned: boolean = false) {
 
         this._thought_id = thought_id;
         this._share_date = share_date;
@@ -29,6 +38,9 @@ export abstract class Thought {
 
         this._is_liked = is_liked;
         this._is_platoned = is_platoned;
+
+        this.likeService = injector.get(LikeService);
+        this.storageService = injector.get(StorageService);
 
     }
 
@@ -120,6 +132,41 @@ export abstract class Thought {
         this._is_platoned = is_platoned;
     }
 
+    public toggleLike() {
+
+        this.storageService.get<User>("loggedInUser").then(session_user => {
+
+            if (this.is_liked) {
+
+                this.is_liked = false;
+                this.likes--;
+                this.likeService.unlike(session_user.user_id, this.thought_id).subscribe(r => {
+
+                    console.log(r);
+                    if (r.status != ExitCodes.LIKE_REMOVE) {
+                        this.is_liked = true;
+                        this.likes++;
+                    }
+
+                });
+
+
+            } else {
+
+                this.is_liked = true;
+                this.likes++;
+                this.likeService.like(session_user.user_id, this.thought_id).subscribe(r => {
+
+                    if (r.status != ExitCodes.LIKE_ADD) {
+                        this.is_liked = false;
+                        this.likes--;
+                    }
+
+                })
+            }
+        });
+    }
+
 }
 
 export class TextThought extends Thought {
@@ -133,9 +180,9 @@ export class TextThought extends Thought {
 
     // }
 
-    constructor(content: string) {
+    constructor(injector: Injector, content: string) {
 
-        super();
+        super(injector);
         this._content = content;
 
     }
@@ -161,9 +208,9 @@ export class ImageThought extends Thought {
 
     // }
 
-    constructor(img: string) {
+    constructor(injector: Injector, img: string) {
 
-        super();
+        super(injector);
         this._img = img;
 
     }
@@ -189,9 +236,9 @@ export class VideoThought extends Thought {
 
     // }
 
-    constructor(vid: string) {
+    constructor(injector: Injector, vid: string) {
 
-        super();
+        super(injector);
         this._vid = vid;
 
     }
@@ -238,9 +285,9 @@ export class PollThought extends Thought {
     //     this._votes = votes;
     // }
 
-    constructor(prompt: string, option_chosen: number, poll1: string, poll2: string, poll3: string, poll4: string, votes1: number, votes2: number, votes3: number, votes4: number) {
+    constructor(injector: Injector, prompt: string, option_chosen: number, poll1: string, poll2: string, poll3: string, poll4: string, votes1: number, votes2: number, votes3: number, votes4: number) {
 
-        super();
+        super(injector);
         this._prompt = prompt;
         this._option_chosen = option_chosen;
         this._poll1 = poll1;

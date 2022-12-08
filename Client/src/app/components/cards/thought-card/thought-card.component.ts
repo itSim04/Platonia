@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input, ViewChild } from "@angular/core";
+import { Component, AfterViewInit, Input, ViewChild, Injector } from "@angular/core";
 import { IonPopover, AlertController } from "@ionic/angular";
 import { ExitCodes } from "src/app/helper/constants/db_schemas";
 import { formatRemainingDate } from "src/app/helper/utility";
@@ -6,7 +6,7 @@ import { AnswerService } from "src/app/linking/apis/answer.service";
 import { LikeService } from "src/app/linking/apis/like.service";
 import { StorageService } from "src/app/linking/apis/storage.service";
 import { ThoughtService } from "src/app/linking/apis/thought.service";
-import { PollThought, TextThought, Thought } from "src/app/linking/models/thought-main";
+import { ImageThought, PollThought, TextThought, Thought, VideoThought } from "src/app/linking/models/thought-main";
 import { User } from "src/app/linking/models/user-main";
 
 
@@ -20,8 +20,17 @@ export class ThoughtCardComponent implements AfterViewInit {
 
   session_user?: User;
   @Input() user?: User;
-  @Input() thought!: Thought;
-  @Input() editable?: boolean;
+  @Input() thought?: Thought;
+
+  @Input() content?: string;
+  @Input() type?: number;
+
+  @Input() poll1?: string;
+  @Input() poll2?: string;
+  @Input() poll3?: string;
+  @Input() poll4?: string;
+
+  editable?: boolean;
   date: string = "1970-01-01";
   deleted: boolean = false;
 
@@ -31,13 +40,49 @@ export class ThoughtCardComponent implements AfterViewInit {
 
   @ViewChild('options') option!: IonPopover;
 
-  constructor(private thoughtService: ThoughtService, private alertController: AlertController, private optionService: AnswerService, private storageService: StorageService, private likeService: LikeService) {
+  constructor(private injector: Injector, private thoughtService: ThoughtService, private alertController: AlertController, private optionService: AnswerService, private storageService: StorageService, private likeService: LikeService) {
   }
 
   ngAfterViewInit(): void {
 
+    if (this.thought == undefined) {
+
+      switch (this.type) {
+
+
+        case 2:
+
+          this.thought = new ImageThought(this.injector, this.content!);
+          break;
+
+        case 3:
+
+          this.thought = new VideoThought(this.injector, this.content!);
+          break;
+
+        case 4:
+
+          this.thought = new PollThought(this.injector, this.content!, 0, this.poll1!, this.poll2!, this.poll3!, this.poll4!, 0, 0, 0, 0);
+          break;
+
+        default:
+
+          this.thought = new TextThought(this.injector, this.content!);
+          break;
+
+      }
+      this.thought.share_date = new Date();
+      this.thought.type = this.type!;
+
+    }
+
     this.date = formatRemainingDate(this.thought.share_date);
-    this.storageService.get<User>("loggedInUser").then(r => this.session_user = r);
+    this.storageService.get<User>("loggedInUser").then(r => {
+
+      this.session_user = r;
+      if (this.thought?.owner_id == -1) this.thought.owner_id = r.user_id;
+
+    });
 
   }
 
@@ -71,7 +116,7 @@ export class ThoughtCardComponent implements AfterViewInit {
     if (role == 'Delete') {
 
       this.deleted = true;
-      this.thoughtService.delete({ thought_id: this.thought.thought_id }).subscribe(d => {
+      this.thoughtService.delete({ thought_id: this.thought!.thought_id }).subscribe(d => {
 
         this.deleted = d.status == ExitCodes.THOUGHTS_DELETE;
 
@@ -87,7 +132,7 @@ export class ThoughtCardComponent implements AfterViewInit {
 
     this.pollThought.incrementPoll(position);
 
-    this.optionService.answer_poll(this.session_user!.user_id, this.thought.thought_id, position).subscribe(p => {
+    this.optionService.answer_poll(this.session_user!.user_id, this.thought!.thought_id, position).subscribe(p => {
 
       if (p.status != ExitCodes.POLLS_ANSWER_POLL) {
 
@@ -98,18 +143,12 @@ export class ThoughtCardComponent implements AfterViewInit {
     });
   }
 
-  round(n: number): number {
-
-    return Math.round(n);
-
-  }
-
   async setLikesOpen(state: boolean) {
 
     this.isLikesOpen = state;
     if (state) {
 
-      this.likeService.getLikesOnThought(this.thought.thought_id).subscribe(r => {
+      this.likeService.getLikesOnThought(this.thought!.thought_id).subscribe(r => {
 
         this.likes.splice(0);
         r.users?.forEach(u => this.likes.unshift(u));
@@ -118,36 +157,6 @@ export class ThoughtCardComponent implements AfterViewInit {
     }
   }
 
-  like() {
-
-    if (this.thought.is_liked) {
-      this.thought.is_liked = false;
-      this.thought.likes--;
-      this.likeService.unlike(this.session_user!.user_id, this.thought.thought_id).subscribe(r => {
-
-        console.log(r);
-        if (r.status != ExitCodes.LIKE_REMOVE) {
-          this.thought.is_liked = true;
-          this.thought.likes++;
-        }
-
-      });
-
-
-    } else {
-
-      this.thought.is_liked = true;
-      this.thought.likes++;
-      this.likeService.like(this.session_user!.user_id, this.thought.thought_id).subscribe(r => {
-
-        if (r.status != ExitCodes.LIKE_ADD) {
-          this.thought.is_liked = false;
-          this.thought.likes--;
-        }
-
-      })
-    }
-  }
 
   get textThought(): TextThought {
 

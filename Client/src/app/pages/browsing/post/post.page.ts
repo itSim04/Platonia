@@ -15,6 +15,8 @@ export class PostPage {
 
   user?: User;
 
+  thought_display?: Thought;
+
   type?: number;
   content?: string;
 
@@ -39,7 +41,6 @@ export class PostPage {
     this.type = mode;
 
   }
-
 
   post() {
 
