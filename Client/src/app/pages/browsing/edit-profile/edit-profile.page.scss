@@ -1,5 +1,13 @@
-ion-content {
-    --background: url(../../../../assets/imgs/main-bg4.png) 0 0/100% 100%;
+// ion-content {
+//     --background: url(../../../../assets/imgs/main-bg4.png) 0 0/100% 100%;
+// }
+
+.header {
+
+    //width: 100%;
+    background: var(--ion-color-tertiary);
+    height: 140px;
+
 }
 
 .inputs_grid {
@@ -31,7 +39,7 @@ ion-content {
 .name_label {
 
     position: fixed;
-    top: 13%;
+    top: 9%;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
@@ -46,7 +54,7 @@ ion-content {
     width: 15%;
     border-radius: 50%;
     position: fixed;
-    top: 15%;
+    top: 11%;
     left: 7.5%;
     background-color: #00000000;
     --background: #00000000;
@@ -54,6 +62,7 @@ ion-content {
     --background-activated: #00000000;
 
 }
+
 
 
 ion-toolbar {

@@ -2,10 +2,12 @@ import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import { ModalController, ToastController, NavController } from "@ionic/angular";
+import { ExitCodes } from "src/app/helper/constants/db_schemas";
 import { Genders } from "src/app/helper/constants/general";
 import { displayWarning } from "src/app/helper/utility";
 import { StorageService } from "src/app/linking/apis/storage.service";
 import { UserService } from "src/app/linking/apis/user.service";
+import { UserRequest } from "src/app/linking/models/request-models";
 import { User } from "src/app/linking/models/user-main";
 
 @Component({
@@ -102,9 +104,17 @@ export class EditProfilePage {
 
         } else {
 
-          this.userService.updateUser({ username: this.username, birthday: new Date(this.birthday!), email: this.email, gender: this.gender }).subscribe(response => {
+          this.userService.updateUser({ user_id: this.user_id, username: this.username, birthday: new Date(this.birthday!), email: this.email, gender: this.gender }).subscribe(response => {
 
-            this.storageService.set("loggedInUser", response.user);
+            if (response.status == ExitCodes.USERS_UPDATE) {
+
+              this.storageService.set("loggedInUser", response.user);
+              
+            } else {
+              
+              console.log("Error in Edit Profile", response);
+              
+            }
             return this.modalCtrl.dismiss(null, 'cancel');
 
           })

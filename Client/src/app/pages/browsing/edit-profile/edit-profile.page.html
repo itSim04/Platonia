@@ -1,23 +1,20 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
+<ion-header class="header">
 
-    <ion-button fill="clear" (click)="goBack()">
+    <ion-button style="margin-top: 6%;" fill="clear" (click)="goBack()">
       <ion-icon slot="icon-only" color="secondary" name="arrow-back"></ion-icon>
     </ion-button>
 
+    <p class="name_label">Edit Profile</p>
 
-  </ion-toolbar>
+    <div (click)="uploadProfile()">
+      <img [src]="picture" onerror="this.src='../../../../assets/icon/profile-default.png'"
+        class="profile">
+    </div>
+
 </ion-header>
 
-<ion-content fullscreen="true">
-  <p class="name_label">Edit Profile</p>
-
-
-
-  <div (click)="uploadProfile()">
-    <img [src]="picture" onerror="this.src='../../../../assets/icon/profile-default.png'"
-      class="profile">
-  </div>
+<ion-content>
+  
   <ion-grid class="inputs_grid">
     <ion-row>
       <ion-col>

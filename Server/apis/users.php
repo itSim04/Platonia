@@ -103,13 +103,16 @@ if (check_keys($_GET, "schema")) {
 
                 $img = base64_decode($_POST[USERS::PICTURE]);
                 $id = 0;
-                if (!is_dir("../assets/users/profiles/{$_POST[USERS::ID]}")) {
-                    mkdir("../assets/users/profiles/{$_POST[USERS::ID]}");
+                if (!is_dir("../assets/users/{$_POST[USERS::ID]}")) {
+                    mkdir("../assets/users/{$_POST[USERS::ID]}");
+                }
+                if (!is_dir("../assets/users/{$_POST[USERS::ID]}/profiles")) {
+                    mkdir("../assets/users/{$_POST[USERS::ID]}/profiles");
                 } else {
 
-                    $id = iterator_count(new FilesystemIterator("../assets/users/profiles/{$_POST[USERS::ID]}/", FilesystemIterator::SKIP_DOTS));
+                    $id = iterator_count(new FilesystemIterator("../assets/users/{$_POST[USERS::ID]}/profiles", FilesystemIterator::SKIP_DOTS));
                 }
-                file_put_contents("../assets/users/profiles/{$_POST[USERS::ID]}/profile-{$id}.png", $img);
+                file_put_contents("../assets/users/{$_POST[USERS::ID]}/profiles/profile-{$id}.png", $img);
                 $output[RESPONSE::MAX_PROFILE] = $id + 1;
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_UPLOAD_PROFILE;
 
@@ -122,6 +125,9 @@ if (check_keys($_GET, "schema")) {
     
                     $img = base64_decode($_POST[USERS::PICTURE]);
                     $id = 0;
+                    if (!is_dir("../assets/users/{$_POST[USERS::ID]}")) {
+                        mkdir("../assets/users/{$_POST[USERS::ID]}");
+                    }
                     if (!is_dir("../assets/users/{$_POST[USERS::ID]}/banners")) {
                         mkdir("../assets/users/{$_POST[USERS::ID]}/banners");
                     } else {

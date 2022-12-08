@@ -37,8 +37,6 @@ export class FriendListPage {
       )
 
     );
-    console.log(this.followings);
-    console.log(this.followers);
 
   }
 
