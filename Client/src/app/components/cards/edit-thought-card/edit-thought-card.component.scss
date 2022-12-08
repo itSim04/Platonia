@@ -1,0 +1,119 @@
+.owner_label {
+
+    text-transform: none;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --color-hover: #DDDDDD;
+    --color-activated: white;
+    float: left;
+    padding-left: 5%;
+    padding-top: 3%;
+
+}
+
+.date {
+
+    text-transform: none;
+    font-size: 12px;
+    font-weight: 400;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    float: right;
+    color: lightgray;
+    padding-right: 5%;
+    padding-top: 5%;
+
+}
+
+.alert-button {
+
+    color: var(--ion-color-danger);
+
+}
+
+.option {
+
+    color: lightgray;
+    text-transform: none;
+    font-size: 12px;
+    font-weight: 400;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    float: right;
+    margin-left: -5%;
+    padding-bottom: 1%;
+
+}
+
+
+
+.body {
+
+    padding-top: 2.5%;
+    padding-bottom: 1%;
+    padding-left: 3%;
+    padding-right: 3%;
+    clear: both;
+
+
+}
+
+.header {
+
+    padding-left: 3%;
+    padding-right: 3%;
+
+}
+
+.voters {
+    width: 96%;
+    //margin: 10px 2%;
+    //padding: 3px;
+    text-align: center;
+    font-size: 12px;
+    //color: #fff;
+    border-radius: 20px;
+}
+
+.action {
+
+    // padding-top: 5%;
+    // padding-bottom: 2%;
+    padding-right: 2.5%;
+    float: left;
+
+}
+
+.action_label {
+
+    padding-top: 2.5%;
+    padding-right: 7.5%;
+    margin: 0%;
+    float: left;
+    user-select: none;
+
+}
+
+.grid {
+
+    padding: 0px;
+
+}
+
+.content {
+
+    min-height: 45px;
+    color: black;
+    font-size: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+
+}
+
+.profile {
+
+    width: 20%;
+    border-radius: 50%;
+    border: 0.5px solid #000000;
+    float:left;
+
+}

@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'src/app/linking/models/users-request';
+import { User } from 'src/app/linking/models/user-main';
 
 @Component({
   selector: 'app-user-card',

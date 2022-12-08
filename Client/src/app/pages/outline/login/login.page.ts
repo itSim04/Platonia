@@ -33,7 +33,6 @@ export class LoginPage {
 
     this.userService.authenticate({ username: this.username, password: this.password }).subscribe(response => {
 
-      console.log(response);
       if (response.user != undefined) {
 
         this.storageService.set("loggedInUser", response.user);

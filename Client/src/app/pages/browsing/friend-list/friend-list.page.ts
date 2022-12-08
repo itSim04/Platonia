@@ -48,7 +48,7 @@ export class FriendListPage {
     const id: number = Number.parseInt(id_obj != null ? id_obj : "0");
     if (id == null || !id) {
 
-      this.storage.get("loggedInUser").then((r) => {
+      this.storage.getSessionUser().then((r) => {
 
         this.current_user = <User>r;
         this.generateUsers();

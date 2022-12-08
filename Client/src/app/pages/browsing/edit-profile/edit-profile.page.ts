@@ -36,10 +36,10 @@ export class EditProfilePage {
 
   ionViewWillEnter() {
 
-    this.storageService.get<User>("loggedInUser").then(user => {
+    this.storageService.getSessionUser().then(user => {
 
       this.user_id = user.user_id;
-      this.birthday = user.birthday.toISOString();
+      this.birthday = user.birthday.toISOString().slice(0, 10).replace('T', ' ');
       this.gender = user.gender;
       this.email = this.old_email = user.email;
       this.username = this.old_username = user.username;
@@ -60,7 +60,7 @@ export class EditProfilePage {
       this.userService.uploadPicture({ picture: image.base64String, user_id: this.user_id }).subscribe(response => {
 
         this.picture = `http://localhost/Platonia/Server/assets/users/${this.user_id}/profiles/profile-${response.profile_id! - 1}.png`;
-        this.storageService.get<User>("loggedInUser").then(r =>
+        this.storageService.getSessionUser().then(r =>
 
           r.picture = this.picture!
 

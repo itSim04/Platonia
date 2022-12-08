@@ -76,6 +76,40 @@ if (check_keys($_GET, "schema")) {
                 $output[RESPONSE::THOUGHT][0]->banner_id = is_dir("../assets/users/banners/{$output[RESPONSE::THOUGHTS][0]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/banners/{$output[RESPONSE::THOUGHTS][0]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
 
 
+                if ($output[RESPONSE::THOUGHTS][0]->type) {
+
+                    $options = process_fetch($PDO, SQLFunctions::SELECT, $option_name, [OPTIONS::ID => $output[RESPONSE::THOUGHTS][0]->thought_id], array(), array(new condition(OPTIONS::ID)));
+                    if (count($options) > 0) {
+
+                        $output[RESPONSE::THOUGHTS][0]->poll1 = $options[0]->content;
+                        $output[RESPONSE::THOUGHTS][0]->votes1 = $options[0]->votes;
+
+                    }
+
+                    if (count($options) > 1) {
+
+                        $output[RESPONSE::THOUGHTS][0]->poll2 = $options[1]->content;
+                        $output[RESPONSE::THOUGHTS][0]->votes2 = $options[1]->votes;
+
+                    }
+
+                    if (count($options) > 2) {
+
+                        $output[RESPONSE::THOUGHTS][0]->poll3 = $options[2]->content;
+                        $output[RESPONSE::THOUGHTS][0]->votes3 = $options[2]->votes;
+
+                    }
+
+                    if (count($options) > 3) {
+
+                        $output[RESPONSE::THOUGHTS][0]->poll4 = $options[3]->content;
+                        $output[RESPONSE::THOUGHTS][0]->votes4 = $options[3]->votes;
+
+                    }
+                }
+
+
+
             }
             break;
 
@@ -124,9 +158,43 @@ if (check_keys($_GET, "schema")) {
                     $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::OWNER_ID))), "ORDER BY share_date DESC LIMIT " . $_GET[THOUGHTS::OFFSET] . ", " . $_GET[THOUGHTS::QUANTITY]);
 
                 }
-                for ($i = 0; $i < count($output[RESPONSE::THOUGHTS]); $i++) {
-                    $output[RESPONSE::THOUGHTS][$i]->profile_id = is_dir("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
-                    $output[RESPONSE::THOUGHTS][$i]->banner_id = is_dir("../assets/users/banners/{$output[RESPONSE::THOUGHTS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/banners/{$output[RESPONSE::THOUGHTS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                for ($t = 0; $t < count($output[RESPONSE::THOUGHTS]); $t++) {
+                    $output[RESPONSE::THOUGHTS][$t]->profile_id = is_dir("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$t]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$t]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                    $output[RESPONSE::THOUGHTS][$t]->banner_id = is_dir("../assets/users/banners/{$output[RESPONSE::THOUGHTS][$t]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/banners/{$output[RESPONSE::THOUGHTS][$t]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+
+                    if ($output[RESPONSE::THOUGHTS][$t]->type) {
+
+                        $options = process_fetch($PDO, SQLFunctions::SELECT, $option_name, [OPTIONS::ID => $output[RESPONSE::THOUGHTS][$t]->thought_id], array(), array(new condition(OPTIONS::ID)));
+                        if (count($options) > 0) {
+
+                            $output[RESPONSE::THOUGHTS][$t]->poll1 = $options[0]->content;
+                            $output[RESPONSE::THOUGHTS][$t]->votes1 = $options[0]->votes;
+
+                        }
+
+                        if (count($options) > 1) {
+
+                            $output[RESPONSE::THOUGHTS][$t]->poll2 = $options[1]->content;
+                            $output[RESPONSE::THOUGHTS][$t]->votes2 = $options[1]->votes;
+
+                        }
+
+                        if (count($options) > 2) {
+
+                            $output[RESPONSE::THOUGHTS][$t]->poll3 = $options[2]->content;
+                            $output[RESPONSE::THOUGHTS][$t]->votes3 = $options[2]->votes;
+
+                        }
+
+                        if (count($options) > 3) {
+
+                            $output[RESPONSE::THOUGHTS][$t]->poll4 = $options[3]->content;
+                            $output[RESPONSE::THOUGHTS][$t]->votes4 = $options[3]->votes;
+
+                        }
+
+                    }
+
                 }
 
             }
@@ -146,10 +214,46 @@ if (check_keys($_GET, "schema")) {
 
                     $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::OWNER_ID . " IN (" . implode(", ", $_GET[THOUGHTS::OWNER_ID]) . ")", false))), "ORDER BY share_date DESC LIMIT " . $_GET[THOUGHTS::OFFSET] . ", " . $_GET[THOUGHTS::QUANTITY]);
 
-                }
-                for ($i = 0; $i < count($output[RESPONSE::THOUGHTS]); $i++) {
-                    $output[RESPONSE::THOUGHTS][$i]->profile_id = is_dir("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
-                    $output[RESPONSE::THOUGHTS][$i]->banner_id = is_dir("../assets/users/banners/{$output[RESPONSE::THOUGHTS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/banners/{$output[RESPONSE::THOUGHTS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                    for ($t = 0; $t < count($output[RESPONSE::THOUGHTS]); $t++) {
+
+                        $output[RESPONSE::THOUGHTS][$t]->profile_id = is_dir("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$t]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$t]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+                        $output[RESPONSE::THOUGHTS][$t]->banner_id = is_dir("../assets/users/banners/{$output[RESPONSE::THOUGHTS][$t]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/banners/{$output[RESPONSE::THOUGHTS][$t]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+
+                        if ($output[RESPONSE::THOUGHTS][$t]->type) {
+
+                            $options = process_fetch($PDO, SQLFunctions::SELECT, $option_name, [OPTIONS::ID => $output[RESPONSE::THOUGHTS][$t]->thought_id], array(), array(new condition(OPTIONS::ID)));
+                            if (count($options) > 0) {
+
+                                $output[RESPONSE::THOUGHTS][$t]->poll1 = $options[0]->content;
+                                $output[RESPONSE::THOUGHTS][$t]->votes1 = $options[0]->votes;
+
+                            }
+
+                            if (count($options) > 1) {
+
+                                $output[RESPONSE::THOUGHTS][$t]->poll2 = $options[1]->content;
+                                $output[RESPONSE::THOUGHTS][$t]->votes2 = $options[1]->votes;
+
+                            }
+
+                            if (count($options) > 2) {
+
+                                $output[RESPONSE::THOUGHTS][$t]->poll3 = $options[2]->content;
+                                $output[RESPONSE::THOUGHTS][$t]->votes3 = $options[2]->votes;
+
+                            }
+
+                            if (count($options) > 3) {
+
+                                $output[RESPONSE::THOUGHTS][$t]->poll4 = $options[3]->content;
+                                $output[RESPONSE::THOUGHTS][$t]->votes4 = $options[3]->votes;
+
+                            }
+
+                        }
+                    }
+
+
                 }
 
             }

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { InterestService } from '../../../linking/apis/interest.service';
-import { StorageService } from '../../../linking/apis/storage.service';
-import { UserService } from '../../../linking/apis/user.service';
-import { Interest } from '../../../linking/models/interests-request';
-import { User } from '../../../linking/models/users-request';
+import { Component, OnInit } from "@angular/core";
+import { InterestService } from "src/app/linking/apis/interest.service";
+import { StorageService } from "src/app/linking/apis/storage.service";
+import { UserService } from "src/app/linking/apis/user.service";
+import { Interest } from "src/app/linking/models/interest-main";
+import { User } from "src/app/linking/models/user-main";
 
 @Component({
   selector: 'app-search',
@@ -32,7 +32,7 @@ export class SearchPage implements OnInit {
     }));
 
 
-    this.storageService.get<User>("loggedInUser").then(u => {
+    this.storageService.getSessionUser().then(u => {
 
       this.interestService.getAll({ user_id: u.user_id }).subscribe(r => {
 

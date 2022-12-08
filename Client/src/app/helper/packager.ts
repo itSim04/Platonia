@@ -1,3 +1,4 @@
+import { Injector } from "@angular/core";
 import { Interest } from "../linking/models/interest-main";
 import { UserRequest, ThoughtRequest, InterestRequest, ResponseReceipt, Option } from "../linking/models/request-models";
 import { ImageThought, PollThought, TextThought, Thought, VideoThought } from "../linking/models/thought-main";
@@ -162,7 +163,7 @@ export class Packager {
                 new Date(data[UserParts.BIRTHDAY]),
                 data[UserParts.JOIN],
                 data[UserParts.GENDER],
-                data[ResponseParts.PROFILE_ID] != 0 ? `http://localhost/Platonia/Server/assets/users/${data[UserParts.ID]}/profiles/profile-${data[ResponseParts.PROFILE_ID] - 1}.png` : `../assets/icon/profile-default.png`,
+                data[ResponseParts.PROFILE_ID] != 0 ? `http://localhost/Platonia/Server/assets/users/${data[UserParts.ID]}/profiles/profile-${data[ResponseParts.PROFILE_ID] - 1}.png` : "../../assets/icon/profile-default.png",
                 data[ResponseParts.BANNER_ID] != 0 ? `http://localhost/Platonia/Server/assets/users/${data[UserParts.ID]}/banners/banner-${data[ResponseParts.BANNER_ID] - 1}.png` : `https://ionicframework.com/docs/img/demos/card-media.png`,
                 data[TempUserParts.FOLLOWERS],
                 data[TempUserParts.FOLLOWINGS]
@@ -212,8 +213,8 @@ export class Packager {
     public static thoughtUnpack(data: any): Thought {
 
         let current: Thought;
-        switch (data[ThoughtParts.TYPE]) {
 
+        switch (data[ThoughtParts.TYPE]) {
 
             case 1:
 
@@ -241,7 +242,7 @@ export class Packager {
                     data[OptionParts.VOTES1],
                     data[OptionParts.VOTES2],
                     data[OptionParts.VOTES3],
-                    data[OptionParts.VOTES4],
+                    data[OptionParts.VOTES4]
 
                 );
                 break;
@@ -253,6 +254,7 @@ export class Packager {
                 break;
 
         }
+
 
         current.type = data[ThoughtParts.TYPE];
         current.thought_id = data[ThoughtParts.ID];

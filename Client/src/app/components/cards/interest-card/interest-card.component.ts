@@ -1,10 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IonInput } from '@ionic/angular';
 import { InterestService } from 'src/app/linking/apis/interest.service';
 import { StorageService } from 'src/app/linking/apis/storage.service';
 import { ExitCodes } from 'src/app/helper/constants/db_schemas';
-import { Interest } from 'src/app/linking/models/interests-request';
-import { User } from 'src/app/linking/models/users-request';
+import { Interest } from 'src/app/linking/models/interest-main';
+import { User } from 'src/app/linking/models/user-main';
 
 @Component({
   selector: 'app-interest-card',
@@ -20,7 +19,7 @@ export class InterestCardComponent implements OnInit {
 
   toggleInterest() {
 
-    this.storageService.get<User>("loggedInUser").then(o => {
+    this.storageService.getSessionUser().then(o => {
 
       if (this.interest?.is_followed) {
 

@@ -5,14 +5,14 @@
     <ion-card-subtitle>
 
       <!-- Profile -->
-      <img [src]="user.picture" onerror="this.src='http://localhost/Platonia/Server/assets/users/0/profile.png'"
+      <img [src]="user.picture" onerror="this.src='../../../../assets/icon/profile-default.png'"
         class="profile">
 
       <!-- Username -->
       <div class="owner_label">{{user.username}}</div>
 
       <!-- Options -->
-      <ion-button *ngIf="session_user.user_id== user.user_id" (click)="openOptions()" fill="clear" class="option">
+      <ion-button *ngIf="session_user.user_id == user.user_id" (click)="openOptions()" fill="clear" class="option">
         <ion-icon name="ellipsis-horizontal"></ion-icon>
       </ion-button>
 
@@ -48,41 +48,50 @@
         <ion-col>
 
           <!-- Text Thoughts -->
+          <div *ngIf="thought.type == 0">
 
-          <!-- Edit Mode -->
-          <ion-input *ngIf="editable; else feed" text-wrap class="content" [(ngModel)]="textThought"
-            placeholder="Hello Friends..."></ion-input>
+            <!-- Edit Mode -->
+            <ion-input *ngIf="editable; else text" text-wrap class="content" [(ngModel)]="textThought.content"
+              placeholder="Hello Friends..."></ion-input>
 
-          <!-- Feed Mode -->
-          <ng-template #feed>
-            <ion-text class="content">{{textThought}}</ion-text>
-          </ng-template>
+            <!-- Feed Mode -->
+            <ng-template #text>
+              <ion-text class="content">{{textThought.content}}</ion-text>
+            </ng-template>
+
+          </div>
 
           <!-- Poll Thoughts -->
-
-          <!-- Edit Mode -->
-
-          <!-- Feed Mode -->
           <div *ngIf="thought.type == 3">
-            <app-poll-block (incrementer)="incrementPoll(1)" (subjectEvent)="pollThought.updatePollSubject(1, $event)"
-              [is_max]="pollThought.getMaxPosition() == 1" [is_alone]="pollThought.isSingleValued()"
-              [is_voted]="pollThought.option_chosen == 1" [is_modifiable]="editable!"
-              [progress]="pollThought.votes1_percentage" [subject]="pollThought.poll1">
+
+            <!-- Edit Mode -->
+            <ion-input *ngIf="editable; else poll" text-wrap class="content" [(ngModel)]="pollThought.prompt"
+              placeholder="Hello Friends..."></ion-input>
+
+            <!-- Feed Mode -->
+            <ng-template #poll>
+              <ion-text class="content">{{pollThought.prompt}}</ion-text>
+            </ng-template>
+            
+            <app-poll-block (incrementer)="pollThought.answerPoll(1, session_user.user_id, optionService)"
+              (subjectEvent)="pollThought.updatePollSubject(1, $event)" [is_max]="pollThought.getMaxPosition() == 1"
+              [is_alone]="pollThought.isSingleValued()" [is_voted]="pollThought.option_chosen == 1"
+              [is_modifiable]="editable!" [progress]="pollThought.votes1_percentage" [subject]="pollThought.poll1">
             </app-poll-block>
-            <app-poll-block (incrementer)="incrementPoll(2)" (subjectEvent)="pollThought.updatePollSubject(2, $event)"
-              [is_max]="pollThought.getMaxPosition() == 2" [is_alone]="pollThought.isSingleValued()"
-              [is_voted]="pollThought.option_chosen == 2" [is_modifiable]="editable!"
-              [progress]="pollThought.votes2_percentage" [subject]="pollThought.poll2">
+            <app-poll-block (incrementer)="pollThought.answerPoll(2, session_user.user_id, optionService)"
+              (subjectEvent)="pollThought.updatePollSubject(2, $event)" [is_max]="pollThought.getMaxPosition() == 2"
+              [is_alone]="pollThought.isSingleValued()" [is_voted]="pollThought.option_chosen == 2"
+              [is_modifiable]="editable!" [progress]="pollThought.votes2_percentage" [subject]="pollThought.poll2">
             </app-poll-block>
-            <app-poll-block (incrementer)="incrementPoll(3)" (subjectEvent)="pollThought.updatePollSubject(3, $event)"
-              [is_max]="pollThought.getMaxPosition() == 3" [is_alone]="pollThought.isSingleValued()"
-              [is_voted]="pollThought.option_chosen == 3" [is_modifiable]="editable!"
-              [progress]="pollThought.votes3_percentage" [subject]="pollThought.poll3">
+            <app-poll-block (incrementer)="pollThought.answerPoll(3, session_user.user_id, optionService)"
+              (subjectEvent)="pollThought.updatePollSubject(3, $event)" [is_max]="pollThought.getMaxPosition() == 3"
+              [is_alone]="pollThought.isSingleValued()" [is_voted]="pollThought.option_chosen == 3"
+              [is_modifiable]="editable!" [progress]="pollThought.votes3_percentage" [subject]="pollThought.poll3">
             </app-poll-block>
-            <app-poll-block (incrementer)="incrementPoll(4)" (subjectEvent)="pollThought.updatePollSubject(4, $event)"
-              [is_max]="pollThought.getMaxPosition() == 4" [is_alone]="pollThought.isSingleValued()"
-              [is_voted]="pollThought.option_chosen == 4" [is_modifiable]="editable!"
-              [progress]="pollThought.votes4_percentage" [subject]="pollThought.poll4">
+            <app-poll-block (incrementer)="pollThought.answerPoll(4, session_user.user_id, optionService)"
+              (subjectEvent)="pollThought.updatePollSubject(4, $event)" [is_max]="pollThought.getMaxPosition() == 4"
+              [is_alone]="pollThought.isSingleValued()" [is_voted]="pollThought.option_chosen == 4"
+              [is_modifiable]="editable!" [progress]="pollThought.votes4_percentage" [subject]="pollThought.poll4">
             </app-poll-block>
             <ion-text class="voters">{{pollThought.totalVotes}} Voters</ion-text>
           </div>
@@ -101,7 +110,7 @@
           <div class="action_label" style="font-size: 10px;">{{thought.opinions}}</div>
 
           <!-- Likes Button -->
-          <div (click)="thought.toggleLike()" class="action">
+          <div (click)="thought.toggleLike(likeService, storageService)" class="action">
             <ion-icon [color]="thought.is_liked ? 'danger' : ''" name="diamond-outline" style="font-size: 20px;">
             </ion-icon>
           </div>

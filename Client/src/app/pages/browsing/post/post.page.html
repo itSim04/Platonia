@@ -1,8 +1,10 @@
 <ion-content>
 
   <!-- Thought Area -->
-  <app-card-thought class="post" [user]="user" [content]="content" [type]="type" [poll1]="poll1" [poll2]="poll2"
-    [poll3]="poll3" [poll4]="poll4"></app-card-thought>
+  <app-edit-card-thought (contentEmitter)="content = $event" (poll1Emitter)="poll1 = $event"
+    (poll2Emitter)="poll2 = $event" (poll3Emitter)="poll3 = $event" (poll4Emitter)="poll4 = $event" class="post"
+    [type]="type">
+  </app-edit-card-thought>
 
   <ion-grid class="section">
     <ion-row>
@@ -36,7 +38,7 @@
 
   <!-- Posting button -->
   <ion-fab slot="fixed" vertical="top" horizontal="end">
-    <ion-fab-button color="primary" (click)="post()" [disabled]="content!.length < 3">
+    <ion-fab-button color="primary" (click)="post()" [disabled]="content == undefined ? true : content.length < 3">
       <ion-icon name="arrow-forward-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>

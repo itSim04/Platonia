@@ -9,7 +9,7 @@
   </ion-button>
 
   <!-- Profile Picture -->
-  <img [src]="current_user?.picture" onerror="this.src='http://localhost/Platonia/Server/assets/users/0/profile.png'"
+  <img [src]="current_user?.picture" onerror="this.src='../../../../assets/icon/profile-default.png'"
     class="profile">
 
   <!-- Options Opener -->
@@ -39,7 +39,7 @@
   <ion-card>
     <div (click)="uploadBanner()">
       <img alt="Silhouette of mountains" [src]="current_user?.banner"
-        onerror="this.src='http://localhost/Platonia/Server/assets/users/0/profile.png'" />
+        onerror="this.src='../../../../assets/icon/profile-default.png'" />
     </div>
     <ion-card-header>
       <ion-card-title style="width: auto">About

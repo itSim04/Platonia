@@ -32,7 +32,7 @@ export class FeedPage implements OnInit {
 
   retrieveData() {
 
-    this.storageService.get<User>("loggedInUser").then(owner => {
+    this.storageService.getSessionUser().then(owner => {
 
       this.owner = owner;
 

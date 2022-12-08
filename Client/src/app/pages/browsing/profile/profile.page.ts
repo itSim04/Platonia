@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AlertController, InfiniteScrollCustomEvent, IonPopover, ModalController, NavController } from '@ionic/angular';
+import { Thought } from 'src/app/linking/models/thought-main';
+import { User } from 'src/app/linking/models/user-main';
 import { ExitCodes } from '../../../helper/constants/db_schemas';
 import { presentAlert } from '../../../helper/utility';
 import { FollowService } from '../../../linking/apis/follow.service';
@@ -55,9 +57,8 @@ export class ProfilePage implements OnInit {
       }).then(image => {
         this.userService.uploadBanner({ picture: image.base64String, user_id: this.current_user!.user_id }).subscribe(response => {
 
-          console.log(response);
           this.current_user!.banner = `http://localhost/Platonia/Server/assets/users/${this.current_user!.user_id}/banners/banner-${response.banner_id! - 1}.png`;
-          this.storage.get<User>("loggedInUser").then(r =>
+          this.storage.getSessionUser().then(r =>
 
             r.banner = this.current_user!.banner
 
@@ -84,7 +85,7 @@ export class ProfilePage implements OnInit {
       }
     } else {
 
-      this.storage.get<User>("loggedInUser").then(current_profile => {
+      this.storage.getSessionUser().then(current_profile => {
 
         if (this.is_followed) {
 
@@ -130,7 +131,7 @@ export class ProfilePage implements OnInit {
     this.userService.getOne({ user_id: id }).subscribe(current_profile => {
 
       this.current_user = current_profile.user;
-      this.storage.get<User>("loggedInUser").then(current_user => {
+      this.storage.getSessionUser().then(current_user => {
 
         if (current_user.user_id == this.current_user!.user_id) {
 
@@ -144,7 +145,7 @@ export class ProfilePage implements OnInit {
         }
 
         this.new_bio = this.current_user!.bio;
-        this.retrieveDate();
+        this.retrieveData();
 
         if (this.owner && !this.current_user?.is_verified) {
 
@@ -177,9 +178,7 @@ export class ProfilePage implements OnInit {
 
   }
 
-  retrieveDate() {
-
-
+  retrieveData() {
 
     this.thoughtService.getBy({ user_id: this.current_user!.user_id, owner_id: this.current_user!.user_id, offset: this.anchor, quantity: this.quantity }).subscribe(r => {
 
@@ -187,26 +186,25 @@ export class ProfilePage implements OnInit {
 
     });
 
-
-
-
   }
 
   onIonInfinite(ev: any) {
     this.anchor += this.quantity;
-    this.retrieveDate();
+    this.retrieveData();
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
     }, 500);
   }
 
   async handleRefresh(event: any) {
-    await setTimeout(() => {
+
+    setTimeout(() => {
       this.thoughts.splice(0);
       this.anchor = 0;
-      this.retrieveDate();
+      this.retrieveData();
       event.target.complete();
     }, 2000);
+
   };
 
   public openFriendsList() {
@@ -222,13 +220,15 @@ export class ProfilePage implements OnInit {
   }
 
   public editProfile() {
-
+    
     this.openModal();
 
   }
 
   onWillDismiss(event: Event) {
+
     this.ionViewWillEnter();
+
   }
 
 
@@ -246,16 +246,9 @@ export class ProfilePage implements OnInit {
       min: 100000,
       max: 999999,
     }], [{
+
       text: "Send", handler: inputsData => {
 
-        let email = {
-          to: 'moawadsimon@gmail.com',
-          subject: 'Verification code',
-          body: 'How are you? Nice greetings',
-          isHtml: true
-        }
-
-        this.emailComposer.open(email);
         return false;
 
       }

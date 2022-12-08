@@ -1,0 +1,79 @@
+<ion-card *ngIf="session_user != undefined">
+
+
+  <ion-card-header class="header">
+    <ion-card-subtitle>
+
+      <!-- Profile -->
+      <img [src]="session_user.picture" onerror="this.src='../../../../assets/icon/profile-default.png'"
+        class="profile">
+
+      <!-- Username -->
+      <div class="owner_label">{{session_user.username}}</div>
+
+      <!-- Date -->
+      <ion-text class="date">
+        Now
+      </ion-text>
+
+
+    </ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content class="body">
+
+    <ion-grid class="grid">
+      <ion-row>
+        <ion-col>
+
+          <!-- Text Thoughts -->
+          <ion-input text-wrap class="content" [(ngModel)]="content" (ionChange)="contentEmitter.emit(content)" placeholder="Hello Friends...">
+          </ion-input>
+
+          <!-- Poll Thoughts -->
+          <div *ngIf="type == 3">
+            <app-poll-block (subjectEvent)="poll1Emitter.emit($event)" [is_modifiable]="true" [progress]="0" [subject]="''">
+            </app-poll-block>
+            <app-poll-block (subjectEvent)="poll2Emitter.emit($event)" [is_modifiable]="true" [progress]="0" [subject]="''">
+            </app-poll-block>
+            <app-poll-block (subjectEvent)="poll3Emitter.emit($event)" [is_modifiable]="true" [progress]="0" [subject]="''">
+            </app-poll-block>
+            <app-poll-block (subjectEvent)="poll4Emitter.emit($event)" [is_modifiable]="true" [progress]="0" [subject]="''">
+            </app-poll-block>
+            <ion-text class="voters">0 Voters</ion-text>
+          </div>
+
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+
+          <!-- Opinions button -->
+          <div class="action">
+            <ion-icon name="chatbubble-outline" style="font-size: 20px;"></ion-icon>
+          </div>
+
+          <!-- Opinions Counter -->
+          <div class="action_label" style="font-size: 10px;">0</div>
+
+          <!-- Likes Button -->
+          <div class="action">
+            <ion-icon name="diamond-outline" style="font-size: 20px;">
+            </ion-icon>
+          </div>
+
+          <!-- Likes Counter -->
+          <div class="action_label" style="font-size: 10px;">0</div>
+
+          <!-- Platons Button -->
+          <div class="action">
+            <ion-icon name="repeat-outline" style="font-size: 20px;"></ion-icon>
+          </div>
+          <!-- Platons counter -->
+          <div class="action_label" style="font-size: 10px;">0</div>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>

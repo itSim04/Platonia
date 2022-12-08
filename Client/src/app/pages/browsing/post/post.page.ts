@@ -17,7 +17,7 @@ export class PostPage {
 
   thought_display?: Thought;
 
-  type?: number;
+  type?: number = 0;
   content?: string;
 
   poll1?: string;
@@ -29,7 +29,7 @@ export class PostPage {
 
   ionViewWillEnter() {
 
-    this.storageService.get<User>("loggedInUser").then(user => {
+    this.storageService.getSessionUser().then(user => {
 
       this.user = user;
 
@@ -57,7 +57,7 @@ export class PostPage {
     if (this.poll3 != undefined) upload.poll3 = this.poll3;
     if (this.poll4 != undefined) upload.poll4 = this.poll4;
 
-    this.thoughtService.addThought(upload).subscribe(r => console.log(r));
+    this.thoughtService.addThought(upload).subscribe();
 
   }
 

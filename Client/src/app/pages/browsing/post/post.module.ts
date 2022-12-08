@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { PostPageRoutingModule } from './post-routing.module';
 
 import { PostPage } from './post.page';
-import { ThoughtCardModule } from '../../../components/cards/thought-card/thought-card.module';
+import { EditThoughtCardModule } from '../../../components/cards/edit-thought-card/edit-thought-card.module';
 
 @NgModule({
   imports: [
@@ -15,7 +15,7 @@ import { ThoughtCardModule } from '../../../components/cards/thought-card/though
     FormsModule,
     IonicModule,
     PostPageRoutingModule,
-    ThoughtCardModule
+    EditThoughtCardModule
   ],
   declarations: [PostPage]
 })

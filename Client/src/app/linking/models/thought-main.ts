@@ -1,5 +1,6 @@
 import { inject, Injector } from "@angular/core";
 import { ExitCodes } from "src/app/helper/constants/db_schemas";
+import { AnswerService } from "../apis/answer.service";
 import { LikeService } from "../apis/like.service";
 import { StorageService } from "../apis/storage.service";
 import { User } from "./user-main";
@@ -20,10 +21,7 @@ export abstract class Thought {
     protected _is_liked: boolean;
     protected _is_platoned: boolean;
 
-    protected likeService: LikeService;
-    protected storageService: StorageService;
-
-    constructor(injector: Injector, thought_id: number = -1, share_date: Date = new Date(), edit_date: Date = new Date(), owner_id: number = -1, type: number = -1, likes: number = -1, platons: number = -1, opinions: number = -1, root_id: number = -1, is_liked: boolean = false, is_platoned: boolean = false) {
+    constructor(thought_id: number = -1, share_date: Date = new Date(), edit_date: Date = new Date(), owner_id: number = -1, type: number = -1, likes: number = -1, platons: number = -1, opinions: number = -1, root_id: number = -1, is_liked: boolean = false, is_platoned: boolean = false) {
 
         this._thought_id = thought_id;
         this._share_date = share_date;
@@ -38,9 +36,6 @@ export abstract class Thought {
 
         this._is_liked = is_liked;
         this._is_platoned = is_platoned;
-
-        this.likeService = injector.get(LikeService);
-        this.storageService = injector.get(StorageService);
 
     }
 
@@ -132,17 +127,16 @@ export abstract class Thought {
         this._is_platoned = is_platoned;
     }
 
-    public toggleLike() {
+    public toggleLike(likeService: LikeService, storageService: StorageService) {
 
-        this.storageService.get<User>("loggedInUser").then(session_user => {
+        storageService.getSessionUser().then(session_user => {
 
             if (this.is_liked) {
 
                 this.is_liked = false;
                 this.likes--;
-                this.likeService.unlike(session_user.user_id, this.thought_id).subscribe(r => {
+                likeService.unlike(session_user.user_id, this.thought_id).subscribe(r => {
 
-                    console.log(r);
                     if (r.status != ExitCodes.LIKE_REMOVE) {
                         this.is_liked = true;
                         this.likes++;
@@ -155,7 +149,7 @@ export abstract class Thought {
 
                 this.is_liked = true;
                 this.likes++;
-                this.likeService.like(session_user.user_id, this.thought_id).subscribe(r => {
+                likeService.like(session_user.user_id, this.thought_id).subscribe(r => {
 
                     if (r.status != ExitCodes.LIKE_ADD) {
                         this.is_liked = false;
@@ -180,9 +174,9 @@ export class TextThought extends Thought {
 
     // }
 
-    constructor(injector: Injector, content: string) {
+    constructor(content: string) {
 
-        super(injector);
+        super();
         this._content = content;
 
     }
@@ -208,9 +202,9 @@ export class ImageThought extends Thought {
 
     // }
 
-    constructor(injector: Injector, img: string) {
+    constructor(img: string) {
 
-        super(injector);
+        super();
         this._img = img;
 
     }
@@ -236,9 +230,9 @@ export class VideoThought extends Thought {
 
     // }
 
-    constructor(injector: Injector, vid: string) {
+    constructor(vid: string) {
 
-        super(injector);
+        super();
         this._vid = vid;
 
     }
@@ -285,9 +279,9 @@ export class PollThought extends Thought {
     //     this._votes = votes;
     // }
 
-    constructor(injector: Injector, prompt: string, option_chosen: number, poll1: string, poll2: string, poll3: string, poll4: string, votes1: number, votes2: number, votes3: number, votes4: number) {
+    constructor(prompt: string, option_chosen: number, poll1: string, poll2: string, poll3: string, poll4: string, votes1: number, votes2: number, votes3: number, votes4: number) {
 
-        super(injector);
+        super();
         this._prompt = prompt;
         this._option_chosen = option_chosen;
         this._poll1 = poll1;
@@ -354,7 +348,7 @@ export class PollThought extends Thought {
     }
 
     public get votes1_percentage(): number {
-        return Math.round(this.votes1 / (this.totalVotes == 0 ? 1 : this.totalVotes));
+        return Math.round(this.votes1 * 100 / (this.totalVotes == 0 ? 1 : this.totalVotes));
     }
 
     public set votes1(votes1: number) {
@@ -366,7 +360,7 @@ export class PollThought extends Thought {
     }
 
     public get votes2_percentage(): number {
-        return Math.round(this.votes2 / (this.totalVotes == 0 ? 1 : this.totalVotes));
+        return Math.round(this.votes2 * 100 / (this.totalVotes == 0 ? 1 : this.totalVotes));
     }
 
     public set votes2(votes2: number) {
@@ -378,7 +372,7 @@ export class PollThought extends Thought {
     }
 
     public get votes3_percentage(): number {
-        return Math.round(this.votes3 / (this.totalVotes == 0 ? 1 : this.totalVotes));
+        return Math.round(this.votes3 * 100 / (this.totalVotes == 0 ? 1 : this.totalVotes));
     }
 
     public set votes3(votes3: number) {
@@ -390,7 +384,7 @@ export class PollThought extends Thought {
     }
 
     public get votes4_percentage(): number {
-        return Math.round(this.votes4 / (this.totalVotes == 0 ? 1 : this.totalVotes));
+        return Math.round(this.votes4 * 100 / (this.totalVotes == 0 ? 1 : this.totalVotes));
     }
 
     public set votes4(votes4: number) {
@@ -401,7 +395,23 @@ export class PollThought extends Thought {
         return this._votes1 + this._votes2 + this._votes3 + this._votes4;
     }
 
-    incrementPoll(position: number) {
+    answerPoll(position: number, user_id: number, optionService: AnswerService) {
+
+        if (this.incrementPoll(position)) {
+            optionService.answer_poll(user_id, this.thought_id, position).subscribe(p => {
+
+                if (p.status != ExitCodes.POLLS_ANSWER_POLL) {
+
+                    this.option_chosen = 0;
+                    this.decrementPoll(position);
+
+                }
+            });
+        }
+
+    }
+
+    incrementPoll(position: number): boolean {
 
         if (this.option_chosen == 0) {
 
@@ -430,6 +440,12 @@ export class PollThought extends Thought {
                     break;
 
             }
+            return true;
+
+        } else {
+
+            return false;
+
         }
 
     }
@@ -480,34 +496,32 @@ export class PollThought extends Thought {
 
     decrementPoll(position: number) {
 
-        if (this.option_chosen == 0) {
+        this.option_chosen = position;
 
-            this.option_chosen = position;
+        switch (position) {
 
-            switch (position) {
+            case 1:
 
-                case 1:
+                this.votes1--;
+                break;
 
-                    this.votes1--;
-                    break;
+            case 2:
 
-                case 2:
+                this.votes2--;
+                break;
 
-                    this.votes2--;
-                    break;
+            case 3:
 
-                case 3:
+                this.votes3--;
+                break;
 
-                    this.votes3--;
-                    break;
+            case 4:
 
-                case 4:
+                this.votes4--;
+                break;
 
-                    this.votes4--;
-                    break;
-
-            }
         }
+
 
     }
 

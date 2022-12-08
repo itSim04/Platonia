@@ -2,7 +2,6 @@ import { Genders } from "src/app/helper/constants/general";
 
 export class User {
 
-
     private _user_id: number;
     private _username: string;
     private _is_verified: boolean;

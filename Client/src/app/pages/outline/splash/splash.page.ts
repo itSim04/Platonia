@@ -15,10 +15,11 @@ export class SplashPage {
 
   ionViewWillEnter() {
 
-    this.storageService.get("loggedInUser").then(r => {
-      if (r != undefined) {
+    this.storageService.getSessionUser().then(r => {
 
-        this.userService.getOne({ user_id: (<User>r).user_id }).subscribe(response => {
+      if (r.user_id != undefined) {
+
+        this.userService.getOne({ user_id: r.user_id }).subscribe(response => {
 
           this.storageService.set("loggedInUser", response.user);
           this.router.navigate(["tabs/profile/", { id: response.user?.user_id }]);

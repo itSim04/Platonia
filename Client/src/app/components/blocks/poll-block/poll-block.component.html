@@ -7,7 +7,7 @@
     <ion-text class="progress-inner-label" [style.margin-left]="(-progress + 5) + '%'">{{progress}}%</ion-text>
 
 
-    <ion-input *ngIf="is_modifiable; else feed" (ionChange)="emitSubject($event)" class="progress-inner-input"
+    <ion-input *ngIf="is_modifiable; else feed" [placeholder]="'Option'" (ionChange)="emitSubject($event)" class="progress-inner-input"
       [value]="subject"></ion-input>
     <ng-template #feed>
       <ion-text class="progress-inner-text">{{subject}}</ion-text>

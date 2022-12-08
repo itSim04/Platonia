@@ -34,50 +34,57 @@ export class ThoughtCardComponent implements AfterViewInit {
   date: string = "1970-01-01";
   deleted: boolean = false;
 
-
   isLikesOpen: boolean = false;
   likes: Array<User> = new Array;
 
   @ViewChild('options') option!: IonPopover;
 
-  constructor(private injector: Injector, private thoughtService: ThoughtService, private alertController: AlertController, private optionService: AnswerService, private storageService: StorageService, private likeService: LikeService) {
+  constructor(private thoughtService: ThoughtService, private alertController: AlertController, public optionService: AnswerService, public storageService: StorageService, public likeService: LikeService) {
   }
 
   ngAfterViewInit(): void {
 
     if (this.thought == undefined) {
 
+      this.editable = true;
       switch (this.type) {
-
 
         case 2:
 
-          this.thought = new ImageThought(this.injector, this.content!);
+          this.thought = new ImageThought(this.content!);
           break;
 
         case 3:
 
-          this.thought = new VideoThought(this.injector, this.content!);
+          this.thought = new VideoThought(this.content!);
           break;
 
         case 4:
 
-          this.thought = new PollThought(this.injector, this.content!, 0, this.poll1!, this.poll2!, this.poll3!, this.poll4!, 0, 0, 0, 0);
+          this.thought = new PollThought(this.content!, 0, this.poll1!, this.poll2!, this.poll3!, this.poll4!, 0, 0, 0, 0);
           break;
 
         default:
 
-          this.thought = new TextThought(this.injector, this.content!);
+          this.thought = new TextThought(this.content!);
           break;
 
       }
+
       this.thought.share_date = new Date();
       this.thought.type = this.type!;
+      this.thought.likes = 0;
+      this.thought.opinions = 0;
+      this.thought.platons = 0;
+
+    } else {
+
+      this.editable = false;
 
     }
 
     this.date = formatRemainingDate(this.thought.share_date);
-    this.storageService.get<User>("loggedInUser").then(r => {
+    this.storageService.getSessionUser().then(r => {
 
       this.session_user = r;
       if (this.thought?.owner_id == -1) this.thought.owner_id = r.user_id;
@@ -124,23 +131,6 @@ export class ThoughtCardComponent implements AfterViewInit {
 
     }
 
-  }
-
-
-
-  incrementPoll(position: number) {
-
-    this.pollThought.incrementPoll(position);
-
-    this.optionService.answer_poll(this.session_user!.user_id, this.thought!.thought_id, position).subscribe(p => {
-
-      if (p.status != ExitCodes.POLLS_ANSWER_POLL) {
-
-        this.pollThought.option_chosen = 0;
-        this.pollThought.decrementPoll(position);
-
-      }
-    });
   }
 
   async setLikesOpen(state: boolean) {
