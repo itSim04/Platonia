@@ -94,12 +94,19 @@
     margin: 0%;
     float: left;
     user-select: none;
+    font-size: 10px;
 
 }
 
 .grid {
 
     padding: 0px;
+
+}
+
+.unselectable {
+
+    user-select: none;
 
 }
 
@@ -118,6 +125,6 @@
     width: 20%;
     border-radius: 50%;
     border: 0.5px solid #000000;
-    float:left;
+    float: left;
 
 }

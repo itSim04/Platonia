@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="followings != undefined && followers != undefined">
+<ion-content *ngIf="followings != undefined && followers != undefined" scrollbar="::-webkit-scrollbar {width: 0px;}">
 
   <ion-segment value="default" mode="md" color="secondary" [(ngModel)]="section">
     <ion-segment-button value="default">

@@ -9,6 +9,7 @@ import { SearchPageRoutingModule } from './search-routing.module';
 import { SearchPage } from './search.page';
 import { UserCardModule } from '../../../components/cards/user-card/user-card.module';
 import { InterestCardModule } from '../../../components/cards/interest-card/interest-card.module';
+import { IonCustomScrollbarModule } from 'ion-custom-scrollbar';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { InterestCardModule } from '../../../components/cards/interest-card/inte
     IonicModule,
     SearchPageRoutingModule,
     UserCardModule,
-    InterestCardModule
+    InterestCardModule,
+    IonCustomScrollbarModule
   ],
   declarations: [SearchPage]
 })

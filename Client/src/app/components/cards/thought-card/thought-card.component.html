@@ -5,10 +5,10 @@
     <ion-card-subtitle>
 
       <!-- Profile -->
-      <img [src]="user.picture" onerror="this.src='../../../../assets/icon/profile-default.png'" class="profile">
+      <img [src]="user.picture" onerror="this.src='../../../../assets/icon/profile-default.png'" class="unselectable profile">
 
       <!-- Username -->
-      <div class="owner_label">{{user.username}}</div>
+      <div class="unselectable owner_label">{{user.username}}</div>
 
       <!-- Options -->
       <ion-button *ngIf="session_user.user_id == user.user_id" (click)="openOptions()" fill="clear" class="option">
@@ -16,7 +16,7 @@
       </ion-button>
 
       <!-- Date -->
-      <ion-text class="date">
+      <ion-text class="unselectable date">
         {{date}}
       </ion-text>
 
@@ -49,14 +49,14 @@
           <!-- Text Thoughts -->
           <div *ngIf="thought.type == 0">
 
-            <ion-text class="content">{{textThought.content}}</ion-text>
+            <ion-text class="unselectable content">{{textThought.content}}</ion-text>
 
           </div>
 
           <!-- Image Thoughts -->
           <div *ngIf="thought.type == 1">
 
-            <img class="picture" [alt]="imageThought.img" [src]="'http://localhost/Platonia/Server/assets/thoughts/' + imageThought.thought_id + '/img-src.png'"
+            <img class="unselectable picture" [alt]="imageThought.img" [src]="'http://localhost/Platonia/Server/assets/thoughts/' + imageThought.thought_id + '/img-src.png'"
               onerror="this.src='../../../../assets/icon/profile-default.png'" />
 
           </div>
@@ -64,7 +64,7 @@
           <!-- Poll Thoughts -->
           <div *ngIf="thought.type == 3">
 
-            <ion-text class="content">{{pollThought.prompt}}</ion-text>
+            <ion-text class="unselectable content">{{pollThought.prompt}}</ion-text>
 
             <app-poll-block (incrementer)="pollThought.answerPoll(1, session_user.user_id, optionService)"
               (subjectEvent)="pollThought.updatePollSubject(1, $event)" [is_max]="pollThought.getMaxPosition() == 1"
@@ -86,7 +86,7 @@
               [is_alone]="pollThought.isSingleValued()" [is_voted]="pollThought.option_chosen == 4"
               [is_modifiable]="false" [progress]="pollThought.votes4_percentage" [subject]="pollThought.poll4">
             </app-poll-block>
-            <ion-text class="voters">{{pollThought.totalVotes}} Voters</ion-text>
+            <ion-text class="unselectable voters">{{pollThought.totalVotes}} Voters</ion-text>
           </div>
 
         </ion-col>
@@ -100,7 +100,7 @@
           </div>
 
           <!-- Opinions Counter -->
-          <div class="action_label" style="font-size: 10px;">{{thought.opinions}}</div>
+          <div class="action_label">{{thought.opinions}}</div>
 
           <!-- Likes Button -->
           <div (click)="thought.toggleLike(likeService, storageService)" class="action">
@@ -109,14 +109,14 @@
           </div>
 
           <!-- Likes Counter -->
-          <div (click)="setLikesOpen(true)" class="action_label" style="font-size: 10px;">{{thought.likes}}</div>
+          <div (click)="setLikesOpen(true)" class="action_label">{{thought.likes}}</div>
 
           <!-- Platons Button -->
           <div class="action">
             <ion-icon name="repeat-outline" style="font-size: 20px;"></ion-icon>
           </div>
           <!-- Platons counter -->
-          <div class="action_label" style="font-size: 10px;">{{thought.platons}}</div>
+          <div class="action_label">{{thought.platons}}</div>
 
         </ion-col>
       </ion-row>

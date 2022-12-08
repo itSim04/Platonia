@@ -8,6 +8,7 @@ import { FeedPageRoutingModule } from './feed-routing.module';
 
 import { FeedPage } from './feed.page';
 import { ThoughtCardModule } from '../../../components/cards/thought-card/thought-card.module';
+import { IonCustomScrollbarModule } from 'ion-custom-scrollbar';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { ThoughtCardModule } from '../../../components/cards/thought-card/though
     FormsModule,
     IonicModule,
     FeedPageRoutingModule,
-    ThoughtCardModule
+    ThoughtCardModule,
+    IonCustomScrollbarModule
   ],
   declarations: [FeedPage]
 })

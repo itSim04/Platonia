@@ -8,6 +8,7 @@ import { FriendListPageRoutingModule } from './friend-list-routing.module';
 
 import { FriendListPage } from './friend-list.page';
 import { UserCardModule } from '../../../components/cards/user-card/user-card.module';
+import { IonCustomScrollbarModule } from 'ion-custom-scrollbar';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { UserCardModule } from '../../../components/cards/user-card/user-card.mo
     FormsModule,
     IonicModule,
     FriendListPageRoutingModule,
-    UserCardModule
+    UserCardModule,
+    IonCustomScrollbarModule
   ],
   entryComponents: [],
   declarations: [FriendListPage]

@@ -10,6 +10,7 @@ import { ProfilePage } from './profile.page';
 import { EditProfilePage } from '../edit-profile/edit-profile.page';
 import { InterestCardModule } from '../../../components/cards/interest-card/interest-card.module';
 import { ThoughtCardModule } from '../../../components/cards/thought-card/thought-card.module';
+import { IonCustomScrollbarModule } from 'ion-custom-scrollbar';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { ThoughtCardModule } from '../../../components/cards/thought-card/though
     IonicModule,
     ProfilePageRoutingModule,
     InterestCardModule,
-    ThoughtCardModule
+    ThoughtCardModule,
+    IonCustomScrollbarModule
   ],
   declarations: [ProfilePage, EditProfilePage]
 })
