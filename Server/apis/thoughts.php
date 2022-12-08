@@ -14,31 +14,86 @@ if (check_keys($_GET, "schema")) {
 
         case THOUGHTS_SCHEMA::ADD:
 
+
+
+            if (check_keys($_POST, THOUGHTS::TYPE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID)) {
+
+                switch ($_POST[THOUGHTS::TYPE]) {
+
+                    case 0:
+
+                        $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_ADD;
+                        if (array_key_exists(THOUGHTS::ROOT, $_POST)) {
+
+                            $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID, THOUGHTS::ROOT), array());
+
+                        } else {
+
+                            $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID), array());
+                            process($PDO, SQLFunctions::UPDATE, $table_name, [THOUGHTS::ROOT => $id, THOUGHTS::ID => $id], array(THOUGHTS::ROOT), array(new condition(THOUGHTS::ID)));
+
+                        }
+                        $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [THOUGHTS::ID => $id], array(), array(new condition(THOUGHTS::ID)));
+                        break;
+
+                    case 1:
+
+                        if (check_keys($_POST, THOUGHTS::MEDIA)) {
+
+                            $output[RESPONSE::STATUS] = EXIT_CODES::USERS_UPLOAD_PROFILE;
+                            $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_ADD;
+                            
+                            if (array_key_exists(THOUGHTS::ROOT, $_POST)) {
+
+                                $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID, THOUGHTS::ROOT), array());
+
+                            } else {
+
+                                $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID), array());
+                                process($PDO, SQLFunctions::UPDATE, $table_name, [THOUGHTS::ROOT => $id, THOUGHTS::ID => $id], array(THOUGHTS::ROOT), array(new condition(THOUGHTS::ID)));
+
+                            }
+                            $img = base64_decode($_POST[THOUGHTS::MEDIA]);
+                            mkdir("../assets/thoughts/{$id}");
+                            file_put_contents("../assets/thoughts/{$id}/img-src.png", $img);
+                            $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [THOUGHTS::ID => $id], array(), array(new condition(THOUGHTS::ID)));
+                        }
+                        break;
+
+
+                    case 3:
+
+                        if (check_keys($_POST, THOUGHTS::POLL1, THOUGHTS::POLL2) || $_POST[THOUGHTS::TYPE] != 3) {
+
+                            $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_ADD;
+                            if (array_key_exists(THOUGHTS::ROOT, $_POST)) {
+
+                                $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID, THOUGHTS::ROOT), array());
+
+                            } else {
+
+                                $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID), array());
+                                process($PDO, SQLFunctions::UPDATE, $table_name, [THOUGHTS::ROOT => $id, THOUGHTS::ID => $id], array(THOUGHTS::ROOT), array(new condition(THOUGHTS::ID)));
+
+                            }
+                            $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [THOUGHTS::ID => $id], array(), array(new condition(THOUGHTS::ID)));
+
+                            if ($_POST[THOUGHTS::TYPE] == 3) {
+                                process($PDO, SQLFunctions::ADD, $option_name, [OPTIONS::ID => $id, THOUGHTS::CONTENT => $_POST[THOUGHTS::POLL1], THOUGHTS::POSITION => 1], array(OPTIONS::ID, THOUGHTS::CONTENT, THOUGHTS::POSITION), array());
+                                process($PDO, SQLFunctions::ADD, $option_name, [OPTIONS::ID => $id, THOUGHTS::CONTENT => $_POST[THOUGHTS::POLL2], THOUGHTS::POSITION => 2], array(OPTIONS::ID, THOUGHTS::CONTENT, THOUGHTS::POSITION), array());
+                                process($PDO, SQLFunctions::ADD, $option_name, [OPTIONS::ID => $id, THOUGHTS::CONTENT => $_POST[THOUGHTS::POLL3], THOUGHTS::POSITION => 3], array(OPTIONS::ID, THOUGHTS::CONTENT, THOUGHTS::POSITION), array());
+                                process($PDO, SQLFunctions::ADD, $option_name, [OPTIONS::ID => $id, THOUGHTS::CONTENT => $_POST[THOUGHTS::POLL4], THOUGHTS::POSITION => 4], array(OPTIONS::ID, THOUGHTS::CONTENT, THOUGHTS::POSITION), array());
+                            }
+
+                        }
+                }
+
+
+            }
+
             if (check_keys($_POST, THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID)) {
 
-                if ($_POST[THOUGHTS::TYPE] == 3 && check_keys($_POST, THOUGHTS::POLL1, THOUGHTS::POLL2) || $_POST[THOUGHTS::TYPE] != 3) {
 
-                    $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_ADD;
-                    if (array_key_exists(THOUGHTS::ROOT, $_POST)) {
-
-                        $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID, THOUGHTS::ROOT), array());
-
-                    } else {
-
-                        $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID), array());
-                        process($PDO, SQLFunctions::UPDATE, $table_name, [THOUGHTS::ROOT => $id, THOUGHTS::ID => $id], array(THOUGHTS::ROOT), array(new condition(THOUGHTS::ID)));
-
-                    }
-                    $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [THOUGHTS::ID => $id], array(), array(new condition(THOUGHTS::ID)));
-
-                    if ($_POST[THOUGHTS::TYPE] == 3) {
-                        process($PDO, SQLFunctions::ADD, $option_name, [OPTIONS::ID => $id, THOUGHTS::CONTENT => $_POST[THOUGHTS::POLL1], THOUGHTS::POSITION => 1], array(OPTIONS::ID, THOUGHTS::CONTENT, THOUGHTS::POSITION), array());
-                        process($PDO, SQLFunctions::ADD, $option_name, [OPTIONS::ID => $id, THOUGHTS::CONTENT => $_POST[THOUGHTS::POLL2], THOUGHTS::POSITION => 2], array(OPTIONS::ID, THOUGHTS::CONTENT, THOUGHTS::POSITION), array());
-                        process($PDO, SQLFunctions::ADD, $option_name, [OPTIONS::ID => $id, THOUGHTS::CONTENT => $_POST[THOUGHTS::POLL3], THOUGHTS::POSITION => 3], array(OPTIONS::ID, THOUGHTS::CONTENT, THOUGHTS::POSITION), array());
-                        process($PDO, SQLFunctions::ADD, $option_name, [OPTIONS::ID => $id, THOUGHTS::CONTENT => $_POST[THOUGHTS::POLL4], THOUGHTS::POSITION => 4], array(OPTIONS::ID, THOUGHTS::CONTENT, THOUGHTS::POSITION), array());
-                    }
-
-                }
 
             }
 

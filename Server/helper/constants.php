@@ -33,6 +33,8 @@ class THOUGHTS {
 	public const IS_PLATONED = "is_platoned";
 	public const OPTION = "is_voted";
 
+	public const MEDIA = "media";
+
 
 	public const POSITION = "position";
 	public const POLL1 = "poll1";
