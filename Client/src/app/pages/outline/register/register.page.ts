@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { ToastController } from "@ionic/angular";
+import { Genders } from "src/app/helper/constants/general";
 import { StorageService } from "src/app/linking/apis/storage.service";
 import { UserService } from "src/app/linking/apis/user.service";
-import { UserRequest } from "src/app/linking/models/request-models";
+import { User } from "src/app/linking/models/user-main";
 
 @Component({
   selector: 'app-register',
@@ -12,17 +13,17 @@ import { UserRequest } from "src/app/linking/models/request-models";
 })
 export class RegisterPage implements OnInit {
 
+  readonly genders: Array<string> = new Array(...Genders);
+  
   is_submitted: boolean = false;
-  confirm_password?: string = "";
-  new_user: UserRequest = {
 
-    username: "",
-    email: "",
-    gender: 0,
-    birthday: new Date(),
-    password: ""
+  username: string = "";
+  birthday: string = "1989-12-13";
+  gender: number = 0;
+  email: string = "";
+  password: string = "";
+  confirm_password: string = "";
 
-  };
   constructor(private userService: UserService, private storageService: StorageService, private router: Router, private toastController: ToastController) { }
 
   ngOnInit() {
@@ -43,30 +44,35 @@ export class RegisterPage implements OnInit {
     });
 
     await toast.present();
+  }
+
+  setGender(e: any) {
+
+    this.gender = User.numericalGender(e.detail.value);
 
   }
 
   public onRegister() {
 
-    if (this.new_user.username!.length < 4) {
+    if (this.username!.length < 4) {
 
       this.displayWarning("Username too Short");
 
-    } else if (this.new_user.email!.length < 4 || !this.new_user.email?.includes("@") || !this.new_user.email?.includes(".")) {
+    } else if (this.email!.length < 4 || !this.email?.includes("@") || !this.email?.includes(".")) {
 
       this.displayWarning("Invalid email");
 
-    } else if (this.new_user.password!.length < 4) {
+    } else if (this.password!.length < 4) {
 
       this.displayWarning("Weak Password");
 
-    } else if (this.new_user.password != this.confirm_password) {
+    } else if (this.password != this.confirm_password) {
 
       this.displayWarning("Password do not Match");
 
     } else {
 
-      this.userService.check({ username: this.new_user.username, email: this.new_user.email }).subscribe(response => {
+      this.userService.check({ username: this.username, email: this.email }).subscribe(response => {
 
         if (response.email_taken) {
 
@@ -78,10 +84,10 @@ export class RegisterPage implements OnInit {
 
         } else {
 
-          this.userService.addUser(this.new_user).subscribe(response => {
+          this.userService.addUser({ username: this.username, password: this.password, email: this.email, gender: this.gender, birthday: new Date(this.birthday) }).subscribe(response => {
 
             this.storageService.set("loggedInUser", response.user);
-            this.router.navigate(['/tabs/profile', {id: response.user?.user_id}]);
+            this.router.navigate(['/tabs/profile', { id: response.user?.user_id }]);
 
           })
         }

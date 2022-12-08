@@ -1,40 +1,66 @@
 <ion-content>
 
   <p class="welcome_text">Sign Up</p>
-  <ion-button (click)="goToLogin()" class="signin_button">
+  <ion-button fill="clear" (click)="goToLogin()" class="signin_button">
     Already have an Account?
   </ion-button>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="onRegister()"
-      [disabled]="new_user.username == undefined || new_user.email == undefined || new_user.gender == undefined || new_user.birthday == undefined || new_user.password == undefined">
-      <ion-icon name="arrow-forward-outline"></ion-icon>
+    <ion-fab-button (click)="onRegister()" [disabled]="username == '' || email == '' || password == ''">
+      <ion-icon name=" arrow-forward-outline">
+      </ion-icon>
     </ion-fab-button>
   </ion-fab>
   <p class="signup_label">Sign In</p>
 
-  <ion-item counter="true" class="input1 inputs" ion-invalid>
-    <ion-input name="username" [(ngModel)]="new_user.username" placeholder="Username"></ion-input>
-  </ion-item>
+  <ion-grid class="inputs-grid">
+    <ion-row>
+      <ion-col>
+        <ion-item counter="true" class="inputs">
+          <ion-input name="username" [(ngModel)]="username" placeholder="Username"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
 
-  <ion-item counter="true" class="input2 inputs">
-    <ion-input name="email" [(ngModel)]="new_user.email" type="email" placeholder="Email"></ion-input>
-  </ion-item>
-
-  <ion-item counter="true" class="input3 inputs">
-    <ion-input name="birthday" type="date" [(ngModel)]="new_user.birthday"></ion-input>
-  </ion-item>
-
-  <ion-item counter="true" class="input4 inputs">
-    <ion-input name="gender" [(ngModel)]="new_user.gender" placeholder="Gender"></ion-input>
-  </ion-item>
-
-  <ion-item counter="true" class="input5 inputs">
-    <ion-input name="password" [(ngModel)]="new_user.password" type="password" placeholder="Password"></ion-input>
-  </ion-item>
-
-  <ion-item counter="true" class="input6 inputs">
-    <ion-input name="confirm" [(ngModel)]="confirm_password" type="password" placeholder="Confirm Password">
-    </ion-input>
-  </ion-item>
-
+    <ion-row>
+      <ion-col>
+        <ion-item counter="true" class="inputs">
+          <ion-input name="email" [(ngModel)]="email" type="email" placeholder="Email"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item counter="true" class="inputs">
+          <ion-input name="birthday" type="date" [(ngModel)]="birthday"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-list class="inputs">
+          <ion-item>
+            <ion-select (ionChange)="setGender($event)" interface="popover" [placeholder]="genders[gender!]">
+              <ion-select-option class="inputs" *ngFor="let gender of genders" [value]="gender">{{gender}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item counter="true" class="inputs">
+          <ion-input name="password" [(ngModel)]="password" type="password" placeholder="Password"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item counter="true" class="inputs">
+          <ion-input name="confirm" [(ngModel)]="confirm_password" type="password" placeholder="Confirm Password">
+          </ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

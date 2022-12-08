@@ -62,7 +62,6 @@ ion-content {
 
 .inputs {
 
-    position: fixed;
     font-size: 15px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #9A9A9A;
@@ -71,38 +70,11 @@ ion-content {
 
 }
 
-.input1 {
+.inputs-grid {
 
-    top: 22%;
-
-}
-
-.input2 {
-
-    top: 32%;
-
-}
-
-.input3 {
-
-    top: 42%;
-
-}
-
-.input4 {
-
-    top: 52%;
-
-}
-
-.input5 {
-
-    top: 62%;
-
-}
-
-.input6 {
-
-    top: 72%;
+    position: fixed;
+    font-size: 15px;
+    top: 20%;
+    width: 100%;
 
 }

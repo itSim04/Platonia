@@ -109,11 +109,11 @@ export class EditProfilePage {
             if (response.status == ExitCodes.USERS_UPDATE) {
 
               this.storageService.set("loggedInUser", response.user);
-              
+
             } else {
-              
+
               console.log("Error in Edit Profile", response);
-              
+
             }
             return this.modalCtrl.dismiss(null, 'cancel');
 
