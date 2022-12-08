@@ -50,12 +50,12 @@
           <!-- Text Thoughts -->
 
           <!-- Edit Mode -->
-          <ion-input *ngIf="editable; else feed" text-wrap class="content" [(ngModel)]="thought.content"
+          <ion-input *ngIf="editable; else feed" text-wrap class="content" [(ngModel)]="textThought"
             placeholder="Hello Friends..."></ion-input>
 
           <!-- Feed Mode -->
           <ng-template #feed>
-            <ion-text class="content">{{thought.content}}</ion-text>
+            <ion-text class="content">{{textThought}}</ion-text>
           </ng-template>
 
           <!-- Poll Thoughts -->
@@ -64,35 +64,27 @@
 
           <!-- Feed Mode -->
           <div *ngIf="thought.type == 3">
-            <app-poll-block (incrementer)="incrementPoll(1)" (subjectEvent)="updatePollSubject($event, 1)"
-              [is_max]="max_index == 1"
-              [is_alone]="thought.votes1! != 0 && thought.votes2! == 0 && thought.votes3! == 0 && thought.votes4! == 0"
-              [is_voted]="thought.option_chosen == 1" [is_modifiable]="editable!"
-              [progress]="round((thought.votes1! * 100) / (thought.votes! == 0 ? 1 : thought.votes!))"
-              [subject]="thought.poll1!">
+            <app-poll-block (incrementer)="incrementPoll(1)" (subjectEvent)="pollThought.updatePollSubject(1, $event)"
+              [is_max]="pollThought.getMaxPosition() == 1" [is_alone]="pollThought.isSingleValued()"
+              [is_voted]="pollThought.option_chosen == 1" [is_modifiable]="editable!"
+              [progress]="pollThought.votes1_percentage" [subject]="pollThought.poll1">
             </app-poll-block>
-            <app-poll-block (incrementer)="incrementPoll(2)" (subjectEvent)="updatePollSubject($event, 2)"
-              [is_max]="max_index == 2"
-              [is_alone]="thought.votes1! == 0 && thought.votes2! != 0 && thought.votes3! == 0 && thought.votes4! == 0"
-              [is_voted]="thought.option_chosen == 2" [is_modifiable]="editable!"
-              [progress]="round((thought.votes2! * 100) / (thought.votes! == 0 ? 1 : thought.votes!))"
-              [subject]="thought.poll2!">
+            <app-poll-block (incrementer)="incrementPoll(2)" (subjectEvent)="pollThought.updatePollSubject(2, $event)"
+              [is_max]="pollThought.getMaxPosition() == 2" [is_alone]="pollThought.isSingleValued()"
+              [is_voted]="pollThought.option_chosen == 2" [is_modifiable]="editable!"
+              [progress]="pollThought.votes2_percentage" [subject]="pollThought.poll2">
             </app-poll-block>
-            <app-poll-block (incrementer)="incrementPoll(3)" (subjectEvent)="updatePollSubject($event, 3)"
-              [is_max]="max_index == 3"
-              [is_alone]="thought.votes1! == 0 && thought.votes2! == 0 && thought.votes3! != 0 && thought.votes4! == 0"
-              [is_voted]="thought.option_chosen == 3" [is_modifiable]="editable!"
-              [progress]="round((thought.votes3! * 100) / (thought.votes! == 0 ? 1 : thought.votes!))"
-              [subject]="thought.poll3!">
+            <app-poll-block (incrementer)="incrementPoll(3)" (subjectEvent)="pollThought.updatePollSubject(3, $event)"
+              [is_max]="pollThought.getMaxPosition() == 3" [is_alone]="pollThought.isSingleValued()"
+              [is_voted]="pollThought.option_chosen == 3" [is_modifiable]="editable!"
+              [progress]="pollThought.votes3_percentage" [subject]="pollThought.poll3">
             </app-poll-block>
-            <app-poll-block (incrementer)="incrementPoll(4)" (subjectEvent)="updatePollSubject($event, 4)"
-              [is_max]="max_index == 4"
-              [is_alone]="thought.votes1! == 0 && thought.votes2! == 0 && thought.votes3! == 0 && thought.votes4! != 0"
-              [is_voted]="thought.option_chosen == 4" [is_modifiable]="editable!"
-              [progress]="round((thought.votes4! * 100) / (thought.votes! == 0 ? 1 : thought.votes!))"
-              [subject]="thought.poll4!">
+            <app-poll-block (incrementer)="incrementPoll(4)" (subjectEvent)="pollThought.updatePollSubject(4, $event)"
+              [is_max]="pollThought.getMaxPosition() == 4" [is_alone]="pollThought.isSingleValued()"
+              [is_voted]="pollThought.option_chosen == 4" [is_modifiable]="editable!"
+              [progress]="pollThought.votes4_percentage" [subject]="pollThought.poll4">
             </app-poll-block>
-            <ion-text class="voters">{{thought.votes}} Voters</ion-text>
+            <ion-text class="voters">{{pollThought.totalVotes}} Voters</ion-text>
           </div>
 
         </ion-col>

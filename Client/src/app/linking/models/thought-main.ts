@@ -237,7 +237,7 @@ export class PollThought extends Thought {
     //     this._votes4 = votes4;
     //     this._votes = votes;
     // }
-    
+
     constructor(prompt: string, option_chosen: number, poll1: string, poll2: string, poll3: string, poll4: string, votes1: number, votes2: number, votes3: number, votes4: number) {
 
         super();
@@ -306,12 +306,20 @@ export class PollThought extends Thought {
         return this._votes1;
     }
 
+    public get votes1_percentage(): number {
+        return Math.round(this.votes1 / (this.totalVotes == 0 ? 1 : this.totalVotes));
+    }
+
     public set votes1(votes1: number) {
         this._votes1 = votes1;
     }
 
     public get votes2(): number {
         return this._votes2;
+    }
+
+    public get votes2_percentage(): number {
+        return Math.round(this.votes2 / (this.totalVotes == 0 ? 1 : this.totalVotes));
     }
 
     public set votes2(votes2: number) {
@@ -322,12 +330,20 @@ export class PollThought extends Thought {
         return this._votes3;
     }
 
+    public get votes3_percentage(): number {
+        return Math.round(this.votes3 / (this.totalVotes == 0 ? 1 : this.totalVotes));
+    }
+
     public set votes3(votes3: number) {
         this._votes3 = votes3;
     }
 
     public get votes4(): number {
         return this._votes4;
+    }
+
+    public get votes4_percentage(): number {
+        return Math.round(this.votes4 / (this.totalVotes == 0 ? 1 : this.totalVotes));
     }
 
     public set votes4(votes4: number) {
@@ -338,6 +354,149 @@ export class PollThought extends Thought {
         return this._votes1 + this._votes2 + this._votes3 + this._votes4;
     }
 
+    incrementPoll(position: number) {
+
+        if (this.option_chosen == 0) {
+
+            this.option_chosen = position;
+
+            switch (position) {
+
+                case 1:
+
+                    this.votes1++;
+                    break;
+
+                case 2:
+
+                    this.votes2++;
+                    break;
+
+                case 3:
+
+                    this.votes3++;
+                    break;
+
+                case 4:
+
+                    this.votes4++;
+                    break;
+
+            }
+        }
+
+    }
+
+    getMax(): number {
+
+        return Math.max(this.votes1, this.votes2, this.votes3, this.votes4);
+
+    }
+
+    getMaxPosition(): number {
+
+        let max_index: number = 0;
+
+        if (this.votes1! == this.getMax()) {
+
+            return 1;
+
+        }
+
+        if (this.votes2! > this.getMax()) {
+
+            return 2;
+
+        }
+
+        if (this.votes3! > this.getMax()) {
+
+            return 3;
+
+        }
+
+        if (this.votes4! > this.getMax()) {
+
+            return 4;
+
+        }
+
+        return 0;
+
+    }
+
+    isSingleValued(): boolean {
+
+        return this.totalVotes == this.votes1 || this.totalVotes == this.votes2 || this.totalVotes == this.votes3 || this.totalVotes == this.votes4;
+
+    }
+
+    decrementPoll(position: number) {
+
+        if (this.option_chosen == 0) {
+
+            this.option_chosen = position;
+
+            switch (position) {
+
+                case 1:
+
+                    this.votes1--;
+                    break;
+
+                case 2:
+
+                    this.votes2--;
+                    break;
+
+                case 3:
+
+                    this.votes3--;
+                    break;
+
+                case 4:
+
+                    this.votes4--;
+                    break;
+
+            }
+        }
+
+    }
+
+    updatePollSubject(position: number, e: string) {
+
+        switch (position) {
+
+            case 1:
+
+                this.poll1 = e;
+
+                break;
+
+            case 2:
+
+                this.poll2 = e;
+
+                break;
+
+            case 3:
+
+                this.poll3 = e;
+
+                break;
+
+            case 4:
+
+                this.poll4 = e;
+
+                break;
+
+
+        }
+
+
+    }
 
 }
 
