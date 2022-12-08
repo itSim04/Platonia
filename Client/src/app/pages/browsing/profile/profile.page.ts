@@ -89,19 +89,21 @@ export class ProfilePage implements OnInit {
 
         if (this.is_followed) {
 
-          this.followService.unfollow(current_profile.user_id, this.current_user!.user_id).subscribe(r =>
+          this.followService.unfollow(current_profile.user_id, this.current_user!.user_id).subscribe(r => {
 
-            this.is_followed = false
+            this.is_followed = false;
+            this.current_user!.followers--;
 
-          );
+          });
 
         } else {
 
-          this.followService.follow(current_profile.user_id, this.current_user!.user_id).subscribe(r =>
+          this.followService.follow(current_profile.user_id, this.current_user!.user_id).subscribe(r => {
 
-            this.is_followed = true
+            this.is_followed = true;
+            this.current_user!.followers++;
 
-          );
+          });
 
         }
 
@@ -220,7 +222,7 @@ export class ProfilePage implements OnInit {
   }
 
   public editProfile() {
-    
+
     this.openModal();
 
   }
