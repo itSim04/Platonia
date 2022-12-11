@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'src/app/linking/models/user-main';
 import { StorageService } from '../../linking/apis/storage.service';
 
 @Component({
