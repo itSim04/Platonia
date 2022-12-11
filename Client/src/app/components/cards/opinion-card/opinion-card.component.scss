@@ -1,0 +1,82 @@
+.main {
+
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 0%;
+
+}
+
+.owner_label {
+
+    text-transform: none;
+    font-size: 12px;
+    font-weight: 400;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --color-hover: #DDDDDD;
+    --color-activated: white;
+    //float: left;
+    //padding-left: 5%;
+    //padding-top: 3%;
+
+}
+
+.profile-cell {
+
+    width: 20%;
+
+}
+
+.grid {
+
+    width: 100%;
+
+}
+
+.cell-class {
+    // border-color: black; 
+    // border-width: .01em; 
+    // border-style:solid; margin-bottom : -1px;
+    // background-color: lightgrey;
+    padding: 0.8%;
+
+}
+
+.low-class {
+    // border-color: black; 
+    // border-width: .01em; 
+    // border-style:solid; margin-bottom : -1px;
+    // background-color: lightgrey;
+   padding: 0.8%;
+    padding-right: 3%;
+
+}
+
+.profile {
+
+    //width: 20%;
+
+    border-radius: 50%;
+    border: 0.5px solid #000000;
+    //float: left;
+
+}
+
+.date {
+    text-transform: none;
+    font-size: 11px;
+    font-weight: 400;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: lightgray;
+    // padding-right: 5%;
+    // padding-top: 5%;
+}
+
+.header {
+
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 0%;
+    width: 95%;
+    //height: 50px
+
+}

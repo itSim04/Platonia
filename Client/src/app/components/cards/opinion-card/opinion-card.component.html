@@ -1,0 +1,38 @@
+<ion-grid (click)="openProfile()" class="main">
+  <ion-row>
+    <ion-col size="2" class="cell-class">
+
+      <img [src]="user.picture" onerror="this.src='../../../../assets/icon/profile-default.png'" class="profile">
+
+    </ion-col>
+    <ion-col class="cell-class">
+
+      <ion-row>
+        <ion-col class="cell-class">
+          <div class="owner_label"><b>{{user.username}}</b> {{thought.content}}</div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="low-class" size="auto">
+          <ion-text class="unselectable date">
+            {{date}}
+          </ion-text>
+        </ion-col>
+        <ion-col class="low-class">
+          <ion-text class="unselectable date">
+            {{thought.likes}} Like{{thought.likes == 1 ? '' : 's'}}
+          </ion-text>
+        </ion-col>
+        <ion-col style="float: right" class="low-class" size="1">
+          <ion-text class="unselectable date">
+            <ion-icon (click)="thought.toggleLike(likeService, storageService)" [color]="thought.is_liked ? 'danger' : ''" [name]="thought.is_liked ? 'heart' : 'heart-outline'"></ion-icon>
+          </ion-text>
+        </ion-col>
+
+      </ion-row>
+
+
+    </ion-col>
+  </ion-row>
+</ion-grid>

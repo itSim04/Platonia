@@ -18,7 +18,6 @@ export class UserCardComponent {
 
     this.router.navigate(["/tabs/profile", { id: this.user!.user_id }]);
 
-
   }
 
 

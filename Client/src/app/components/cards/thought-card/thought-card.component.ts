@@ -96,6 +96,7 @@ export class ThoughtCardComponent implements AfterViewInit {
 
         this.likes.splice(0);
         r.users?.forEach(u => this.likes.unshift(u));
+        console.log(r);
 
       });
     }

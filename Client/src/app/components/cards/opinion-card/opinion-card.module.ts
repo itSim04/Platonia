@@ -1,6 +1,5 @@
-import { OpinionCardModule } from './../opinion-card/opinion-card.module';
 import { NgModule } from '@angular/core';
-import { ThoughtCardComponent } from './thought-card.component';
+import { OpinionCardComponent } from './opinion-card.component';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,18 +10,17 @@ import { PollBlockModule } from '../../blocks/poll-block/poll-block.module';
 
 @NgModule({
     declarations: [
-        ThoughtCardComponent
+        OpinionCardComponent
     ],
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
         UserCardModule,
-        PollBlockModule,
-        OpinionCardModule
+        PollBlockModule
     ],
     exports: [
-        ThoughtCardComponent,
+        OpinionCardComponent,
     ]
 })
-export class ThoughtCardModule { }
+export class OpinionCardModule { }
