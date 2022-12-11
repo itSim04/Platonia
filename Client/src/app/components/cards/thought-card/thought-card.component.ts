@@ -25,6 +25,8 @@ export class ThoughtCardComponent implements AfterViewInit {
   date: string = "1970-01-01";
   deleted: boolean = false;
 
+  isOpinionsOpen: boolean = false;
+
   isLikesOpen: boolean = false;
   likes: Array<User> = new Array;
 
@@ -97,6 +99,20 @@ export class ThoughtCardComponent implements AfterViewInit {
 
       });
     }
+  }
+
+  setOpinionsOpen(state: boolean) {
+
+    this.isOpinionsOpen = state;
+    // if (state) {
+
+    //   this.likeService.getLikesOnThought(this.thought!.thought_id).subscribe(r => {
+
+    //     this.likes.splice(0);
+    //     r.users?.forEach(u => this.likes.unshift(u));
+
+    //   });
+    // }
   }
 
 

@@ -95,7 +95,7 @@
         <ion-col>
 
           <!-- Opinions button -->
-          <div class="action">
+          <div (click)="setOpinionsOpen(true)" class="action">
             <ion-icon name="chatbubble-outline" style="font-size: 20px;"></ion-icon>
           </div>
 
@@ -139,6 +139,25 @@
       <ng-container *ngFor="let like of likes">
         <app-user-card [user]="like"></app-user-card>
       </ng-container>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<!-- Opinions list -->
+<ion-modal [isOpen]="isOpinionsOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Opinions</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="setOpinionsOpen(false)">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <!-- <ng-container *ngFor="let like of likes">
+        <app-user-card [user]="like"></app-user-card>
+      </ng-container> -->
     </ion-content>
   </ng-template>
 </ion-modal>
