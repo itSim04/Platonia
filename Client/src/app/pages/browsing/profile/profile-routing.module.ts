@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { IonCustomScrollbarModule } from 'ion-custom-scrollbar';
 
 import { ProfilePage } from './profile.page';
 
@@ -13,8 +12,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forChild(routes),
-    IonCustomScrollbarModule
+    RouterModule.forChild(routes)
   ],
   exports: [RouterModule],
 })
