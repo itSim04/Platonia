@@ -26,6 +26,12 @@ export class OpinionCardComponent implements AfterViewInit {
 
   }
 
+  debug() {
+
+console.log("DEBUG");
+
+  }
+
   public openProfile() {
 
     this.router.navigate(["/tabs/profile", { id: this.thought!.owner_id }]);

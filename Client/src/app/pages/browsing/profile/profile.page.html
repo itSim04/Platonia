@@ -59,6 +59,7 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  
   <ng-container *ngFor="let thought of thoughts">
     <app-card-thought [user]="current_user" [thought]="thought"></app-card-thought>
   </ng-container>

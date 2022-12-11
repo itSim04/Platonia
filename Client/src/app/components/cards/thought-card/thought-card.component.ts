@@ -27,6 +27,8 @@ export class ThoughtCardComponent implements AfterViewInit {
 
   opinion: string = "";
   isOpinionsOpen: boolean = false;
+  opioners: Map<number, User> = new Map();
+  opinions: Array<TextThought> = new Array();
 
   isLikesOpen: boolean = false;
   likes: Array<User> = new Array;
@@ -106,15 +108,17 @@ export class ThoughtCardComponent implements AfterViewInit {
   setOpinionsOpen(state: boolean) {
 
     this.isOpinionsOpen = state;
-    // if (state) {
+    if (state) {
 
-    //   this.likeService.getLikesOnThought(this.thought!.thought_id).subscribe(r => {
+      this.thoughtService.getAll({ user_id: this.session_user?.user_id, root_id: this.thought!.thought_id }).subscribe(r => {
 
-    //     this.likes.splice(0);
-    //     r.users?.forEach(u => this.likes.unshift(u));
+        console.log(r);
+        this.opinions.splice(0);
+        r.users?.forEach(u => this.opioners.set(u.user_id, u));
+        r.thoughts?.forEach(t => this.opinions.unshift(t as TextThought));
 
-    //   });
-    // }
+      });
+    }
   }
 
 
@@ -141,7 +145,7 @@ export class ThoughtCardComponent implements AfterViewInit {
     this.thought = pollThought;
 
   }
-  
+
   get imageThought(): ImageThought {
 
     return this.thought as ImageThought;
