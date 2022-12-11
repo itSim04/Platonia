@@ -25,6 +25,7 @@ export class ThoughtCardComponent implements AfterViewInit {
   date: string = "1970-01-01";
   deleted: boolean = false;
 
+  opinion: string = "";
   isOpinionsOpen: boolean = false;
 
   isLikesOpen: boolean = false;
@@ -32,7 +33,7 @@ export class ThoughtCardComponent implements AfterViewInit {
 
   @ViewChild('options') option!: IonPopover;
 
-  constructor(private thoughtService: ThoughtService, private alertController: AlertController, public optionService: AnswerService, public storageService: StorageService, public likeService: LikeService) {
+  constructor(public thoughtService: ThoughtService, private alertController: AlertController, public optionService: AnswerService, public storageService: StorageService, public likeService: LikeService) {
   }
 
   ngAfterViewInit(): void {

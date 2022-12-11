@@ -166,10 +166,10 @@
           <ion-grid>
             <ion-row>
               <ion-col>
-                <ion-input placeholder="In my opinion..."></ion-input>
+                <ion-input [(ngModel)]="opinion" placeholder="In my opinion..."></ion-input>
               </ion-col>
               <ion-col size="3">
-                <ion-icon (click)="thought.postComment()" class="send" name="send"></ion-icon>
+                <ion-icon (click)="thought!.postComment(opinion, storageService, thoughtService)" class="send" name="send"></ion-icon>
               </ion-col>
             </ion-row>
           </ion-grid>
