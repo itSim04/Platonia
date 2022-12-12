@@ -22,8 +22,9 @@ export abstract class Thought {
     protected _root_id: number;
     protected _is_liked: boolean;
     protected _is_platoned: boolean;
+    protected _is_opinion: boolean;
 
-    constructor(thought_id: number = -1, share_date: Date = new Date(), edit_date: Date = new Date(), owner_id: number = -1, type: number = -1, likes: number = -1, platons: number = -1, opinions: number = -1, root_id: number = -1, is_liked: boolean = false, is_platoned: boolean = false) {
+    constructor(thought_id: number = -1, share_date: Date = new Date(), edit_date: Date = new Date(), owner_id: number = -1, type: number = -1, likes: number = -1, platons: number = -1, opinions: number = -1, root_id: number = -1, is_liked: boolean = false, is_platoned: boolean = false, is_opinion = false) {
 
         this._thought_id = thought_id;
         this._share_date = share_date;
@@ -38,6 +39,7 @@ export abstract class Thought {
 
         this._is_liked = is_liked;
         this._is_platoned = is_platoned;
+        this._is_opinion = is_opinion;
 
     }
 
@@ -129,6 +131,14 @@ export abstract class Thought {
         this._is_platoned = is_platoned;
     }
 
+    public get is_opinion(): boolean {
+        return this._is_opinion;
+    }
+
+    public set is_opinion(is_opinion: boolean) {
+        this._is_opinion = is_opinion;
+    }
+
     public toggleLike(likeService: LikeService, storageService: StorageService) {
 
         storageService.getSessionUser().then(session_user => {
@@ -173,6 +183,7 @@ export abstract class Thought {
                 this.platons--;
                 platonService.unplaton(session_user.user_id, this.thought_id).subscribe(r => {
 
+                    console.log(r);
                     if (r.status != ExitCodes.PLATON_REMOVE) {
                         this.is_platoned = true;
                         this.platons++;
@@ -200,7 +211,7 @@ export abstract class Thought {
     public postComment(content: string, user_id: number, thoughtService: ThoughtService): Observable<ResponseReceipt> {
 
         this.opinions++;
-        return thoughtService.addThought({ content: content, owner_id: user_id, root_id: this.thought_id, type: 0 });
+        return thoughtService.addThought({ content: content, owner_id: user_id, root_id: this.thought_id, type: 0, is_opinion: true });
 
     }
 

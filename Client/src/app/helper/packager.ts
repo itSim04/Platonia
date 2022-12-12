@@ -266,6 +266,7 @@ export class Packager {
         current.opinions = data[TempThoughtParts.OPINIONS];
         current.owner_id = data[ThoughtParts.OWNER_ID];
         current.root_id = data[ThoughtParts.ROOT];
+        current.is_opinion = data[ThoughtParts.IS_OPINION];
         current.platons = data[TempThoughtParts.PLATONS];
 
         return current;
@@ -288,6 +289,7 @@ export class Packager {
         if (thought.poll2 != undefined) form.append(OptionParts.POLL2, thought.poll2);
         if (thought.poll3 != undefined) form.append(OptionParts.POLL3, thought.poll3);
         if (thought.poll4 != undefined) form.append(OptionParts.POLL4, thought.poll4);
+        if (thought.is_opinion != undefined) form.append(ThoughtParts.IS_OPINION, String(thought.is_opinion ? 1 : 0));
         return form;
 
     }

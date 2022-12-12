@@ -47,6 +47,7 @@ export interface ThoughtRequest {
     owner_ids?: number[];
     root_id?: number;
 
+    is_opinion?: boolean;
     media?: string;
 
     poll1?: string;

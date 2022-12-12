@@ -32,6 +32,7 @@ class THOUGHTS {
 	public const IS_LIKED = "is_liked";
 	public const IS_PLATONED = "is_platoned";
 	public const OPTION = "is_voted";
+	public const IS_OPINION = "is_opinion";
 
 	public const MEDIA = "media";
 
@@ -98,6 +99,7 @@ class PLATONS {
 
 	public const USER_ID = "user_id_fk_platons";
 	public const THOUGHT_ID = "thought_id_fk_platons";
+	public const ROOT_ID = "root_id_fk_platons";
 	public const PLATON_DATE = "platon_date";
 
 }

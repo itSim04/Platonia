@@ -16,15 +16,19 @@ if (check_keys($_GET, "schema")) {
 
             if (check_keys($_GET, PLATONS::USER_ID, PLATONS::THOUGHT_ID, PLATONS::PLATON_DATE)) {
                 $output[RESPONSE::STATUS] = EXIT_CODES::PLATON_ADD;
-                process($PDO, SQLFunctions::ADD, $table_name, $_GET, array(PLATONS::USER_ID, PLATONS::THOUGHT_ID, PLATONS::PLATON_DATE), array());
+
+                $id = process_fetch_id($PDO, SQLFunctions::ADD, $thoughts_table, [THOUGHTS::SHARE_DATE => $_GET[PLATONS::PLATON_DATE], THOUGHTS::CONTENT => "", THOUGHTS::TYPE => 4, THOUGHTS::OWNER_ID => $_GET[PLATONS::USER_ID], THOUGHTS::ROOT => $_GET[PLATONS::THOUGHT_ID]], array(THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID, THOUGHTS::ROOT), array());
+                process($PDO, SQLFunctions::ADD, $table_name, [PLATONS::USER_ID => $_GET[PLATONS::USER_ID], PLATONS::THOUGHT_ID => $id, PLATONS::PLATON_DATE => $_GET[PLATONS::PLATON_DATE], PLATONS::ROOT_ID => $_GET[PLATONS::THOUGHT_ID]], array(PLATONS::USER_ID, PLATONS::THOUGHT_ID, PLATONS::PLATON_DATE, PLATONS::ROOT_ID), array());
             }
             break;
 
         case PLATONS_SCHEMA::UNPLATON:
 
-            if (check_keys($_GET, PLATONS::USER_ID, PLATONS::THOUGHT_ID)) {
+            if (check_keys($_GET, PLATONS::USER_ID, PLATONS::ROOT_ID)) {
                 $output[RESPONSE::STATUS] = EXIT_CODES::PLATON_REMOVE;
-                process($PDO, SQLFunctions::DELETE, $table_name, $_GET, array(), array(new condition(PLATONS::USER_ID), new condition(PLATONS::THOUGHT_ID)));
+                $id = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(PLATONS::USER_ID), new condition(PLATONS::ROOT_ID)))[0]->thought_id_fk_platons;
+                echo $id;
+                process($PDO, SQLFunctions::DELETE, $thoughts_table, [THOUGHTS::ID => $id], array(), array(new condition(THOUGHTS::ID)));
             }
             break;
 
@@ -34,7 +38,6 @@ if (check_keys($_GET, "schema")) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::PLATON_GET_ALL_BY_USER;
                 $output[RESPONSE::PLATONS] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $thoughts_table, $thoughts_temp), $_GET, array(), array(new condition(PLATONS::USER_ID), new condition(THOUGHTS::ID . " = " . PLATONS::THOUGHT_ID, false), new condition(THOUGHTS::ID . " = " . THOUGHTS_TEMP::ID, false)));
-
             }
             break;
 
@@ -54,7 +57,6 @@ if (check_keys($_GET, "schema")) {
         default:
 
             $output[RESPONSE::STATUS] = EXIT_CODES::INCORRECT_SCHEMA;
-
     }
     echo json_encode($output);
 }

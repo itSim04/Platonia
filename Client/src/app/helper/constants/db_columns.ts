@@ -29,6 +29,7 @@ export enum ThoughtParts {
     IS_LIKED = "is_liked",
     IS_PLATONED = "is_platoned",
     OPTION = "is_voted",
+    IS_OPINION = "is_opinion",
     OFFSET = "offset",
     QUANTITY = "quantity",
     MEDIA = "media"
@@ -91,7 +92,8 @@ export enum PlatonParts {
 
     USER_ID = "user_id_fk_platons",
     THOUGHT_ID = "thought_id_fk_platons",
-    PLATON_DATE = "platon_date"
+    PLATON_DATE = "platon_date",
+    ROOT_ID = "root_id_fk_platons"
 
 }
 
