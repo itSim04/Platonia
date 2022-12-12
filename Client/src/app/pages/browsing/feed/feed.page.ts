@@ -30,13 +30,12 @@ export class FeedPage implements OnInit {
 
   resetData() {
     console.log("RESET");
-    this.thoughts.splice(0);
     this.users?.clear();
     this.anchor = 0;
-    this.retrieveData();
+    this.retrieveData(true);
   }
 
-  retrieveData() {
+  retrieveData(flag: boolean) {
 
     this.storageService.getSessionUser().then(owner => {
 
@@ -51,9 +50,9 @@ export class FeedPage implements OnInit {
         ids.push(owner.user_id);
         this.thoughtService.getByUsers({ user_id: owner.user_id, owner_ids: ids, offset: this.anchor, quantity: this.quantity }).subscribe(r => {
 
-          console.log(r);
+          if (flag)
+            this.thoughts.splice(0);
           r.thoughts?.forEach(t => this.thoughts.push(t));
-          //this.router.navigate(["tabs/feed/"]);
 
         });
 
@@ -67,7 +66,7 @@ export class FeedPage implements OnInit {
   ngOnInit() {
 
 
-    this.retrieveData();
+    this.resetData();
 
   }
 
@@ -85,7 +84,7 @@ export class FeedPage implements OnInit {
 
   onIonInfinite(ev: any) {
     this.anchor += this.quantity;
-    this.retrieveData();
+    this.retrieveData(false);
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
     }, 500);
