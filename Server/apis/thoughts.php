@@ -122,7 +122,6 @@ if (check_keys($_GET, "schema")) {
                     $output[RESPONSE::THOUGHTS][$i]->banner_id = is_dir("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}/banners") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}/banners/", FilesystemIterator::SKIP_DOTS)) : 0;
                 }
                 $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::ID . " IN (" . implode(", ", $ids) . ")", false), new condition(THOUGHTS::IS_OPINION . " = 0", false))), "ORDER BY share_date DESC");
-                echo json_encode($ids);
             }
             break;
 
@@ -213,9 +212,9 @@ if (check_keys($_GET, "schema")) {
                 for ($t = 0; $t < count($output[RESPONSE::THOUGHTS]); $t++) {
 
 
-                    if($output[RESPONSE::THOUGHTS][$i]->type == 4) {
+                    if($output[RESPONSE::THOUGHTS][$t]->type == 4) {
 
-                        $ids[] = $output[RESPONSE::THOUGHTS][$i]->root_id;
+                        $ids[] = $output[RESPONSE::THOUGHTS][$t]->root_id;
 
                     }
                     $output[RESPONSE::THOUGHTS][$t]->profile_id = is_dir("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$t]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$t]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;

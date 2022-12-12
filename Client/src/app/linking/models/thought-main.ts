@@ -620,3 +620,24 @@ export class PollThought extends Thought {
 
 }
 
+export class PlatonedThought extends Thought {
+
+    private _root: Thought;
+
+    constructor(root: Thought) {
+
+        super();
+        this._root = root;
+
+    }
+
+    public get root(): Thought {
+        return this._root;
+    }
+
+    public set root(content: Thought) {
+        this._root = content;
+    }
+
+}
+

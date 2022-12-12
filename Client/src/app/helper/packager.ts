@@ -1,3 +1,4 @@
+import { PlatonedThought } from './../linking/models/thought-main';
 import { Injector } from "@angular/core";
 import { Interest } from "../linking/models/interest-main";
 import { UserRequest, ThoughtRequest, InterestRequest, ResponseReceipt, Option } from "../linking/models/request-models";
@@ -52,8 +53,10 @@ export class Packager {
             case ExitCodes.THOUGHTS_GET_BY:
             case ExitCodes.THOUGHTS_GET_BY_USERS:
 
+                const platons_TEMP: Map<number, Thought> = this.packThoughtsInMap(data[ResponseParts.PLATONS]);
+                console.log("PACKAGED", platons_TEMP);
                 response.users = this.packUsersInMap(data[ResponseParts.THOUGHTS]);
-                response.thoughts = this.packThoughtsInMap(data[ResponseParts.THOUGHTS]);
+                response.thoughts = this.packThoughtsInMap(data[ResponseParts.THOUGHTS], platons_TEMP);
                 break;
 
             case ExitCodes.INTERESTS_ADD:
@@ -198,21 +201,23 @@ export class Packager {
     }
 
 
-    public static packThoughtsInMap(json: any): Map<number, Thought> {
+    public static packThoughtsInMap(json: any, platons: Map<number, Thought> = new Map()): Map<number, Thought> {
 
         const map: Map<number, Thought> = new Map();
         json?.forEach((element: any) => {
 
-            const current: Thought = this.thoughtUnpack(element);
+            const current: Thought = this.thoughtUnpack(element, platons);
             map.set(current.thought_id, current);
 
         });
         return map;
 
     }
-    public static thoughtUnpack(data: any): Thought {
+    public static thoughtUnpack(data: any, platons: Map<number, Thought> = new Map()): Thought {
 
         let current: Thought;
+
+        //console.log("Packaging", data);
 
         switch (data[ThoughtParts.TYPE]) {
 
@@ -247,6 +252,16 @@ export class Packager {
                 );
                 break;
 
+            case 4:
+
+                // Platoned
+                if (platons.has(data[ThoughtParts.ROOT])) {
+                    current = new PlatonedThought(platons.get(data[ThoughtParts.ROOT])!);
+                } else {
+                    current = new TextThought("Connection Error");
+                }
+                break;
+
             default:
 
                 // Text
@@ -254,7 +269,6 @@ export class Packager {
                 break;
 
         }
-
 
         current.type = data[ThoughtParts.TYPE];
         current.thought_id = data[ThoughtParts.ID];
@@ -284,7 +298,7 @@ export class Packager {
         if (thought.type != undefined) form.append(ThoughtParts.TYPE, String(thought.type));
         if (thought.owner_id != undefined) form.append(ThoughtParts.OWNER_ID, String(thought.owner_id));
         if (thought.root_id != undefined) form.append(ThoughtParts.ROOT, String(thought.root_id));
-        if(thought.media != undefined) form.append(ThoughtParts.MEDIA, thought.media);
+        if (thought.media != undefined) form.append(ThoughtParts.MEDIA, thought.media);
         if (thought.poll1 != undefined) form.append(OptionParts.POLL1, thought.poll1);
         if (thought.poll2 != undefined) form.append(OptionParts.POLL2, thought.poll2);
         if (thought.poll3 != undefined) form.append(OptionParts.POLL3, thought.poll3);
