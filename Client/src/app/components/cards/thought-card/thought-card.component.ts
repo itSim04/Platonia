@@ -1,3 +1,4 @@
+import { PlatonService } from './../../../linking/apis/platon.service';
 import { Component, AfterViewInit, Input, ViewChild, Injector } from "@angular/core";
 import { IonPopover, AlertController } from "@ionic/angular";
 import { ExitCodes } from "src/app/helper/constants/db_schemas";
@@ -35,7 +36,7 @@ export class ThoughtCardComponent implements AfterViewInit {
 
   @ViewChild('options') option!: IonPopover;
 
-  constructor(public thoughtService: ThoughtService, private alertController: AlertController, public optionService: AnswerService, public storageService: StorageService, public likeService: LikeService) {
+  constructor(public thoughtService: ThoughtService, private alertController: AlertController, public optionService: AnswerService, public storageService: StorageService, public likeService: LikeService, public platonService: PlatonService) {
   }
 
   ngAfterViewInit(): void {

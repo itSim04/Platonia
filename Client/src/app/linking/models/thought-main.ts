@@ -1,3 +1,4 @@
+import { PlatonService } from './../apis/platon.service';
 import { Observable } from 'rxjs';
 import { ExitCodes } from "src/app/helper/constants/db_schemas";
 import { AnswerService } from "../apis/answer.service";
@@ -155,6 +156,40 @@ export abstract class Thought {
                     if (r.status != ExitCodes.LIKE_ADD) {
                         this.is_liked = false;
                         this.likes--;
+                    }
+
+                })
+            }
+        });
+    }
+
+    public togglePlaton(platonService: PlatonService, storageService: StorageService) {
+
+        storageService.getSessionUser().then(session_user => {
+
+            if (this.is_platoned) {
+
+                this.is_platoned = false;
+                this.platons--;
+                platonService.unplaton(session_user.user_id, this.thought_id).subscribe(r => {
+
+                    if (r.status != ExitCodes.PLATON_REMOVE) {
+                        this.is_platoned = true;
+                        this.platons++;
+                    }
+
+                });
+
+
+            } else {
+
+                this.is_platoned = true;
+                this.platons++;
+                platonService.platon(session_user.user_id, this.thought_id).subscribe(r => {
+
+                    if (r.status != ExitCodes.PLATON_ADD) {
+                        this.is_platoned = false;
+                        this.platons--;
                     }
 
                 })

@@ -114,8 +114,8 @@
           <div (click)="setLikesOpen(true)" class="action_label">{{thought.likes}}</div>
 
           <!-- Platons Button -->
-          <div class="action">
-            <ion-icon name="repeat-outline" style="font-size: 20px;"></ion-icon>
+          <div (click)="thought.togglePlaton(platonService, storageService)" class="action">
+            <ion-icon [color]="thought.is_platoned ? 'secondary' : ''" name="repeat-outline" style="font-size: 20px;"></ion-icon>
           </div>
           <!-- Platons counter -->
           <div class="action_label">{{thought.platons}}</div>
