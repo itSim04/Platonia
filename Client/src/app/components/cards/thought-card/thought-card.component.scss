@@ -12,6 +12,23 @@
 
 }
 
+.empty {
+
+    text-transform: none;
+    font-size: 14px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: gray;
+    // padding-right: 5%;
+    // padding-top: 5%;
+    // display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    // min-height: 100vh;
+}
+
 .date {
 
     text-transform: none;
@@ -29,7 +46,7 @@
     border-bottom: 1px solid #ccc;
     margin: 10px 0;
     width: 100%;
-  }
+}
 
 .alert-button {
 

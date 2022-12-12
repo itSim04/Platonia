@@ -79,6 +79,7 @@ export class ThoughtService {
 
   public delete(thought: ThoughtRequest): Observable<ResponseReceipt> {
 
+    console.log("Deleting");
     return this.http.get<any>(BuildAPIs.build_url(ThoughtAPIs.DELETE, this.api, `&${ThoughtParts.ID}=${thought.thought_id}`)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)

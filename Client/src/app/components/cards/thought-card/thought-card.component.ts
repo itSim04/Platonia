@@ -135,6 +135,20 @@ export class ThoughtCardComponent implements AfterViewInit {
 
   }
 
+  deleteComment(id: number) {
+
+    this.thought!.deleteComment(id, this.thoughtService).subscribe(r => {
+
+      console.log(r);
+      if (r.status == ExitCodes.THOUGHTS_DELETE) {
+        this.setOpinionsOpen(true);
+      } else {
+        this.thought!.opinions++;
+      }
+    })
+
+  }
+
 
   get textThought(): TextThought {
 

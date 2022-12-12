@@ -169,6 +169,13 @@ export abstract class Thought {
 
     }
 
+    public deleteComment(thought_id: number, thoughtService: ThoughtService): Observable<ResponseReceipt> {
+
+        this.opinions--;
+        return thoughtService.delete({ thought_id: thought_id });
+
+    }
+
 }
 
 export class TextThought extends Thought {

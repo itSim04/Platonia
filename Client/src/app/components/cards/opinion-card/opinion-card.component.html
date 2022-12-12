@@ -1,39 +1,49 @@
-<ion-grid class="main">
-  <ion-row>
-    <ion-col size="2" class="cell-class">
-      <div (click)="openProfile()">
-        <img [src]="user.picture" onerror="this.src='../../../../assets/icon/profile-default.png'" class="profile">
-      </div>
-    </ion-col>
-    <ion-col size="10" class="cell-class">
-
+<ion-item-sliding (ionSwipe)="deleteOpinion()">
+  <ion-item class="main ion-no-padding">
+    <ion-grid class="grid main">
       <ion-row>
-        <ion-col class="owner_label cell-class" size="auto">
-          <b>{{user.username}}</b> {{thought.content}}
+        <ion-col size="2" class="cell-class">
+          <div (click)="openProfile()">
+            <img [src]="user.picture" onerror="this.src='../../../../assets/icon/profile-default.png'" class="profile">
+          </div>
+        </ion-col>
+        <ion-col size="10" class="cell-class">
+
+          <ion-row>
+            <ion-col class="owner_label cell-class" size="auto">
+              <b>{{user.username}}</b> {{thought.content}}
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col class="low-class" size="auto">
+              <ion-text class="unselectable date">
+                {{date}}
+              </ion-text>
+            </ion-col>
+            <ion-col class="low-class">
+              <ion-text class="unselectable date">
+                {{thought.likes}} Like{{thought.likes == 1 ? '' : 's'}}
+              </ion-text>
+            </ion-col>
+            <ion-col style="float: right" class="low-class" size="1">
+              <ion-text (click)="thought.toggleLike(likeService, storageService)" class="unselectable date">
+                <ion-icon [color]="thought.is_liked ? 'danger' : ''"
+                  [name]="thought.is_liked ? 'heart' : 'heart-outline'">
+                </ion-icon>
+              </ion-text>
+            </ion-col>
+
+          </ion-row>
+
+
         </ion-col>
       </ion-row>
-
-      <ion-row>
-        <ion-col class="low-class" size="auto">
-          <ion-text class="unselectable date">
-            {{date}}
-          </ion-text>
-        </ion-col>
-        <ion-col class="low-class">
-          <ion-text class="unselectable date">
-            {{thought.likes}} Like{{thought.likes == 1 ? '' : 's'}}
-          </ion-text>
-        </ion-col>
-        <ion-col style="float: right" class="low-class" size="1">
-          <ion-text (click)="thought.toggleLike(likeService, storageService)" class="unselectable date">
-            <ion-icon [color]="thought.is_liked ? 'danger' : ''" [name]="thought.is_liked ? 'heart' : 'heart-outline'">
-            </ion-icon>
-          </ion-text>
-        </ion-col>
-
-      </ion-row>
-
-
-    </ion-col>
-  </ion-row>
-</ion-grid>
+    </ion-grid>
+  </ion-item>
+  <ion-item-options>
+    <ion-item-option (click)="deleteOpinion()" expandable color="danger">
+      <ion-icon slot="icon-only" name="trash"></ion-icon>
+    </ion-item-option>
+  </ion-item-options>
+</ion-item-sliding>

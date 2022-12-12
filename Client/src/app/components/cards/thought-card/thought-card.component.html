@@ -159,11 +159,15 @@
     </ion-header>
 
     <ion-content>
+      <ion-button fill="clear" class="empty" *ngIf="opinions.length == 0">
+        Be the first to express
+        <ion-icon slot="end" name="diamond-outline"></ion-icon>
+      </ion-button>
       <div *ngFor="let opinion of opinions">
-        <div style="margin: 4%;">
-          <app-opinion-card [user]="opioners.get(opinion.owner_id)!" [thought]="opinion"></app-opinion-card>
+        <div style="margin-top: 3%; margin-bottom: 3%;">
+          <app-opinion-card (delete)="deleteComment($event)" [user]="opioners.get(opinion.owner_id)!"
+            [thought]="opinion"></app-opinion-card>
         </div>
-        <div class="hr"> </div>
       </div>
     </ion-content>
 
@@ -175,8 +179,7 @@
               <ion-input [(ngModel)]="opinion" placeholder="In my opinion..."></ion-input>
             </ion-col>
             <ion-col size="3">
-              <ion-icon (click)="postComment()" class="send"
-                name="send"></ion-icon>
+              <ion-icon (click)="postComment()" class="send" name="send"></ion-icon>
             </ion-col>
           </ion-row>
         </ion-grid>

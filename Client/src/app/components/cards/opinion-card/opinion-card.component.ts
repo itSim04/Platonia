@@ -1,4 +1,4 @@
-import { AfterViewInit } from '@angular/core';
+import { AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { TextThought } from './../../../linking/models/thought-main';
 import { User } from './../../../linking/models/user-main';
 import { Thought } from 'src/app/linking/models/thought-main';
@@ -13,22 +13,22 @@ import { StorageService } from 'src/app/linking/apis/storage.service';
   templateUrl: './opinion-card.component.html',
   styleUrls: ['./opinion-card.component.scss'],
 })
-export class OpinionCardComponent implements AfterViewInit {
+export class OpinionCardComponent {
 
   @Input() thought!: TextThought;
   @Input() user!: User;
-  date: string = "";
+  @Output() delete: EventEmitter<number> = new EventEmitter();
   constructor(private router: Router, public storageService: StorageService, public likeService: LikeService) { }
 
-  ngAfterViewInit() {
+  get date() {
 
-    this.date = formatRemainingDate(this.thought!.share_date);
+    return formatRemainingDate(this.thought.share_date);
 
   }
 
-  debug() {
+  deleteOpinion() {
 
-console.log("DEBUG");
+    this.delete.emit(this.thought.thought_id);
 
   }
 

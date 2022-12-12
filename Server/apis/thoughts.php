@@ -279,6 +279,7 @@ if (check_keys($_GET, "schema")) {
                 $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_UPDATE;
                 process($PDO, SQLFunctions::UPDATE, $table_name, $_POST, array(THOUGHTS::CONTENT, THOUGHTS::EDIT_DATE), array(new condition(THOUGHTS::ID)));
             }
+            break;
 
         case THOUGHTS_SCHEMA::DELETE:
 
@@ -288,6 +289,7 @@ if (check_keys($_GET, "schema")) {
                 process($PDO, SQLFunctions::DELETE, $table_name, $_GET, array(), array(new condition(THOUGHTS::ID)));
             }
             break;
+
         default:
 
             $output[RESPONSE::STATUS] = EXIT_CODES::INCORRECT_SCHEMA;
