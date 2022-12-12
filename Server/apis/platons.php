@@ -27,7 +27,6 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, PLATONS::USER_ID, PLATONS::ROOT_ID)) {
                 $output[RESPONSE::STATUS] = EXIT_CODES::PLATON_REMOVE;
                 $id = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(PLATONS::USER_ID), new condition(PLATONS::ROOT_ID)))[0]->thought_id_fk_platons;
-                echo $id;
                 process($PDO, SQLFunctions::DELETE, $thoughts_table, [THOUGHTS::ID => $id], array(), array(new condition(THOUGHTS::ID)));
             }
             break;

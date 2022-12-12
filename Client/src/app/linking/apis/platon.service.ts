@@ -25,9 +25,9 @@ export class PlatonService {
 
   }
 
-  public unplaton(root_id: number, thought_id: number): Observable<ResponseReceipt> {
+  public unplaton(user_id: number, root_id: number): Observable<ResponseReceipt> {
 
-    return this.http.get<any>(BuildAPIs.build_url(PlatonAPIs.UNPLATON, this.api, `&${PlatonParts.ROOT_ID}=${root_id}&${PlatonParts.THOUGHT_ID}=${thought_id}`)).pipe(map((data: any) =>
+    return this.http.get<any>(BuildAPIs.build_url(PlatonAPIs.UNPLATON, this.api, `&${PlatonParts.ROOT_ID}=${root_id}&${PlatonParts.USER_ID}=${user_id}`)).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)
 
