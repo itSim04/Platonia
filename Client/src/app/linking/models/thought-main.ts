@@ -1,5 +1,5 @@
 import { PlatonService } from './../apis/platon.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ExitCodes } from "src/app/helper/constants/db_schemas";
 import { AnswerService } from "../apis/answer.service";
 import { LikeService } from "../apis/like.service";
@@ -173,39 +173,22 @@ export abstract class Thought {
         });
     }
 
-    public togglePlaton(platonService: PlatonService, storageService: StorageService) {
+    public togglePlaton(platonService: PlatonService, user_id: number): Observable<ResponseReceipt> {
 
-        storageService.getSessionUser().then(session_user => {
+        if (this.is_platoned) {
 
-            if (this.is_platoned) {
-
-                this.is_platoned = false;
-                this.platons--;
-                platonService.unplaton(session_user.user_id, this.thought_id).subscribe(r => {
-
-                    console.log(r);
-                    if (r.status != ExitCodes.PLATON_REMOVE) {
-                        this.is_platoned = true;
-                        this.platons++;
-                    }
-
-                });
+            this.is_platoned = false;
+            this.platons--;
+            return platonService.unplaton(user_id, this.thought_id);
 
 
-            } else {
+        } else {
 
-                this.is_platoned = true;
-                this.platons++;
-                platonService.platon(session_user.user_id, this.thought_id).subscribe(r => {
+            this.is_platoned = true;
+            this.platons++;
+            return platonService.platon(user_id, this.thought_id);
 
-                    if (r.status != ExitCodes.PLATON_ADD) {
-                        this.is_platoned = false;
-                        this.platons--;
-                    }
-
-                })
-            }
-        });
+        }
     }
 
     public postComment(content: string, user_id: number, thoughtService: ThoughtService): Observable<ResponseReceipt> {

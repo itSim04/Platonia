@@ -16,7 +16,7 @@
     <ion-icon slot="end" name="diamond-outline"></ion-icon>
   </ion-button>
   <ng-container *ngFor="let thought of thoughts">
-    <app-card-thought [user]="users!.get(thought.owner_id)" [thought]="thought"></app-card-thought>
+    <app-card-thought (refresh)="resetData()" [user]="users!.get(thought.owner_id)" [thought]="thought"></app-card-thought>
   </ng-container>
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>

@@ -27,6 +27,7 @@ export class ThoughtService {
 
   public getAll(thought: ThoughtRequest): Observable<ResponseReceipt> {
 
+    //console.log("getall", thought);
     return this.http.get<any>(BuildAPIs.build_url(ThoughtAPIs.GET_ALL, this.api, `&${UserParts.ID}=${thought.user_id}` + (thought.root_id != undefined ? `&${ThoughtParts.ROOT}=${thought.root_id}` : ''))).pipe(map((data: any) =>
 
       Packager.responseUnpack(data)

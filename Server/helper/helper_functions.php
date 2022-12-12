@@ -247,6 +247,7 @@ function build_simple_sql(SQLFunctions $type, array $table_name, array $params, 
             }
             break;
     }
+    //echo $result;
     return $result;
 
 
@@ -311,5 +312,50 @@ function build_params(SQLStyle $style, array |string $labels): string {
     }
 
     return $result;
+
+}
+
+function fixPlatons(PDO $PDO, array $ids, array $output, array $tables, array $linkers, array $complex) {
+
+    if (count($ids)) {
+        $result = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::ID . " IN (" . implode(", ", $ids) . ")", false), new condition(THOUGHTS::IS_OPINION . " = 0", false))), "ORDER BY share_date DESC");
+
+        for ($t = 0; $t < count($result); $t++) {
+
+
+
+            $result[$t]->profile_id = is_dir("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$t]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$t]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+            $result[$t]->banner_id = is_dir("../assets/users/banners/{$output[RESPONSE::THOUGHTS][$t]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/banners/{$output[RESPONSE::THOUGHTS][$t]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
+
+            if ($result[$t]->type == 3) {
+
+                $options = process_fetch($PDO, SQLFunctions::SELECT, "options", [OPTIONS::ID => $result[$t]->thought_id], array(), array(new condition(OPTIONS::ID)));
+                if (count($options) > 0) {
+
+                    $result[$t]->poll1 = $options[0]->content;
+                    $result[$t]->votes1 = $options[0]->votes;
+                }
+
+                if (count($options) > 1) {
+
+                    $result[$t]->poll2 = $options[1]->content;
+                    $result[$t]->votes2 = $options[1]->votes;
+                }
+
+                if (count($options) > 2) {
+
+                    $result[$t]->poll3 = $options[2]->content;
+                    $result[$t]->votes3 = $options[2]->votes;
+                }
+
+                if (count($options) > 3) {
+
+                    $result[$t]->poll4 = $options[3]->content;
+                    $result[$t]->votes4 = $options[3]->votes;
+                }
+            }
+        }
+        return $result;
+    }
 
 }

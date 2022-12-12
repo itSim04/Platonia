@@ -54,7 +54,6 @@ export class Packager {
             case ExitCodes.THOUGHTS_GET_BY_USERS:
 
                 const platons_TEMP: Map<number, Thought> = this.packThoughtsInMap(data[ResponseParts.PLATONS]);
-                console.log("PACKAGED", platons_TEMP);
                 response.users = this.packUsersInMap(data[ResponseParts.THOUGHTS]);
                 response.thoughts = this.packThoughtsInMap(data[ResponseParts.THOUGHTS], platons_TEMP);
                 break;
@@ -204,12 +203,28 @@ export class Packager {
     public static packThoughtsInMap(json: any, platons: Map<number, Thought> = new Map()): Map<number, Thought> {
 
         const map: Map<number, Thought> = new Map();
+        const ids: Set<number> = new Set();
+        json?.forEach((element: any) => {
+
+            ids.add(element[ThoughtParts.ID]);
+
+        });
+        console.log("IDS", ids);
         json?.forEach((element: any) => {
 
             const current: Thought = this.thoughtUnpack(element, platons);
             map.set(current.thought_id, current);
 
         });
+        for (let element of map.values()) {
+            if (element.type == 4 && ids.has(element.thought_id) && map.has(element.root_id)) {
+
+                console.log("linked", element);
+                (element as PlatonedThought).root = map.get(element.root_id)!;
+
+            }
+        };
+        console.log("MAP", map);
         return map;
 
     }
@@ -250,6 +265,7 @@ export class Packager {
                     data[OptionParts.VOTES4]
 
                 );
+                console.log("Poll", current, data);
                 break;
 
             case 4:

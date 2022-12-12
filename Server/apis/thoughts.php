@@ -107,21 +107,21 @@ if (check_keys($_GET, "schema")) {
                     $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::IS_OPINION . " = 0", false))));
                 } else {
 
-                    $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::ROOT => $_GET[THOUGHTS::ROOT], THOUGHTS::ID => $_GET[THOUGHTS::ROOT]], $complex, array_merge($linkers, array(new condition(THOUGHTS::ROOT, true, true), new condition(THOUGHTS::ID, true, false), new condition(THOUGHTS::IS_OPINION . " = 1", false))));
+                    $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::ROOT => $_GET[THOUGHTS::ROOT]], $complex, array_merge($linkers, array(new condition(THOUGHTS::ROOT), new condition(THOUGHTS::IS_OPINION . " = 1", false))));
                 }
                 $ids = array();
                 for ($i = 0; $i < count($output[RESPONSE::THOUGHTS]); $i++) {
 
-                    if($output[RESPONSE::THOUGHTS][$i]->type == 4) {
+                    if ($output[RESPONSE::THOUGHTS][$i]->type == 4) {
 
                         $ids[] = $output[RESPONSE::THOUGHTS][$i]->root_id;
-
                     }
-                    
+
                     $output[RESPONSE::THOUGHTS][$i]->profile_id = is_dir("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}/profiles") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}/profiles/", FilesystemIterator::SKIP_DOTS)) : 0;
                     $output[RESPONSE::THOUGHTS][$i]->banner_id = is_dir("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}/banners") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}/banners/", FilesystemIterator::SKIP_DOTS)) : 0;
                 }
-                $output[RESPONSE::THOUGHT] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::ID . " IN (" . implode(", ", $ids) . ")", false), new condition(THOUGHTS::IS_OPINION . " = 0", false))), "ORDER BY share_date DESC");
+
+                $output[RESPONSE::PLATONS] = fixPlatons($PDO, $ids, $output, $tables, $linkers, $complex);
             }
             break;
 
@@ -166,27 +166,6 @@ if (check_keys($_GET, "schema")) {
             }
             break;
 
-            // case THOUGHTS_SCHEMA::GET_BY:
-
-            //     if (check_keys($_GET, USERS::ID, THOUGHTS::OWNER_ID)) {
-
-            //         $output[RESPONSE::STATUS] = EXIT_CODES::THOUGHTS_GET_BY;
-            //         if (array_key_exists(THOUGHTS::ROOT, $_GET)) {
-
-            //             $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID], THOUGHTS::ROOT => $_GET[THOUGHTS::ROOT]], $complex, array_merge($linkers, array(new condition(THOUGHTS::ROOT), new condition(THOUGHTS::OWNER_ID))));
-
-            //         } else {
-
-            //             $output[RESPONSE::THOUGHTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID], THOUGHTS::OWNER_ID => $_GET[THOUGHTS::OWNER_ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::OWNER_ID))));
-
-            //         }
-            //         for ($i = 0; $i < count($output[RESPONSE::THOUGHTS]); $i++) {
-            //             $output[RESPONSE::THOUGHTS][$i]->profile_id = is_dir("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::THOUGHTS][$i]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
-            //         }
-
-            //     }
-            //     break;
-
         case THOUGHTS_SCHEMA::UPDATE:
 
             if (check_keys($_POST, THOUGHTS::ID, THOUGHTS::CONTENT, THOUGHTS::EDIT_DATE)) {
@@ -212,15 +191,14 @@ if (check_keys($_GET, "schema")) {
                 for ($t = 0; $t < count($output[RESPONSE::THOUGHTS]); $t++) {
 
 
-                    if($output[RESPONSE::THOUGHTS][$t]->type == 4) {
+                    if ($output[RESPONSE::THOUGHTS][$t]->type == 4) {
 
                         $ids[] = $output[RESPONSE::THOUGHTS][$t]->root_id;
-
                     }
                     $output[RESPONSE::THOUGHTS][$t]->profile_id = is_dir("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$t]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$t]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
                     $output[RESPONSE::THOUGHTS][$t]->banner_id = is_dir("../assets/users/banners/{$output[RESPONSE::THOUGHTS][$t]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/banners/{$output[RESPONSE::THOUGHTS][$t]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
 
-                    if ($output[RESPONSE::THOUGHTS][$t]->type) {
+                    if ($output[RESPONSE::THOUGHTS][$t]->type == 3) {
 
                         $options = process_fetch($PDO, SQLFunctions::SELECT, $option_name, [OPTIONS::ID => $output[RESPONSE::THOUGHTS][$t]->thought_id], array(), array(new condition(OPTIONS::ID)));
                         if (count($options) > 0) {
@@ -248,7 +226,7 @@ if (check_keys($_GET, "schema")) {
                         }
                     }
                 }
-                $output[RESPONSE::PLATONS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::ID . " IN (" . implode(", ", $ids) . ")", false), new condition(THOUGHTS::IS_OPINION . " = 0", false))), "ORDER BY share_date DESC");
+                $output[RESPONSE::PLATONS] = fixPlatons($PDO, $ids, $output, $tables, $linkers, $complex);
             }
             break;
 
@@ -268,10 +246,9 @@ if (check_keys($_GET, "schema")) {
                     $ids = array();
                     for ($t = 0; $t < count($output[RESPONSE::THOUGHTS]); $t++) {
 
-                        if($output[RESPONSE::THOUGHTS][$t]->type == 4) {
+                        if ($output[RESPONSE::THOUGHTS][$t]->type == 4) {
 
                             $ids[] = $output[RESPONSE::THOUGHTS][$t]->root_id;
-    
                         }
 
                         $output[RESPONSE::THOUGHTS][$t]->profile_id = is_dir("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$t]->user_id}") ? iterator_count(new FilesystemIterator("../assets/users/profiles/{$output[RESPONSE::THOUGHTS][$t]->user_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
@@ -305,7 +282,7 @@ if (check_keys($_GET, "schema")) {
                             }
                         }
                     }
-                    $output[RESPONSE::PLATONS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $tables, [USERS::ID . 1 => $_GET[USERS::ID], USERS::ID . 2 => $_GET[USERS::ID], USERS::ID . 3 => $_GET[USERS::ID], USERS::ID . 4 => $_GET[USERS::ID]], $complex, array_merge($linkers, array(new condition(THOUGHTS::ID . " IN (" . implode(", ", $ids) . ")", false), new condition(THOUGHTS::IS_OPINION . " = 0", false))), "ORDER BY share_date DESC");
+                    $output[RESPONSE::PLATONS] = fixPlatons($PDO, $ids, $output, $tables, $linkers, $complex);
                 }
             }
             break;

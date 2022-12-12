@@ -23,13 +23,18 @@ export class FeedPage implements OnInit {
 
   async handleRefresh(event: any) {
     setTimeout(() => {
-      this.thoughts.splice(0);
-      this.users?.clear();
-      this.anchor = 0;
-      this.retrieveData();
+      this.resetData();
       event.target.complete();
     }, 2000);
   };
+
+  resetData() {
+    console.log("RESET");
+    this.thoughts.splice(0);
+    this.users?.clear();
+    this.anchor = 0;
+    this.retrieveData();
+  }
 
   retrieveData() {
 
@@ -70,10 +75,8 @@ export class FeedPage implements OnInit {
 
     this.storageService.getRefreshFlag().then(r => {
       if (r) {
-        this.thoughts.splice(0);
-        this.users?.clear();
-        this.anchor = 0;
-        this.retrieveData();
+
+        this.resetData();
 
       }
     });

@@ -12,6 +12,35 @@
 
 }
 
+
+
+.retweet-header {
+
+    margin-bottom: 5%;
+
+}
+
+.retweet-text {
+    
+    text-transform: none;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --color-hover: #DDDDDD;
+    --color-activated: white;
+    //padding-left: 5%;
+    //padding-top: 3%;
+
+}
+
+.retweet-icon {
+
+    margin-right: 2%;
+    margin-left: 3%;
+    font-size: 14px;
+
+}
+
 .empty {
 
     text-transform: none;

@@ -1,5 +1,7 @@
+import { UserService } from './../../../linking/apis/user.service';
+import { PlatonedThought } from './../../../linking/models/thought-main';
 import { PlatonService } from './../../../linking/apis/platon.service';
-import { Component, AfterViewInit, Input, ViewChild, Injector } from "@angular/core";
+import { Component, AfterViewInit, Input, ViewChild, Injector, Output, EventEmitter } from "@angular/core";
 import { IonPopover, AlertController } from "@ionic/angular";
 import { ExitCodes } from "src/app/helper/constants/db_schemas";
 import { formatRemainingDate } from "src/app/helper/utility";
@@ -9,6 +11,7 @@ import { StorageService } from "src/app/linking/apis/storage.service";
 import { ThoughtService } from "src/app/linking/apis/thought.service";
 import { ImageThought, PollThought, TextThought, Thought, VideoThought } from "src/app/linking/models/thought-main";
 import { User } from "src/app/linking/models/user-main";
+import { threadId } from 'worker_threads';
 
 
 @Component({
@@ -18,10 +21,12 @@ import { User } from "src/app/linking/models/user-main";
 })
 export class ThoughtCardComponent implements AfterViewInit {
 
-
   session_user?: User;
+  original?: User;
   @Input() user?: User;
   @Input() thought?: Thought;
+
+  @Output() refresh: EventEmitter<boolean> = new EventEmitter();
 
   date: string = "1970-01-01";
   deleted: boolean = false;
@@ -36,7 +41,7 @@ export class ThoughtCardComponent implements AfterViewInit {
 
   @ViewChild('options') option!: IonPopover;
 
-  constructor(public thoughtService: ThoughtService, private alertController: AlertController, public optionService: AnswerService, public storageService: StorageService, public likeService: LikeService, public platonService: PlatonService) {
+  constructor(public thoughtService: ThoughtService, private userService: UserService, private alertController: AlertController, public optionService: AnswerService, public storageService: StorageService, public likeService: LikeService, public platonService: PlatonService) {
   }
 
   ngAfterViewInit(): void {
@@ -48,6 +53,14 @@ export class ThoughtCardComponent implements AfterViewInit {
       if (this.thought?.owner_id == -1) this.thought.owner_id = r.user_id;
 
     });
+    if (this.thought?.type == 4) {
+
+      this.userService.getOne({ user_id: this.platonedThought.root.owner_id }).subscribe(r => {
+
+        this.original = r.user;
+      });
+
+    }
 
   }
 
@@ -96,7 +109,22 @@ export class ThoughtCardComponent implements AfterViewInit {
     this.isLikesOpen = state;
     if (state) {
 
-      this.likeService.getLikesOnThought(this.thought!.thought_id).subscribe(r => {
+      this.likeService.getLikesOnThought(this.thought?.type == 4 ? this.platonedThought.root.thought_id : this.thought!.thought_id).subscribe(r => {
+
+        this.likes.splice(0);
+        r.users?.forEach(u => this.likes.unshift(u));
+        console.log(r);
+
+      });
+    }
+  }
+
+  async setPlatonedLikesOpen(state: boolean) {
+
+    this.isLikesOpen = state;
+    if (state) {
+
+      this.likeService.getLikesOnThought(this.thought?.type == 4 ? this.platonedThought.root.thought_id : this.thought!.thought_id).subscribe(r => {
 
         this.likes.splice(0);
         r.users?.forEach(u => this.likes.unshift(u));
@@ -111,7 +139,7 @@ export class ThoughtCardComponent implements AfterViewInit {
     this.isOpinionsOpen = state;
     if (state) {
 
-      this.thoughtService.getAll({ user_id: this.session_user?.user_id, root_id: this.thought!.thought_id }).subscribe(r => {
+      this.thoughtService.getAll({ user_id: this.session_user?.user_id, root_id: (this.thought?.type == 4 ? this.platonedThought.root.thought_id : this.thought!.thought_id) }).subscribe(r => {
 
         console.log(r);
         this.opinions.splice(0);
@@ -122,17 +150,47 @@ export class ThoughtCardComponent implements AfterViewInit {
     }
   }
 
+  togglePlaton() {
+
+    if (this.thought?.type == 4) {
+      this.platonedThought.root.togglePlaton(this.platonService, this.session_user?.user_id!).subscribe(r => {
+
+        this.refresh.emit();
+
+      });
+    } else {
+      this.thought!.togglePlaton(this.platonService, this.session_user?.user_id!).subscribe(r => {
+
+        this.refresh.emit();
+
+      });
+    }
+
+  }
+
   postComment() {
 
-    this.thought!.postComment(this.opinion, this.session_user!.user_id, this.thoughtService).subscribe(r => {
+    if (this.thought?.type == 4) {
+      this.platonedThought!.root.postComment(this.opinion, this.session_user!.user_id, this.thoughtService).subscribe(r => {
 
-      if (r.status == ExitCodes.THOUGHTS_ADD) {
-        this.setOpinionsOpen(true);
-        this.opinion = "";
-      } else {
-        this.thought!.opinions--;
-      }
-    })
+        if (r.status == ExitCodes.THOUGHTS_ADD) {
+          this.setOpinionsOpen(true);
+          this.opinion = "";
+        } else {
+          this.thought!.opinions--;
+        }
+      })
+    } else {
+      this.thought!.postComment(this.opinion, this.session_user!.user_id, this.thoughtService).subscribe(r => {
+
+        if (r.status == ExitCodes.THOUGHTS_ADD) {
+          this.setOpinionsOpen(true);
+          this.opinion = "";
+        } else {
+          this.thought!.opinions--;
+        }
+      })
+    }
 
   }
 
@@ -184,6 +242,54 @@ export class ThoughtCardComponent implements AfterViewInit {
   set imageThought(imageThought: ImageThought) {
 
     this.thought = imageThought;
+
+  }
+
+  get platonedThought(): PlatonedThought {
+
+    return this.thought as PlatonedThought;
+
+  }
+
+  set platonedThought(platonedThought: PlatonedThought) {
+
+    this.thought = platonedThought;
+
+  }
+
+  get platonedText(): TextThought {
+
+    return this.platonedThought.root as TextThought;
+
+  }
+
+  set platonedText(platonedText: TextThought) {
+
+    this.platonedThought.root = platonedText;
+
+  }
+
+  get platonedImage(): ImageThought {
+
+    return this.platonedThought.root as ImageThought;
+
+  }
+
+  set platonedImage(platonedImage: ImageThought) {
+
+    this.platonedThought.root = platonedImage;
+
+  }
+
+  get platonedPoll(): PollThought {
+
+    return this.platonedThought.root as PollThought;
+
+  }
+
+  set platonedPoll(platonedPoll: PollThought) {
+
+    this.platonedThought.root = platonedPoll;
 
   }
 

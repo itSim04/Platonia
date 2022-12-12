@@ -2,8 +2,15 @@
 
 
   <ion-card-header class="header">
+    <ion-card-subtitle class="retweet-header" *ngIf="thought.type == 4">
+
+      <ion-icon class="retweet-icon unselectable" name="repeat-outline"></ion-icon>
+      <ion-text class="retweet-text unselectable">{{user.username}} retweeted this...</ion-text>
+
+    </ion-card-subtitle>
     <ion-card-subtitle>
 
+      <div *ngIf="thought.type != 4">
       <!-- Profile -->
       <img [src]="user.picture" onerror="this.src='../../../../assets/icon/profile-default.png'"
         class="unselectable profile">
@@ -15,6 +22,17 @@
       <ion-button *ngIf="session_user.user_id == user.user_id" (click)="openOptions()" fill="clear" class="option">
         <ion-icon name="ellipsis-horizontal"></ion-icon>
       </ion-button>
+    </div>
+
+
+    <div *ngIf="thought.type == 4">
+      <!-- Profile -->
+      <img [src]="original?.picture" onerror="this.src='../../../../assets/icon/profile-default.png'"
+        class="unselectable profile">
+
+      <!-- Username -->
+      <div class="unselectable owner_label">{{original?.username}}</div>
+    </div>
 
       <!-- Date -->
       <ion-text class="unselectable date">
@@ -91,35 +109,127 @@
             <ion-text class="unselectable voters">{{pollThought.totalVotes}} Voters</ion-text>
           </div>
 
+          <!-- Platoned Thoughts -->
+          <div *ngIf="thought.type == 4">
+
+
+
+            <div *ngIf="platonedThought.root.type == 0">
+
+              <ion-text class="unselectable content">{{platonedText.content}}</ion-text>
+
+            </div>
+
+            <!-- Image Thoughts -->
+            <div *ngIf="platonedThought.root.type == 1">
+
+              <img class="unselectable picture" [alt]="platonedImage.img"
+                [src]="'http://localhost/Platonia/Server/assets/thoughts/' + platonedImage.thought_id + '/img-src.png'"
+                onerror="this.src='../../../../assets/icon/profile-default.png'" />
+
+            </div>
+
+            <!-- Poll Thoughts -->
+            <div *ngIf="platonedThought.root.type == 3">
+
+              <ion-text class="unselectable content">{{platonedPoll.prompt}}</ion-text>
+
+              <app-poll-block (incrementer)="platonedPoll.answerPoll(1, session_user.user_id, optionService)"
+                (subjectEvent)="platonedPoll.updatePollSubject(1, $event)" [is_max]="platonedPoll.getMaxPosition() == 1"
+                [is_alone]="platonedPoll.isSingleValued()" [is_voted]="platonedPoll.option_chosen == 1"
+                [is_modifiable]="false" [progress]="platonedPoll.votes1_percentage" [subject]="platonedPoll.poll1">
+              </app-poll-block>
+              <app-poll-block (incrementer)="platonedPoll.answerPoll(2, session_user.user_id, optionService)"
+                (subjectEvent)="platonedPoll.updatePollSubject(2, $event)" [is_max]="platonedPoll.getMaxPosition() == 2"
+                [is_alone]="platonedPoll.isSingleValued()" [is_voted]="platonedPoll.option_chosen == 2"
+                [is_modifiable]="false" [progress]="platonedPoll.votes2_percentage" [subject]="platonedPoll.poll2">
+              </app-poll-block>
+              <app-poll-block (incrementer)="platonedPoll.answerPoll(3, session_user.user_id, optionService)"
+                (subjectEvent)="platonedPoll.updatePollSubject(3, $event)" [is_max]="platonedPoll.getMaxPosition() == 3"
+                [is_alone]="platonedPoll.isSingleValued()" [is_voted]="platonedPoll.option_chosen == 3"
+                [is_modifiable]="false" [progress]="platonedPoll.votes3_percentage" [subject]="platonedPoll.poll3">
+              </app-poll-block>
+              <app-poll-block (incrementer)="platonedPoll.answerPoll(4, session_user.user_id, optionService)"
+                (subjectEvent)="platonedPoll.updatePollSubject(4, $event)" [is_max]="platonedPoll.getMaxPosition() == 4"
+                [is_alone]="platonedPoll.isSingleValued()" [is_voted]="platonedPoll.option_chosen == 4"
+                [is_modifiable]="false" [progress]="platonedPoll.votes4_percentage" [subject]="platonedPoll.poll4">
+              </app-poll-block>
+              <ion-text class="unselectable voters">{{platonedPoll.totalVotes}} Voters</ion-text>
+            </div>
+
+
+
+
+
+
+
+
+
+          </div>
+
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
 
-          <!-- Opinions button -->
-          <div (click)="setOpinionsOpen(true)" class="action">
-            <ion-icon name="chatbubble-outline" style="font-size: 20px;"></ion-icon>
+          <div *ngIf="thought.type == 4">
+
+            <!-- Opinions button -->
+            <div (click)="setOpinionsOpen(true)" class="action">
+              <ion-icon name="chatbubble-outline" style="font-size: 20px;"></ion-icon>
+            </div>
+
+            <!-- Opinions Counter -->
+            <div class="action_label">{{platonedThought.root.opinions}}</div>
+
+            <!-- Likes Button -->
+            <div (click)="platonedThought.root.toggleLike(likeService, storageService)" class="action">
+              <ion-icon [color]="platonedThought.root.is_liked ? 'danger' : ''" name="diamond-outline"
+                style="font-size: 20px;">
+              </ion-icon>
+            </div>
+
+            <!-- Likes Counter -->
+            <div (click)="setLikesOpen(true)" class="action_label">{{platonedThought.root.likes}}</div>
+
+            <!-- Platons Button -->
+            <div (click)="togglePlaton()" class="action">
+              <ion-icon [color]="platonedThought.root.is_platoned ? 'secondary' : ''" name="repeat-outline"
+                style="font-size: 20px;">
+              </ion-icon>
+            </div>
+            <!-- Platons counter -->
+            <div class="action_label">{{platonedThought.root.platons}}</div>
+
           </div>
 
-          <!-- Opinions Counter -->
-          <div class="action_label">{{thought.opinions}}</div>
+          <div *ngIf="thought.type != 4">
+            <!-- Opinions button -->
+            <div (click)="setOpinionsOpen(true)" class="action">
+              <ion-icon name="chatbubble-outline" style="font-size: 20px;"></ion-icon>
+            </div>
 
-          <!-- Likes Button -->
-          <div (click)="thought.toggleLike(likeService, storageService)" class="action">
-            <ion-icon [color]="thought.is_liked ? 'danger' : ''" name="diamond-outline" style="font-size: 20px;">
-            </ion-icon>
+            <!-- Opinions Counter -->
+            <div class="action_label">{{thought.opinions}}</div>
+
+            <!-- Likes Button -->
+            <div (click)="togglePlaton()" class="action">
+              <ion-icon [color]="thought.is_liked ? 'danger' : ''" name="diamond-outline" style="font-size: 20px;">
+              </ion-icon>
+            </div>
+
+            <!-- Likes Counter -->
+            <div (click)="setLikesOpen(true)" class="action_label">{{thought.likes}}</div>
+
+            <!-- Platons Button -->
+            <div (click)="togglePlaton()" class="action">
+              <ion-icon [color]="thought.is_platoned ? 'secondary' : ''" name="repeat-outline" style="font-size: 20px;">
+              </ion-icon>
+            </div>
+            <!-- Platons counter -->
+            <div class="action_label">{{thought.platons}}</div>
+
           </div>
-
-          <!-- Likes Counter -->
-          <div (click)="setLikesOpen(true)" class="action_label">{{thought.likes}}</div>
-
-          <!-- Platons Button -->
-          <div (click)="thought.togglePlaton(platonService, storageService)" class="action">
-            <ion-icon [color]="thought.is_platoned ? 'secondary' : ''" name="repeat-outline" style="font-size: 20px;"></ion-icon>
-          </div>
-          <!-- Platons counter -->
-          <div class="action_label">{{thought.platons}}</div>
-
         </ion-col>
       </ion-row>
     </ion-grid>
