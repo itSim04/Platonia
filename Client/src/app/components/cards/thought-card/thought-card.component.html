@@ -146,7 +146,7 @@
 </ion-modal>
 
 <!-- Opinions list -->
-<ion-modal [isOpen]="isOpinionsOpen">
+<ion-modal [backdropDismiss]="false" [isOpen]="isOpinionsOpen">
   <ng-template>
 
     <ion-header>
@@ -158,9 +158,12 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content class="ion-padding">
-      <div style="margin-top: 4%; margin-bottom: 4%;" *ngFor="let opinion of opinions">
-        <app-opinion-card [user]="opioners.get(opinion.owner_id)!" [thought]="opinion"></app-opinion-card>
+    <ion-content>
+      <div *ngFor="let opinion of opinions">
+        <div style="margin: 4%;">
+          <app-opinion-card [user]="opioners.get(opinion.owner_id)!" [thought]="opinion"></app-opinion-card>
+        </div>
+        <div class="hr"> </div>
       </div>
     </ion-content>
 
@@ -172,13 +175,13 @@
               <ion-input [(ngModel)]="opinion" placeholder="In my opinion..."></ion-input>
             </ion-col>
             <ion-col size="3">
-              <ion-icon (click)="thought!.postComment(opinion, storageService, thoughtService)" class="send"
+              <ion-icon (click)="postComment()" class="send"
                 name="send"></ion-icon>
             </ion-col>
           </ion-row>
         </ion-grid>
       </ion-toolbar>
     </ion-footer>
-    
+
   </ng-template>
 </ion-modal>

@@ -1,8 +1,10 @@
+import { Observable } from 'rxjs';
 import { ExitCodes } from "src/app/helper/constants/db_schemas";
 import { AnswerService } from "../apis/answer.service";
 import { LikeService } from "../apis/like.service";
 import { StorageService } from "../apis/storage.service";
 import { ThoughtService } from "../apis/thought.service";
+import { ResponseReceipt } from './request-models';
 
 export abstract class Thought {
 
@@ -160,22 +162,11 @@ export abstract class Thought {
         });
     }
 
-    public postComment(content: string, storageService: StorageService, thoughtService: ThoughtService) {
+    public postComment(content: string, user_id: number, thoughtService: ThoughtService): Observable<ResponseReceipt> {
 
-        storageService.getSessionUser().then(session_user => {
+        this.opinions++;
+        return thoughtService.addThought({ content: content, owner_id: user_id, root_id: this.thought_id, type: 0 });
 
-            this.opinions++;
-            thoughtService.addThought({ content: content, owner_id: session_user.user_id, root_id: this.thought_id, type: 0 }).subscribe(r => {
-
-                console.log(r);
-                if (r.status != ExitCodes.THOUGHTS_ADD) {
-                    this.opinions--;
-                }
-
-            });
-
-
-        });
     }
 
 }

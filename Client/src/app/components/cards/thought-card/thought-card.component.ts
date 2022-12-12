@@ -121,6 +121,20 @@ export class ThoughtCardComponent implements AfterViewInit {
     }
   }
 
+  postComment() {
+
+    this.thought!.postComment(this.opinion, this.session_user!.user_id, this.thoughtService).subscribe(r => {
+
+      if (r.status == ExitCodes.THOUGHTS_ADD) {
+        this.setOpinionsOpen(true);
+        this.opinion = "";
+      } else {
+        this.thought!.opinions--;
+      }
+    })
+
+  }
+
 
   get textThought(): TextThought {
 
