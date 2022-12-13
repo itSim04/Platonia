@@ -32,7 +32,7 @@
 			".write": true,
 			"$chat": {
 				"$message": {
-					"name": {
+					"sender": {
 						".validate": true
 					},
 					"message": {
