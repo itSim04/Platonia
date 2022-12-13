@@ -21,11 +21,21 @@
   <ion-grid>
     <div *ngFor="let c of chat?.messages">
       <ion-row>
-        <ion-col>
+        <ion-col class="col">
           <ion-text
             [class]="c.owner_id == session_user.user_id ? 'sent-message ion-float-right' : 'received-message ion-float-left'">
-            {{c.content}}</ion-text>
+           {{c.content}}</ion-text>
+
         </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="col">
+          <ion-text [class]="c.owner_id == session_user.user_id ? 'date ion-float-right' : 'date ion-float-left'">
+            {{formatDate(c.date)}}
+          </ion-text>
+        </ion-col>
+
+
       </ion-row>
     </div>
 

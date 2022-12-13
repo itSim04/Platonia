@@ -1,3 +1,4 @@
+import { formatRemainingDate } from 'src/app/helper/utility';
 import { UserService } from './../../../linking/apis/user.service';
 import { Message } from './../../../linking/models/messaging-main';
 import { User } from './../../../linking/models/user-main';
@@ -22,7 +23,7 @@ export class ChatsPage implements OnInit {
   db: Database = getDatabase();
   id?: string;
   chat?: Chat;
-  constructor(private router: Router,private database: Database, private userService: UserService, private route: ActivatedRoute, private storageService: StorageService) { }
+  constructor(private router: Router, private database: Database, private userService: UserService, private route: ActivatedRoute, private storageService: StorageService) { }
 
   ngOnInit() {
 
@@ -39,7 +40,7 @@ export class ChatsPage implements OnInit {
         onChildAdded(commentsRef, (snapshot) => {
 
           const data = snapshot.val()
-          this.chat?.messages.push(new Message(data["timestamp"], data["sender"], data["message"]));
+          this.chat?.messages.push(new Message(new Date(data["timestamp"]), data["sender"], data["message"]));
           console.log(this.chat);
 
         });
@@ -102,7 +103,17 @@ export class ChatsPage implements OnInit {
 
   }
 
-  
+  formatDate(date: Date): string {
+
+    let minutes: string = String(date.getMinutes());
+
+    if (minutes.length == 1) {
+      minutes = 0 + minutes;
+    }
+    return (date.getHours() % 12) + ":" + minutes + (date.getHours() > 11 ? " PM" : " AM");
+
+  }
+
   goBack() {
 
     this.router.navigate(["tabs/messaging"]);

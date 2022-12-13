@@ -50,6 +50,7 @@ ion-content {
     border-bottom-left-radius: 10px;
     text-align: left;
     max-width: 80%;
+    min-width: 10%;
     width: fit-content;
     text-transform: none;
     font-size: 14px;
@@ -59,6 +60,55 @@ ion-content {
     --color-activated: white;
 
 }
+
+
+.sent-message {
+    
+    transition: all 250ms ease-in-out;
+    overflow: hidden;
+    background: var(--ion-color-tertiary);
+    max-width: 80%;
+    min-width: 10%;
+    width: fit-content;
+    color: white;
+    padding: 4%;
+    border-radius: 20px;
+    //text-align: right;
+    border-bottom-right-radius: 10px;
+    text-transform: none;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    --color-hover: #DDDDDD;
+    --color-activated: white;
+    
+}
+
+.col {
+
+    padding: 0px;
+
+}
+
+.date {
+
+    transition: all 250ms ease-in-out; 
+    max-width: 80%;
+    width: fit-content;
+    color: white;
+    text-align: left;
+    margin-bottom: 5%;
+    display: inline-block;
+    text-transform: none;
+    font-size: 9px;
+    text-align: right;
+    //font-weight: 400;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    --color-hover: #DDDDDD;
+    --color-activated: white;
+
+}
+
 
 .title {
     text-transform: none;
@@ -87,39 +137,4 @@ ion-content {
     margin-right: -50%;
     transform: translate(-50%, -50%);
     // min-height: 100vh;
-}
-
-.sent-message {
-
-    // background: var(--ion-color-primary);
-    // padding: 2%;
-    // margin: 5%;
-    // border-bottom-left-radius: 10%;
-    // border-bottom-right-radius: 10%;
-    // border-top-left-radius: 10%;
-    // border-top-right-radius: 10%;
-
-    transition: all 250ms ease-in-out;
-    overflow: hidden;
-    background: var(--ion-color-tertiary);
-    //display: inline-block;
-    //position: absolute;
-    //right: 3%;
-    max-width: 80%;
-    width: fit-content;
-    color: white;
-    padding: 4%;
-    //float: right;
-    //clear: both;
-    //margin-top: 2%;
-    border-radius: 20px;
-    text-align: right;
-    border-bottom-right-radius: 10px;
-    text-transform: none;
-    font-size: 14px;
-    font-weight: 400;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    --color-hover: #DDDDDD;
-    --color-activated: white;
-
 }
