@@ -1,3 +1,4 @@
+import { Chat } from './../../../linking/models/messaging-main';
 import { UserService } from './../../../linking/apis/user.service';
 import { StorageService } from './../../../linking/apis/storage.service';
 import { Component, OnInit } from '@angular/core';
@@ -14,7 +15,7 @@ export class MessagingPage implements OnInit {
   complete_users: Array<User> = new Array();
   users: Array<User> = new Array();
 
-  chats: Array<string> = new Array();
+  chats: Array<Chat> = new Array();
 
   isNewOpen: boolean = false;
 
@@ -28,28 +29,66 @@ export class MessagingPage implements OnInit {
 
   ngOnInit() {
 
+    this.complete_users.splice(0);
+    this.users.splice(0);
+    this.userService.getAll().subscribe(r => r.users?.forEach(u => {
+
+      if (u.user_id != this.session_user.user_id) {
+        //this.complete_users.splice(0);
+
+        this.complete_users.push(u);
+        this.users.push(u);
+      }
+
+    }));
+
     this.storageService.getSessionUser().then(r => {
 
       this.session_user = r
-      const chatRef = ref(this.db, 'users/' + r.user_id + '/chats/');
-      onValue(chatRef, (snapshot) => {
+      const userRef = ref(this.db, 'users/' + r.user_id + '/chats/');
+      onValue(userRef, (snapshot) => {
         const data = snapshot.val();
         this.chats.splice(0);
         if (data) {
+
           Object.keys(data).forEach((element: any) => {
-            this.chats.push(element);
+
+            const chatRef = ref(this.db, 'chats/' + element);
+            onValue(chatRef, (snapshot) => {
+              const data = snapshot.val();
+              if (data) {
+
+                this.userService.getOne({ user_id: this.seperateOwner(data["title"]) }).subscribe(r => {
+
+                  this.chats.push(new Chat(this.session_user, r.user!, data["start"], new Array()));
+
+                });
+
+              }
+            });
+
           });
+
         }
-
-
       });
-
-
     });
+  }
 
+  seperateOwner(id: string): number {
 
+    if (id.split('-')[0] == String(this.session_user.user_id)) {
 
+      return Number.parseInt(id.split('-')[1]);
 
+    }
+
+    if (id.split('-')[1] == String(this.session_user.user_id)) {
+
+      return Number.parseInt(id.split('-')[0]);
+
+    }
+
+    throw new Error("Illegal argument Exception");
   }
 
   handleChange(event: any) {
@@ -111,20 +150,7 @@ export class MessagingPage implements OnInit {
 
   toggleNew(state: boolean) {
 
-    this.complete_users.splice(0);
-    this.users.splice(0);
-    this.userService.getAll().subscribe(r => r.users?.forEach(u => {
-
-      if (u.user_id != this.session_user.user_id) {
-        //this.complete_users.splice(0);
-        this.isNewOpen = state;
-        this.complete_users.push(u);
-        this.users.push(u);
-      }
-      
-    }));
-
-
+    this.isNewOpen = state;
   }
 
 }
