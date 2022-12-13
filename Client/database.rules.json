@@ -10,7 +10,7 @@
 				"lastMessage": {
 					".validate": true
 				},
-				"timestamp": {
+				"start": {
 					".validate": true
 				},
 				"$other": {
