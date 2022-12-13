@@ -2,7 +2,7 @@ import { UserService } from './../../../linking/apis/user.service';
 import { Message } from './../../../linking/models/messaging-main';
 import { User } from './../../../linking/models/user-main';
 import { StorageService } from './../../../linking/apis/storage.service';
-import { Database, DatabaseReference, getDatabase, onChildAdded, onValue, push, ref, set } from '@angular/fire/database';
+import { Database, DatabaseReference, getDatabase, onChildAdded, onValue, push, ref, runTransaction, set } from '@angular/fire/database';
 import { NavController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -36,7 +36,7 @@ export class ChatsPage implements OnInit {
       this.session_user = r
       this.userService.getOne({ user_id: this.seperateOwner(this.id!) }).subscribe(u => {
 
-        this.chat = new Chat(r, u.user!, new Date(), new Array(new Message(new Date(), 9, "")));
+        this.chat = new Chat(r, u.user!, new Date(), new Array());
         const commentsRef = ref(this.db, 'messages/' + this.id);
         onChildAdded(commentsRef, (snapshot) => {
 
@@ -87,6 +87,27 @@ export class ChatsPage implements OnInit {
       sender: this.session_user!.user_id,
       timestamp: new Date().toISOString()
     });
+
+    const postRef: DatabaseReference = ref(this.db, "users/" + this.seperateOwner(this.id!) + "/chats/");
+
+    runTransaction(postRef, (post) => {
+
+      if (!post) {
+
+        post = {
+
+          [this.id!]: new Date().toISOString()
+
+        }
+
+      } else if (!post[this.id!]) {
+
+        post[this.id!] = new Date().toISOString()
+
+      }
+      return post;
+    });
+
     this.message = "";
 
   }

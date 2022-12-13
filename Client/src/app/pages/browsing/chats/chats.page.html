@@ -6,12 +6,16 @@
 
 <ion-content>
 
-  <div>
+  <ion-grid>
     <div *ngFor="let c of chat?.messages">
-      Text
-      <ion-text>{{c.content}} {{c.date}}</ion-text>
+      <ion-row>
+        <ion-col>
+          <ion-text [class]="c.owner_id == session_user.user_id ? 'sent-message ion-float-right' : 'received-message ion-float-left'">{{c.content}}</ion-text>
+        </ion-col>
+      </ion-row>
     </div>
-  </div>
+
+  </ion-grid>
 
 </ion-content>
 

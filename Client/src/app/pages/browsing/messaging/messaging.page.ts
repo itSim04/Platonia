@@ -36,16 +36,19 @@ export class MessagingPage implements OnInit {
     this.storageService.getSessionUser().then(r => {
 
       this.session_user = r
-      this.userService.getAll().subscribe(r => r.users?.forEach(u => {
+      this.userService.getAll().subscribe(r => {
+        r.users?.forEach(u => {
 
-        if (u.user_id != this.session_user.user_id) {
-          //this.complete_users.splice(0);
+          if (u.user_id != this.session_user.user_id) {
+            //this.complete_users.splice(0);
 
-          this.complete_users.push(u);
-          this.users.push(u);
-        }
+            this.complete_users.push(u);
+            this.users.push(u);
+          }
+        });
+        console.log(this.users);
+      });
 
-      }));
 
       const userRef = ref(this.db, 'users/' + r.user_id + '/chats/');
       onValue(userRef, (snapshot) => {
