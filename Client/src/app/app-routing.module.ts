@@ -36,10 +36,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/browsing/search/search.module').then( m => m.SearchPageModule)
   }
 
-
-
-
-
 ];
 
 @NgModule({

@@ -12,6 +12,10 @@
       <ion-icon name="add-circle-outline"></ion-icon>
     </ion-tab-button>
 
+    <ion-tab-button tab="messaging" selected="true">
+      <ion-icon name="paper-plane-outline"></ion-icon>
+    </ion-tab-button>
+
     <ion-tab-button (click)="openProfile()" [class.tab-selected]="this.router.url.includes(user)">
       <ion-icon name="person-circle-outline"></ion-icon>
     </ion-tab-button>

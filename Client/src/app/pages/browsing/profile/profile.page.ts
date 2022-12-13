@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AlertController, InfiniteScrollCustomEvent, IonPopover, ModalController, NavController } from '@ionic/angular';
 import { Thought } from 'src/app/linking/models/thought-main';
@@ -38,7 +37,7 @@ export class ProfilePage implements OnInit {
   @ViewChild('options') option!: IonPopover;
 
 
-  constructor(private thoughtService: ThoughtService, private emailComposer: EmailComposer, private alertController: AlertController, private modalCtrl: ModalController, private followService: FollowService, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router, private nav: NavController) {
+  constructor(private thoughtService: ThoughtService, private alertController: AlertController, private modalCtrl: ModalController, private followService: FollowService, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router, private nav: NavController) {
   }
 
   ngOnInit(): void {

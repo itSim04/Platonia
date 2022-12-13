@@ -1,0 +1,80 @@
+{
+	"rules": {
+		"chats": {
+			".read": true,
+			".write": true,
+			"$chat": {
+				"title": {
+					".validate": true
+				},
+				"lastMessage": {
+					".validate": true
+				},
+				"timestamp": {
+					".validate": true
+				},
+				"$other": {
+					".validate": false
+				}
+			}
+		},
+		"members": {
+			".read": true,
+			".write": true,
+			"$member": {
+				"$other": {
+					".validate": true
+				}
+			}
+		},
+		"messages": {
+			".read": true,
+			".write": true,
+			"$chat": {
+				"$message": {
+					"name": {
+						".validate": true
+					},
+					"message": {
+						".validate": true
+					},
+					"timestamp": {
+						".validate": true
+					},
+					"$other": {
+						".validate": false
+					}
+				}
+			}
+		},
+		"users": {
+			".read": true,
+			".write": true,
+			"$user": {
+				"name": {
+					".validate": true
+				},
+				"groups": {
+					"$all": {
+						".validate": true
+					}
+				},
+				"$other": {
+					".validate": false
+				}
+			}
+		},
+		"groups": {
+			"$group": {
+				"name": {
+					".validate": true
+				},
+				"members": {
+					"$all": {
+						".validate": true
+					}
+				}
+			}
+		}
+	}
+}
