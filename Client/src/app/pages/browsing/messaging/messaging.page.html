@@ -12,7 +12,7 @@
     </ion-fab-button>
   </ion-fab>
   <div>
-    <div class="chat" *ngFor="let a of chats">
+    <div (click)="openChat(a.user1.user_id, a.user2.user_id)" class="chat" *ngFor="let a of chats">
       <app-user-card [navigate]="false" [user]="a.user2"></app-user-card>
     </div>
   </div>

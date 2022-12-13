@@ -6,4 +6,26 @@
 
 <ion-content>
 
+  <div>
+    <div *ngFor="let c of chat?.messages">
+      Text
+      <ion-text>{{c.content}} {{c.date}}</ion-text>
+    </div>
+  </div>
+
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-input [(ngModel)]="message"></ion-input>
+        </ion-col>
+        <ion-col size="3">
+          <ion-icon (click)="postMessage()" class="send" name="send"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

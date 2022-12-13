@@ -1,3 +1,4 @@
+import { Route, Router } from '@angular/router';
 import { Chat } from './../../../linking/models/messaging-main';
 import { UserService } from './../../../linking/apis/user.service';
 import { StorageService } from './../../../linking/apis/storage.service';
@@ -22,7 +23,8 @@ export class MessagingPage implements OnInit {
 
   db: Database = getDatabase();
   session_user!: User;
-  constructor(private database: Database, private storageService: StorageService, private userService: UserService) {
+
+  constructor(private database: Database, private router: Router, private storageService: StorageService, private userService: UserService) {
 
 
   }
@@ -31,20 +33,20 @@ export class MessagingPage implements OnInit {
 
     this.complete_users.splice(0);
     this.users.splice(0);
-    this.userService.getAll().subscribe(r => r.users?.forEach(u => {
-
-      if (u.user_id != this.session_user.user_id) {
-        //this.complete_users.splice(0);
-
-        this.complete_users.push(u);
-        this.users.push(u);
-      }
-
-    }));
-
     this.storageService.getSessionUser().then(r => {
 
       this.session_user = r
+      this.userService.getAll().subscribe(r => r.users?.forEach(u => {
+
+        if (u.user_id != this.session_user.user_id) {
+          //this.complete_users.splice(0);
+
+          this.complete_users.push(u);
+          this.users.push(u);
+        }
+
+      }));
+
       const userRef = ref(this.db, 'users/' + r.user_id + '/chats/');
       onValue(userRef, (snapshot) => {
         const data = snapshot.val();
@@ -151,6 +153,17 @@ export class MessagingPage implements OnInit {
   toggleNew(state: boolean) {
 
     this.isNewOpen = state;
+
+  }
+
+  openChat(user1: number, user2: number) {
+
+    this.router.navigate(["chats/", {
+
+      id: Math.min(user1, user2) + "-" + Math.max(user1, user2)
+
+    }]);
+
   }
 
 }

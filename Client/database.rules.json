@@ -31,19 +31,8 @@
 			".read": true,
 			".write": true,
 			"$chat": {
-				"$message": {
-					"sender": {
-						".validate": true
-					},
-					"message": {
-						".validate": true
-					},
-					"timestamp": {
-						".validate": true
-					},
-					"$other": {
-						".validate": false
-					}
+				"$other": {
+					".validate": true
 				}
 			}
 		},
@@ -51,7 +40,6 @@
 			".read": true,
 			".write": true,
 			"$user": {
-				
 				"groups": {
 					"$all": {
 						".validate": true
