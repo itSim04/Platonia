@@ -17,14 +17,12 @@ export class ChatsPage implements OnInit {
 
   message: string = "";
 
-
-
   session_user!: User;
 
   db: Database = getDatabase();
   id?: string;
   chat?: Chat;
-  constructor(private database: Database, private userService: UserService, private route: ActivatedRoute, private storageService: StorageService) { }
+  constructor(private router: Router,private database: Database, private userService: UserService, private route: ActivatedRoute, private storageService: StorageService) { }
 
   ngOnInit() {
 
@@ -70,14 +68,6 @@ export class ChatsPage implements OnInit {
 
 
 
-  ionViewWillEnter() {
-
-
-
-
-
-  }
-
   postMessage() {
 
     const postListRef = ref(this.db, 'messages/' + this.id);
@@ -109,6 +99,13 @@ export class ChatsPage implements OnInit {
     });
 
     this.message = "";
+
+  }
+
+  
+  goBack() {
+
+    this.router.navigate(["tabs/messaging"]);
 
   }
 

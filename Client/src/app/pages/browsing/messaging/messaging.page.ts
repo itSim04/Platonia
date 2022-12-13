@@ -2,9 +2,11 @@ import { Route, Router } from '@angular/router';
 import { Chat } from './../../../linking/models/messaging-main';
 import { UserService } from './../../../linking/apis/user.service';
 import { StorageService } from './../../../linking/apis/storage.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Database, get, getDatabase, onValue, ref, set, DatabaseReference, child, update, runTransaction } from '@angular/fire/database';
 import { User } from 'src/app/linking/models/user-main';
+import { OverlayEventDetail } from '@ionic/core';
+import { IonModal } from '@ionic/angular';
 
 @Component({
   selector: 'app-messaging',
@@ -13,12 +15,17 @@ import { User } from 'src/app/linking/models/user-main';
 })
 export class MessagingPage implements OnInit {
 
+  @ViewChild(IonModal) modal!: IonModal;
+
+  id: string = "";
+
+  loading: boolean = true;
   complete_users: Array<User> = new Array();
   users: Array<User> = new Array();
 
-  chats: Array<Chat> = new Array();
+  chats: Set<Chat> = new Set();
 
-  isNewOpen: boolean = false;
+  //isNewOpen: boolean = false;
 
 
   db: Database = getDatabase();
@@ -26,6 +33,19 @@ export class MessagingPage implements OnInit {
 
   constructor(private database: Database, private router: Router, private storageService: StorageService, private userService: UserService) {
 
+
+  }
+
+  ionViewWillEnter() {
+
+    this.loading = true;
+    this.storageService.getSessionUser().then(r => {
+      if (r.user_id != this.session_user.user_id) {
+        this.ngOnInit();
+      } else {
+        this.loading = false;
+      }
+    });
 
   }
 
@@ -53,7 +73,7 @@ export class MessagingPage implements OnInit {
       const userRef = ref(this.db, 'users/' + r.user_id + '/chats/');
       onValue(userRef, (snapshot) => {
         const data = snapshot.val();
-        this.chats.splice(0);
+        this.chats.clear();
         if (data) {
 
           Object.keys(data).forEach((element: any) => {
@@ -63,16 +83,31 @@ export class MessagingPage implements OnInit {
               const data = snapshot.val();
               if (data) {
 
-                this.userService.getOne({ user_id: this.seperateOwner(data["title"]) }).subscribe(r => {
+                let flag: boolean = false;
+                this.chats.forEach(r => {
 
-                  this.chats.push(new Chat(this.session_user, r.user!, data["start"], new Array()));
-
+                  if (Math.min(r.user1.user_id, r.user2.user_id) + "-" + Math.max(r.user1.user_id, r.user2.user_id) == data["title"]) {
+                    flag = true;
+                  }
                 });
+
+                if (!flag) {
+                  this.userService.getOne({ user_id: this.seperateOwner(data["title"]) }).subscribe(r => {
+
+                    this.loading = false;
+                    this.chats.add(new Chat(this.session_user, r.user!, data["start"], new Array()));
+
+                  });
+                }
 
               }
             });
 
           });
+
+        } else {
+
+          this.loading = false;
 
         }
       });
@@ -103,11 +138,35 @@ export class MessagingPage implements OnInit {
 
   }
 
+  cancel() {
+
+    this.modal.dismiss(null, 'cancel');
+
+  }
+
+  toggleModal() {
+
+    this.modal.present();
+
+  }
+
+  onWillDismiss(event: Event) {
+    const ev = event as CustomEvent<OverlayEventDetail<string>>;
+    console.log(ev.detail.role);
+    if (ev.detail.role === 'open') {
+      this.router.navigate(["chats/", {
+
+        id: this.id
+
+      }]);
+    }
+  }
+
   addChat(user: User) {
 
     if (user.user_id != this.session_user.user_id) {
 
-      const id: string = Math.min(this.session_user.user_id, user.user_id) + "-" + Math.max(this.session_user.user_id, user.user_id);
+      this.id = Math.min(this.session_user.user_id, user.user_id) + "-" + Math.max(this.session_user.user_id, user.user_id);
       const db: Database = getDatabase();
       const postRef: DatabaseReference = ref(db, "users/" + this.session_user.user_id + "/chats/");
 
@@ -117,19 +176,19 @@ export class MessagingPage implements OnInit {
 
           post = {
 
-            [id]: new Date().toISOString()
+            [this.id]: new Date().toISOString()
 
           }
 
-        } else if (!post[id]) {
+        } else if (!post[this.id]) {
 
-          post[id] = new Date().toISOString()
+          post[this.id] = new Date().toISOString()
 
         }
         return post;
       });
 
-      const chatRef: DatabaseReference = ref(db, "chats/" + id);
+      const chatRef: DatabaseReference = ref(db, "chats/" + this.id);
 
       runTransaction(chatRef, (post) => {
 
@@ -137,7 +196,7 @@ export class MessagingPage implements OnInit {
 
           post = {
 
-            title: id,
+            title: this.id,
             start: new Date().toISOString()
 
 
@@ -145,17 +204,13 @@ export class MessagingPage implements OnInit {
 
         }
 
+        this.modal.dismiss(null, 'open');
+
         return post;
 
       });
 
     }
-
-  }
-
-  toggleNew(state: boolean) {
-
-    this.isNewOpen = state;
 
   }
 

@@ -1,16 +1,30 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>chats</ion-title>
+  <ion-toolbar class="header">
+    <ion-title class="title">{{chat?.user2?.username}}</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="goBack()">
+        <ion-icon slot="icon-only" color="secondary" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+
+
+
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
+
   <ion-grid>
     <div *ngFor="let c of chat?.messages">
       <ion-row>
         <ion-col>
-          <ion-text [class]="c.owner_id == session_user.user_id ? 'sent-message ion-float-right' : 'received-message ion-float-left'">{{c.content}}</ion-text>
+          <ion-text
+            [class]="c.owner_id == session_user.user_id ? 'sent-message ion-float-right' : 'received-message ion-float-left'">
+            {{c.content}}</ion-text>
         </ion-col>
       </ion-row>
     </div>
@@ -24,9 +38,9 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <ion-input [(ngModel)]="message"></ion-input>
+          <ion-input class="input" [(ngModel)]="message"></ion-input>
         </ion-col>
-        <ion-col size="3">
+        <ion-col size="2">
           <ion-icon (click)="postMessage()" class="send" name="send"></ion-icon>
         </ion-col>
       </ion-row>
