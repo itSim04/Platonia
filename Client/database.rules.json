@@ -51,10 +51,13 @@
 			".read": true,
 			".write": true,
 			"$user": {
-				"name": {
-					".validate": true
-				},
+				
 				"groups": {
+					"$all": {
+						".validate": true
+					}
+				},
+				"chats": {
 					"$all": {
 						".validate": true
 					}

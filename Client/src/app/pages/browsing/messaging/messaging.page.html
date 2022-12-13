@@ -6,4 +6,31 @@
 
 <ion-content>
 
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="toggleNew(true)">
+      <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+
+  <ion-modal [isOpen]="isNewOpen">
+    <ng-template>
+      <ion-header>
+        <ion-header>
+          <ion-toolbar>
+            <ion-buttons slot="end">
+              <ion-button (click)="toggleNew(false)">Close</ion-button>
+            </ion-buttons>
+            <ion-searchbar mode="ios" animated="true" (ionChange)="handleChange($event)"></ion-searchbar>
+          </ion-toolbar>
+        </ion-header>
+      </ion-header>
+      <ion-content>
+        <div>
+        <app-user-card [navigate]="false" (click)="addChat(user)" *ngFor="let user of users" [user]="user"></app-user-card>
+      </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
 </ion-content>

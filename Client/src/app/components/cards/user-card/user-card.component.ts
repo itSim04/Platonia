@@ -10,13 +10,15 @@ import { User } from 'src/app/linking/models/user-main';
 export class UserCardComponent {
 
   @Input() public user!: User;
+  @Input() navigate: boolean = true
   constructor(private router: Router) {
 
   }
 
   public openProfile() {
 
-    this.router.navigate(["/tabs/profile", { id: this.user!.user_id }]);
+    if (this.navigate)
+      this.router.navigate(["/tabs/profile", { id: this.user!.user_id }]);
 
   }
 

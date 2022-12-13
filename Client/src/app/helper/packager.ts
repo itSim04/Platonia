@@ -209,7 +209,6 @@ export class Packager {
             ids.add(element[ThoughtParts.ID]);
 
         });
-        console.log("IDS", ids);
         json?.forEach((element: any) => {
 
             const current: Thought = this.thoughtUnpack(element, platons);
@@ -219,12 +218,10 @@ export class Packager {
         for (let element of map.values()) {
             if (element.type == 4 && ids.has(element.thought_id) && map.has(element.root_id)) {
 
-                console.log("linked", element);
                 (element as PlatonedThought).root = map.get(element.root_id)!;
 
             }
         };
-        console.log("MAP", map);
         return map;
 
     }
@@ -265,7 +262,6 @@ export class Packager {
                     data[OptionParts.VOTES4]
 
                 );
-                console.log("Poll", current, data);
                 break;
 
             case 4:
