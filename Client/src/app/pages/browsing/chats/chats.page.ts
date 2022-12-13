@@ -120,5 +120,78 @@ export class ChatsPage implements OnInit {
 
   }
 
+  topLeft(c: Message, i: number) {
+
+    if (i == 0 || this.formatDate(this.chat?.messages![i - 1].date!) != this.formatDate(c.date) || c.owner_id == this.session_user.user_id) {
+
+      return '20px';
+
+    } else if (i > 0 && this.chat?.messages![i - 1].owner_id == c.owner_id) {
+
+      return '5px';
+
+    } else {
+
+      return '20px';
+
+    }
+
+  }
+
+  bottomRight(c: Message, i: number) {
+
+    if (i == this.chat?.messages!.length! - 1 || this.formatDate(this.chat?.messages![i + 1].date!) != this.formatDate(c.date) || c.owner_id != this.session_user.user_id) {
+
+      return '20px';
+
+    } else if (i < this.chat?.messages!.length! - 1 && this.chat?.messages![i + 1].owner_id == c.owner_id) {
+
+      return '5px'
+
+    } else {
+
+      return '20px';
+
+    }
+  }
+
+  bottomLeft(c: Message, i: number) {
+
+    if (i == this.chat?.messages!.length! - 1 || this.formatDate(this.chat?.messages![i + 1].date!) != this.formatDate(c.date) || c.owner_id == this.session_user.user_id) {
+
+      return '20px';
+
+    } else if (i < this.chat?.messages!.length! - 1 && this.chat?.messages![i + 1].owner_id == c.owner_id) {
+
+      return '5px'
+
+    } else {
+
+      return '20px';
+
+    }
+  }
+
+  topRight(c: Message, i: number) {
+
+    if (i == 0 || this.formatDate(this.chat?.messages![i - 1].date!) != this.formatDate(c.date) || c.owner_id != this.session_user.user_id) {
+
+      return '20px';
+
+    } else if (i > 0 && this.chat?.messages![i - 1].owner_id == c.owner_id) {
+
+      return '5px'
+
+    } else {
+
+      return '20px';
+
+    }
+  }
+
+
+
+
+
 }
 

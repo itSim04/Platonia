@@ -26,28 +26,15 @@ ion-content {
 
 .received-message {
 
-    // background: var(--ion-color-primary);
-    // padding: 2%;
-    // margin: 5%;
-    // border-bottom-left-radius: 10%;
-    // border-bottom-right-radius: 10%;
-    // border-top-left-radius: 10%;
-    // border-top-right-radius: 10%;
-
     transition: all 250ms ease-in-out;
-    //float: left;
-    //clear: both;
+    margin-bottom: 1%;
     overflow: hidden;
     background: var(--ion-color-primary);
-    //display: inline-block;
     color: white;
     padding: 4%;
-    //position: absolute;
-    //left: 3%;
-    //margin-left: 3%;
-
+    padding-top: 3%;
+    padding-bottom: 3%;
     border-radius: 20px;
-    border-bottom-left-radius: 10px;
     text-align: left;
     max-width: 80%;
     min-width: 10%;
@@ -65,6 +52,7 @@ ion-content {
 .sent-message {
     
     transition: all 250ms ease-in-out;
+    margin-bottom: 1%;
     overflow: hidden;
     background: var(--ion-color-tertiary);
     max-width: 80%;
@@ -72,9 +60,10 @@ ion-content {
     width: fit-content;
     color: white;
     padding: 4%;
+    padding-top: 3%;
+    padding-bottom: 3%;
     border-radius: 20px;
-    //text-align: right;
-    border-bottom-right-radius: 10px;
+    border-radius: 20px;
     text-transform: none;
     font-size: 14px;
     font-weight: 400;
