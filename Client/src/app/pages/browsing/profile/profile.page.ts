@@ -137,32 +137,36 @@ export class ProfilePage implements OnInit {
     const id_obj = this.route.snapshot.paramMap.get("id");
     const id: number = Number.parseInt(id_obj != null ? id_obj : "0");
 
-    this.userService.getOne({ user_id: id }).subscribe(current_profile => {
+    this.storage.getSessionUser().then(current_user => {
 
-      this.current_user = current_profile.user;
-      this.storage.getSessionUser().then(current_user => {
+      console.log("ION", current_user, id);
+      if (id == current_user.user_id) {
 
-        console.log(this.current_user);
+        this.owner = true;
+        this.current_user = current_user;
+
         if (!this.current_user!.is_verified) {
 
           this.displayVerification();
+
         }
-        if (current_user.user_id == this.current_user!.user_id) {
 
-          this.owner = true;
+      } else {
 
-        } else {
+        this.userService.getOne({ user_id: id }).subscribe(current_profile => {
+
+          this.current_user = current_profile.user;
+
+         
 
           this.owner = false;
           this.followService.isFollowing(current_user.user_id, current_profile.user!.user_id).subscribe(r => this.is_followed = r.follows!)
 
-        }
+          this.retrieveData();
 
-        this.new_bio = this.current_user!.bio;
-        this.retrieveData();
-
-      });
-
+        });
+      }
+      this.new_bio = this.current_user!.bio;
     });
 
 

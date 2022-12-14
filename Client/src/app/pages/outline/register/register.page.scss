@@ -1,5 +1,13 @@
-ion-content {
-    --background: url(../../../../assets/imgs/main-bg2.png) 0 0/100% 100%;
+@media (prefers-color-scheme: dark) {
+    ion-content {
+        --background: url(../../../../assets/imgs/main-dark-bg2.png) 0 0/100% 100%;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    ion-content {
+        --background: url(../../../../assets/imgs/main-light-bg2.png) 0 0/100% 100%;
+    }
 }
 
 .welcome_text {
