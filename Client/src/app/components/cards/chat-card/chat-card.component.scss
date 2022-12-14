@@ -1,0 +1,38 @@
+.chat {
+
+    padding-top: 5%;
+    padding-bottom: 5%;
+
+}
+
+.name {
+
+    font-size: 15px;
+
+}
+
+.subtitle {
+
+    font-size: 9px;
+    color: gray;
+    display: block;
+}
+
+.date {
+    float: right;
+   // display: inline-block;
+}
+
+.multi {
+
+    transition: all 250ms ease-in-out;
+   // max-width: 80%;
+    min-width: 10%;
+    width: inherit;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    --color-hover: #DDDDDD;
+    --color-activated: white;
+    text-transform: none;
+
+
+}

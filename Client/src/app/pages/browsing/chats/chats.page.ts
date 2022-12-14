@@ -1,9 +1,9 @@
-import { formatRemainingDate } from 'src/app/helper/utility';
+import { formatDate, formatRemainingDate } from 'src/app/helper/utility';
 import { UserService } from './../../../linking/apis/user.service';
 import { Message } from './../../../linking/models/messaging-main';
 import { User } from './../../../linking/models/user-main';
 import { StorageService } from './../../../linking/apis/storage.service';
-import { Database, DatabaseReference, getDatabase, onChildAdded, onValue, push, ref, runTransaction, set } from '@angular/fire/database';
+import { Database, DatabaseReference, getDatabase, onChildAdded, onValue, push, ref, runTransaction, set, update } from '@angular/fire/database';
 import { NavController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -16,6 +16,7 @@ import { Chat } from 'src/app/linking/models/messaging-main';
 })
 export class ChatsPage implements OnInit {
 
+  loading: boolean = true;
   message: string = "";
 
   session_user!: User;
@@ -35,10 +36,11 @@ export class ChatsPage implements OnInit {
       this.session_user = r
       this.userService.getOne({ user_id: this.seperateOwner(this.id!) }).subscribe(u => {
 
-        this.chat = new Chat(r, u.user!, new Date(), new Array());
+        this.chat = new Chat(r, u.user!, new Date(), new Message(new Date(), -1, ""), new Array());
         const commentsRef = ref(this.db, 'messages/' + this.id);
         onChildAdded(commentsRef, (snapshot) => {
 
+          this.loading = false;
           const data = snapshot.val()
           this.chat?.messages.push(new Message(new Date(data["timestamp"]), data["sender"], data["message"]));
           console.log(this.chat);
@@ -77,7 +79,15 @@ export class ChatsPage implements OnInit {
       message: this.message,
       sender: this.session_user!.user_id,
       timestamp: new Date().toISOString()
-    });
+    }).catch(r => console.log(r));
+
+    const chatRef = ref(this.db, 'chats/' + this.id);
+
+    update(chatRef, {
+      lastMessage: this.message,
+      lastDate: new Date().toISOString(),
+      lastSender: this.session_user.user_id
+    }).catch(r => console.log(r));
 
     const postRef: DatabaseReference = ref(this.db, "users/" + this.seperateOwner(this.id!) + "/chats/");
 
@@ -97,7 +107,7 @@ export class ChatsPage implements OnInit {
 
       }
       return post;
-    });
+    }).catch(r => console.log(r));
 
     this.message = "";
 
@@ -105,12 +115,7 @@ export class ChatsPage implements OnInit {
 
   formatDate(date: Date): string {
 
-    let minutes: string = String(date.getMinutes());
-
-    if (minutes.length == 1) {
-      minutes = 0 + minutes;
-    }
-    return (date.getHours() % 12) + ":" + minutes + (date.getHours() > 11 ? " PM" : " AM");
+    return formatDate(date);
 
   }
 

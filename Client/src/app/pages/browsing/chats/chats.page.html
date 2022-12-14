@@ -9,7 +9,7 @@
     </ion-buttons>
 
 
-
+    <ion-progress-bar color="secondary" *ngIf="loading" type="indeterminate"></ion-progress-bar>
 
 
   </ion-toolbar>
@@ -32,7 +32,8 @@
       </ion-row>
       <ion-row *ngIf="i == chat?.messages!.length - 1 || formatDate(chat?.messages![i + 1].date) != formatDate(c.date)">
         <ion-col class="col">
-          <ion-text [class]="c.owner_id == session_user.user_id ? 'multi date ion-float-right' : 'multi date ion-float-left'">
+          <ion-text
+            [class]="c.owner_id == session_user.user_id ? 'multi date ion-float-right' : 'multi date ion-float-left'">
             {{formatDate(c.date)}}
           </ion-text>
         </ion-col>

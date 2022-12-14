@@ -8,9 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { MessagingPageRoutingModule } from './messaging-routing.module';
 
 import { MessagingPage } from './messaging.page';
-
-import { AngularFireModule } from '@angular/fire/compat';
-import { environment } from 'src/environments/environment';
+import { ChatCardModule } from 'src/app/components/cards/chat-card/chat-card.module';
 
 @NgModule({
   imports: [
@@ -18,6 +16,7 @@ import { environment } from 'src/environments/environment';
     FormsModule,
     IonicModule,
     MessagingPageRoutingModule,
+    ChatCardModule,
     UserCardModule
   ],
   declarations: [MessagingPage],

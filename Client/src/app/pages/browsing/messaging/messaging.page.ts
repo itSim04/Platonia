@@ -1,5 +1,5 @@
 import { Route, Router } from '@angular/router';
-import { Chat } from './../../../linking/models/messaging-main';
+import { Chat, Message } from './../../../linking/models/messaging-main';
 import { UserService } from './../../../linking/apis/user.service';
 import { StorageService } from './../../../linking/apis/storage.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -18,12 +18,13 @@ export class MessagingPage implements OnInit {
   @ViewChild(IonModal) modal!: IonModal;
 
   id: string = "";
+  init: boolean = false;
 
   loading: boolean = true;
   complete_users: Array<User> = new Array();
   users: Array<User> = new Array();
 
-  chats: Set<Chat> = new Set();
+  chats: Array<Chat> = new Array();
 
   //isNewOpen: boolean = false;
 
@@ -38,19 +39,29 @@ export class MessagingPage implements OnInit {
 
   ionViewWillEnter() {
 
-    this.loading = true;
-    this.storageService.getSessionUser().then(r => {
-      if (r.user_id != this.session_user.user_id) {
-        this.ngOnInit();
-      } else {
-        this.loading = false;
-      }
-    });
+    if (!this.init) {
+      this.loading = true;
+      this.storageService.getSessionUser().then(r => {
+        console.log(r.user_id + " " + this.session_user.user_id)
+        if (r.user_id != this.session_user.user_id) {
+          this.ngOnInit();
+        } else {
+          this.loading = false;
+        }
+      });
+    }
+  }
+
+  ngOnDestroy() {
+
+    this.session_user.user_id = -1;
 
   }
 
   ngOnInit() {
 
+    this.loading = true;
+    this.init = true;
     this.complete_users.splice(0);
     this.users.splice(0);
     this.storageService.getSessionUser().then(r => {
@@ -73,21 +84,26 @@ export class MessagingPage implements OnInit {
       const userRef = ref(this.db, 'users/' + r.user_id + '/chats/');
       onValue(userRef, (snapshot) => {
         const data = snapshot.val();
-        this.chats.clear();
+        this.chats.splice(0);
         if (data) {
 
           Object.keys(data).forEach((element: any) => {
 
             const chatRef = ref(this.db, 'chats/' + element);
             onValue(chatRef, (snapshot) => {
+
               const data = snapshot.val();
+              console.log("Value changes", data);
               if (data) {
 
                 let flag: boolean = false;
                 this.chats.forEach(r => {
 
                   if (Math.min(r.user1.user_id, r.user2.user_id) + "-" + Math.max(r.user1.user_id, r.user2.user_id) == data["title"]) {
+                    
+                    r.last_message = new Message(new Date(data["lastDate"]), data["lastSender"], data["lastMessage"]);
                     flag = true;
+
                   }
                 });
 
@@ -95,7 +111,9 @@ export class MessagingPage implements OnInit {
                   this.userService.getOne({ user_id: this.seperateOwner(data["title"]) }).subscribe(r => {
 
                     this.loading = false;
-                    this.chats.add(new Chat(this.session_user, r.user!, data["start"], new Array()));
+                    this.init = false;
+                    this.chats.push(new Chat(this.session_user, r.user!, data["start"], new Message(new Date(data["lastDate"]), data["lastSender"], data["lastMessage"]), new Array()));
+                    this.chats = this.chats.sort( (a: Chat, b: Chat) => (b.last_message.date.getTime() - a.last_message.date.getTime()) );
 
                   });
                 }
@@ -211,16 +229,6 @@ export class MessagingPage implements OnInit {
       });
 
     }
-
-  }
-
-  openChat(user1: number, user2: number) {
-
-    this.router.navigate(["chats/", {
-
-      id: Math.min(user1, user2) + "-" + Math.max(user1, user2)
-
-    }]);
 
   }
 

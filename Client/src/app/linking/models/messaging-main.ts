@@ -6,7 +6,7 @@ export class Message {
     private _content: string;
 
     constructor(date: Date, owner_id: number, content: string) {
-     
+
         this._date = date;
         this._owner_id = owner_id;
         this._content = content;
@@ -36,18 +36,20 @@ export class Message {
 
 export class Chat {
 
-   private _user_1: User;
-   private _user_2: User;
-   private _start: Date;
-   private _messages: Array<Message>;
-   
-   constructor(user_1: User, user_2: User, start: Date, messages: Array<Message>) {
-       
-       this._user_1 = user_1;
-       this._user_2 = user_2;
-       this._start = start
-       this._messages = messages;
-       
+    private _user_1: User;
+    private _user_2: User;
+    private _start: Date;
+    private _last_message: Message;
+    private _messages: Array<Message>;
+
+    constructor(user_1: User, user_2: User, start: Date, last_message: Message, messages: Array<Message>) {
+
+        this._user_1 = user_1;
+        this._user_2 = user_2;
+        this._start = start
+        this._last_message = last_message;
+        this._messages = messages;
+
     }
     public get user1(): User {
         return this._user_1;
@@ -66,6 +68,12 @@ export class Chat {
     }
     public set start(value: Date) {
         this._start = value;
+    }
+    public get last_message(): Message {
+        return this._last_message;
+    }
+    public set last_message(value: Message) {
+        this._last_message = value;
     }
     public get messages(): Array<Message> {
         return this._messages;

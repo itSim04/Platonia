@@ -1,0 +1,13 @@
+<ion-item (click)="openChat()" class="chat">
+  <ion-avatar slot="start">
+    <img [src]="chat.user2.picture" />
+  </ion-avatar>
+  <ion-label>
+    <ion-text class="name multi">
+      {{chat.user2.username}}
+    </ion-text>
+    <ion-text class="subtitle multi">
+      {{lastSender}}: {{chat.last_message.content}} <div class="date">{{formatDate(chat.last_message.date)}}</div>
+    </ion-text>
+  </ion-label>
+</ion-item>
