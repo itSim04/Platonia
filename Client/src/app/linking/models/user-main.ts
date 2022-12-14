@@ -1,3 +1,4 @@
+import { Interest } from './interest-main';
 import { Genders } from "src/app/helper/constants/general";
 
 export class User {
@@ -14,6 +15,9 @@ export class User {
     private _banner: string;
     private _followers: number;
     private _followings: number;
+
+    public credit?: number;
+    public interests?: Map<number, Interest>;
 
     constructor(user_id: number, username: string, is_verified: boolean, bio: string, email: string, birthday: Date, join: Date, gender: number, picture: string, banner: string, followers: number, followings: number) {
 

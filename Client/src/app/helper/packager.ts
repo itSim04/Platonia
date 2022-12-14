@@ -147,6 +147,7 @@ export class Packager {
             const current: User | undefined = this.userUnpack(element);
             if (current != undefined) {
                 map.set(current.user_id, current);
+                map.get(current.user_id)!.interests = this.packInterestsInMap(element.interests);
             }
         });
         return map;

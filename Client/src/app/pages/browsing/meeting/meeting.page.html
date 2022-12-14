@@ -1,3 +1,35 @@
 <ion-content>
-<div class="meet"></div>
+  <ion-card class="card" *ngIf="users.length > 0">
+    <img [src]="users[0].banner" class="header-img" />
+    <ion-card-content>
+      <ion-list lines="none">
+        <ion-item>
+          <ion-avatar slot="start">
+            <img [src]="users[0].picture" />
+          </ion-avatar>
+          <ion-label>
+            <h1>{{users[0].username}}</h1>
+            <p>{{gender}}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item *ngFor="let i of users[0].interests | keyvalue">
+          <ion-label>
+            <h2>{{i.value.name}}</h2>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button color="secondary" fill="outline">Meet</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button color="danger" fill="outline">
+              Reject
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
