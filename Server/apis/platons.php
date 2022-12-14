@@ -17,8 +17,8 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, PLATONS::USER_ID, PLATONS::THOUGHT_ID, PLATONS::PLATON_DATE)) {
                 $output[RESPONSE::STATUS] = EXIT_CODES::PLATON_ADD;
 
-                $id = process_fetch_id($PDO, SQLFunctions::ADD, $thoughts_table, [THOUGHTS::SHARE_DATE => $_GET[PLATONS::PLATON_DATE], THOUGHTS::CONTENT => "", THOUGHTS::TYPE => 4, THOUGHTS::OWNER_ID => $_GET[PLATONS::USER_ID], THOUGHTS::ROOT => $_GET[PLATONS::THOUGHT_ID]], array(THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID, THOUGHTS::ROOT), array());
-                process($PDO, SQLFunctions::ADD, $table_name, [PLATONS::USER_ID => $_GET[PLATONS::USER_ID], PLATONS::THOUGHT_ID => $id, PLATONS::PLATON_DATE => $_GET[PLATONS::PLATON_DATE], PLATONS::ROOT_ID => $_GET[PLATONS::THOUGHT_ID]], array(PLATONS::USER_ID, PLATONS::THOUGHT_ID, PLATONS::PLATON_DATE, PLATONS::ROOT_ID), array());
+                $id = process_fetch_id($PDO, SQLFunctions::ADD, array($thoughts_table), [THOUGHTS::SHARE_DATE => $_GET[PLATONS::PLATON_DATE], THOUGHTS::CONTENT => "", THOUGHTS::TYPE => 4, THOUGHTS::OWNER_ID => $_GET[PLATONS::USER_ID], THOUGHTS::ROOT => $_GET[PLATONS::THOUGHT_ID]], array(THOUGHTS::SHARE_DATE, THOUGHTS::CONTENT, THOUGHTS::TYPE, THOUGHTS::OWNER_ID, THOUGHTS::ROOT), array());
+                process($PDO, SQLFunctions::ADD, array($table_name), [PLATONS::USER_ID => $_GET[PLATONS::USER_ID], PLATONS::THOUGHT_ID => $id, PLATONS::PLATON_DATE => $_GET[PLATONS::PLATON_DATE], PLATONS::ROOT_ID => $_GET[PLATONS::THOUGHT_ID]], array(PLATONS::USER_ID, PLATONS::THOUGHT_ID, PLATONS::PLATON_DATE, PLATONS::ROOT_ID), array());
             }
             break;
 
@@ -26,8 +26,8 @@ if (check_keys($_GET, "schema")) {
 
             if (check_keys($_GET, PLATONS::USER_ID, PLATONS::ROOT_ID)) {
                 $output[RESPONSE::STATUS] = EXIT_CODES::PLATON_REMOVE;
-                $id = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(PLATONS::USER_ID), new condition(PLATONS::ROOT_ID)))[0]->thought_id_fk_platons;
-                process($PDO, SQLFunctions::DELETE, $thoughts_table, [THOUGHTS::ID => $id], array(), array(new condition(THOUGHTS::ID)));
+                $id = process_fetch($PDO, SQLFunctions::SELECT, array($table_name), $_GET, array(), array(new condition(PLATONS::USER_ID), new condition(PLATONS::ROOT_ID)))[0]->thought_id_fk_platons;
+                process($PDO, SQLFunctions::DELETE, array($thoughts_table), [THOUGHTS::ID => $id], array(), array(new condition(THOUGHTS::ID)));
             }
             break;
 
@@ -36,7 +36,7 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, PLATONS::USER_ID)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::PLATON_GET_ALL_BY_USER;
-                $output[RESPONSE::PLATONS] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $thoughts_table, $thoughts_temp), $_GET, array(), array(new condition(PLATONS::USER_ID), new condition(THOUGHTS::ID . " = " . PLATONS::THOUGHT_ID, false), new condition(THOUGHTS::ID . " = " . THOUGHTS_TEMP::ID, false)));
+                $output[RESPONSE::PLATONS] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, array($thoughts_table), $thoughts_temp), $_GET, array(), array(new condition(PLATONS::USER_ID), new condition(THOUGHTS::ID . " = " . PLATONS::THOUGHT_ID, false), new condition(THOUGHTS::ID . " = " . THOUGHTS_TEMP::ID, false)));
             }
             break;
 

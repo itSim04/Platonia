@@ -10,7 +10,7 @@ import { ResponseParts, ExitCodes } from "./constants/db_schemas";
 export class Packager {
 
     public static responseUnpack(data: any): ResponseReceipt {
-
+console.log(data);
         const response: ResponseReceipt = {
 
             status: data[ResponseParts.STATUS],

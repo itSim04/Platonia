@@ -17,8 +17,8 @@ if (check_keys($_GET, "schema")) {
 
             if (check_keys($_POST, INTERESTS::NAME, INTERESTS::IMG)) {
                 $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_ADD;
-                $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(INTERESTS::NAME, INTERESTS::IMG), array());
-                $output[RESPONSE::INTEREST] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, [INTERESTS::ID => $id], array(), array(new condition(INTERESTS::ID)));
+                $id = process_fetch_id($PDO, SQLFunctions::ADD, array($table_name), $_POST, array(INTERESTS::NAME, INTERESTS::IMG), array());
+                $output[RESPONSE::INTEREST] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name), [INTERESTS::ID => $id], array(), array(new condition(INTERESTS::ID)));
 
             }
             break;
@@ -27,7 +27,7 @@ if (check_keys($_GET, "schema")) {
 
             if (check_keys($_GET, INTERESTED_IN::USER_ID)) {
                 $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_GET_ALL;
-                $output[RESPONSE::INTERESTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, $table_name, [USERS::ID => $_GET[INTERESTED_IN::USER_ID]], $complex, array());
+                $output[RESPONSE::INTERESTS] = process_fetch($PDO, SQLFunctions::SELECT_COMPLEX, array($table_name), [USERS::ID => $_GET[INTERESTED_IN::USER_ID]], $complex, array());
                 for ($i = 0; $i < count($output[RESPONSE::INTERESTS]); $i++) {
                     $output[RESPONSE::INTERESTS][$i]->profile_id = is_dir("../assets/interests/{$output[RESPONSE::INTERESTS][$i]->interest_id}") ? iterator_count(new FilesystemIterator("../assets/interests/{$output[RESPONSE::INTERESTS][$i]->interest_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
                 }
@@ -39,7 +39,7 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, INTERESTS::ID)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_GET_ONE;
-                $output[RESPONSE::INTEREST] = process_fetch($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(INTERESTS::ID)));
+                $output[RESPONSE::INTEREST] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name), $_GET, array(), array(new condition(INTERESTS::ID)));
                 $output[RESPONSE::INTEREST][0]->profile_id = is_dir("../assets/interests/{$output[RESPONSE::INTEREST][0]->interest_id}") ? iterator_count(new FilesystemIterator("../assets/interests/{$output[RESPONSE::INTEREST][0]->interest_id}/", FilesystemIterator::SKIP_DOTS)) : 0;
             }
             break;
@@ -62,7 +62,7 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, INTERESTED_IN::USER_ID, INTERESTED_IN::INTEREST_ID, INTERESTED_IN::INTEREST_DATE)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_ENROLL_USER;
-                process($PDO, SQLFunctions::ADD, $pivot_table, $_GET, array(INTERESTED_IN::USER_ID, INTERESTED_IN::INTEREST_ID, INTERESTED_IN::INTEREST_DATE), array());
+                process($PDO, SQLFunctions::ADD, array($pivot_table), $_GET, array(INTERESTED_IN::USER_ID, INTERESTED_IN::INTEREST_ID, INTERESTED_IN::INTEREST_DATE), array());
 
             }
             break;
@@ -72,7 +72,7 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, INTERESTED_IN::USER_ID, INTERESTED_IN::INTEREST_ID)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::INTERESTS_UNENROLL_USER;
-                process($PDO, SQLFunctions::DELETE, $pivot_table, $_GET, array(), array(new condition(INTERESTED_IN::INTEREST_ID)));
+                process($PDO, SQLFunctions::DELETE, array($pivot_table), $_GET, array(), array(new condition(INTERESTED_IN::INTEREST_ID)));
 
             }
             break;
@@ -84,7 +84,7 @@ if (check_keys($_GET, "schema")) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_CHECK;
 
-                $output[RESPONSE::NAME_AVAILABLE] = process_availability($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(INTERESTS::NAME)));
+                $output[RESPONSE::NAME_AVAILABLE] = process_availability($PDO, SQLFunctions::SELECT, array($table_name), $_GET, array(), array(new condition(INTERESTS::NAME)));
             }
             break;
 

@@ -16,7 +16,7 @@ if (check_keys($_GET, "schema")) {
 
             if (check_keys($_GET, LIKES::USER_ID, LIKES::THOUGHT_ID)) {
                 $output[RESPONSE::STATUS] = EXIT_CODES::LIKE_ADD;
-                process($PDO, SQLFunctions::ADD, $table_name, $_GET, array(LIKES::USER_ID, LIKES::THOUGHT_ID), array());
+                process($PDO, SQLFunctions::ADD, array($table_name), $_GET, array(LIKES::USER_ID, LIKES::THOUGHT_ID), array());
             }
             break;
 
@@ -24,7 +24,7 @@ if (check_keys($_GET, "schema")) {
 
             if (check_keys($_GET, LIKES::USER_ID, LIKES::THOUGHT_ID)) {
                 $output[RESPONSE::STATUS] = EXIT_CODES::LIKE_REMOVE;
-                process($PDO, SQLFunctions::DELETE, $table_name, $_GET, array(), array(new condition(LIKES::USER_ID), new condition(LIKES::THOUGHT_ID)));
+                process($PDO, SQLFunctions::DELETE, array($table_name), $_GET, array(), array(new condition(LIKES::USER_ID), new condition(LIKES::THOUGHT_ID)));
             }
             break;
 

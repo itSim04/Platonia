@@ -16,7 +16,7 @@ if (check_keys($_GET, "schema")) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::FOLLOW_ADD;
                 if ($_GET[FOLLOWS::USER_ID1] != $_GET[FOLLOWS::USER_ID2]) {
-                    process($PDO, SQLFunctions::ADD, $table_name, $_GET, array(FOLLOWS::FOLLOW_DATE, FOLLOWS::USER_ID1, FOLLOWS::USER_ID2), array());
+                    process($PDO, SQLFunctions::ADD, array($table_name), $_GET, array(FOLLOWS::FOLLOW_DATE, FOLLOWS::USER_ID1, FOLLOWS::USER_ID2), array());
                 } else {
                     $output[RESPONSE::STATUS] = EXIT_CODES::INCORRECT_SCHEMA;
                 }
@@ -29,7 +29,7 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, FOLLOWS::USER_ID1, FOLLOWS::USER_ID2)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::FOLLOW_REMOVE;
-                process($PDO, SQLFunctions::DELETE, $table_name, $_GET, array(), array(new condition(FOLLOWS::USER_ID1), new condition(FOLLOWS::USER_ID2)));
+                process($PDO, SQLFunctions::DELETE, array($table_name), $_GET, array(), array(new condition(FOLLOWS::USER_ID1), new condition(FOLLOWS::USER_ID2)));
 
             }
             break;
@@ -39,7 +39,7 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_GET, FOLLOWS::USER_ID1, FOLLOWS::USER_ID2)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::FOLLOW_IS_FOLLOWING;
-                $output[RESPONSE::FOLLOWS] = process_availability($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(FOLLOWS::USER_ID1), new condition(FOLLOWS::USER_ID2)));
+                $output[RESPONSE::FOLLOWS] = process_availability($PDO, SQLFunctions::SELECT, array($table_name), $_GET, array(), array(new condition(FOLLOWS::USER_ID1), new condition(FOLLOWS::USER_ID2)));
 
             }
             break;

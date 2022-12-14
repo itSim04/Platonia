@@ -16,7 +16,7 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_POST, USERS::USERNAME, USERS::JOIN, USERS::PASSWORD, USERS::BIRTHDAY, USERS::EMAIL, USERS::GENDER)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_ADD;
-                $id = process_fetch_id($PDO, SQLFunctions::ADD, $table_name, $_POST, array(USERS::USERNAME, USERS::JOIN, USERS::PASSWORD, USERS::BIRTHDAY, USERS::EMAIL, USERS::GENDER), array());
+                $id = process_fetch_id($PDO, SQLFunctions::ADD, array($table_name), $_POST, array(USERS::USERNAME, USERS::JOIN, USERS::PASSWORD, USERS::BIRTHDAY, USERS::EMAIL, USERS::GENDER), array());
                 $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $temp_table), [USERS::ID => $id], array(), array(new condition(USERS::ID), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
             }
             break;
@@ -62,7 +62,7 @@ if (check_keys($_GET, "schema")) {
                 } else {
 
                     $output[RESPONSE::STATUS] = EXIT_CODES::USERS_UPDATE;
-                    process($PDO, SQLFunctions::UPDATE, $table_name, $_POST, $keys_to_take, array(new condition(USERS::ID)));
+                    process($PDO, SQLFunctions::UPDATE, array($table_name), $_POST, $keys_to_take, array(new condition(USERS::ID)));
                     $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $temp_table), [USERS::ID => $_POST[USERS::ID]], array(), array(new condition(USERS::ID), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
                     $output[RESPONSE::USER][0]->profile_id = is_dir("../assets/users/{$output[RESPONSE::USER][0]->user_id}/profiles") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::USER][0]->user_id}/profiles/", FilesystemIterator::SKIP_DOTS)) : 0;
                     $output[RESPONSE::USER][0]->banner_id = is_dir("../assets/users/{$output[RESPONSE::USER][0]->user_id}/banners") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::USER][0]->user_id}/banners/", FilesystemIterator::SKIP_DOTS)) : 0;
@@ -76,8 +76,8 @@ if (check_keys($_GET, "schema")) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_CHECK;
 
-                $output[RESPONSE::USERNAME_AVAILABLE] = process_availability($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(USERS::USERNAME)));
-                $output[RESPONSE::EMAIL_AVAILABLE] = process_availability($PDO, SQLFunctions::SELECT, $table_name, $_GET, array(), array(new condition(USERS::EMAIL)));
+                $output[RESPONSE::USERNAME_AVAILABLE] = process_availability($PDO, SQLFunctions::SELECT, array($table_name), $_GET, array(), array(new condition(USERS::USERNAME)));
+                $output[RESPONSE::EMAIL_AVAILABLE] = process_availability($PDO, SQLFunctions::SELECT, array($table_name), $_GET, array(), array(new condition(USERS::EMAIL)));
             }
             break;
 

@@ -44,7 +44,7 @@ function warnMisc(int $code, string $error = "") {
 
 }
 
-function process_fetch(PDO $PDO, SQLFunctions $type, array |string $table_name, array $provider, array $params, array $conditions, string $postfix = null): array {
+function process_fetch(PDO $PDO, string $type, array $table_name, array $provider, array $params, array $conditions, string $postfix = null): array {
     try {
         $query = $PDO->prepare(build_simple_sql($type, is_array($table_name) ? $table_name : array($table_name), $params, $conditions, $postfix));
         if ($type == SQLFunctions::SELECT_COMPLEX) {
@@ -85,7 +85,7 @@ function process_fetch(PDO $PDO, SQLFunctions $type, array |string $table_name, 
 
 }
 
-function process_availability(PDO $PDO, SQLFunctions $type, array |string $table_name, array $provider, array $params, array $conditions): bool {
+function process_availability(PDO $PDO, string $type, array $table_name, array $provider, array $params, array $conditions): bool {
 
     try {
         $query = $PDO->prepare(build_simple_sql($type, is_array($table_name) ? $table_name : array($table_name), $params, $conditions));
@@ -116,7 +116,7 @@ function process_availability(PDO $PDO, SQLFunctions $type, array |string $table
 
 }
 
-function process_fetch_id(PDO $PDO, SQLFunctions $type, array |string $table_name, array $provider, array $params, array $conditions): string {
+function process_fetch_id(PDO $PDO, string $type, array $table_name, array $provider, array $params, array $conditions): string {
 
     try {
         $query = $PDO->prepare(build_simple_sql($type, is_array($table_name) ? $table_name : array($table_name), $params, $conditions));
@@ -146,7 +146,7 @@ function process_fetch_id(PDO $PDO, SQLFunctions $type, array |string $table_nam
 
 }
 
-function process(PDO $PDO, SQLFunctions $type, array |string $table_name, array $provider, array $params, array $conditions): void {
+function process(PDO $PDO, string $type, array $table_name, array $provider, array $params, array $conditions): void {
 
     try {
         $query = $PDO->prepare(build_simple_sql($type, is_array($table_name) ? $table_name : array($table_name), $params, $conditions));
@@ -174,27 +174,27 @@ function process(PDO $PDO, SQLFunctions $type, array |string $table_name, array 
 
 }
 
-enum SQLFunctions {
+class SQLFunctions {
 
-    case UPDATE;
-    case ADD;
-    case SELECT;
-    case SELECT_COMPLEX;
-    case DELETE;
-
-}
-
-enum SQLStyle {
-
-    case CONDITION;
-    case INJECTABLE_CONDITION;
-    case VALUES_SEPERATED;
-    case ENUMERATION;
-    case INJECTABLE_ENUMERATION;
+    public const UPDATE = "update";
+    public const ADD = "add";
+    public const SELECT = "select";
+    public const SELECT_COMPLEX = "select_complex";
+    public const DELETE = "delete";
 
 }
 
-function build_simple_sql(SQLFunctions $type, array $table_name, array $params, array $conditions, string $postfix = null): string {
+class SQLStyle {
+
+    public const CONDITION = "condition";
+    public const INJECTABLE_CONDITION = "injectable_condition";
+    public const VALUES_SEPERATED = "values_seperated";
+    public const ENUMERATION = "enumeration";
+    public const INJECTABLE_ENUMERATION = "injectable_enumeration";
+
+}
+
+function build_simple_sql(string $type, array $table_name, array $params, array $conditions, string $postfix = null): string {
 
     $result = "";
     switch ($type) {
@@ -253,7 +253,7 @@ function build_simple_sql(SQLFunctions $type, array $table_name, array $params, 
 
 }
 
-function build_params(SQLStyle $style, array |string $labels): string {
+function build_params(string $style, array $labels): string {
 
     $result = "";
     switch ($style) {
@@ -329,7 +329,7 @@ function fixPlatons(PDO $PDO, array $ids, array $output, array $tables, array $l
 
             if ($result[$t]->type == 3) {
 
-                $options = process_fetch($PDO, SQLFunctions::SELECT, "options", [OPTIONS::ID => $result[$t]->thought_id], array(), array(new condition(OPTIONS::ID)));
+                $options = process_fetch($PDO, SQLFunctions::SELECT, array("options"), [OPTIONS::ID => $result[$t]->thought_id], array(), array(new condition(OPTIONS::ID)));
                 if (count($options) > 0) {
 
                     $result[$t]->poll1 = $options[0]->content;
