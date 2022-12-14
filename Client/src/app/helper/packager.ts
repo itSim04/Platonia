@@ -10,7 +10,7 @@ import { ResponseParts, ExitCodes } from "./constants/db_schemas";
 export class Packager {
 
     public static responseUnpack(data: any): ResponseReceipt {
-console.log(data);
+        console.log(data);
         const response: ResponseReceipt = {
 
             status: data[ResponseParts.STATUS],
@@ -160,7 +160,7 @@ console.log(data);
 
                 data[UserParts.ID],
                 data[UserParts.USERNAME],
-                data[UserParts.IS_VERIFIED],
+                data[UserParts.IS_VERIFIED] == "1",
                 data[UserParts.BIO],
                 data[UserParts.EMAIL],
                 new Date(data[UserParts.BIRTHDAY]),
@@ -190,12 +190,12 @@ console.log(data);
         if (user.password != undefined) form.append(UserParts.PASSWORD, user.password);
         if (user.is_verified != undefined) form.append(UserParts.IS_VERIFIED, String(user.is_verified ? 1 : 0));
         if (user.bio != undefined) form.append(UserParts.BIO, user.bio);
-        if (user.birthday != undefined) form.append(UserParts.BIRTHDAY, user.birthday.toISOString());
+        if (user.birthday != undefined) form.append(UserParts.BIRTHDAY, user.birthday.toISOString().slice(0, 10));
         if (user.email != undefined) form.append(UserParts.EMAIL, user.email);
         if (user.gender != undefined) form.append(UserParts.GENDER, String(user.gender));
         if (user.picture != undefined) form.append(UserParts.PICTURE, user.picture);
         if (user.banner != undefined) form.append(UserParts.BANNER, user.banner);
-        form.append(UserParts.JOIN, new Date().toISOString());
+        form.append(UserParts.JOIN, new Date().toISOString().slice(0, 10));
         return form;
 
     }

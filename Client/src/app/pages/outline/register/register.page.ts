@@ -14,7 +14,7 @@ import { User } from "src/app/linking/models/user-main";
 export class RegisterPage implements OnInit {
 
   readonly genders: Array<string> = new Array(...Genders);
-  
+
   is_submitted: boolean = false;
 
   username: string = "";
@@ -86,6 +86,7 @@ export class RegisterPage implements OnInit {
 
           this.userService.addUser({ username: this.username, password: this.password, email: this.email, gender: this.gender, birthday: new Date(this.birthday) }).subscribe(response => {
 
+            console.log("REGISTER", response);
             this.storageService.set("loggedInUser", response.user);
             this.router.navigate(['/tabs/profile', { id: response.user?.user_id }]);
 

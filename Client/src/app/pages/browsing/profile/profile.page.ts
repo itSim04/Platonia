@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AlertController, InfiniteScrollCustomEvent, IonPopover, ModalController, NavController } from '@ionic/angular';
+import { UtilityService } from 'src/app/linking/apis/utility.service';
 import { Thought } from 'src/app/linking/models/thought-main';
 import { User } from 'src/app/linking/models/user-main';
 import { ExitCodes } from '../../../helper/constants/db_schemas';
@@ -23,6 +24,7 @@ export class ProfilePage implements OnInit {
   is_modal_open: boolean = false;
 
   owner: boolean = false;
+  verification: boolean = false;
   is_followed: boolean = false;
 
   current_user?: User;
@@ -37,7 +39,7 @@ export class ProfilePage implements OnInit {
   @ViewChild('options') option!: IonPopover;
 
 
-  constructor(private thoughtService: ThoughtService, private alertController: AlertController, private modalCtrl: ModalController, private followService: FollowService, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router, private nav: NavController) {
+  constructor(private utilityService: UtilityService, private thoughtService: ThoughtService, private alertController: AlertController, private modalCtrl: ModalController, private followService: FollowService, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router, private nav: NavController) {
   }
 
   ngOnInit(): void {
@@ -140,6 +142,11 @@ export class ProfilePage implements OnInit {
       this.current_user = current_profile.user;
       this.storage.getSessionUser().then(current_user => {
 
+        console.log(this.current_user);
+        if (!this.current_user!.is_verified) {
+
+          this.displayVerification();
+        }
         if (current_user.user_id == this.current_user!.user_id) {
 
           this.owner = true;
@@ -153,12 +160,6 @@ export class ProfilePage implements OnInit {
 
         this.new_bio = this.current_user!.bio;
         this.retrieveData();
-
-        if (this.owner && !this.current_user?.is_verified) {
-
-          this.displayVerification();
-
-        }
 
       });
 
@@ -247,38 +248,48 @@ export class ProfilePage implements OnInit {
 
 
   displayVerification() {
-    presentAlert(this.alertController, "Please Verify Your Email", [{
-      id: 'verification',
-      placeholder: '123456',
-      min: 100000,
-      max: 999999,
-    }], [{
 
-      text: "Send", handler: inputsData => {
+    if (!this.verification) {
 
-        return false;
+      this.verification = true;
 
-      }
-    },
-    {
-      text: "Verify", handler: inputsData => {
+      const code = Math.floor(Math.random() * (999999 - 100000 + 1) + 100000);
 
-        if (inputsData[0] == 123456) {
-          this.userService.updateUser({ user_id: this.current_user?.user_id, is_verified: true }).subscribe(response => {
+      presentAlert(this.alertController, "Please Verify Your Email", [{
+        id: 'verification',
+        placeholder: '123456',
+        min: 100000,
+        max: 999999,
+      }], [{
 
-            console.log(response);
-            if (response.status == ExitCodes.USERS_UPDATE) {
-              this.alertController.dismiss('verification');
-            }
-            return false;
+        text: "Send", handler: inputsData => {
 
-          })
+          this.utilityService.sendCode(this.current_user?.email!, code).subscribe(r => console.log(r));
+          return false;
+
         }
-        return false;
+      },
+      {
+        text: "Verify", handler: inputsData => {
 
-      }
-    }]).then(r => r);;
+          if (inputsData[0] == code) {
+            this.userService.updateUser({ user_id: this.current_user?.user_id, is_verified: true }).subscribe(response => {
 
+              console.log(response);
+              if (response.status == ExitCodes.USERS_UPDATE) {
+                this.alertController.dismiss('verification');
+                return true;
+              }
+              return false;
+
+            })
+          }
+          return false;
+
+        }
+      }]).then(r => r);;
+
+    }
   }
 
 }

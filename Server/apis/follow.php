@@ -6,7 +6,7 @@ if (check_keys($_GET, "schema")) {
 
     $table_name = "follows";
     $user_table = "users";
-    $user_temp = "users_TEMP";
+    $user_temp = "users_temp";
 
     switch ($_GET["schema"]) {
 

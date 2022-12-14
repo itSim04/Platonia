@@ -147,6 +147,12 @@ export enum PollAPIs {
 
 }
 
+export enum UtilityAPIs {
+
+    SEND_CODE = 0
+
+}
+
 export class BuildAPIs {
 
     private static BASE_URL = "https://platoniadb.000webhostapp.com/Server/apis/";
