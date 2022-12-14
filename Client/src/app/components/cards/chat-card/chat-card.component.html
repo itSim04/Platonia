@@ -6,7 +6,7 @@
     <ion-text class="name multi">
       {{chat.user2.username}}
     </ion-text>
-    <ion-text class="subtitle multi">
+    <ion-text *ngIf="chat.last_message.content != undefined" class="subtitle multi">
       {{lastSender}}: {{chat.last_message.content}} <div class="date">{{formatDate(chat.last_message.date)}}</div>
     </ion-text>
   </ion-label>

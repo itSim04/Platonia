@@ -215,7 +215,8 @@ export class MessagingPage implements OnInit {
           post = {
 
             title: this.id,
-            start: new Date().toISOString()
+            start: new Date().toISOString(),
+            lastDate: new Date().toISOString()
 
 
           }

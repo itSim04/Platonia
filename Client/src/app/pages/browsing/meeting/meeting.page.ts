@@ -1,9 +1,11 @@
+import { Router } from '@angular/router';
 import { Genders } from './../../../helper/constants/general';
 import { InterestService } from './../../../linking/apis/interest.service';
 import { UserService } from './../../../linking/apis/user.service';
 import { StorageService } from './../../../linking/apis/storage.service';
 import { User } from 'src/app/linking/models/user-main';
 import { Component, OnInit } from '@angular/core';
+import { Database, getDatabase, DatabaseReference, ref, runTransaction } from '@angular/fire/database';
 
 @Component({
   selector: 'app-meeting',
@@ -12,12 +14,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MeetingPage implements OnInit {
 
+  session_user!: User;
   users: Array<User> = new Array();
-  constructor(private storageService: StorageService, private userService: UserService, private interestService: InterestService) { }
+  constructor(private database: Database, private storageService: StorageService, private router: Router, private userService: UserService, private interestService: InterestService) { }
 
   ngOnInit() {
 
     this.storageService.getSessionUser().then(user => {
+
+      this.session_user = user;
 
       this.interestService.getInterestsOfUser({ user_id: user.user_id }).subscribe(r => {
 
@@ -62,6 +67,69 @@ export class MeetingPage implements OnInit {
   get gender() {
 
     return Genders[this.users[0].gender];
+
+  }
+
+  reject() {
+
+    this.users.splice(0, 1);
+
+  }
+
+  meet(user: User) {
+
+    if (user.user_id != this.session_user.user_id) {
+
+      const id: string = Math.min(this.session_user.user_id, user.user_id) + "-" + Math.max(this.session_user.user_id, user.user_id);
+      const db: Database = getDatabase();
+      const postRef: DatabaseReference = ref(db, "users/" + this.session_user.user_id + "/chats/");
+
+      runTransaction(postRef, (post) => {
+
+        if (!post) {
+
+          post = {
+
+            [id]: new Date().toISOString()
+
+          }
+
+        } else if (!post[id]) {
+
+          post[id] = new Date().toISOString()
+
+        }
+        return post;
+      });
+
+      const chatRef: DatabaseReference = ref(db, "chats/" + id);
+
+      runTransaction(chatRef, (post) => {
+
+        if (!post) {
+
+          post = {
+
+            title: id,
+            start: new Date().toISOString(),
+            lastDate: new Date().toISOString()
+
+
+          }
+
+        }
+
+        this.router.navigate(["chats/", {
+
+          id: id
+
+        }]);
+
+        return post;
+
+      });
+
+    }
 
   }
 

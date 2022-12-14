@@ -14,17 +14,17 @@
         </ion-item>
         <ion-item *ngFor="let i of users[0].interests | keyvalue">
           <ion-label>
-            <h2>{{i.value.name}}</h2>
+            <h5>{{i.value.name}}</h5>
           </ion-label>
         </ion-item>
       </ion-list>
       <ion-grid>
         <ion-row>
           <ion-col>
-            <ion-button color="secondary" fill="outline">Meet</ion-button>
+            <ion-button (click)="meet(users[0])" color="secondary" fill="outline">Meet</ion-button>
           </ion-col>
           <ion-col>
-            <ion-button color="danger" fill="outline">
+            <ion-button (click)="reject()" color="danger" fill="outline">
               Reject
             </ion-button>
           </ion-col>

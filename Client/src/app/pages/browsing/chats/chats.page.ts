@@ -39,7 +39,7 @@ export class ChatsPage implements OnInit {
         this.chat = new Chat(r, u.user!, new Date(), new Message(new Date(), -1, ""), new Array());
         const commentsRef = ref(this.db, 'messages/' + this.id);
         onChildAdded(commentsRef, (snapshot) => {
-
+          
           this.loading = false;
           const data = snapshot.val()
           this.chat?.messages.push(new Message(new Date(data["timestamp"]), data["sender"], data["message"]));

@@ -13,7 +13,11 @@ export class ChatCardComponent implements OnInit {
   @Input() chat!: Chat;
   constructor(private router: Router) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+    console.log("CHAT", this.chat);
+
+   }
 
   openChat() {
 
