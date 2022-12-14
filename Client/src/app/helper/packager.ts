@@ -125,10 +125,10 @@ export class Packager {
         if (data != undefined) {
             const current: Option = {
 
-                thought_id: data[OptionParts.ID],
-                content: data[OptionParts.CONTENT],
-                position: data[OptionParts.POSITION],
-                votes: data[OptionParts.VOTES],
+                thought_id: Number.parseInt(data[OptionParts.ID]),
+                content: String(data[OptionParts.CONTENT]),
+                position: Number.parseInt(data[OptionParts.POSITION]),
+                votes: Number.parseInt(data[OptionParts.VOTES]),
 
             };
             return current;
@@ -158,18 +158,18 @@ export class Packager {
         if (data != undefined) {
             return new User(
 
-                data[UserParts.ID],
-                data[UserParts.USERNAME],
-                data[UserParts.IS_VERIFIED] == "1",
-                data[UserParts.BIO],
-                data[UserParts.EMAIL],
+                Number.parseInt(data[UserParts.ID]),
+                String(data[UserParts.USERNAME]),
+                String(data[UserParts.IS_VERIFIED]) == "1",
+                String(data[UserParts.BIO]),
+                String(data[UserParts.EMAIL]),
                 new Date(data[UserParts.BIRTHDAY]),
-                data[UserParts.JOIN],
-                data[UserParts.GENDER],
-                data[ResponseParts.PROFILE_ID] != 0 ? `http://localhost/Platonia/Server/assets/users/${data[UserParts.ID]}/profiles/profile-${data[ResponseParts.PROFILE_ID] - 1}.png` : "../../assets/icon/profile-default.png",
-                data[ResponseParts.BANNER_ID] != 0 ? `http://localhost/Platonia/Server/assets/users/${data[UserParts.ID]}/banners/banner-${data[ResponseParts.BANNER_ID] - 1}.png` : `https://ionicframework.com/docs/img/demos/card-media.png`,
-                data[TempUserParts.FOLLOWERS],
-                data[TempUserParts.FOLLOWINGS]
+                new Date(data[UserParts.JOIN]),
+                Number.parseInt(data[UserParts.GENDER]),
+                Number.parseInt(data[ResponseParts.PROFILE_ID]) != 0 ? `http://localhost/Platonia/Server/assets/users/${Number.parseInt(data[UserParts.ID])}/profiles/profile-${Number.parseInt(data[ResponseParts.PROFILE_ID]) - 1}.png` : "../../assets/icon/profile-default.png",
+                Number.parseInt(data[ResponseParts.BANNER_ID]) != 0 ? `http://localhost/Platonia/Server/assets/users/${Number.parseInt(data[UserParts.ID])}/banners/banner-${Number.parseInt(data[ResponseParts.BANNER_ID]) - 1}.png` : `https://ionicframework.com/docs/img/demos/card-media.png`,
+                Number.parseInt(data[TempUserParts.FOLLOWERS]),
+                Number.parseInt(data[TempUserParts.FOLLOWINGS])
 
             );
 
@@ -230,20 +230,24 @@ export class Packager {
 
         let current: Thought;
 
-        //console.log("Packaging", data);
+        switch (Number.parseInt(data[ThoughtParts.TYPE])) {
 
-        switch (data[ThoughtParts.TYPE]) {
+            case 0:
+
+                // Text
+                current = new TextThought(String(data[ThoughtParts.CONTENT]));
+                break;
 
             case 1:
 
                 // Image
-                current = new ImageThought(data[ThoughtParts.CONTENT]);
+                current = new ImageThought(String(data[ThoughtParts.CONTENT]));
                 break;
 
             case 2:
 
                 // Video
-                current = new VideoThought(data[ThoughtParts.CONTENT]);
+                current = new VideoThought(String(data[ThoughtParts.CONTENT]));
                 break;
 
             case 3:
@@ -251,16 +255,16 @@ export class Packager {
                 // Poll
                 current = new PollThought(
 
-                    data[ThoughtParts.CONTENT],
-                    data[ThoughtParts.OPTION],
-                    data[OptionParts.POLL1],
-                    data[OptionParts.POLL2],
-                    data[OptionParts.POLL3],
-                    data[OptionParts.POLL4],
-                    data[OptionParts.VOTES1],
-                    data[OptionParts.VOTES2],
-                    data[OptionParts.VOTES3],
-                    data[OptionParts.VOTES4]
+                    String(data[ThoughtParts.CONTENT]),
+                    Number.parseInt(data[ThoughtParts.OPTION]),
+                    String(data[OptionParts.POLL1]),
+                    String(data[OptionParts.POLL2]),
+                    String(data[OptionParts.POLL3]),
+                    String(data[OptionParts.POLL4]),
+                    Number.parseInt(data[OptionParts.VOTES1]),
+                    Number.parseInt(data[OptionParts.VOTES2]),
+                    Number.parseInt(data[OptionParts.VOTES3]),
+                    Number.parseInt(data[OptionParts.VOTES4])
 
                 );
                 break;
@@ -275,26 +279,27 @@ export class Packager {
                 }
                 break;
 
+
             default:
 
-                // Text
-                current = new TextThought(data[ThoughtParts.CONTENT]);
-                break;
+                throw new Error("Illegal Type " + data[ThoughtParts.TYPE] + " " + typeof data[ThoughtParts.TYPE]);
 
         }
 
-        current.type = data[ThoughtParts.TYPE];
-        current.thought_id = data[ThoughtParts.ID];
+        current.type = Number.parseInt(data[ThoughtParts.TYPE]);
+        current.thought_id = Number.parseInt(data[ThoughtParts.ID]);
         current.share_date = new Date(data[ThoughtParts.SHARE_DATE]);
         current.edit_date = new Date(data[ThoughtParts.EDIT_DATE]);
-        current.is_liked = data[ThoughtParts.IS_LIKED];
-        current.is_platoned = data[ThoughtParts.IS_PLATONED];
-        current.likes = data[TempThoughtParts.LIKES];
-        current.opinions = data[TempThoughtParts.OPINIONS];
-        current.owner_id = data[ThoughtParts.OWNER_ID];
-        current.root_id = data[ThoughtParts.ROOT];
-        current.is_opinion = data[ThoughtParts.IS_OPINION];
-        current.platons = data[TempThoughtParts.PLATONS];
+        current.is_liked = String(data[ThoughtParts.IS_LIKED]) == "1";
+        current.is_platoned = String(data[ThoughtParts.IS_PLATONED]) == "1";
+        current.likes = Number.parseInt(data[TempThoughtParts.LIKES]);
+        current.opinions = Number.parseInt(data[TempThoughtParts.OPINIONS]);
+        current.owner_id = Number.parseInt(data[ThoughtParts.OWNER_ID]);
+        current.root_id = Number.parseInt(data[ThoughtParts.ROOT]);
+        current.is_opinion = String(data[ThoughtParts.IS_OPINION]) == "1";
+        current.platons = Number.parseInt(data[TempThoughtParts.PLATONS]);
+
+        console.log("Packaging", data, current);
 
         return current;
     }
@@ -341,11 +346,11 @@ export class Packager {
         if (data != undefined) {
             return new Interest(
 
-                data[InterestParts.ID],
-                data[InterestParts.NAME],
-                `http://localhost/Platonia/Server/assets/interests/${data[InterestParts.ID]}/logo-${data[ResponseParts.PROFILE_ID] - 1}.png`,
-                data[InterestParts.PARTICIPANTS],
-                data[InterestParts.IS_INTERESTED],
+                Number.parseInt(data[InterestParts.ID]),
+                String(data[InterestParts.NAME]),
+                `http://localhost/Platonia/Server/assets/interests/${Number.parseInt(data[InterestParts.ID])}/logo-${Number.parseInt(data[ResponseParts.PROFILE_ID]) - 1}.png`,
+                Number.parseInt(data[InterestParts.PARTICIPANTS]),
+                String(data[InterestParts.IS_INTERESTED]) == "1",
 
 
             );

@@ -19,7 +19,7 @@ export class User {
     public credit?: number;
     public interests?: Map<number, Interest>;
 
-    constructor(user_id: number, username: string, is_verified: boolean, bio: string, email: string, birthday: Date, join: Date, gender: number, picture: string, banner: string, followers: number, followings: number) {
+    constructor(user_id: number = -1, username: string = "", is_verified: boolean = false, bio: string = "", email: string = "", birthday: Date = new Date(), join: Date = new Date(), gender: number = -1, picture: string = "", banner: string = "", followers: number = -1, followings: number = -1) {
 
         this._user_id = user_id;
         this._username = username;
