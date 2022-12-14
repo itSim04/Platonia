@@ -5,7 +5,7 @@ import { AlertController, InfiniteScrollCustomEvent, IonPopover, ModalController
 import { UtilityService } from 'src/app/linking/apis/utility.service';
 import { Thought } from 'src/app/linking/models/thought-main';
 import { User } from 'src/app/linking/models/user-main';
-import { ExitCodes } from '../../../helper/constants/db_schemas';
+import { BuildAPIs, ExitCodes } from '../../../helper/constants/db_schemas';
 import { presentAlert } from '../../../helper/utility';
 import { FollowService } from '../../../linking/apis/follow.service';
 import { StorageService } from '../../../linking/apis/storage.service';
@@ -25,6 +25,7 @@ export class ProfilePage implements OnInit {
 
   owner: boolean = false;
   verification: boolean = false;
+  uploading: boolean = false;
   is_followed: boolean = false;
 
   current_user?: User;
@@ -56,9 +57,12 @@ export class ProfilePage implements OnInit {
         source: CameraSource.Photos,
 
       }).then(image => {
+        this.uploading = true;
         this.userService.uploadBanner({ picture: image.base64String, user_id: this.current_user!.user_id }).subscribe(response => {
 
-          this.current_user!.banner = `http://localhost/Platonia/Server/assets/users/${this.current_user!.user_id}/banners/banner-${response.banner_id! - 1}.png`;
+          this.uploading = false;
+          console.log("Banner", response);
+          this.current_user!.banner = `${BuildAPIs.MAIN}/Server/assets/users/${this.current_user!.user_id}/banners/banner-${response.banner_id! - 1}.png`;
           this.storage.getSessionUser().then(r =>
 
             r.banner = this.current_user!.banner

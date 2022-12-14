@@ -1,3 +1,4 @@
+import { BuildAPIs } from 'src/app/helper/constants/db_schemas';
 import { PlatonedThought } from './../linking/models/thought-main';
 import { Injector } from "@angular/core";
 import { Interest } from "../linking/models/interest-main";
@@ -166,8 +167,8 @@ export class Packager {
                 new Date(data[UserParts.BIRTHDAY]),
                 new Date(data[UserParts.JOIN]),
                 Number.parseInt(data[UserParts.GENDER]),
-                Number.parseInt(data[ResponseParts.PROFILE_ID]) != 0 ? `http://localhost/Platonia/Server/assets/users/${Number.parseInt(data[UserParts.ID])}/profiles/profile-${Number.parseInt(data[ResponseParts.PROFILE_ID]) - 1}.png` : "../../assets/icon/profile-default.png",
-                Number.parseInt(data[ResponseParts.BANNER_ID]) != 0 ? `http://localhost/Platonia/Server/assets/users/${Number.parseInt(data[UserParts.ID])}/banners/banner-${Number.parseInt(data[ResponseParts.BANNER_ID]) - 1}.png` : `https://ionicframework.com/docs/img/demos/card-media.png`,
+                Number.parseInt(data[ResponseParts.PROFILE_ID]) != 0 ? `${BuildAPIs.MAIN}/Server/assets/users/${Number.parseInt(data[UserParts.ID])}/profiles/profile-${Number.parseInt(data[ResponseParts.PROFILE_ID]) - 1}.png` : "../../assets/icon/profile-default.png",
+                Number.parseInt(data[ResponseParts.BANNER_ID]) != 0 ? `${BuildAPIs.MAIN}/Server/assets/users/${Number.parseInt(data[UserParts.ID])}/banners/banner-${Number.parseInt(data[ResponseParts.BANNER_ID]) - 1}.png` : `https://ionicframework.com/docs/img/demos/card-media.png`,
                 Number.parseInt(data[TempUserParts.FOLLOWERS]),
                 Number.parseInt(data[TempUserParts.FOLLOWINGS])
 
@@ -346,7 +347,7 @@ export class Packager {
 
                 Number.parseInt(data[InterestParts.ID]),
                 String(data[InterestParts.NAME]),
-                `http://localhost/Platonia/Server/assets/interests/${Number.parseInt(data[InterestParts.ID])}/logo-${Number.parseInt(data[ResponseParts.PROFILE_ID]) - 1}.png`,
+                `http://${BuildAPIs.MAIN}/Server/assets/interests/${Number.parseInt(data[InterestParts.ID])}/logo-${Number.parseInt(data[ResponseParts.PROFILE_ID]) - 1}.png`,
                 Number.parseInt(data[InterestParts.PARTICIPANTS]),
                 String(data[InterestParts.IS_INTERESTED]) == "1",
 

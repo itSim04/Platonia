@@ -2,44 +2,54 @@
 
   <!-- Thought Area -->
   <app-edit-card-thought (contentEmitter)="content = $event" (poll1Emitter)="poll1 = $event"
-    (poll2Emitter)="poll2 = $event" (poll3Emitter)="poll3 = $event" (poll4Emitter)="poll4 = $event" (mediaEmitter)="media = $event;" class="post"
-    [type]="type">
+    (poll2Emitter)="poll2 = $event" (poll3Emitter)="poll3 = $event" (poll4Emitter)="poll4 = $event"
+    (mediaEmitter)="media = $event;" class="post" [type]="type">
   </app-edit-card-thought>
 
+
+
   <ion-grid class="section">
+
     <ion-row>
       <ion-col>
 
-        <ion-fab-button (click)="setType(0)" [color]="type == 0 ? 'tertiary' : 'light'">
+        <ion-fab-button [disabled]="loading" (click)="setType(0)" [color]="type == 0 ? 'tertiary' : 'light'">
           <ion-icon name="document-text-outline"></ion-icon>
         </ion-fab-button>
       </ion-col>
       <ion-col>
 
-        <ion-fab-button (click)="setType(1)" [color]="type == 1 ? 'tertiary' : 'light'">
+        <ion-fab-button [disabled]="loading" (click)="setType(1)" [color]="type == 1 ? 'tertiary' : 'light'">
           <ion-icon name="image-outline"></ion-icon>
         </ion-fab-button>
       </ion-col>
       <ion-col>
 
-        <ion-fab-button (click)="setType(2)" [color]="type == 2 ? 'tertiary' : 'light'">
+        <ion-fab-button [disabled]="loading" (click)="setType(2)" [color]="type == 2 ? 'tertiary' : 'light'">
           <ion-icon name="videocam-outline"></ion-icon>
         </ion-fab-button>
       </ion-col>
 
       <ion-col>
-        <ion-fab-button (click)="setType(3)" [color]="type == 3 ? 'tertiary' : 'light'">
+        <ion-fab-button [disabled]="loading" (click)="setType(3)" [color]="type == 3 ? 'tertiary' : 'light'">
           <ion-icon name="podium-outline"></ion-icon>
         </ion-fab-button>
 
       </ion-col>
+
+
     </ion-row>
   </ion-grid>
 
   <!-- Posting button -->
   <ion-fab slot="fixed" vertical="top" horizontal="end">
-    <ion-fab-button color="primary" (click)="post()" [disabled]="(type == 1 && media == undefined) || (type == 0 && (content == undefined ? true : content.length < 3))">
+    <ion-fab-button color="primary" (click)="post()"
+      [disabled]="loading || (type == 1 && media == undefined) || (type == 0 && (content == undefined ? true : content.length < 3))">
       <ion-icon name="arrow-forward-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>
+
+<ion-footer>
+  <ion-progress-bar color="secondary" *ngIf="loading" type="indeterminate"></ion-progress-bar>
+</ion-footer>

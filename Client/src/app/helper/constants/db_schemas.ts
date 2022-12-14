@@ -155,7 +155,8 @@ export enum UtilityAPIs {
 
 export class BuildAPIs {
 
-    private static BASE_URL = "https://platoniadb.000webhostapp.com/Server/apis/";
+    public static MAIN = "https://platoniadb.000webhostapp.com";
+    private static BASE_URL = `${this.MAIN}/Server/apis/`;
     public static build_url(schema: number, api: string, params: string = ""): string {
 
         return this.BASE_URL + `${api}.php?schema=${schema}` + params;

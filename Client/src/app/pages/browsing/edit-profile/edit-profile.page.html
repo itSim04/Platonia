@@ -1,20 +1,20 @@
 <ion-header class="header">
 
-    <ion-button style="margin-top: 6%;" fill="clear" (click)="goBack()">
-      <ion-icon slot="icon-only" color="secondary" name="arrow-back"></ion-icon>
-    </ion-button>
+  <ion-button style="margin-top: 6%;" fill="clear" (click)="goBack()">
+    <ion-icon slot="icon-only" color="secondary" name="arrow-back"></ion-icon>
+  </ion-button>
 
-    <p class="name_label">Edit Profile</p>
+  <p class="name_label">Edit Profile</p>
 
-    <div (click)="uploadProfile()">
-      <img [src]="picture" onerror="this.src='../../../../assets/icon/profile-default.png'"
-        class="profile">
-    </div>
+  <div (click)="uploadProfile()">
+    <img [src]="picture" onerror="this.src='../../../../assets/icon/profile-default.png'" class="profile">
+  </div>
 
 </ion-header>
 
 <ion-content>
-  
+
+  <ion-progress-bar color="secondary" *ngIf="uploading" type="indeterminate"></ion-progress-bar>
   <ion-grid class="inputs_grid">
     <ion-row>
       <ion-col>
@@ -43,7 +43,7 @@
     <ion-row>
       <ion-col>
         <ion-list class="inputs">
-          <ion-item>
+          <ion-item fill="clear">
             <ion-select (ionChange)="setGender($event)" interface="popover" [placeholder]="genders[gender!]">
               <ion-select-option class="inputs" *ngFor="let gender of genders" [value]="gender">{{gender}}
               </ion-select-option>
@@ -55,9 +55,9 @@
 
   </ion-grid>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="onEdit()">
-      <!-- [disabled]="user.username == undefined || user.email == undefined || user.gender == undefined || user.birthday == undefined" -->
-      <ion-icon name="arrow-forward-outline"></ion-icon>
+    <ion-fab-button (click)="onEdit()" [disabled]="uploading">
+      <ion-icon name="arrow-forward-outline">
+      </ion-icon>
     </ion-fab-button>
   </ion-fab>
 

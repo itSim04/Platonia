@@ -19,6 +19,8 @@ export class FeedPage implements OnInit {
   thoughts: Array<Thought> = new Array();
   anchor: number = 0;
   quantity: number = 5;
+
+  loading: boolean = true;
   constructor(private router: Router, private route: ActivatedRoute, private thoughtService: ThoughtService, private storageService: StorageService, private followService: FollowService) { }
 
   async handleRefresh(event: any) {
@@ -43,20 +45,25 @@ export class FeedPage implements OnInit {
 
       this.followService.getFollowings(owner.user_id).subscribe(followings => {
 
-        followings.users!.forEach((k, u) => this.users?.set(u, k));
-        this.users?.set(owner.user_id, owner);
+        if (!followings.users?.size) {
+          this.loading = false;
+        } else {
 
-        const ids: number[] = Array.from(followings.users!.values()).map(r => r.user_id);
-        ids.push(owner.user_id);
-        this.thoughtService.getByUsers({ user_id: owner.user_id, owner_ids: ids, offset: this.anchor, quantity: this.quantity }).subscribe(r => {
+          followings.users!.forEach((k, u) => this.users?.set(u, k));
+          this.users?.set(owner.user_id, owner);
 
-          if (flag)
-            this.thoughts.splice(0);
-          r.thoughts?.forEach(t => this.thoughts.push(t));
+          const ids: number[] = Array.from(followings.users!.values()).map(r => r.user_id);
+          ids.push(owner.user_id);
+          this.thoughtService.getByUsers({ user_id: owner.user_id, owner_ids: ids, offset: this.anchor, quantity: this.quantity }).subscribe(r => {
 
-        });
+            this.loading = false;
+            if (flag)
+              this.thoughts.splice(0);
+            r.thoughts?.forEach(t => this.thoughts.push(t));
 
+          });
 
+        }
       });
 
     });
@@ -64,7 +71,6 @@ export class FeedPage implements OnInit {
   }
 
   ngOnInit() {
-
 
     this.resetData();
 

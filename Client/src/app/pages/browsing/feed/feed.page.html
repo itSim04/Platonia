@@ -3,6 +3,7 @@
     <ion-title>
       Feed
     </ion-title>
+    <ion-progress-bar color="secondary" *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 
@@ -11,7 +12,7 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-button fill="clear" class="empty" *ngIf="thoughts.length == 0">
+  <ion-button fill="clear" class="empty" *ngIf="thoughts.length == 0 && !loading">
     No thoughts yet
     <ion-icon slot="end" name="diamond-outline"></ion-icon>
   </ion-button>

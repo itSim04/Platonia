@@ -17,10 +17,12 @@ export class PostPage {
 
   user?: User;
 
+  loading: boolean = false;
+
   thought_display?: Thought;
 
-  type?: number = 0;
-  content?: string;
+  type: number = 0;
+  content: string = "";
 
   media?: string;
 
@@ -48,6 +50,7 @@ export class PostPage {
 
   post() {
 
+    this.loading = true;
     const upload: ThoughtRequest = {
 
       content: this.content,
@@ -72,6 +75,7 @@ export class PostPage {
       console.log(r);
       if (r.status == ExitCodes.THOUGHTS_ADD) {
 
+        this.loading = false;
         this.storageService.setRefreshFlag(true).then(r => this.router.navigate(["tabs/feed/"]));
 
       }

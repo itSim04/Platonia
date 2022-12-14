@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import { ModalController, ToastController, NavController } from "@ionic/angular";
-import { ExitCodes } from "src/app/helper/constants/db_schemas";
+import { BuildAPIs, ExitCodes } from "src/app/helper/constants/db_schemas";
 import { Genders } from "src/app/helper/constants/general";
 import { displayWarning } from "src/app/helper/utility";
 import { StorageService } from "src/app/linking/apis/storage.service";
@@ -24,6 +24,8 @@ export class EditProfilePage {
   birthday?: string;
   gender?: number;
   email?: string;
+
+  uploading: boolean = false;
 
   old_email?: string;
   old_username?: string;
@@ -59,9 +61,12 @@ export class EditProfilePage {
       source: CameraSource.Photos,
 
     }).then(image => {
+
+      this.uploading = true;
       this.userService.uploadPicture({ picture: image.base64String, user_id: this.user_id }).subscribe(response => {
 
-        this.picture = `http://localhost/Platonia/Server/assets/users/${this.user_id}/profiles/profile-${response.profile_id! - 1}.png`;
+        this.uploading = false;
+        this.picture = `${BuildAPIs.MAIN}/Server/assets/users/${this.user_id}/profiles/profile-${response.profile_id! - 1}.png`;
         this.storageService.getSessionUser().then(r =>
 
           r.picture = this.picture!

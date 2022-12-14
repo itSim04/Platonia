@@ -1,5 +1,4 @@
 <ion-header class="header" *ngIf="current_user != undefined">
-
   <!-- Username -->
   <p class="name_label">{{current_user.username}}</p>
 
@@ -17,71 +16,72 @@
       size="large"></ion-icon>
   </ion-button>
 
+
+
 </ion-header>
 
 <ion-content *ngIf="current_user == undefined">
   <ion-spinner class="center"></ion-spinner>
 </ion-content>
-<ion-content>
 
-  <ion-content *ngIf="current_user != undefined" scrollbar="::-webkit-scrollbar {width: 0px;}">
-
-
-    <!-- Options Tab -->
-    <ion-popover #options [dismissOnSelect]="true">
-      <ng-template>
-        <ion-content>
-          <ion-list>
-            <ion-item [button]="true" [detail]="false" (click)="editProfile()">Edit</ion-item>
-            <ion-item [button]="true" [detail]="false" (click)="logout()">Logout</ion-item>
-          </ion-list>
-        </ion-content>
-      </ng-template>
-    </ion-popover>
-
-    <!-- Bio -->
-    <ion-card>
-      <div (click)="uploadBanner()">
-        <img alt="Banner" [src]="current_user.banner"
-          onerror="this.src='../../../../assets/icon/profile-default.png'" />
-      </div>
-      <ion-card-header>
-        <ion-card-title style="width: auto">About
-          <div *ngIf="owner" style="display:inline" (click)="editBio()">
-            <ion-icon style="font-size: 100%;" [name]="bio_edit_mode ? 'checkmark-circle-outline' : 'pencil-sharp'">
-            </ion-icon>
-          </div>
-        </ion-card-title>
-      </ion-card-header>
-
-      <ion-card-content>
-        <ion-textarea autoGrow="true" [disabled]="!bio_edit_mode" text-wrap class="content" [(ngModel)]="new_bio"
-          placeholder="Hello Friends..."></ion-textarea>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card *ngIf="owner">
-
-      <ion-card-content>
-        <ion-button (click)="meet()" color="dark" fill="clear">
-          Meet new People
-          <ion-icon slot="end" name="diamond-outline"></ion-icon>
-        </ion-button>
-      </ion-card-content>
-
-    </ion-card>
-
-    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-      <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
-
-    <ng-container *ngFor="let thought of thoughts">
-      <app-card-thought [user]="current_user" [thought]="thought"></app-card-thought>
-    </ng-container>
-
-    <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-      <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+<ion-content *ngIf="current_user != undefined" scrollbar="::-webkit-scrollbar {width: 0px;}">
+  <ion-progress-bar color="secondary" *ngIf="uploading" type="indeterminate"></ion-progress-bar>
 
 
-  </ion-content>
+  <!-- Options Tab -->
+  <ion-popover #options [dismissOnSelect]="true">
+    <ng-template>
+      <ion-content>
+        <ion-list>
+          <ion-item [button]="true" [detail]="false" (click)="editProfile()">Edit</ion-item>
+          <ion-item [button]="true" [detail]="false" (click)="logout()">Logout</ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-popover>
+
+  <!-- Bio -->
+  <ion-card>
+    <div (click)="uploadBanner()">
+      <img alt="Banner" [src]="current_user.banner" onerror="this.src='../../../../assets/icon/profile-default.png'" />
+    </div>
+    <ion-card-header>
+      <ion-card-title style="width: auto">About
+        <div *ngIf="owner" style="display:inline" (click)="editBio()">
+          <ion-icon style="font-size: 100%;" [name]="bio_edit_mode ? 'checkmark-circle-outline' : 'pencil-sharp'">
+          </ion-icon>
+        </div>
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-textarea autoGrow="true" [disabled]="!bio_edit_mode" text-wrap class="content" [(ngModel)]="new_bio"
+        placeholder="Hello Friends..."></ion-textarea>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="owner">
+
+    <ion-card-content>
+      <ion-button (click)="meet()" color="dark" fill="clear">
+        Meet new People
+        <ion-icon slot="end" name="diamond-outline"></ion-icon>
+      </ion-button>
+    </ion-card-content>
+
+  </ion-card>
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ng-container *ngFor="let thought of thoughts">
+    <app-card-thought [user]="current_user" [thought]="thought"></app-card-thought>
+  </ng-container>
+
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+
+</ion-content>
