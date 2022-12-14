@@ -1,0 +1,71 @@
+{
+	"rules": {
+		"chats": {
+			".read": true,
+			".write": true,
+			"$chat": {
+				"title": {
+					".validate": true
+				},
+				"lastMessage": {
+					".validate": true
+				},
+				"start": {
+					".validate": true
+				},
+				"$other": {
+					".validate": false
+				}
+			}
+		},
+		"members": {
+			".read": true,
+			".write": true,
+			"$member": {
+				"$other": {
+					".validate": true
+				}
+			}
+		},
+		"messages": {
+			".read": true,
+			".write": true,
+			"$chat": {
+				"$other": {
+					".validate": true
+				}
+			}
+		},
+		"users": {
+			".read": true,
+			".write": true,
+			"$user": {
+				"groups": {
+					"$all": {
+						".validate": true
+					}
+				},
+				"chats": {
+					"$all": {
+						".validate": true
+					}
+				},
+				"$other": {
+					".validate": false
+				}
+			}
+		},
+		"groups": {
+			"$group": {
+				"name": {
+					".validate": true
+				},
+				"members": {
+					"$all": {
+						".validate": true
+					}
+				}
+			}
+		}
+	}
+}

@@ -34,10 +34,10 @@ const routes: Routes = [
   {
     path: 'search',
     loadChildren: () => import('./pages/browsing/search/search.module').then( m => m.SearchPageModule)
+  },  {
+    path: 'chats',
+    loadChildren: () => import('./pages/browsing/chats/chats.module').then( m => m.ChatsPageModule)
   }
-
-
-
 
 
 ];

@@ -21,6 +21,10 @@ const routes: Routes = [
         loadChildren: () => import('../../pages/browsing/post/post.module').then(m => m.PostPageModule)
       },
       {
+        path: 'messaging',
+        loadChildren: () => import('../../pages/browsing/messaging/messaging.module').then( m => m.MessagingPageModule)
+      },
+      {
         path: 'profile',
         loadChildren: () => import('../../pages/browsing/profile/profile.module').then(m => m.ProfilePageModule)
       },

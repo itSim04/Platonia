@@ -1,3 +1,4 @@
+
 import { AlertButton, AlertController, AlertInput, ToastController } from "@ionic/angular";
 
 export function sortedInsertion<T>(array: Array<T>, item: T, compare: Function) {
@@ -75,6 +76,20 @@ export function formatRemainingDate(date: Date): string {
     } else {
         return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
     }
+
+}
+
+export function formatDate(date: Date): string {
+
+    let minutes: string = String(date.getMinutes());
+    let hours: number = date.getHours() % 12;
+    if(hours == 0) hours = 12;
+
+    if (minutes.length == 1) {
+        minutes = 0 + minutes;
+    }
+
+    return hours + ":" + minutes + (date.getHours() > 11 ? " PM" : " AM");
 
 }
 

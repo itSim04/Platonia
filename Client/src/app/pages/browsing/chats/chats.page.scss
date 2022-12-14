@@ -1,0 +1,114 @@
+@media (prefers-color-scheme: dark) {
+    ion-content {
+        --background: url(../../../../assets/imgs/chat-dark-bgd.jpg) 0 0/100% 100%;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    ion-content {
+        --background: url(../../../../assets/imgs/chat-light-bgd.jpg) 0 0/100% 100%;
+    }
+}
+
+.header {
+    height: 80px;
+}
+
+.send {
+
+    font-size: 24px;
+    align-items: center;
+    text-align: center;
+    padding-top: 13%;
+    padding-left: 13%;
+
+}
+
+.input {
+
+    background: var(--ion-color-light);
+    --padding-start: 10px;
+    border-radius: 50px;
+
+}
+
+.received-message {
+
+    transition: all 250ms ease-in-out;
+    margin-bottom: 1%;
+    overflow: hidden;
+    background: var(--ion-color-primary);
+    color: var(--ion-color-dark);
+    padding: 4%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    text-align: left;
+    font-size: 14px;
+
+}
+
+
+.sent-message {
+
+    transition: all 250ms ease-in-out;
+    margin-bottom: 1%;
+    overflow: hidden;
+    background: var(--ion-color-tertiary);
+    color: var(--ion-color-light);
+    padding: 4%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    font-size: 14px;
+
+}
+
+.col {
+
+    padding: 0px;
+
+}
+
+.multi {
+
+    transition: all 250ms ease-in-out;
+    max-width: 80%;
+    min-width: 10%;
+    width: fit-content;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    --color-hover: #DDDDDD;
+    --color-activated: white;
+    text-transform: none;
+
+
+}
+
+.date {
+
+
+    color: var(--ion-color-dark);
+    text-align: left;
+    margin-bottom: 5%;
+    display: inline-block;
+    font-size: 9px;
+    text-align: right;
+
+}
+
+
+.title {
+
+    font-size: 15px;
+    color: gray;
+    width: fit-content;
+}
+
+.empty {
+
+    font-size: 14px;
+    color: gray;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}

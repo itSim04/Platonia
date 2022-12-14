@@ -25,7 +25,7 @@ export class SearchPage implements OnInit {
 
     this.userService.getAll().subscribe(r => r.users?.forEach(u => {
 
-      this.complete_users.splice(0);
+      //this.complete_users.splice(0);
       this.complete_users.push(u);
       this.users.push(u);
 
@@ -38,7 +38,7 @@ export class SearchPage implements OnInit {
 
         r.interests?.forEach(u => {
 
-          this.complete_interests.splice(0);
+          //this.complete_interests.splice(0);
           this.complete_interests.push(u);
           this.interests.push(u);
 

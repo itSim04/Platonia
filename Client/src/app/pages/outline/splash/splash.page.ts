@@ -2,7 +2,6 @@ import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { StorageService } from "src/app/linking/apis/storage.service";
 import { UserService } from "src/app/linking/apis/user.service";
-import { User } from "src/app/linking/models/user-main";
 
 @Component({
   selector: 'app-splash',

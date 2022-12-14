@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar class="header">
+    <ion-title class="title">{{chat?.user2?.username}}</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="goBack()">
+        <ion-icon slot="icon-only" color="secondary" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+
+    <ion-progress-bar color="secondary" *ngIf="loading" type="indeterminate"></ion-progress-bar>
+
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <ion-grid>
+    <div *ngFor="let c of chat?.messages; let i = index">
+      <ion-row>
+        <ion-col class="col">
+          <ion-text [style.border-bottom-left-radius]="bottomLeft(c, i)"
+            [style.border-top-left-radius]="c.owner_id == session_user.user_id ? ('20px') : (i > 0 && chat?.messages![i - 1].owner_id == c.owner_id) ? '5px' : '20px'"
+            [style.border-bottom-right-radius]="bottomRight(c, i)" [style.border-top-right-radius]="topRight(c, i)"
+            [class]="c.owner_id == session_user.user_id ? 'multi sent-message ion-float-right' : 'multi received-message ion-float-left'">
+            {{c.content}}</ion-text>
+
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="i == chat?.messages!.length - 1 || formatDate(chat?.messages![i + 1].date) != formatDate(c.date)">
+        <ion-col class="col">
+          <ion-text
+            [class]="c.owner_id == session_user.user_id ? 'multi date ion-float-right' : 'multi date ion-float-left'">
+            {{formatDate(c.date)}}
+          </ion-text>
+        </ion-col>
+      </ion-row>
+    </div>
+
+  </ion-grid>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-input class="input" [(ngModel)]="message"></ion-input>
+        </ion-col>
+        <ion-col size="2">
+          <ion-icon (click)="postMessage()" class="send" name="send"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

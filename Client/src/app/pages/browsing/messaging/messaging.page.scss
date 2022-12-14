@@ -1,0 +1,26 @@
+// ion-content {
+//     --background: url(../../../../assets/imgs/main-bg0.png) 0 0/100% 100%;
+// }
+
+.toolbar {
+
+    margin-top: 5%;
+
+}
+
+.empty {
+
+    text-transform: none;
+    font-size: 16px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    // padding-right: 5%;
+    // padding-top: 5%;
+    // display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    // min-height: 100vh;
+}
