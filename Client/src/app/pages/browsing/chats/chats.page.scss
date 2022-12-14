@@ -1,5 +1,13 @@
-ion-content {
-    --background: url(../../../../assets/imgs/chat-bgd.jpg) 0 0/100% 100%;
+@media (prefers-color-scheme: dark) {
+    ion-content {
+        --background: url(../../../../assets/imgs/chat-dark-bgd.jpg) 0 0/100% 100%;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    ion-content {
+        --background: url(../../../../assets/imgs/chat-light-bgd.jpg) 0 0/100% 100%;
+    }
 }
 
 .header {
@@ -30,47 +38,28 @@ ion-content {
     margin-bottom: 1%;
     overflow: hidden;
     background: var(--ion-color-primary);
-    color: white;
+    color: var(--ion-color-dark);
     padding: 4%;
     padding-top: 3%;
     padding-bottom: 3%;
-    border-radius: 20px;
     text-align: left;
-    max-width: 80%;
-    min-width: 10%;
-    width: fit-content;
-    text-transform: none;
     font-size: 14px;
-    font-weight: 400;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    --color-hover: #DDDDDD;
-    --color-activated: white;
 
 }
 
 
 .sent-message {
-    
+
     transition: all 250ms ease-in-out;
     margin-bottom: 1%;
     overflow: hidden;
     background: var(--ion-color-tertiary);
-    max-width: 80%;
-    min-width: 10%;
-    width: fit-content;
-    color: white;
+    color: var(--ion-color-light);
     padding: 4%;
     padding-top: 3%;
     padding-bottom: 3%;
-    border-radius: 20px;
-    border-radius: 20px;
-    text-transform: none;
     font-size: 14px;
-    font-weight: 400;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    --color-hover: #DDDDDD;
-    --color-activated: white;
-    
+
 }
 
 .col {
@@ -79,51 +68,47 @@ ion-content {
 
 }
 
-.date {
+.multi {
 
-    transition: all 250ms ease-in-out; 
+    transition: all 250ms ease-in-out;
     max-width: 80%;
+    min-width: 10%;
     width: fit-content;
-    color: white;
-    text-align: left;
-    margin-bottom: 5%;
-    display: inline-block;
-    text-transform: none;
-    font-size: 9px;
-    text-align: right;
-    //font-weight: 400;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     --color-hover: #DDDDDD;
     --color-activated: white;
+    text-transform: none;
+
+
+}
+
+.date {
+
+
+    color: var(--ion-color-dark);
+    text-align: left;
+    margin-bottom: 5%;
+    display: inline-block;
+    font-size: 9px;
+    text-align: right;
 
 }
 
 
 .title {
-    text-transform: none;
+
     font-size: 15px;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: gray;
-    // padding-right: 5%;
-    // padding-top: 5%;
-    // display: flex;
     width: fit-content;
-    // min-height: 100vh; 
 }
 
 .empty {
 
-    text-transform: none;
     font-size: 14px;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: gray;
-    // padding-right: 5%;
-    // padding-top: 5%;
-    // display: flex;
     position: absolute;
     top: 50%;
     left: 50%;
     margin-right: -50%;
     transform: translate(-50%, -50%);
-    // min-height: 100vh;
 }
