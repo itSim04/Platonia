@@ -9,8 +9,7 @@
   </ion-button>
 
   <!-- Profile Picture -->
-  <img [src]="current_user?.picture" onerror="this.src='../../../../assets/icon/profile-default.png'"
-    class="profile">
+  <img [src]="current_user?.picture" onerror="this.src='../../../../assets/icon/profile-default.png'" class="profile">
 
   <!-- Options Opener -->
   <ion-button (click)="openOptions()" fill="clear" class="extra_label">
@@ -38,8 +37,7 @@
   <!-- Bio -->
   <ion-card>
     <div (click)="uploadBanner()">
-      <img alt="Banner" [src]="current_user?.banner"
-        onerror="this.src='../../../../assets/icon/profile-default.png'" />
+      <img alt="Banner" [src]="current_user?.banner" onerror="this.src='../../../../assets/icon/profile-default.png'" />
     </div>
     <ion-card-header>
       <ion-card-title style="width: auto">About
@@ -56,10 +54,21 @@
     </ion-card-content>
   </ion-card>
 
+  <ion-card>
+
+    <ion-card-content>
+      <ion-button (click)="meet()" color="dark" fill="clear">
+        Meet new People
+        <ion-icon slot="end" name="diamond-outline"></ion-icon>
+      </ion-button>
+    </ion-card-content>
+
+  </ion-card>
+
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  
+
   <ng-container *ngFor="let thought of thoughts">
     <app-card-thought [user]="current_user" [thought]="thought"></app-card-thought>
   </ng-container>

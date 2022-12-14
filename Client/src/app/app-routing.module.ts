@@ -37,6 +37,10 @@ const routes: Routes = [
   },  {
     path: 'chats',
     loadChildren: () => import('./pages/browsing/chats/chats.module').then( m => m.ChatsPageModule)
+  },
+  {
+    path: 'meeting',
+    loadChildren: () => import('./pages/browsing/meeting/meeting.module').then( m => m.MeetingPageModule)
   }
 
 

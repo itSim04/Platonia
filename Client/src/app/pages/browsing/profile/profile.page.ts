@@ -68,6 +68,12 @@ export class ProfilePage implements OnInit {
     }
   }
 
+  meet() {
+
+    this.router.navigate(["meeting"]);
+
+  }
+
   openOptions() {
 
     if (this.owner) {
