@@ -134,16 +134,18 @@ export class ProfilePage implements OnInit {
 
   ionViewWillEnter(): void {
 
+    console.log(this.thoughts, this.anchor);
+
     const id_obj = this.route.snapshot.paramMap.get("id");
     const id: number = Number.parseInt(id_obj != null ? id_obj : "0");
 
     this.storage.getSessionUser().then(current_user => {
 
-      console.log("ION", current_user, id);
-      if (id == current_user.user_id) {
+      if (!id || id == current_user.user_id) {
 
         this.owner = true;
         this.current_user = current_user;
+        this.new_bio = this.current_user.bio;
 
         if (!this.current_user!.is_verified) {
 
@@ -157,17 +159,16 @@ export class ProfilePage implements OnInit {
 
           this.current_user = current_profile.user;
 
-         
-
           this.owner = false;
           this.followService.isFollowing(current_user.user_id, current_profile.user!.user_id).subscribe(r => this.is_followed = r.follows!)
 
-          this.retrieveData();
+          //this.retrieveData();
 
         });
       }
-      this.new_bio = this.current_user!.bio;
-    });
+
+
+    }).catch(r => console.log("Error", r));
 
 
 
@@ -201,7 +202,7 @@ export class ProfilePage implements OnInit {
   }
 
   onIonInfinite(ev: any) {
-    this.anchor += this.quantity;
+    this.anchor = this.thoughts.length;
     this.retrieveData();
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
@@ -227,7 +228,9 @@ export class ProfilePage implements OnInit {
 
   public logout() {
 
-    this.storage.set("loggedInUser", undefined).then(r => this.router.navigate(['/login']));
+    this.current_user = undefined;
+
+    this.storage.set("loggedInUser", undefined).then(r => this.router.navigate(['/login'], { replaceUrl: true }));
 
   }
 

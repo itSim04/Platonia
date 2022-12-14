@@ -13,6 +13,7 @@ import { User } from "src/app/linking/models/user-main";
 })
 export class RegisterPage implements OnInit {
 
+  disabled: boolean = false;
   readonly genders: Array<string> = new Array(...Genders);
 
   is_submitted: boolean = false;
@@ -31,8 +32,15 @@ export class RegisterPage implements OnInit {
 
   public goToLogin() {
 
-    this.router.navigate(['/login'])
+    this.disabled = true;
+    setTimeout(() => { 
+      this.router.navigate(['/login'])
+    }, 50);
 
+  }
+
+  ionViewDidLeave() {
+    this.disabled = false;
   }
 
   private async displayWarning(msg: string) {

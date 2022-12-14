@@ -11,6 +11,7 @@ import { UserService } from '../../../linking/apis/user.service';
 })
 export class LoginPage {
 
+  disabled: boolean = false;
   username: string = "";
   password: string = "";
   constructor(public router: Router, private userService: UserService, private storageService: StorageService, public toastController: ToastController) { }
@@ -27,7 +28,11 @@ export class LoginPage {
 
   }
 
-
+  ionViewDidLeave() {
+    this.disabled = false;
+    this.username = "";
+    this.password = "";
+  }
 
   onLogin() {
 
@@ -49,7 +54,11 @@ export class LoginPage {
 
   goToRegister() {
 
-    this.router.navigate(['/register']);
+    this.disabled = true;
+    setTimeout(() => {
+      this.router.navigate(['/register']);
+    }, 50);
+
 
   }
 

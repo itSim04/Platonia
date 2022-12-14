@@ -205,7 +205,7 @@
             <div class="action_label">{{thought.opinions}}</div>
 
             <!-- Likes Button -->
-            <div (click)="togglePlaton()" class="action">
+            <div (click)="thought.toggleLike(likeService, storageService)" class="action">
               <ion-icon [color]="thought.is_liked ? 'danger' : ''" name="diamond-outline" style="font-size: 20px;">
               </ion-icon>
             </div>

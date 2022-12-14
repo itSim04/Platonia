@@ -32,12 +32,7 @@
     font-weight: bold;
     text-decoration: underline;
     text-transform: capitalize;
-    --color: black;
-    --background: #00000000;
-    --background-hover: #00000000;
-    --background-activated: #00000000;
-    --color-hover: #DDDDDD;
-    --color-activated: white;
+    --color: var(--ion-color-dark);
 
 }
 
@@ -49,7 +44,7 @@
     font-size: 16px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
-    color: black;
+    color: var(--ion-color-dark);
 
 
 }
@@ -64,7 +59,7 @@
     height: 60px;
     --background: url(../../../../assets/imgs/next-btn-1.png) 0 0/100% 100%;
     --background-hover-opacity: 10%;
-    --color-activated: white;
+    --color-activated: var(--ion-color-light);
 
 }
 
@@ -73,7 +68,7 @@
     font-size: 15px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #9A9A9A;
-    --background: #00000000;
+    --background: transparent;
     width: 90%;
 
 }
@@ -82,7 +77,7 @@
 
     position: fixed;
     font-size: 15px;
-    top: 20%;
+    top: 25%;
     width: 100%;
 
 }

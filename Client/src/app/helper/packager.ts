@@ -299,8 +299,6 @@ export class Packager {
         current.is_opinion = String(data[ThoughtParts.IS_OPINION]) == "1";
         current.platons = Number.parseInt(data[TempThoughtParts.PLATONS]);
 
-        console.log("Packaging", data, current);
-
         return current;
     }
 
