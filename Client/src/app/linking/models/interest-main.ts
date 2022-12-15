@@ -1,10 +1,12 @@
 export class Interest {
 
-    private _interest_id: number;
-    private _name: string;
-    private _logo: string;
-    private _participants: number;
-    private _is_followed: boolean;
+    // Holds an interest
+
+    private _interest_id: number; // id of the interest
+    private _name: string; // Name of the interest
+    private _logo: string; // Logo of the interest
+    private _participants: number; // Number of participants
+    private _is_followed: boolean; // Whether the logged in user is enrolled in this interest
 
     constructor(interest_id: number, name: string, logo: string, participants: number, is_followed: boolean) {
         this._interest_id = interest_id

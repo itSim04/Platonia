@@ -1,9 +1,11 @@
 import { User } from './user-main';
 export class Message {
 
-    private _date: Date;
-    private _owner_id: number;
-    private _content: string;
+    // Holds a message
+
+    private _date: Date; // The date of the message 
+    private _owner_id: number; // The owner id
+    private _content: string; // The content of the message
 
     constructor(date: Date, owner_id: number, content: string) {
 
@@ -36,11 +38,13 @@ export class Message {
 
 export class Chat {
 
-    private _user_1: User;
-    private _user_2: User;
-    private _start: Date;
-    private _last_message: Message;
-    private _messages: Array<Message>;
+    // Holds a chat
+
+    private _user_1: User; // The first user (typically the logged in user)
+    private _user_2: User; // The second user
+    private _start: Date; // The start date of the conversation
+    private _last_message: Message; // The last message in the chat
+    private _messages: Array<Message>; // The messages held by this chat
 
     constructor(user_1: User, user_2: User, start: Date, last_message: Message, messages: Array<Message>) {
 

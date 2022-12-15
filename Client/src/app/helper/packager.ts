@@ -22,7 +22,6 @@ export class Packager {
             email_taken: data[ResponseParts.EMAIL_AVAILABLE], // Whether the email is taken
             username_taken: data[ResponseParts.USERNAME_AVAILABLE], // Whether the username is taken
             name_taken: data[ResponseParts.NAME_AVAILABLE], // Whether the interest name is taken
-            options: this.packOptionsInMap(data[ResponseParts.OPTIONS]), // The options retrieved
             profile_id: data[ResponseParts.PROFILE_ID], // The profile picture id of the user
             banner_id: data[ResponseParts.BANNER_ID], // The banner id of the user
             follows: data[ResponseParts.FOLLOWS], // Whether the user follows the other user
@@ -112,40 +111,6 @@ export class Packager {
         }
         return response;
 
-    }
-
-    public static packOptionsInMap(json: any): Map<number, Option> {
-
-        // Packs options in a map
-        const map: Map<number, Option> = new Map();
-        json?.forEach((element: any) => {
-
-            const current: Option | undefined = this.optionUnpack(element);
-            if (current != undefined) {
-                map.set(current.position, current);
-            }
-        });
-        return map;
-
-    }
-    public static optionUnpack(data: any): Option | undefined {
-
-        // Unpack option into their Class
-        if (data != undefined) {
-            const current: Option = {
-
-                thought_id: Number.parseInt(data[OptionParts.ID]),
-                content: String(data[OptionParts.CONTENT]),
-                position: Number.parseInt(data[OptionParts.POSITION]),
-                votes: Number.parseInt(data[OptionParts.VOTES]),
-
-            };
-            return current;
-        } else {
-
-            return undefined;
-
-        }
     }
 
     public static packUsersInMap(json: any): Map<number, User> {

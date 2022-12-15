@@ -4,6 +4,7 @@ import { User } from "./user-main";
 
 export interface InterestRequest {
 
+    // Request for an Interest api
     user_id?: number;
     interest_id?: number;
     img_src?: string;
@@ -14,6 +15,7 @@ export interface InterestRequest {
 
 export interface UserRequest {
 
+    // Request for a User api
     user_id?: number;
     username?: string;
     is_verified?: boolean;
@@ -28,17 +30,9 @@ export interface UserRequest {
 
 }
 
-
-export interface Follow {
-
-    user_id1: number;
-    user_id2: number;
-    follow_date: Date;
-
-}
-
 export interface ThoughtRequest {
 
+    // Request for a thought API
     user_id?: number;
     thought_id?: number;
     content?: string;
@@ -60,31 +54,6 @@ export interface ThoughtRequest {
 
 }
 
-export interface LIKES {
-
-    thought_id: number;
-    user_id: number;
-    like_date: Date;
-
-}
-
-export interface PLATON {
-
-    thought_id: number;
-    user_id: number;
-    platon_date: Date;
-
-}
-
-export interface Answers {
-
-    thought_id: number;
-    user_id: number;
-    answer_date: Date;
-    option_chosen: number;
-
-}
-
 export interface Option {
 
     thought_id: number;
@@ -96,6 +65,7 @@ export interface Option {
 
 export interface ResponseReceipt {
 
+    // Received from every API
     status: number;
     error_message?: string;
     username_taken: boolean;

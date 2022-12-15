@@ -9,22 +9,23 @@ import { ResponseReceipt } from './request-models';
 
 export abstract class Thought {
 
-    protected _thought_id: number;
-    protected _share_date: Date;
-    protected _edit_date: Date;
-    protected _owner_id: number;
-    protected _type: number;
+    // Holds a thought
+    protected _thought_id: number; // The id of the thought
+    protected _share_date: Date; // The date the thought was shared
+    protected _edit_date: Date; // The date the thought was edited (WIP)
+    protected _owner_id: number; // The id of the owner
+    protected _type: number; // The type of the thought (0: Text | 1: Image | 2: Video (WIP) | 3: Poll | 4: Platoned)
 
-    protected _likes: number;
-    protected _platons: number;
-    protected _opinions: number;
+    protected _likes: number; // Likes on this thought
+    protected _platons: number; // Platons on this thought
+    protected _opinions: number; // Opinions on this thought
 
-    protected _root_id: number;
-    protected _is_liked: boolean;
-    protected _is_platoned: boolean;
-    protected _is_opinion: boolean;
+    protected _root_id: number; // The id of the root (if applicable)
+    protected _is_liked: boolean; // Whether the logged in user liked this thought
+    protected _is_platoned: boolean; // Whether the logged in user platoned this thought
+    protected _is_opinion: boolean;// Whether this thought is an opinion
 
-    constructor(thought_id: number = -1, share_date: Date = new Date(), edit_date: Date = new Date(), owner_id: number = -1, type: number = -1, likes: number = -1, platons: number = -1, opinions: number = -1, root_id: number = -1, is_liked: boolean = false, is_platoned: boolean = false, is_opinion = false) {
+    constructor (thought_id: number = -1, share_date: Date = new Date(), edit_date: Date = new Date(), owner_id: number = -1, type: number = -1, likes: number = -1, platons: number = -1, opinions: number = -1, root_id: number = -1, is_liked: boolean = false, is_platoned: boolean = false, is_opinion = false) {
 
         this._thought_id = thought_id;
         this._share_date = share_date;
@@ -139,6 +140,7 @@ export abstract class Thought {
         this._is_opinion = is_opinion;
     }
 
+    // Toggles a like on this thought
     public toggleLike(likeService: LikeService, storageService: StorageService) {
 
         storageService.getSessionUser().then(session_user => {
@@ -173,6 +175,7 @@ export abstract class Thought {
         });
     }
 
+    // Toggles a platon on this thought
     public togglePlaton(platonService: PlatonService, user_id: number): Observable<ResponseReceipt> {
 
         if (this.is_platoned) {
@@ -191,6 +194,7 @@ export abstract class Thought {
         }
     }
 
+    // Posts a comment on this thought
     public postComment(content: string, user_id: number, thoughtService: ThoughtService): Observable<ResponseReceipt> {
 
         this.opinions++;
@@ -198,6 +202,7 @@ export abstract class Thought {
 
     }
 
+    // Deletes a comment on this thought
     public deleteComment(thought_id: number, thoughtService: ThoughtService): Observable<ResponseReceipt> {
 
         this.opinions--;
@@ -209,16 +214,10 @@ export abstract class Thought {
 
 export class TextThought extends Thought {
 
-    private _content: string;
+    // Text thoughts
+    private _content: string; // The text
 
-    // constructor(content: string, thought_id: number, share_date: Date, edit_date: Date, owner_id: number, type: number, likes: number, platons: number, opinions: number, root_id: number, is_liked: boolean, is_platoned: boolean) {
-
-    //     super(thought_id, share_date, edit_date, owner_id, type, likes, platons, opinions, root_id, is_liked, is_platoned);
-    //     this._content = content;
-
-    // }
-
-    constructor(content: string) {
+    constructor (content: string) {
 
         super();
         this._content = content;
@@ -237,16 +236,10 @@ export class TextThought extends Thought {
 
 export class ImageThought extends Thought {
 
-    private _img: string;
+    // Image thought
+    private _img: string; // The image source
 
-    // constructor(thought_id: number, share_date: Date, edit_date: Date, owner_id: number, type: number, likes: number, platons: number, opinions: number, root_id: number, is_liked: boolean, is_platoned: boolean, img: string) {
-
-    //     super(thought_id, share_date, edit_date, owner_id, type, likes, platons, opinions, root_id, is_liked, is_platoned);
-    //     this._img = img;
-
-    // }
-
-    constructor(img: string) {
+    constructor (img: string) {
 
         super();
         this._img = img;
@@ -265,16 +258,10 @@ export class ImageThought extends Thought {
 
 export class VideoThought extends Thought {
 
-    private _vid: string;
+    // Video thoughts (WIP)
+    private _vid: string; // The video source
 
-    // constructor(thought_id: number, share_date: Date, edit_date: Date, owner_id: number, type: number, likes: number, platons: number, opinions: number, root_id: number, is_liked: boolean, is_platoned: boolean, vid: string) {
-
-    //     super(thought_id, share_date, edit_date, owner_id, type, likes, platons, opinions, root_id, is_liked, is_platoned);
-    //     this._vid = vid;
-
-    // }
-
-    constructor(vid: string) {
+    constructor (vid: string) {
 
         super();
         this._vid = vid;
@@ -293,37 +280,22 @@ export class VideoThought extends Thought {
 
 export class PollThought extends Thought {
 
-    private _prompt: string;
+    // Poll Thoughts
+    private _prompt: string; // The prompt
 
-    private _option_chosen: number;
+    private _option_chosen: number; // The answered option
 
-    private _poll1: string;
-    private _poll2: string;
-    private _poll3: string;
-    private _poll4: string;
+    private _poll1: string; // The first poll
+    private _poll2: string; // The second poll
+    private _poll3: string; // The third poll
+    private _poll4: string; // The fourth poll
 
-    private _votes1: number;
-    private _votes2: number;
-    private _votes3: number;
-    private _votes4: number;
+    private _votes1: number; // The votes on the first poll
+    private _votes2: number; // The votes on the second poll
+    private _votes3: number; // The votes on the third poll
+    private _votes4: number; // The votes on the fourth poll
 
-    // constructor(thought_id: number, share_date: Date, edit_date: Date, owner_id: number, type: number, likes: number, platons: number, opinions: number, root_id: number, is_liked: boolean, is_platoned: boolean, prompt: string, option_chosen: number, poll1: string, poll2: string, poll3: string, poll4: string, votes1: number, votes2: number, votes3: number, votes4: number, votes: number) {
-
-    //     super(thought_id, share_date, edit_date, owner_id, type, likes, platons, opinions, root_id, is_liked, is_platoned);
-    //     this._prompt = prompt;
-    //     this._option_chosen = option_chosen;
-    //     this._poll1 = poll1;
-    //     this._poll2 = poll2;
-    //     this._poll3 = poll3;
-    //     this._poll4 = poll4;
-    //     this._votes1 = votes1;
-    //     this._votes2 = votes2;
-    //     this._votes3 = votes3;
-    //     this._votes4 = votes4;
-    //     this._votes = votes;
-    // }
-
-    constructor(prompt: string, option_chosen: number, poll1: string, poll2: string, poll3: string, poll4: string, votes1: number, votes2: number, votes3: number, votes4: number) {
+    constructor (prompt: string, option_chosen: number, poll1: string, poll2: string, poll3: string, poll4: string, votes1: number, votes2: number, votes3: number, votes4: number) {
 
         super();
         this._prompt = prompt;
@@ -439,6 +411,7 @@ export class PollThought extends Thought {
         return this._votes1 + this._votes2 + this._votes3 + this._votes4;
     }
 
+    // Answers a poll
     answerPoll(position: number, user_id: number, optionService: AnswerService) {
 
         if (this.incrementPoll(position)) {
@@ -455,6 +428,7 @@ export class PollThought extends Thought {
 
     }
 
+    // Increments an option in the poll
     incrementPoll(position: number): boolean {
 
         if (this.option_chosen == 0) {
@@ -494,12 +468,14 @@ export class PollThought extends Thought {
 
     }
 
+    // Gets highest vote count
     getMax(): number {
 
         return Math.max(this.votes1, this.votes2, this.votes3, this.votes4);
 
     }
 
+    // Gets highest voted poll
     getMaxPosition(): number {
 
         if (this.votes1! == this.getMax()) {
@@ -530,12 +506,14 @@ export class PollThought extends Thought {
 
     }
 
+    // Checks whether the poll is single voted
     isSingleValued(): boolean {
 
         return this.totalVotes == this.votes1 || this.totalVotes == this.votes2 || this.totalVotes == this.votes3 || this.totalVotes == this.votes4;
 
     }
 
+    // Decrements the poll
     decrementPoll(position: number) {
 
         this.option_chosen = position;
@@ -567,6 +545,7 @@ export class PollThought extends Thought {
 
     }
 
+    // Changes a poll
     updatePollSubject(position: number, e: string) {
 
         switch (position) {
@@ -605,9 +584,10 @@ export class PollThought extends Thought {
 
 export class PlatonedThought extends Thought {
 
-    private _root: Thought;
+    // Platoned thoughts
+    private _root: Thought; // The original thought
 
-    constructor(root: Thought) {
+    constructor (root: Thought) {
 
         super();
         this._root = root;

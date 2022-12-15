@@ -3,21 +3,21 @@ import { Genders } from "src/app/helper/constants/general";
 
 export class User {
 
-    private _user_id: number;
-    private _username: string;
-    private _is_verified: boolean;
-    private _bio: string;
-    private _email: string;
-    private _birthday: Date;
-    private _join: Date;
-    private _gender: number;
-    private _picture: string;
-    private _banner: string;
-    private _followers: number;
-    private _followings: number;
+    private _user_id: number; // The id of the user
+    private _username: string; // The username of the user
+    private _is_verified: boolean; // Whether the user has verified their email
+    private _bio: string; // The bio of the user
+    private _email: string; // The email of the user
+    private _birthday: Date; // The birthday of the user
+    private _join: Date; // The join date of the user
+    private _gender: number; // The gender of the user
+    private _picture: string; // The profile picture of the user
+    private _banner: string; // The banner of the user
+    private _followers: number; // Followers count
+    private _followings: number; // Followings count
 
-    public credit?: number;
-    public interests?: Map<number, Interest>;
+    public credit?: number; // Used in the meeting algorithm
+    public interests?: Map<number, Interest>; // Used in the meeting algorithm
 
     constructor(user_id: number = -1, username: string = "", is_verified: boolean = false, bio: string = "", email: string = "", birthday: Date = new Date(), join: Date = new Date(), gender: number = -1, picture: string = "", banner: string = "", followers: number = -1, followings: number = -1) {
 
@@ -132,6 +132,7 @@ export class User {
         this._followings = followings;
     }
 
+    // Gets the index of a gender
     static numericalGender(value: string): number {
 
         switch (value) {
