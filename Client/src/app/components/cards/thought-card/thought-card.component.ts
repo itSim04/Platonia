@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { UserService } from './../../../linking/apis/user.service';
 import { PlatonedThought } from './../../../linking/models/thought-main';
 import { PlatonService } from './../../../linking/apis/platon.service';
@@ -24,7 +25,7 @@ export class ThoughtCardComponent implements AfterViewInit {
   // Class that holds a Thought. The user can like, platon and express. The user could answer. The owner can delete
 
   session_user?: User; // The logged in User
-  
+
   original?: User; // Holds the original owner of the thought (If this thought is Platoned)
   @Input() user?: User; // Holds the owner of the thought
   @Input() thought?: Thought; // Holds the thought this class represents
@@ -44,7 +45,7 @@ export class ThoughtCardComponent implements AfterViewInit {
 
   @ViewChild('options') option!: IonPopover; // The opinion page
 
-  constructor(public thoughtService: ThoughtService, private userService: UserService, private alertController: AlertController, public optionService: AnswerService, public storageService: StorageService, public likeService: LikeService, public platonService: PlatonService) {
+  constructor (private router: Router, public thoughtService: ThoughtService, private userService: UserService, private alertController: AlertController, public optionService: AnswerService, public storageService: StorageService, public likeService: LikeService, public platonService: PlatonService) {
   }
 
   ngAfterViewInit(): void {
@@ -211,9 +212,17 @@ export class ThoughtCardComponent implements AfterViewInit {
 
   }
 
+  openProfile() {
+
+    // Opens the owner of the thought
+    
+    this.router.navigate(["tabs/profile/", { id: this.thought?.owner_id }]);
+
+  }
+
 
   // Getters that cast the Thoughts for easier use
-  
+
   get textThought(): TextThought {
 
     return this.thought as TextThought;

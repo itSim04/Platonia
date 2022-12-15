@@ -14,11 +14,11 @@
       <div *ngIf="thought.type != 4">
 
         <!-- Profile -->
-        <img [src]="user.picture" onerror="this.src='../../../../assets/icon/profile-default.png'"
+        <img (click)="openProfile()" [src]="user.picture" onerror="this.src='../../../../assets/icon/profile-default.png'"
           class="unselectable profile">
 
         <!-- Username -->
-        <div class="unselectable owner_label">{{user.username}}</div>
+        <div (click)="openProfile()" class="unselectable owner_label">{{user.username}}</div>
 
         <!-- Options -->
         <ion-button *ngIf="session_user.user_id == user.user_id" (click)="openOptions()" fill="clear" class="option">
