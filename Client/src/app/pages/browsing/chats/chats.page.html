@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar class="header">
+  <ion-toolbar class="header unselectable">
     <ion-title class="title">{{chat?.user2?.username}}</ion-title>
 
     <ion-buttons slot="start">
@@ -21,7 +21,7 @@
   <ion-grid>
     <div *ngFor="let c of chat?.messages; let i = index">
       <ion-row>
-        <ion-col class="col">
+        <ion-col class="col unselectable">
           <ion-text [style.border-bottom-left-radius]="bottomLeft(c, i)"
             [style.border-top-left-radius]="c.owner_id == session_user.user_id ? ('20px') : (i > 0 && chat?.messages![i - 1].owner_id == c.owner_id) ? '5px' : '20px'"
             [style.border-bottom-right-radius]="bottomRight(c, i)" [style.border-top-right-radius]="topRight(c, i)"

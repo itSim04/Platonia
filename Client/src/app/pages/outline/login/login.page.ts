@@ -56,7 +56,7 @@ export class LoginPage {
 
     this.disabled = true;
     setTimeout(() => {
-      this.router.navigate(['/register']);
+      this.router.navigate(['/register'], { replaceUrl: true });
     }, 50);
 
 

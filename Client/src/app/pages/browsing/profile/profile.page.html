@@ -1,6 +1,6 @@
 <ion-header class="header" *ngIf="current_user != undefined">
   <!-- Username -->
-  <p class="name_label">{{current_user.username}}</p>
+  <p class="name_label unselectable">{{current_user.username}}</p>
 
   <!-- Friends list -->
   <ion-button fill="clear" (click)="openFriendsList()" class="friends_label">{{current_user.followers + " Friend" +
@@ -8,7 +8,7 @@
   </ion-button>
 
   <!-- Profile Picture -->
-  <img [src]="current_user.picture" onerror="this.src='../../../../assets/icon/profile-default.png'" class="profile">
+  <img [src]="current_user.picture" onerror="this.src='../../../../assets/icon/profile-default.png'" class="profile unselectable">
 
   <!-- Options Opener -->
   <ion-button (click)="openOptions()" fill="clear" class="extra_label">
@@ -43,10 +43,10 @@
   <!-- Bio -->
   <ion-card>
     <div (click)="uploadBanner()">
-      <img alt="Banner" [src]="current_user.banner" onerror="this.src='../../../../assets/icon/profile-default.png'" />
+      <img alt="Banner" class="unselectable" [src]="current_user.banner" onerror="this.src='../../../../assets/icon/profile-default.png'" />
     </div>
     <ion-card-header>
-      <ion-card-title style="width: auto">About
+      <ion-card-title style="width: auto" class="unselectable">About
         <div *ngIf="owner" style="display:inline" (click)="editBio()">
           <ion-icon style="font-size: 100%;" [name]="bio_edit_mode ? 'checkmark-circle-outline' : 'pencil-sharp'">
           </ion-icon>
@@ -55,7 +55,7 @@
     </ion-card-header>
 
     <ion-card-content>
-      <ion-textarea autoGrow="true" [disabled]="!bio_edit_mode" text-wrap class="content" [(ngModel)]="new_bio"
+      <ion-textarea class="unselectable" autoGrow="true" [disabled]="!bio_edit_mode" text-wrap class="content" [(ngModel)]="new_bio"
         placeholder="Hello Friends..."></ion-textarea>
     </ion-card-content>
   </ion-card>

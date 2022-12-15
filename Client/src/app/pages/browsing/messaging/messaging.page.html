@@ -1,13 +1,13 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Messaging</ion-title>
+    <ion-title class="unselectable">Messaging</ion-title>
     <ion-progress-bar color="secondary" *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
 
-  <ion-button fill="clear" class="empty" *ngIf="!chats.length && !loading">
+  <ion-button fill="clear" class="unselectable empty" *ngIf="!chats.length && !loading">
     No Chats Yet
     <ion-icon slot="end" name="diamond-outline"></ion-icon>
   </ion-button>

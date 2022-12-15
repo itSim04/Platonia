@@ -1,13 +1,14 @@
-<ion-item (click)="openChat()" class="chat">
+<ion-item (click)="openChat()" class="chat unselectable">
   <ion-avatar slot="start">
-    <img [src]="chat.user2.picture" />
+    <img class="unselectable" [src]="chat.user2.picture" />
   </ion-avatar>
   <ion-label>
-    <ion-text class="name multi">
+    <ion-text class="name multi unselectable">
       {{chat.user2.username}}
     </ion-text>
-    <ion-text *ngIf="chat.last_message.content != undefined" class="subtitle multi">
-      {{lastSender}}: {{chat.last_message.content}} <div class="date">{{formatDate(chat.last_message.date)}}</div>
+    <ion-text *ngIf="chat.last_message.content != undefined" class="subtitle multi unselectable">
+      {{lastSender}}: {{chat.last_message.content}} <div class="date unselectable">
+        {{formatDate(chat.last_message.date)}}</div>
     </ion-text>
   </ion-label>
 </ion-item>

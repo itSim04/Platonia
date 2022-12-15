@@ -22,14 +22,14 @@ export class SplashPage {
 
           if (response.user) {
             this.storageService.set("loggedInUser", response.user);
-            this.router.navigate(["tabs/profile/", { id: response.user?.user_id }]);
+            this.router.navigate(["tabs/profile/", { id: response.user?.user_id }], { replaceUrl: true });
           } else {
-            this.router.navigate(["/login"]);
+            this.router.navigate(["/login"], { replaceUrl: true });
           }
         })
       } else {
 
-        this.router.navigate(["/login"]);
+        this.router.navigate(["/login"], { replaceUrl: true });
 
       }
     });

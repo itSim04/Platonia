@@ -2,6 +2,12 @@
 //     background: white;
 // }
 
+.unselectable {
+
+    user-select: none;
+
+}
+
 .center {
 
     position: fixed;

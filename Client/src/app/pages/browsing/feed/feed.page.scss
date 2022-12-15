@@ -14,3 +14,9 @@
     transform: translate(-50%, -50%);
     // min-height: 100vh;
 }
+
+.unselectable {
+
+    user-select: none;
+
+}

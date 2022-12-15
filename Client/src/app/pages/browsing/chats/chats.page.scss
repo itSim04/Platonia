@@ -10,6 +10,12 @@
     }
 }
 
+.unselectable {
+
+    user-select: none;
+    
+}
+
 .header {
     height: 80px;
 }
@@ -71,6 +77,7 @@
 .multi {
 
     transition: all 250ms ease-in-out;
+    user-select: none;
     max-width: 80%;
     min-width: 10%;
     width: fit-content;
