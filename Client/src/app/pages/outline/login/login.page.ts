@@ -62,4 +62,14 @@ export class LoginPage {
 
   }
 
+  goToForget() {
+
+    this.disabled = true;
+    setTimeout(() => {
+      this.router.navigate(['/forget-password']);
+    }, 50);
+
+
+  }
+
 }

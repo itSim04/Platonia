@@ -7,6 +7,8 @@ export enum ExitCodes {
     USERS_CHECK = 104,
     USERS_AUTHENTICATE = 105,
     USER_UPLOAD_PROFILE = 106,
+    USERS_UPLOAD_BANNER = 107,
+    USERS_GET_FROM_EMAIL = 108,
 
     THOUGHTS_ADD = 110,
     THOUGHTS_GET_ALL = 111,
@@ -100,7 +102,8 @@ export enum UserAPIs {
     CHECK = 4,
     AUTHENTICATE = 5,
     UPLOAD_PROFILE = 6,
-    UPLOAD_BANNER = 7
+    UPLOAD_BANNER = 7,
+    GET_FROM_EMAIL = 8
 
 }
 

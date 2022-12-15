@@ -275,7 +275,7 @@ export class ProfilePage implements OnInit {
 
         text: "Send", handler: inputsData => {
 
-          this.utilityService.sendCode(this.current_user?.email!, code).subscribe(r => console.log(r));
+          this.utilityService.sendCode(this.current_user?.email!, String(code)).subscribe(r => console.log(r));
           return false;
 
         }

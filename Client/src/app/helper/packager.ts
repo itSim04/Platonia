@@ -33,8 +33,10 @@ export class Packager {
             case ExitCodes.USERS_AUTHENTICATE:
             case ExitCodes.USERS_GET_ONE:
             case ExitCodes.USERS_UPDATE:
+            case ExitCodes.USERS_GET_FROM_EMAIL:
 
-                response.user = this.userUnpack(data[ResponseParts.USER][0]);
+                if (data[ResponseParts.USER])
+                    response.user = this.userUnpack(data[ResponseParts.USER][0]);
                 break;
 
             case ExitCodes.USERS_GET_ALL:

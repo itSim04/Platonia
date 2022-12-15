@@ -5,7 +5,7 @@ require '../helper/root.php';
 if (check_keys($_GET, "schema")) {
 
     $table_name = "users";
-    $temp_table = "users_TEMP";
+    $temp_table = "users_temp";
     $interests_table = "interests";
     $pivot_table = "interested_in";
 
@@ -42,6 +42,16 @@ if (check_keys($_GET, "schema")) {
                 $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $temp_table), $_GET, array(), array(new condition(USERS::ID), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
                 $output[RESPONSE::USER][0]->profile_id = is_dir("../assets/users/{$output[RESPONSE::USER][0]->user_id}/profiles") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::USER][0]->user_id}/profiles/", FilesystemIterator::SKIP_DOTS)) : 0;
                 $output[RESPONSE::USER][0]->banner_id = is_dir("../assets/users/{$output[RESPONSE::USER][0]->user_id}/banners") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::USER][0]->user_id}/banners/", FilesystemIterator::SKIP_DOTS)) : 0;
+            }
+            break;
+
+        case USERS_SCHEMA::GET_FROM_EMAIL:
+
+            if (check_keys($_GET, USERS::EMAIL)) {
+
+                $output[RESPONSE::STATUS] = EXIT_CODES::USERS_GET_FROM_EMAIL;
+                $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name), $_GET, array(), array(new condition(USERS::EMAIL)));
+                
             }
             break;
 

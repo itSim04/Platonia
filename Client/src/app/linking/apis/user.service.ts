@@ -44,6 +44,16 @@ export class UserService {
 
   }
 
+  public getFromEmail(user: UserRequest): Observable<ResponseReceipt> {
+
+    return this.http.get<any>(BuildAPIs.build_url(UserAPIs.GET_FROM_EMAIL, this.api, `& ${UserParts.EMAIL}=${user.email}`)).pipe(map((data: any) =>
+
+      Packager.responseUnpack(data)
+
+    ));
+
+  }
+
   public updateUser(user: UserRequest): Observable<ResponseReceipt> {
 
     return this.http.post<any>(BuildAPIs.build_url(UserAPIs.UPDATE, this.api), Packager.packUserForPOST(user)).pipe(map((data: any) =>

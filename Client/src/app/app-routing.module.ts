@@ -41,6 +41,10 @@ const routes: Routes = [
   {
     path: 'meeting',
     loadChildren: () => import('./pages/browsing/meeting/meeting.module').then( m => m.MeetingPageModule)
+  },
+  {
+    path: 'forget-password',
+    loadChildren: () => import('./pages/outline/forget-password/forget-password.module').then( m => m.ForgetPasswordPageModule)
   }
 
 

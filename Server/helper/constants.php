@@ -138,6 +138,8 @@ class EXIT_CODES {
 	public const USERS_CHECK = 104;
 	public const USERS_AUTHENTICATE = 105;
 	public const USERS_UPLOAD_PROFILE = 106;
+	public const USERS_UPLOAD_BANNER = 107;
+	public const USERS_GET_FROM_EMAIL = 108;
 
 	public const THOUGHTS_ADD = 110;
 	public const THOUGHTS_GET_ALL = 111;
@@ -239,6 +241,7 @@ class USERS_SCHEMA {
 	public const AUTHENTICATE = 5;
 	public const UPLOAD_PROFILE = 6;
 	public const UPLOAD_BANNER = 7;
+	public const GET_FROM_EMAIL = 8;
 
 }
 
