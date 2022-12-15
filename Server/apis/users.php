@@ -16,6 +16,7 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_POST, USERS::USERNAME, USERS::JOIN, USERS::PASSWORD, USERS::BIRTHDAY, USERS::EMAIL, USERS::GENDER)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_ADD;
+                $_POST[USERS::PASSWORD] = password_hash($_POST[USERS::PASSWORD], PASSWORD_BCRYPT);
                 $id = process_fetch_id($PDO, SQLFunctions::ADD, array($table_name), $_POST, array(USERS::USERNAME, USERS::JOIN, USERS::PASSWORD, USERS::BIRTHDAY, USERS::EMAIL, USERS::GENDER), array());
                 $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $temp_table), [USERS::ID => $id], array(), array(new condition(USERS::ID), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
             }
@@ -48,12 +49,18 @@ if (check_keys($_GET, "schema")) {
 
             if (check_keys($_POST, USERS::ID)) {
 
-                $keys = array(USERS::USERNAME, USERS::EMAIL, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER, USERS::IS_VERIFIED);
+
+                $keys = array(USERS::USERNAME, USERS::EMAIL, USERS::PASSWORD, USERS::BIO, USERS::BIRTHDAY, USERS::GENDER, USERS::IS_VERIFIED);
                 $keys_to_take = array();
                 for ($i = 0, $j = 0; $i < count($keys); $i++) {
                     if (array_key_exists($keys[$i], $_POST)) {
                         $keys_to_take[$j++] = $keys[$i];
                     }
+                }
+
+                if (array_key_exists(USERS::PASSWORD, $_POST)) {
+
+                    $_POST[USERS::PASSWORD] = password_hash($_POST[USERS::PASSWORD], PASSWORD_BCRYPT);
                 }
                 if (count($keys_to_take) == 0) {
 
@@ -86,10 +93,15 @@ if (check_keys($_GET, "schema")) {
             if (check_keys($_POST, USERS::USERNAME, USERS::PASSWORD)) {
 
                 $output[RESPONSE::STATUS] = EXIT_CODES::USERS_AUTHENTICATE;
-                $output[RESPONSE::USER] = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $temp_table), $_POST, array(), array(new condition(USERS::USERNAME), new condition(USERS::PASSWORD), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
-                if ($output[RESPONSE::USER] != null) {
-                    $output[RESPONSE::USER][0]->profile_id = is_dir("../assets/users/{$output[RESPONSE::USER][0]->user_id}/profiles") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::USER][0]->user_id}/profiles/", FilesystemIterator::SKIP_DOTS)) : 0;
-                    $output[RESPONSE::USER][0]->banner_id = is_dir("../assets/users/{$output[RESPONSE::USER][0]->user_id}/banners") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::USER][0]->user_id}/banners/", FilesystemIterator::SKIP_DOTS)) : 0;
+                $user = process_fetch($PDO, SQLFunctions::SELECT, array($table_name, $temp_table), $_POST, array(), array(new condition(USERS::USERNAME), new condition(USERS::ID . " = " . USERS_TEMP::ID, false)));
+                if ($user != null) {
+
+                    if (password_verify($_POST[USERS::PASSWORD], $user[0]->password)) {
+                        $output[RESPONSE::USER] = $user;
+
+                        $output[RESPONSE::USER][0]->profile_id = is_dir("../assets/users/{$output[RESPONSE::USER][0]->user_id}/profiles") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::USER][0]->user_id}/profiles/", FilesystemIterator::SKIP_DOTS)) : 0;
+                        $output[RESPONSE::USER][0]->banner_id = is_dir("../assets/users/{$output[RESPONSE::USER][0]->user_id}/banners") ? iterator_count(new FilesystemIterator("../assets/users/{$output[RESPONSE::USER][0]->user_id}/banners/", FilesystemIterator::SKIP_DOTS)) : 0;
+                    }
                 }
             }
             break;
