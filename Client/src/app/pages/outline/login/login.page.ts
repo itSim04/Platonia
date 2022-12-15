@@ -39,8 +39,11 @@ export class LoginPage {
 
       if (response.user != undefined) {
 
-        this.storageService.set("loggedInUser", response.user);
-        this.router.navigate(["/tabs/profile", { id: response.user.user_id }]);
+        this.storageService.set("loggedInUser", response.user).then(r => {
+
+          this.router.navigate(["/tabs/profile", { id: response.user!.user_id }]);
+
+        });
 
       } else {
 
@@ -63,7 +66,7 @@ export class LoginPage {
   }
 
   goToForget() {
-  
+
     // Go to forget password
     this.disabled = true;
     setTimeout(() => {
