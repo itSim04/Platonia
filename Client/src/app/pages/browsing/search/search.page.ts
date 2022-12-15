@@ -25,14 +25,18 @@ export class SearchPage implements OnInit {
 
     this.storageService.getSessionUser().then(u => {
 
-      this.userService.getAll().subscribe(r => r.users?.forEach(u => {
+      this.userService.getAll().subscribe(r => {
 
-        if (u.user_id != u.user_id) {
-          this.complete_users.push(u);
-          this.users.push(u);
-        }
+        r.users?.forEach(user => {
 
-      }));
+          if (u.user_id != user.user_id) {
+            this.complete_users.push(user);
+            this.users.push(user);
+          }
+
+        });
+
+      });
 
 
 
@@ -40,7 +44,6 @@ export class SearchPage implements OnInit {
 
         r.interests?.forEach(u => {
 
-          //this.complete_interests.splice(0);
           this.complete_interests.push(u);
           this.interests.push(u);
 
