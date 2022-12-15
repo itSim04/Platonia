@@ -23,16 +23,18 @@ export class SearchPage implements OnInit {
 
   ngOnInit(): void {
 
-    this.userService.getAll().subscribe(r => r.users?.forEach(u => {
-
-      //this.complete_users.splice(0);
-      this.complete_users.push(u);
-      this.users.push(u);
-
-    }));
-
-
     this.storageService.getSessionUser().then(u => {
+
+      this.userService.getAll().subscribe(r => r.users?.forEach(u => {
+
+        if (u.user_id != u.user_id) {
+          this.complete_users.push(u);
+          this.users.push(u);
+        }
+
+      }));
+
+
 
       this.interestService.getAll({ user_id: u.user_id }).subscribe(r => {
 

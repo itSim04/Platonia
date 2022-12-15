@@ -57,7 +57,7 @@
     --border-radius: 100px;
     width: 60px;
     height: 60px;
-    --background: url(../../../../assets/imgs/next-btn-1.png) 0 0/100% 100%;
+    --background: var(--ion-color-primary);
     --background-hover-opacity: 10%;
     --color-activated: var(--ion-color-light);
 
