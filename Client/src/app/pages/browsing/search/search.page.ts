@@ -1,3 +1,4 @@
+import { ToastController } from '@ionic/angular';
 import { Component, OnInit } from "@angular/core";
 import { InterestService } from "src/app/linking/apis/interest.service";
 import { StorageService } from "src/app/linking/apis/storage.service";
@@ -19,7 +20,7 @@ export class SearchPage implements OnInit {
   interests: Array<Interest> = new Array();
 
   section: string = "default";
-  constructor(private userService: UserService, private storageService: StorageService, private interestService: InterestService) { }
+  constructor(private userService: UserService, private toastController: ToastController, private storageService: StorageService, private interestService: InterestService) { }
 
   ngOnInit(): void {
 
@@ -52,6 +53,19 @@ export class SearchPage implements OnInit {
     });
 
   }
+
+  async request() {
+
+    const toast = await this.toastController.create({
+      message: "Unimplemented Feature",
+      duration: 1500,
+      icon: 'globe'
+    });
+
+    await toast.present();
+
+  }
+
 
   handleChange(event: any) {
 

@@ -1,3 +1,4 @@
+import { ToastController } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ExitCodes } from 'src/app/helper/constants/db_schemas';
@@ -31,7 +32,7 @@ export class PostPage {
   poll3?: string;
   poll4?: string;
 
-  constructor(private storageService: StorageService, private thoughtService: ThoughtService, private router: Router) { }
+  constructor(private toastController: ToastController, private storageService: StorageService, private thoughtService: ThoughtService, private router: Router) { }
 
   ionViewWillEnter() {
 
@@ -45,6 +46,18 @@ export class PostPage {
   setType(mode: number) {
 
     this.type = mode;
+
+  }
+
+  async missing() {
+
+    const toast = await this.toastController.create({
+      message: "Unimplemented Feature",
+      duration: 1500,
+      icon: 'globe'
+    });
+
+    await toast.present();
 
   }
 

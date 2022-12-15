@@ -24,6 +24,15 @@
     <ion-list *ngSwitchCase="'interests'">
       <app-interest-card *ngFor="let interest of interests" [interest]="interest"></app-interest-card>
     </ion-list>
+
+
+
+
+    <ion-button (click)="request()" color="dark" fill="clear">
+      Request new Feature
+      <ion-icon slot="end" name="diamond-outline"></ion-icon>
+    </ion-button>
+
   </div>
 
 
