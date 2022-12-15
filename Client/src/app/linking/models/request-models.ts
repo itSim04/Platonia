@@ -77,7 +77,6 @@ export interface ResponseReceipt {
     thoughts?: Map<number, Thought>;
     interest?: Interest;
     interests?: Map<number, Interest>;
-    options?: Map<number, Option>;
     missing_params?: string;
     profile_id?: number;
     banner_id?: number;

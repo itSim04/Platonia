@@ -1,21 +1,26 @@
 <ion-tabs>
+  <!-- Feed -->
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="feed">
       <ion-icon name="home-outline"></ion-icon>
     </ion-tab-button>
 
+    <!-- Search -->
     <ion-tab-button tab="search" selected="true">
       <ion-icon name="search-outline"></ion-icon>
     </ion-tab-button>
 
+    <!-- Post -->
     <ion-tab-button tab="post" selected="true">
       <ion-icon name="add-circle-outline"></ion-icon>
     </ion-tab-button>
 
+    <!-- DMs -->
     <ion-tab-button tab="messaging" selected="true">
       <ion-icon name="paper-plane-outline"></ion-icon>
     </ion-tab-button>
 
+    <!-- Profile -->
     <ion-tab-button (click)="openProfile()" [class.tab-selected]="this.router.url.includes(user)">
       <ion-icon name="person-circle-outline"></ion-icon>
     </ion-tab-button>
