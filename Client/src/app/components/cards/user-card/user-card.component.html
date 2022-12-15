@@ -3,9 +3,12 @@
     <ion-grid class="grid main">
       <ion-row>
         <ion-col size="3" class="cell-class unselectable">
+
+          <!-- Profile Picture -->
           <img [src]="user.picture" onerror="this.src='../../../../assets/icon/profile-default.png'" class="profile">
         </ion-col>
         <ion-col>
+          <!-- Username -->
           <div class="owner_label unselectable">{{user.username}}</div>
         </ion-col>
       </ion-row>

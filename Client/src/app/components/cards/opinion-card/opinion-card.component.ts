@@ -15,26 +15,36 @@ import { StorageService } from 'src/app/linking/apis/storage.service';
 })
 export class OpinionCardComponent {
 
-  @Input() thought!: TextThought;
-  @Input() user!: User;
-  @Output() delete: EventEmitter<number> = new EventEmitter();
+  // Holds an opinion that the user can like and delete
+
+  @Input() thought!: TextThought; // The opinion this class holds
+  @Input() user!: User; // The user who owns the opinion
+  @Output() delete: EventEmitter<number> = new EventEmitter(); // Emitted when the opinion is deleted
+
   constructor(private router: Router, public storageService: StorageService, public likeService: LikeService) { }
 
-  get date() {
-
-    return formatRemainingDate(this.thought.share_date);
-
-  }
-
+  
   deleteOpinion() {
 
+    // Deletes the opinion
+    
     this.delete.emit(this.thought.thought_id);
 
   }
-
+  
   public openProfile() {
+    
+    // Opens the profile of the owner
 
     this.router.navigate(["/tabs/profile", { id: this.thought!.owner_id }]);
+    
+  }
+
+  get date() {
+
+    // Returns the date in a readable format
+    
+    return formatRemainingDate(this.thought.share_date);
 
   }
 

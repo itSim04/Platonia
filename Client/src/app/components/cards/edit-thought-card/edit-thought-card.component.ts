@@ -10,25 +10,39 @@ import { User } from "src/app/linking/models/user-main";
 })
 export class EditThoughtCardComponent {
 
-  session_user?: User;
+  // Holds a Thought that the user can edit
 
-  @Input() type?: number;
+  session_user?: User; // The user currently logged in
 
-  content?: string;
-  media?: string;
-  @Output() contentEmitter: EventEmitter<string> = new EventEmitter();
-  @Output() poll1Emitter: EventEmitter<string> = new EventEmitter();
-  @Output() poll2Emitter: EventEmitter<string> = new EventEmitter();
-  @Output() poll3Emitter: EventEmitter<string> = new EventEmitter();
-  @Output() poll4Emitter: EventEmitter<string> = new EventEmitter();
-  @Output() mediaEmitter: EventEmitter<string> = new EventEmitter();
+  @Input() type?: number; // The type of the thought
 
-  constructor(public storageService: StorageService) {
+  content?: string; // The content of the thought
+  media?: string; // The media of the thought (if applicable)
+  @Output() contentEmitter: EventEmitter<string> = new EventEmitter(); // Emitted when the content is edited
+  @Output() poll1Emitter: EventEmitter<string> = new EventEmitter(); // Emitted when the first poll is edited
+  @Output() poll2Emitter: EventEmitter<string> = new EventEmitter(); // Emitted when the second poll is edited
+  @Output() poll3Emitter: EventEmitter<string> = new EventEmitter(); // Emitted when the third poll is edited
+  @Output() poll4Emitter: EventEmitter<string> = new EventEmitter(); // Emitted when the fourth poll is edited
+  @Output() mediaEmitter: EventEmitter<string> = new EventEmitter(); // Emitted when the media is uploaded
+
+  constructor(public storageService: StorageService) {}
+
+  ionViewWillEnter() {
+
+    // Retrieves the logged in user
+    this.ngOnInit();
 
   }
 
+  ngOnInit() {
+
+    // Retrieves the logged in user
+    this.storageService.getSessionUser().then(r => this.session_user = r);
+
+  }
   addImage() {
 
+    // Uploads an image
     Camera.getPhoto({
       resultType: CameraResultType.Base64,
       source: CameraSource.Photos,
@@ -42,15 +56,4 @@ export class EditThoughtCardComponent {
 
   }
 
-  ionViewWillEnter() {
-
-    this.storageService.getSessionUser().then(r => this.session_user = r);
-
-  }
-
-  ngOnInit() {
-
-    this.storageService.getSessionUser().then(r => this.session_user = r);
-
-  }
 }

@@ -33,6 +33,7 @@
             </ion-input>
           </div>
 
+          <!-- Image Thoughts -->
           <div *ngIf="type == 1">
             <div (click)="addImage()">
               <img class="picture unselectable" [src]="'data:image/png;base64,' + media" onerror="this.src='../../../../assets/imgs/image-placeholder.png'">

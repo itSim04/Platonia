@@ -1,11 +1,17 @@
 <ion-item (click)="openChat()" class="chat unselectable">
+
+  <!-- Profile picture -->
   <ion-avatar slot="start">
     <img class="unselectable" [src]="chat.user2.picture" />
   </ion-avatar>
   <ion-label>
+
+    <!-- Username -->
     <ion-text class="name multi unselectable">
       {{chat.user2.username}}
     </ion-text>
+
+    <!-- Last message/date -->
     <ion-text *ngIf="chat.last_message.content != undefined" class="subtitle multi unselectable">
       {{lastSender}}: {{chat.last_message.content}} <div class="date unselectable">
         {{formatDate(chat.last_message.date)}}</div>

@@ -10,29 +10,31 @@
     </ion-card-subtitle>
     <ion-card-subtitle>
 
+      <!-- Raw Thoughts -->
       <div *ngIf="thought.type != 4">
-      <!-- Profile -->
-      <img [src]="user.picture" onerror="this.src='../../../../assets/icon/profile-default.png'"
-        class="unselectable profile">
 
-      <!-- Username -->
-      <div class="unselectable owner_label">{{user.username}}</div>
+        <!-- Profile -->
+        <img [src]="user.picture" onerror="this.src='../../../../assets/icon/profile-default.png'"
+          class="unselectable profile">
 
-      <!-- Options -->
-      <ion-button *ngIf="session_user.user_id == user.user_id" (click)="openOptions()" fill="clear" class="option">
-        <ion-icon name="ellipsis-horizontal"></ion-icon>
-      </ion-button>
-    </div>
+        <!-- Username -->
+        <div class="unselectable owner_label">{{user.username}}</div>
 
+        <!-- Options -->
+        <ion-button *ngIf="session_user.user_id == user.user_id" (click)="openOptions()" fill="clear" class="option">
+          <ion-icon name="ellipsis-horizontal"></ion-icon>
+        </ion-button>
+      </div>
 
-    <div *ngIf="thought.type == 4">
-      <!-- Profile -->
-      <img [src]="original?.picture" onerror="this.src='../../../../assets/icon/profile-default.png'"
-        class="unselectable profile">
+      <!-- Platoned Thoughts -->
+      <div *ngIf="thought.type == 4">
+        <!-- Profile -->
+        <img [src]="original?.picture" onerror="this.src='../../../../assets/icon/profile-default.png'"
+          class="unselectable profile">
 
-      <!-- Username -->
-      <div class="unselectable owner_label">{{original?.username}}</div>
-    </div>
+        <!-- Username -->
+        <div class="unselectable owner_label">{{original?.username}}</div>
+      </div>
 
       <!-- Date -->
       <ion-text class="unselectable date">
@@ -51,6 +53,8 @@
       <ng-template>
         <ion-content>
           <ion-list>
+
+            <!-- Delete thought -->
             <ion-item [button]="true" [detail]="false" (click)="delete()">
               <ion-icon [style.margin-right]="2 + '%'" color="danger" name="trash-bin-outline"></ion-icon>
               <ion-text color="danger">Delete Thought</ion-text>
@@ -112,8 +116,6 @@
           <!-- Platoned Thoughts -->
           <div *ngIf="thought.type == 4">
 
-
-
             <div *ngIf="platonedThought.root.type == 0">
 
               <ion-text class="unselectable content">{{platonedText.content}}</ion-text>
@@ -164,6 +166,7 @@
       <ion-row>
         <ion-col>
 
+          <!-- Platoned thoughts -->
           <div *ngIf="thought.type == 4">
 
             <!-- Opinions button -->
@@ -195,6 +198,7 @@
 
           </div>
 
+          <!-- Raw thoughts -->
           <div *ngIf="thought.type != 4">
             <!-- Opinions button -->
             <div (click)="setOpinionsOpen(true)" class="action">

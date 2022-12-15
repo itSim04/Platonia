@@ -21,38 +21,46 @@ import { threadId } from 'worker_threads';
 })
 export class ThoughtCardComponent implements AfterViewInit {
 
-  session_user?: User;
-  original?: User;
-  @Input() user?: User;
-  @Input() thought?: Thought;
+  // Class that holds a Thought. The user can like, platon and express. The user could answer. The owner can delete
 
-  @Output() refresh: EventEmitter<boolean> = new EventEmitter();
+  session_user?: User; // The logged in User
+  
+  original?: User; // Holds the original owner of the thought (If this thought is Platoned)
+  @Input() user?: User; // Holds the owner of the thought
+  @Input() thought?: Thought; // Holds the thought this class represents
 
-  date: string = "1970-01-01";
-  deleted: boolean = false;
+  @Output() refresh: EventEmitter<boolean> = new EventEmitter(); // Emitted when the Thought should refresh
 
-  opinion: string = "";
-  isOpinionsOpen: boolean = false;
-  opioners: Map<number, User> = new Map();
-  opinions: Array<TextThought> = new Array();
+  date: string = "1970-01-01"; // The date of the thought in readable format
+  deleted: boolean = false; // Whether the thought was deleted
 
-  isLikesOpen: boolean = false;
-  likes: Array<User> = new Array;
+  opinion: string = ""; // The opinion being currently typed
+  isOpinionsOpen: boolean = false; // Whether the opinions are open
+  opioners: Map<number, User> = new Map(); // The users that expressed
+  opinions: Array<TextThought> = new Array(); // The opinions on this thought
 
-  @ViewChild('options') option!: IonPopover;
+  isLikesOpen: boolean = false; // Whether the like list is open
+  likes: Array<User> = new Array; // The likes on this thought
+
+  @ViewChild('options') option!: IonPopover; // The opinion page
 
   constructor(public thoughtService: ThoughtService, private userService: UserService, private alertController: AlertController, public optionService: AnswerService, public storageService: StorageService, public likeService: LikeService, public platonService: PlatonService) {
   }
 
   ngAfterViewInit(): void {
 
+    // Formats the date in readable format
     this.date = formatRemainingDate(this.thought!.share_date);
+
+    // Retrieves the logged in user
     this.storageService.getSessionUser().then(r => {
 
       this.session_user = r;
       if (this.thought?.owner_id == -1) this.thought.owner_id = r.user_id;
 
     });
+
+    // Checks if the thought is platoned
     if (this.thought?.type == 4) {
 
       this.userService.getOne({ user_id: this.platonedThought.root.owner_id }).subscribe(r => {
@@ -65,6 +73,8 @@ export class ThoughtCardComponent implements AfterViewInit {
   }
 
   openOptions() {
+
+    // Opens the Opinion list
 
     if (this.option.isOpen) {
 
@@ -80,6 +90,8 @@ export class ThoughtCardComponent implements AfterViewInit {
   }
 
   async delete() {
+
+    // Deletes the thought
 
     const alert = await this.alertController.create({
       header: 'Delete Thought',
@@ -106,20 +118,7 @@ export class ThoughtCardComponent implements AfterViewInit {
 
   async setLikesOpen(state: boolean) {
 
-    this.isLikesOpen = state;
-    if (state) {
-
-      this.likeService.getLikesOnThought(this.thought?.type == 4 ? this.platonedThought.root.thought_id : this.thought!.thought_id).subscribe(r => {
-
-        this.likes.splice(0);
-        r.users?.forEach(u => this.likes.unshift(u));
-        console.log(r);
-
-      });
-    }
-  }
-
-  async setPlatonedLikesOpen(state: boolean) {
+    // Opens the like list
 
     this.isLikesOpen = state;
     if (state) {
@@ -136,6 +135,7 @@ export class ThoughtCardComponent implements AfterViewInit {
 
   setOpinionsOpen(state: boolean) {
 
+    // Opens the opinion list
     this.isOpinionsOpen = state;
     if (state) {
 
@@ -152,6 +152,7 @@ export class ThoughtCardComponent implements AfterViewInit {
 
   togglePlaton() {
 
+    // Platons/Unplatons the thought
     if (this.thought?.type == 4) {
       this.platonedThought.root.togglePlaton(this.platonService, this.session_user?.user_id!).subscribe(r => {
 
@@ -170,6 +171,7 @@ export class ThoughtCardComponent implements AfterViewInit {
 
   postComment() {
 
+    // Expresses an Opinion
     if (this.thought?.type == 4) {
       this.platonedThought!.root.postComment(this.opinion, this.session_user!.user_id, this.thoughtService).subscribe(r => {
 
@@ -196,6 +198,7 @@ export class ThoughtCardComponent implements AfterViewInit {
 
   deleteComment(id: number) {
 
+    // Deletes an Opinion
     this.thought!.deleteComment(id, this.thoughtService).subscribe(r => {
 
       console.log(r);
@@ -209,6 +212,8 @@ export class ThoughtCardComponent implements AfterViewInit {
   }
 
 
+  // Getters that cast the Thoughts for easier use
+  
   get textThought(): TextThought {
 
     return this.thought as TextThought;

@@ -1,21 +1,24 @@
 <ion-item>
+  
+  
+  <!-- Logo -->
   <ion-avatar slot="start">
     <img [src]="interest?.logo" onerror="this.src='../../../../assets/icon/profile-default.png'"
       class="profile unselectable">
   </ion-avatar>
+
+
   <ion-label class="label">
+
+    <!-- Interest name -->
     <ion-text class="multi unselectable">{{interest?.name}}</ion-text>
+
+    <!-- Interest Toggle -->
     <ion-text class="multi subtitle unselectable">
       <ion-button (click)="toggleInterest()" fill="clear" class="interest_toggle">
         <ion-icon color="secondary" [name]="!interest!.is_followed ? 'add-circle-outline' : 'close-circle-outline'"
           size="large"></ion-icon>
       </ion-button>
-
     </ion-text>
-
-
   </ion-label>
-  <!-- <div class="participants">
-    {{interest?.participants}} Participant{{interest?.participants != 1 ? 's' : ''}}
-  </div> -->
 </ion-item>

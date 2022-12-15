@@ -4,6 +4,8 @@
       <ion-row>
         <ion-col size="2" class="cell-class">
           <div (click)="openProfile()">
+
+            <!-- Profile picture -->
             <ion-avatar>
               <img [src]="user.picture" onerror="this.src='../../../../assets/icon/profile-default.png'"
                 class="profile">
@@ -14,22 +16,30 @@
 
           <ion-row>
             <ion-col class="owner_label cell-class" size="auto">
+
+              <!-- Username -->
               <b>{{user.username}}</b> {{thought.content}}
             </ion-col>
           </ion-row>
 
           <ion-row>
             <ion-col class="low-class" size="auto">
+
+              <!-- Opinion date -->
               <ion-text class="unselectable date">
                 {{date}}
               </ion-text>
             </ion-col>
             <ion-col class="low-class">
+
+              <!-- Likes counter -->
               <ion-text class="unselectable date">
                 {{thought.likes}} Like{{thought.likes == 1 ? '' : 's'}}
               </ion-text>
             </ion-col>
             <ion-col style="float: right" class="low-class" size="1">
+
+              <!-- Likes button -->
               <ion-text (click)="thought.toggleLike(likeService, storageService)" class="unselectable date">
                 <ion-icon [color]="thought.is_liked ? 'danger' : ''"
                   [name]="thought.is_liked ? 'heart' : 'heart-outline'">
