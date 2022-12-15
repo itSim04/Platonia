@@ -8,10 +8,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'folder',
-    loadChildren: () => import('./navigation/folder/folder.module').then(m => m.FolderPageModule)
-  },
-  {
     path: 'login',
     loadChildren: () => import('./pages/outline/login/login.module').then(m => m.LoginPageModule)
   },
@@ -34,7 +30,8 @@ const routes: Routes = [
   {
     path: 'search',
     loadChildren: () => import('./pages/browsing/search/search.module').then( m => m.SearchPageModule)
-  },  {
+  },
+  {
     path: 'chats',
     loadChildren: () => import('./pages/browsing/chats/chats.module').then( m => m.ChatsPageModule)
   },
