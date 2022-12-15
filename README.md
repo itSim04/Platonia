@@ -1,12 +1,16 @@
 # Bliss
 
 Platonia is an app centered around Friendship. It helps bring people together based on shared interest.<br />
-The App is centered around **Thoughts** - that **Users** can share.<br />
+The App is centered around **Thoughts** that **Users** can share.<br />
 
 # Design
 
 The Design folder contains some of the main Pages of the app<br />
 You can find below some design samples in light mode:<br /><br />
+
+![Design](https://github.com/itSim04/Platonia/blob/main/Design/chat-animated.gif)
+![Design](https://github.com/itSim04/Platonia/blob/main/Design/profile-animated.gif)
+![Design](https://github.com/itSim04/Platonia/blob/main/Design/post-animated.gif)
 
 ![Design](https://github.com/itSim04/Platonia/blob/main/Design/chat-light.png)
 ![Design](https://github.com/itSim04/Platonia/blob/main/Design/dms-light.png)
@@ -108,7 +112,7 @@ https://github.com/itSim04<br />
 
 # SQL
 
-![ER](https://github.com/itSim04/Bliss/blob/main/Platonia/Design/ER.png)
+![ER](https://github.com/itSim04/Platonia/blob/main/Design/ER.png)
 
 # Roadmap
 
