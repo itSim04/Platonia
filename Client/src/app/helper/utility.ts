@@ -1,6 +1,7 @@
 
 import { AlertButton, AlertController, AlertInput, ToastController } from "@ionic/angular";
 
+// Inserts element in a sorted array
 export function sortedInsertion<T>(array: Array<T>, item: T, compare: Function) {
 
     if (array.length == 0 || compare(item, array[0])) {
@@ -38,7 +39,7 @@ export function sortedInsertion<T>(array: Array<T>, item: T, compare: Function) 
     return -m - 1;
 }
 
-
+// Displays an alert
 export const presentAlert = async (alertController: AlertController, header: string, inputs: AlertInput[], buttons: AlertButton[]) => {
 
     const alert = await alertController.create({
@@ -46,12 +47,14 @@ export const presentAlert = async (alertController: AlertController, header: str
         keyboardClose: false,
         header: header,
         buttons: buttons,
-        inputs: inputs
+        inputs: inputs,
+        mode: "md"
     });
 
     await alert.present();
 }
 
+// Formats the date into a remainder
 export function formatRemainingDate(date: Date): string {
 
     // Turns a date into a remaining amount
@@ -79,6 +82,7 @@ export function formatRemainingDate(date: Date): string {
 
 }
 
+// Formats the date in a visible format
 export function formatDate(date: Date): string {
 
     let minutes: string = String(date.getMinutes());
@@ -93,6 +97,7 @@ export function formatDate(date: Date): string {
 
 }
 
+// Displays a toast
 export const displayWarning = async (msg: string, toastController: ToastController) => {
 
     const toast = await toastController.create({

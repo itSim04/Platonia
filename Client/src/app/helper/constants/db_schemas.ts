@@ -1,5 +1,7 @@
 export enum ExitCodes {
 
+    // Exit code for every API
+
     USERS_ADD = 100,
     USERS_GET_ALL = 101,
     USERS_GET_ONE = 102,
@@ -53,6 +55,8 @@ export enum ExitCodes {
 }
 
 export enum ResponseParts {
+
+    // All possible responses from APIs
 
     STATUS = "status",
     ERROR = "error_message",
@@ -158,6 +162,8 @@ export enum UtilityAPIs {
 
 export class BuildAPIs {
 
+    // API builder
+    
     public static MAIN = "https://platoniadb.000webhostapp.com";
     private static BASE_URL = `${this.MAIN}/Server/apis/`;
     public static build_url(schema: number, api: string, params: string = ""): string {

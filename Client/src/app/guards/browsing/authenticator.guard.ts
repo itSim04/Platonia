@@ -9,6 +9,7 @@ import { NavController } from '@ionic/angular';
 })
 export class AuthenticatorGuard implements CanActivate {
 
+  // Guards the browsing section to Logged in users
   constructor(
     private storageService: StorageService,
     private navCtrl: NavController

@@ -10,24 +10,28 @@ import { ResponseParts, ExitCodes } from "./constants/db_schemas";
 
 export class Packager {
 
+    // This class packs responses for every API
+
     public static responseUnpack(data: any): ResponseReceipt {
         console.log(data);
         const response: ResponseReceipt = {
 
-            status: data[ResponseParts.STATUS],
-            error_message: data[ResponseParts.ERROR],
-            missing_params: data[ResponseParts.MISSING_PARAMS],
-            email_taken: data[ResponseParts.EMAIL_AVAILABLE],
-            username_taken: data[ResponseParts.USERNAME_AVAILABLE],
-            name_taken: data[ResponseParts.NAME_AVAILABLE],
-            options: this.packOptionsInMap(data[ResponseParts.OPTIONS]),
-            profile_id: data[ResponseParts.PROFILE_ID],
-            banner_id: data[ResponseParts.BANNER_ID],
-            follows: data[ResponseParts.FOLLOWS],
+            status: data[ResponseParts.STATUS], // The exit code
+            error_message: data[ResponseParts.ERROR], // The error message (if any)
+            missing_params: data[ResponseParts.MISSING_PARAMS], // Missing parameters (if any)
+            email_taken: data[ResponseParts.EMAIL_AVAILABLE], // Whether the email is taken
+            username_taken: data[ResponseParts.USERNAME_AVAILABLE], // Whether the username is taken
+            name_taken: data[ResponseParts.NAME_AVAILABLE], // Whether the interest name is taken
+            options: this.packOptionsInMap(data[ResponseParts.OPTIONS]), // The options retrieved
+            profile_id: data[ResponseParts.PROFILE_ID], // The profile picture id of the user
+            banner_id: data[ResponseParts.BANNER_ID], // The banner id of the user
+            follows: data[ResponseParts.FOLLOWS], // Whether the user follows the other user
 
         }
 
         switch (response.status) {
+
+            // Packs Interests, Thoughts and Users when applicable
 
             case ExitCodes.USERS_ADD:
             case ExitCodes.USERS_AUTHENTICATE:
@@ -112,6 +116,7 @@ export class Packager {
 
     public static packOptionsInMap(json: any): Map<number, Option> {
 
+        // Packs options in a map
         const map: Map<number, Option> = new Map();
         json?.forEach((element: any) => {
 
@@ -125,6 +130,7 @@ export class Packager {
     }
     public static optionUnpack(data: any): Option | undefined {
 
+        // Unpack option into their Class
         if (data != undefined) {
             const current: Option = {
 
@@ -144,6 +150,7 @@ export class Packager {
 
     public static packUsersInMap(json: any): Map<number, User> {
 
+        // Packs Users in a map
         const map: Map<number, User> = new Map();
         json?.forEach((element: any) => {
 
@@ -158,6 +165,7 @@ export class Packager {
     }
     public static userUnpack(data: any): User | undefined {
 
+        // Unpacks a user in their Class
         if (data != undefined) {
             return new User(
 
@@ -187,6 +195,7 @@ export class Packager {
 
     public static packUserForPOST(user: UserRequest): FormData {
 
+        // Packs the user for a POST API
         const form = new FormData();
         if (user.user_id != undefined) form.append(UserParts.ID, String(user.user_id));
         if (user.username != undefined) form.append(UserParts.USERNAME, user.username);
@@ -206,6 +215,7 @@ export class Packager {
 
     public static packThoughtsInMap(json: any, platons: Map<number, Thought> = new Map()): Map<number, Thought> {
 
+        // Packs the thoughts in a map
         const map: Map<number, Thought> = new Map();
         const ids: Set<number> = new Set();
         json?.forEach((element: any) => {
@@ -231,6 +241,7 @@ export class Packager {
     }
     public static thoughtUnpack(data: any, platons: Map<number, Thought> = new Map()): Thought {
 
+        // Unpacks a thought in their class
         let current: Thought;
 
         switch (Number.parseInt(data[ThoughtParts.TYPE])) {
@@ -289,6 +300,7 @@ export class Packager {
 
         }
 
+        // Common
         current.type = Number.parseInt(data[ThoughtParts.TYPE]);
         current.thought_id = Number.parseInt(data[ThoughtParts.ID]);
         current.share_date = new Date(data[ThoughtParts.SHARE_DATE]);
@@ -308,6 +320,7 @@ export class Packager {
 
     public static packThoughtForPOST(thought: ThoughtRequest): FormData {
 
+        // Packs the Thought for POST APIs
         const form = new FormData();
         form.append(ThoughtParts.SHARE_DATE, new Date().toISOString());
         form.append(ThoughtParts.EDIT_DATE, new Date().toISOString());
@@ -329,6 +342,7 @@ export class Packager {
 
     public static packInterestsInMap(json: any): Map<number, Interest> {
 
+        // Packs interests in a map
         const map: Map<number, Interest> = new Map();
         json?.forEach((element: any) => {
 
@@ -344,6 +358,7 @@ export class Packager {
 
     public static interestUnpack(data: any): Interest | undefined {
 
+        // Unpacks an interest in their Class
         if (data != undefined) {
             return new Interest(
 
@@ -365,6 +380,7 @@ export class Packager {
     }
     public static packInterestForPOST(interest: InterestRequest): FormData {
 
+        // Packs interest for a POST API
         const form = new FormData();
         form.append(InterestPivotParts.INTEREST_DATE, new Date().toISOString());
         if (interest.user_id != undefined) form.append(UserParts.ID, String(interest.user_id));
