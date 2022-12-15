@@ -1,4 +1,4 @@
-# Bliss
+# Platonia
 
 Platonia is an app centered around Friendship. It helps bring people together based on shared interest.<br />
 The App is centered around **Thoughts** that **Users** can share.<br />
