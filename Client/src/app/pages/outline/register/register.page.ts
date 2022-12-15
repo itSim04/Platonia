@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { ToastController } from "@ionic/angular";
 import { Genders } from "src/app/helper/constants/general";
+import { displayWarning } from "src/app/helper/utility";
 import { StorageService } from "src/app/linking/apis/storage.service";
 import { UserService } from "src/app/linking/apis/user.service";
 import { User } from "src/app/linking/models/user-main";
@@ -11,57 +12,56 @@ import { User } from "src/app/linking/models/user-main";
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })
-export class RegisterPage implements OnInit {
+export class RegisterPage {
 
-  disabled: boolean = false;
-  readonly genders: Array<string> = new Array(...Genders);
+  disabled: boolean = false; // Whether the page should be displayed (used for cleaner transitions)
+  readonly genders: Array<string> = new Array(...Genders); // Instance of the gender array
 
-  is_submitted: boolean = false;
+  is_submitted: boolean = false; // Whether the user has registered
 
-  username: string = "";
-  birthday: string = "1989-12-13";
-  gender: number = 0;
-  email: string = "";
-  password: string = "";
-  confirm_password: string = "";
+  username: string = ""; // The username
+  birthday: string = "1989-12-13"; // The birthday
+  gender: number = 0; // The gender
+  email: string = ""; // The email
+  password: string = ""; // The password
+  confirm_password: string = ""; // Confirm Password
 
-  constructor(private userService: UserService, private storageService: StorageService, private router: Router, private toastController: ToastController) { }
-
-  ngOnInit() {
-  }
+  constructor (private userService: UserService, private storageService: StorageService, private router: Router, private toastController: ToastController) { }
 
   public goToLogin() {
 
+    // Go to Login
+
     this.disabled = true;
-    setTimeout(() => { 
+    setTimeout(() => {
       this.router.navigate(['/login'])
     }, 50);
 
   }
 
   ionViewDidLeave() {
+
+    // Used for transitions
     this.disabled = false;
   }
 
   private async displayWarning(msg: string) {
 
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 1500,
-      icon: 'globe'
-    });
+    // Displays warning
+    displayWarning(msg, this.toastController);
 
-    await toast.present();
   }
 
   setGender(e: any) {
 
+    // Updates the gender
     this.gender = User.numericalGender(e.detail.value);
 
   }
 
   public onRegister() {
 
+    // Triggers registration
     if (this.username!.length < 4) {
 
       this.displayWarning("Username too Short");

@@ -1,0 +1,25 @@
+@media (prefers-color-scheme: dark) {
+    ion-content {
+        --background: url(../../../../assets/imgs/main-dark-bg0.png) 0 0/100% 100%;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    ion-content {
+        --background: url(../../../../assets/imgs/main-light-bg0.png) 0 0/100% 100%;
+    }
+}
+
+.icon {
+
+    text-transform: none;
+    font-size: 16px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: gray;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+
+}

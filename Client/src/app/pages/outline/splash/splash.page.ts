@@ -10,10 +10,12 @@ import { UserService } from "src/app/linking/apis/user.service";
 })
 export class SplashPage {
 
+  // Splash Screen
   constructor(private storageService: StorageService, private userService: UserService, private router: Router) { }
 
   ionViewWillEnter() {
 
+    // Quickly authenticates and updates the user
     this.storageService.getSessionUser().then(r => {
 
       if (r.user_id != undefined) {

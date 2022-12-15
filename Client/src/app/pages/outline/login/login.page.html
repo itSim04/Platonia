@@ -1,30 +1,34 @@
 <ion-content *ngIf="!disabled">
 
+  <!-- Title -->
   <p class="welcome_text">Welcome<br>Back</p>
 
+  <!-- Username -->
   <ion-item counter="true" class="input1 inputs">
     <ion-label position="floating">Username</ion-label>
     <ion-input [(ngModel)]="username"></ion-input>
   </ion-item>
 
+  <!-- Password -->
   <ion-item counter="true" class="input2 inputs">
     <ion-label position="floating">Password</ion-label>
     <ion-input type="password" [(ngModel)]="password"></ion-input>
   </ion-item>
 
+  <!-- Sign in -->
   <ion-fab class="signin_button">
     <ion-fab-button [disabled]="username == '' || password == ''" (click)="onLogin()">
       <ion-icon name="arrow-forward-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-  <!-- <ion-button [disabled]="username == '' || password == ''" (click)="onLogin()" shape="round" class="signin_button"></ion-button> -->
-
   <p class="signin_label">Sign In</p>
 
+  <!-- Sign up -->
   <ion-button fill="clear" (click)="goToRegister()" class="lower_buttons signup_button">
     Sign Up
   </ion-button>
 
+  <!-- Forget password -->
   <ion-button (click)="goToForget()" fill="clear" class="lower_buttons forget_button">
     Forgot Password?
   </ion-button>

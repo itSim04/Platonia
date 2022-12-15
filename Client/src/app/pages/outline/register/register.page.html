@@ -1,9 +1,14 @@
 <ion-content *ngIf="!disabled">
 
+  <!-- Title -->
   <p class="welcome_text">Sign Up</p>
+
+  <!-- Sign in -->
   <ion-button fill="clear" (click)="goToLogin()" class="signin_button">
     Already have an Account?
   </ion-button>
+
+  <!-- Register -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="onRegister()" [disabled]="username == '' || email == '' || password == ''">
       <ion-icon name="arrow-forward-outline"></ion-icon>
@@ -11,6 +16,7 @@
   </ion-fab>
   <p class="signup_label">Sign In</p>
 
+  <!-- Username -->
   <ion-grid class="inputs-grid">
     <ion-row>
       <ion-col>
@@ -20,6 +26,7 @@
       </ion-col>
     </ion-row>
 
+    <!-- Email -->
     <ion-row>
       <ion-col>
         <ion-item counter="true" class="inputs">
@@ -27,6 +34,8 @@
         </ion-item>
       </ion-col>
     </ion-row>
+
+    <!-- Birthday -->
     <ion-row>
       <ion-col>
         <ion-item counter="true" class="inputs">
@@ -34,6 +43,8 @@
         </ion-item>
       </ion-col>
     </ion-row>
+
+    <!-- Gender -->
     <ion-row>
       <ion-col>
         <ion-list class="inputs">
@@ -46,6 +57,8 @@
         </ion-list>
       </ion-col>
     </ion-row>
+
+    <!-- Password -->
     <ion-row>
       <ion-col>
         <ion-item counter="true" class="inputs">
@@ -53,6 +66,8 @@
         </ion-item>
       </ion-col>
     </ion-row>
+
+    <!-- Confirm Password -->
     <ion-row>
       <ion-col>
         <ion-item counter="true" class="inputs">
