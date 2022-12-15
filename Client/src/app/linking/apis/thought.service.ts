@@ -15,6 +15,7 @@ export class ThoughtService {
   private api: string = "thoughts";
   constructor(private http: HttpClient) { }
 
+  // Adds a thought (takes a type, an owner id, a share date and everything related to the type)
   public addThought(thought: ThoughtRequest): Observable<ResponseReceipt> {
 
     return this.http.post<any>(BuildAPIs.build_url(ThoughtAPIs.ADD, this.api), Packager.packThoughtForPOST(thought)).pipe(map((data: any) =>
@@ -25,6 +26,7 @@ export class ThoughtService {
 
   }
 
+  // Gets all thoughts (takes a user id and can take a root id)
   public getAll(thought: ThoughtRequest): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(ThoughtAPIs.GET_ALL, this.api, `&${UserParts.ID}=${thought.user_id}` + (thought.root_id != undefined ? `&${ThoughtParts.ROOT}=${thought.root_id}` : ''))).pipe(map((data: any) =>
@@ -35,6 +37,7 @@ export class ThoughtService {
 
   }
 
+  // Gets one thought (takes a thought id and a user id)
   public getOne(thought: ThoughtRequest): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(ThoughtAPIs.GET_ONE, this.api, `&${UserParts.ID}=${thought.user_id}&${ThoughtParts.ID}=${thought.thought_id}`)).pipe(map((data: any) =>
@@ -45,6 +48,7 @@ export class ThoughtService {
 
   }
 
+  // Gets thoughts by a user (takes a user id and an owner id)
   public getBy(thought: ThoughtRequest): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(ThoughtAPIs.GET_BY, this.api, `&${UserParts.ID}=${thought.user_id}&${ThoughtParts.OWNER_ID}=${thought.owner_id}&${ThoughtParts.OFFSET}=${thought.offset}&${ThoughtParts.QUANTITY}=${thought.quantity}`)).pipe(map((data: any) =>
@@ -55,6 +59,7 @@ export class ThoughtService {
 
   }
 
+  // Gets thoughts by users (takes a user id and owner ids)
   public getByUsers(thought: ThoughtRequest): Observable<ResponseReceipt> {
 
     let params: string = "";
@@ -67,6 +72,7 @@ export class ThoughtService {
 
   }
 
+  // Updates a thought (can take any combination of thought properties)
   public update(thought: ThoughtRequest): Observable<ResponseReceipt> {
 
     return this.http.post<any>(BuildAPIs.build_url(ThoughtAPIs.UPDATE, this.api), Packager.packThoughtForPOST(thought)).pipe(map((data: any) =>
@@ -77,6 +83,7 @@ export class ThoughtService {
 
   }
 
+  // Deletes a thought (takes a thought id)
   public delete(thought: ThoughtRequest): Observable<ResponseReceipt> {
 
     console.log("Deleting");

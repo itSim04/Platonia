@@ -8,12 +8,14 @@ import { User } from '../models/user-main';
 })
 export class StorageService {
 
+  // Stores items localy
   constructor() {
     localforage.config({
       name: 'App Storage'
     });
   }
 
+  // Gets the logged in user
   public async getSessionUser(): Promise<User> {
 
     let user: User;
@@ -39,20 +41,20 @@ export class StorageService {
 
   }
 
-  // public get<T>(key: string): Promise<T> {
-  //   return <Promise<T>>localforage.getItem(key);
-  // }
 
+  // Sets an item
   public set(key: string, value: any) {
     return localforage.setItem(key, value);
   }
 
+  // Sets the refresh flag
   public setRefreshFlag(flag: boolean) {
 
     return localforage.setItem("refreshFlag", flag);
 
   }
 
+  // Gets and resets the refresh flag
   public async getRefreshFlag(): Promise<boolean> {
 
     let flag: boolean = false;
@@ -70,6 +72,7 @@ export class StorageService {
 
   }
 
+  // Checks if the user is authenticated
   public async isAuthenticated(): Promise<boolean> {
 
     return await localforage.getItem("loggedInUser").then((r: any | undefined) => {

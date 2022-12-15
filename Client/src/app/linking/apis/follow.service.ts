@@ -14,7 +14,7 @@ export class FollowService {
   api: string = "follow";
   constructor(private http: HttpClient) { }
 
-
+  // Lets the first user follow the second user
   public follow(user_id1: number, user_id2: number): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(FollowAPIs.FOLLOW, this.api, `&${FollowParts.USER_ID1}=${user_id1}&${FollowParts.USER_ID2}=${user_id2}&${FollowParts.FOLLOW_DATE}=${new Date().toISOString()}`)).pipe(map((data: any) =>
@@ -25,6 +25,7 @@ export class FollowService {
 
   }
 
+  // Lets the first user unfollow the second user
   public unfollow(user_id1: number, user_id2: number): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(FollowAPIs.UNFOLLOW, this.api, `&${FollowParts.USER_ID1}=${user_id1}&${FollowParts.USER_ID2}=${user_id2}`)).pipe(map((data: any) =>

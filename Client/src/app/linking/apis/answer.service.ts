@@ -14,6 +14,7 @@ export class AnswerService {
   api: string = "polls";
   constructor(private http: HttpClient) { }
 
+  // Answers a poll
   public answer_poll(user_id: number, thought_id: number, option: number): Observable<ResponseReceipt> {
 
     const form: FormData = new FormData();
@@ -29,6 +30,7 @@ export class AnswerService {
 
   }
 
+  // Retrieves all options on a thought
   public get_option(thought_id: number): Observable<ResponseReceipt> {
 
     return this.http.get<any>(BuildAPIs.build_url(PollAPIs.GET_OPTION, this.api, `&${OptionParts.ID}=${thought_id}`)).pipe(map((data: any) =>
