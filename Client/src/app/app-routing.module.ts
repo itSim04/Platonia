@@ -37,7 +37,8 @@ const routes: Routes = [
   },
   {
     path: 'chats',
-    loadChildren: () => import('./pages/browsing/chats/chats.module').then(m => m.ChatsPageModule)
+    loadChildren: () => import('./pages/browsing/chats/chats.module').then(m => m.ChatsPageModule),
+    canActivate: [AuthenticatorGuard]
   },
   {
     path: 'meeting',
