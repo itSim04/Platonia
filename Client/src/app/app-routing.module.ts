@@ -1,3 +1,4 @@
+import { AuthenticatorGuard } from './guards/browsing/authenticator.guard';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
@@ -17,31 +18,36 @@ const routes: Routes = [
   },
   {
     path: 'friend-list',
-    loadChildren: () => import('./pages/browsing/friend-list/friend-list.module').then(m => m.FriendListPageModule)
+    loadChildren: () => import('./pages/browsing/friend-list/friend-list.module').then(m => m.FriendListPageModule),
+    canActivate: [AuthenticatorGuard]
   },
   {
     path: 'splash',
-    loadChildren: () => import('./pages/outline/splash/splash.module').then( m => m.SplashPageModule)
+    loadChildren: () => import('./pages/outline/splash/splash.module').then(m => m.SplashPageModule)
   },
   {
     path: 'tabs',
-    loadChildren: () => import('./navigation/tabs/tabs.module').then( m => m.TabsPageModule)
+    loadChildren: () => import('./navigation/tabs/tabs.module').then(m => m.TabsPageModule),
+    canActivate: [AuthenticatorGuard]
   },
   {
     path: 'search',
-    loadChildren: () => import('./pages/browsing/search/search.module').then( m => m.SearchPageModule)
+    loadChildren: () => import('./pages/browsing/search/search.module').then(m => m.SearchPageModule),
+    canActivate: [AuthenticatorGuard]
   },
   {
     path: 'chats',
-    loadChildren: () => import('./pages/browsing/chats/chats.module').then( m => m.ChatsPageModule)
+    loadChildren: () => import('./pages/browsing/chats/chats.module').then(m => m.ChatsPageModule)
   },
   {
     path: 'meeting',
-    loadChildren: () => import('./pages/browsing/meeting/meeting.module').then( m => m.MeetingPageModule)
+    loadChildren: () => import('./pages/browsing/meeting/meeting.module').then(m => m.MeetingPageModule),
+    canActivate: [AuthenticatorGuard]
   },
   {
     path: 'forget-password',
-    loadChildren: () => import('./pages/outline/forget-password/forget-password.module').then( m => m.ForgetPasswordPageModule)
+    loadChildren: () => import('./pages/outline/forget-password/forget-password.module').then(m => m.ForgetPasswordPageModule),
+    canActivate: [AuthenticatorGuard]
   }
 
 

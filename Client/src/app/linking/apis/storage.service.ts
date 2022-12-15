@@ -70,4 +70,18 @@ export class StorageService {
 
   }
 
+  public async isAuthenticated(): Promise<boolean> {
+
+    return await localforage.getItem("loggedInUser").then((r: any | undefined) => {
+
+      if (r) {
+        return true;
+      } else {
+        return false;
+      }
+
+    });
+
+  }
+
 }
