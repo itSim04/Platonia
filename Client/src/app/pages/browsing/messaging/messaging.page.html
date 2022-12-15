@@ -1,5 +1,6 @@
 <ion-header>
   <ion-toolbar>
+    <!-- Title -->
     <ion-title class="unselectable">Messaging</ion-title>
     <ion-progress-bar color="secondary" *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
@@ -7,28 +8,34 @@
 
 <ion-content [fullscreen]="true">
 
+  <!-- Empty notice -->
   <ion-button fill="clear" class="unselectable empty" *ngIf="!chats.length && !loading">
     No Chats Yet
     <ion-icon slot="end" name="diamond-outline"></ion-icon>
   </ion-button>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+
+    <!-- Open new chat screen -->
     <ion-fab-button (click)="toggleModal()">
       <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
   <div *ngIf="!loading">
     <ion-list>
+      <!-- Displays all chats -->
       <app-chat-card *ngFor="let a of chats" [chat]="a"></app-chat-card>
     </ion-list>
   </div>
 
+  <!-- New Chat screen -->
   <ion-modal (willDismiss)="onWillDismiss($event)">
     <ng-template>
       <ion-header>
         <ion-header>
           <ion-toolbar class="toolbar">
             <ion-buttons slot="end">
+              <!-- Close -->
               <ion-button (click)="cancel()">Close</ion-button>
             </ion-buttons>
             <ion-searchbar mode="ios" animated="true" (ionChange)="handleChange($event)"></ion-searchbar>
@@ -36,6 +43,7 @@
         </ion-header>
       </ion-header>
       <ion-content>
+        <!-- All users -->
         <div *ngFor="let user of users">
           <app-user-card [navigate]="false" (click)="addChat(user)" [user]="user">
           </app-user-card>

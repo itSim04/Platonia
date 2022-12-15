@@ -8,26 +8,33 @@
 
 <ion-content>
 
+  <!-- Sections -->
   <ion-segment value="default" mode="md" color="secondary" [(ngModel)]="section">
     <ion-segment-button value="default">
+
+      <!-- Users section -->
       <ion-label class="section_labels">Users</ion-label>
     </ion-segment-button>
     <ion-segment-button value="interests">
+
+      <!-- Interests section -->
       <ion-label class="section_labels">Interests</ion-label>
     </ion-segment-button>
   </ion-segment>
 
   <div [ngSwitch]="section">
     <ion-list *ngSwitchCase="'default'">
+
+      <!-- User list -->
       <app-user-card *ngFor="let user of users" [user]="user"></app-user-card>
     </ion-list>
     <ion-list *ngSwitchCase="'interests'">
+
+      <!-- Interest list -->
       <app-interest-card *ngFor="let interest of interests" [interest]="interest"></app-interest-card>
     </ion-list>
 
-
-
-
+    <!-- (WIP) Unimplemented feature -->
     <ion-button *ngIf="section == 'interests'" class="multi" (click)="request()" color="dark" fill="clear">
       Request new Interest
       <ion-icon slot="end" name="diamond-outline"></ion-icon>

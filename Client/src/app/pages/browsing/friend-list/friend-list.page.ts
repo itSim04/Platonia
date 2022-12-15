@@ -13,16 +13,18 @@ import { User } from "src/app/linking/models/user-main";
 })
 export class FriendListPage {
 
-  current_user?: User;
-  followers: Set<User> = new Set();
-  followings: Set<User> = new Set();
-  section: string = "default";
+  current_user?: User; // The user who owns this list
+  followers: Set<User> = new Set(); // Set of followers
+  followings: Set<User> = new Set(); // Set of followings
+  section: string = "default"; // The current section
 
   constructor(private route: ActivatedRoute, private router: NavController, private storage: StorageService, private userService: UserService, private followService: FollowService) {
 
   }
 
   private generateUsers() {
+
+    // Retrieves users
 
     this.followService.getFollowings(this.current_user!.user_id).subscribe(response =>
 
@@ -41,6 +43,8 @@ export class FriendListPage {
   }
 
   ionViewWillEnter() {
+
+    // Handles refresh
 
     const id_obj = this.route.snapshot.paramMap.get("id");
     const id: number = Number.parseInt(id_obj != null ? id_obj : "0");
@@ -68,6 +72,7 @@ export class FriendListPage {
 
   goBack() {
 
+    // Goes back to the previous page
     this.router.pop();
 
   }

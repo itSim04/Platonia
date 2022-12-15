@@ -16,17 +16,20 @@ import { Chat } from 'src/app/linking/models/messaging-main';
 })
 export class ChatsPage implements OnInit {
 
-  loading: boolean = true;
-  message: string = "";
+  // Holds a conversation
+  loading: boolean = true; // Whether the page is still loading
+  message: string = ""; // The current message
 
-  session_user!: User;
+  session_user!: User; // The logged in user
 
-  db: Database = getDatabase();
-  id?: string;
-  chat?: Chat;
+  db: Database = getDatabase(); // Instance of firebase
+  id?: string; // The id of the chat (x-y)
+  chat?: Chat; // The chat this class holds
   constructor(private router: Router, private database: Database, private userService: UserService, private route: ActivatedRoute, private storageService: StorageService) { }
 
   ngOnInit() {
+
+    // Retrieves the messages from Firebase
 
     this.db = getDatabase();
     this.id = String(this.route.snapshot.paramMap.get("id"));
@@ -53,6 +56,8 @@ export class ChatsPage implements OnInit {
   }
 
   seperateOwner(id: string): number {
+    
+    // Analyzes the ID and returns the other user's id
 
     if (id.split('-')[0] == String(this.session_user.user_id)) {
 
@@ -72,6 +77,8 @@ export class ChatsPage implements OnInit {
 
 
   postMessage() {
+
+    // Posts the message
 
     const postListRef = ref(this.db, 'messages/' + this.id);
     const newPostRef = push(postListRef);
@@ -115,16 +122,21 @@ export class ChatsPage implements OnInit {
 
   formatDate(date: Date): string {
 
+    // Formats the date in a readable format
+
     return formatDate(date);
 
   }
 
   goBack() {
 
+    // Goes back to the Chat selection screen
+
     this.router.navigate(["tabs/messaging"]);
 
   }
 
+  // Defines border logic for messages
   topLeft(c: Message, i: number) {
 
     if (i == 0 || this.formatDate(this.chat?.messages![i - 1].date!) != this.formatDate(c.date) || c.owner_id == this.session_user.user_id) {

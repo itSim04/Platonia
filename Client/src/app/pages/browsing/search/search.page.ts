@@ -13,17 +13,18 @@ import { User } from "src/app/linking/models/user-main";
 })
 export class SearchPage implements OnInit {
 
-  complete_users: Array<User> = new Array();
-  users: Array<User> = new Array();
+  complete_users: Array<User> = new Array(); // Complete list of users 
+  users: Array<User> = new Array(); // Filtered list of users
 
-  complete_interests: Array<Interest> = new Array();
-  interests: Array<Interest> = new Array();
+  complete_interests: Array<Interest> = new Array(); // Complete list of interests
+  interests: Array<Interest> = new Array(); // Filtered list of interest
 
-  section: string = "default";
+  section: string = "default"; // Current section
   constructor(private userService: UserService, private toastController: ToastController, private storageService: StorageService, private interestService: InterestService) { }
 
   ngOnInit(): void {
 
+    // Retrieves the logged in user
     this.storageService.getSessionUser().then(u => {
 
       this.userService.getAll().subscribe(r => {
@@ -56,6 +57,7 @@ export class SearchPage implements OnInit {
 
   async request() {
 
+    // Unimplemented
     const toast = await this.toastController.create({
       message: "Unimplemented Feature",
       duration: 1500,
@@ -68,6 +70,8 @@ export class SearchPage implements OnInit {
 
 
   handleChange(event: any) {
+
+    // Handles querying search
 
     const query = event.target.value.toLowerCase();
 

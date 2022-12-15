@@ -12,25 +12,30 @@
 
     <ion-row>
       <ion-col>
+        <!-- Types -->
 
+        <!-- Text -->
         <ion-fab-button [disabled]="loading" (click)="setType(0)" [color]="type == 0 ? 'tertiary' : 'light'">
           <ion-icon name="document-text-outline"></ion-icon>
         </ion-fab-button>
       </ion-col>
       <ion-col>
 
+        <!-- Image -->
         <ion-fab-button [disabled]="loading" (click)="setType(1)" [color]="type == 1 ? 'tertiary' : 'light'">
           <ion-icon name="image-outline"></ion-icon>
         </ion-fab-button>
       </ion-col>
       <ion-col>
 
+        <!-- Video (WIP) -->
         <ion-fab-button [disabled]="loading" (click)="missing()" [color]="type == 2 ? 'tertiary' : 'light'">
           <ion-icon name="videocam-outline"></ion-icon>
         </ion-fab-button>
       </ion-col>
-
       <ion-col>
+
+        <!-- Poll -->
         <ion-fab-button [disabled]="loading" (click)="setType(3)" [color]="type == 3 ? 'tertiary' : 'light'">
           <ion-icon name="podium-outline"></ion-icon>
         </ion-fab-button>

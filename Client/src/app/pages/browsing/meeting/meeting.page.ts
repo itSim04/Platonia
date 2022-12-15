@@ -14,12 +14,14 @@ import { Database, getDatabase, DatabaseReference, ref, runTransaction } from '@
 })
 export class MeetingPage implements OnInit {
 
-  session_user!: User;
-  users: Array<User> = new Array();
+  // Class that allows user to meet new friends
+  session_user!: User; // The logged in user
+  users: Array<User> = new Array(); // All users
   constructor (private database: Database, private storageService: StorageService, private router: Router, private userService: UserService, private interestService: InterestService) { }
 
   ngOnInit() {
 
+    // Algorithm that sorts users based on their gender, age and interests
     this.storageService.getSessionUser().then(user => {
 
       this.session_user = user;
@@ -72,11 +74,15 @@ export class MeetingPage implements OnInit {
 
   goBack() {
 
+    // Goes back to profile
+
     this.router.navigate(['tabs/profile']);
 
   }
 
   get gender() {
+
+    // Links the Gender instance
 
     return Genders[this.users[0].gender];
 
@@ -84,12 +90,15 @@ export class MeetingPage implements OnInit {
 
   reject() {
 
+    // Rejects a user
+
     this.users.splice(0, 1);
 
   }
 
   meet(user: User) {
 
+    // Starts a chat with a user
     if (user.user_id != this.session_user.user_id) {
 
       const id: string = Math.min(this.session_user.user_id, user.user_id) + "-" + Math.max(this.session_user.user_id, user.user_id);

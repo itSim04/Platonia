@@ -17,20 +17,20 @@ import { User } from "src/app/linking/models/user-main";
 })
 export class EditProfilePage {
 
-  readonly genders: Array<string> = new Array(...Genders);
+  readonly genders: Array<string> = new Array(...Genders); // Instance of the Gender array
 
-  user_id?: number;
-  username?: string;
-  birthday?: string;
-  gender?: number;
-  email?: string;
+  user_id?: number; // The id of the logged in user
+  username?: string; // The current username
+  birthday?: string; // The current birthday
+  gender?: number; // The current Gender
+  email?: string; // The current email
 
-  uploading: boolean = false;
+  uploading: boolean = false; // Whether the Page is uploading content
 
-  old_email?: string;
-  old_username?: string;
+  old_email?: string; // The old email
+  old_username?: string; // The old username
 
-  picture?: string;
+  picture?: string; // The picture
 
   constructor(private modalCtrl: ModalController, private userService: UserService, private storageService: StorageService, private toastController: ToastController, private router: Router, private nav: NavController) {
 
@@ -40,6 +40,7 @@ export class EditProfilePage {
 
   ionViewWillEnter() {
 
+    // Retrieves the logged in user
     this.storageService.getSessionUser().then(user => {
 
       this.user_id = user.user_id;
@@ -54,6 +55,8 @@ export class EditProfilePage {
   }
 
   public uploadProfile() {
+
+    // Uploads a profile picture
 
     Camera.getPhoto({
 
@@ -81,11 +84,15 @@ export class EditProfilePage {
 
   setGender(e: any) {
 
+    // Updates the Gender
+
     this.gender = User.numericalGender(e.detail.value);
 
   }
 
   onEdit() {
+
+    // Triggers edit
 
     if (this.username!.length < 4) {
 
@@ -129,6 +136,8 @@ export class EditProfilePage {
   }
 
   goBack() {
+
+    // Goes back to the profile
 
     return this.modalCtrl.dismiss(null, 'cancel');
 

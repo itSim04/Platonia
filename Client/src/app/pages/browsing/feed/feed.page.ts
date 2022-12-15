@@ -14,15 +14,18 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 })
 export class FeedPage implements OnInit {
 
-  owner?: User;
-  users?: Map<number, User> = new Map();
-  thoughts: Array<Thought> = new Array();
-  anchor: number = 0;
-  quantity: number = 5;
+  // Represents the feed of Thoughts
+  owner?: User; // The logged in user
+  users?: Map<number, User> = new Map(); // The users with Posts on the feed
+  thoughts: Array<Thought> = new Array(); // The thoughts on the feed
+  anchor: number = 0; // Start of pagination
+  quantity: number = 5; // Batch of pagination
 
-  loading: boolean = true;
+  loading: boolean = true; // Whether the feed is loading
   constructor(private router: Router, private route: ActivatedRoute, private thoughtService: ThoughtService, private storageService: StorageService, private followService: FollowService) { }
 
+
+  // Handles refreshing the feed
   async handleRefresh(event: any) {
     setTimeout(() => {
       this.resetData();
@@ -31,6 +34,9 @@ export class FeedPage implements OnInit {
   };
 
   resetData() {
+
+    // Retrieves data again from the start of the database
+
     console.log("RESET");
     this.users?.clear();
     this.anchor = 0;
@@ -39,15 +45,13 @@ export class FeedPage implements OnInit {
 
   retrieveData(flag: boolean) {
 
+    // Retrieves data from the anchor
+
     this.storageService.getSessionUser().then(owner => {
 
       this.owner = owner;
 
       this.followService.getFollowings(owner.user_id).subscribe(followings => {
-
-        // if (!followings.users?.size) {
-        //   this.loading = false;
-        // } else {
 
           followings.users!.forEach((k, u) => this.users?.set(u, k));
 
@@ -63,13 +67,11 @@ export class FeedPage implements OnInit {
               this.thoughts.splice(0);
             r.thoughts?.forEach(t => {
               this.thoughts.push(t);
-              //console.log("FEED", t);
               
             });
 
           });
 
-        // }
       });
 
     });
@@ -78,12 +80,15 @@ export class FeedPage implements OnInit {
 
   ngOnInit() {
 
+    // Handles initialization
+
     this.resetData();
 
   }
 
   ionViewWillEnter() {
 
+    // Handles urgent refresh
     this.storageService.getRefreshFlag().then(r => {
       if (r) {
 
@@ -95,6 +100,8 @@ export class FeedPage implements OnInit {
   }
 
   onIonInfinite(ev: any) {
+
+    // Handles scrolling 
     this.anchor += this.quantity;
     this.retrieveData(false);
     setTimeout(() => {

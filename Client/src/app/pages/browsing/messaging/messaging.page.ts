@@ -15,34 +15,27 @@ import { IonModal } from '@ionic/angular';
 })
 export class MessagingPage implements OnInit {
 
-  @ViewChild(IonModal) modal!: IonModal;
+  @ViewChild(IonModal) modal!: IonModal; // The new chat moda;
+  id: string = ""; // The id of the new chat (x-y)
+  init: boolean = false; // Whether the page initialized
 
-  id: string = "";
-  init: boolean = false;
+  loading: boolean = true; // Whether the page should be loading
+  complete_users: Array<User> = new Array(); // The complete list of users
+  users: Array<User> = new Array(); // The filtered list of users
+  chats: Array<Chat> = new Array(); // The chats
 
-  loading: boolean = true;
-  complete_users: Array<User> = new Array();
-  users: Array<User> = new Array();
+  db: Database = getDatabase(); // Instance of firebase
+  session_user!: User; // The logged in user
 
-  chats: Array<Chat> = new Array();
-
-  //isNewOpen: boolean = false;
-
-
-  db: Database = getDatabase();
-  session_user!: User;
-
-  constructor(private database: Database, private router: Router, private storageService: StorageService, private userService: UserService) {
-
-
-  }
+  constructor (private database: Database, private router: Router, private storageService: StorageService, private userService: UserService) { }
 
   ionViewWillEnter() {
+
+    // Downloads chats from firebase and populates the display
 
     if (!this.init) {
       this.loading = true;
       this.storageService.getSessionUser().then(r => {
-        console.log(r.user_id + " " + this.session_user.user_id)
         if (r.user_id != this.session_user.user_id) {
           this.ngOnInit();
         } else {
@@ -54,11 +47,15 @@ export class MessagingPage implements OnInit {
 
   ngOnDestroy() {
 
+    // Used for transitioning
+
     this.session_user.user_id = -1;
 
   }
 
   ngOnInit() {
+
+    // retrieves data from firebase
 
     this.loading = true;
     this.init = true;
@@ -100,7 +97,7 @@ export class MessagingPage implements OnInit {
                 this.chats.forEach(r => {
 
                   if (Math.min(r.user1.user_id, r.user2.user_id) + "-" + Math.max(r.user1.user_id, r.user2.user_id) == data["title"]) {
-                    
+
                     r.last_message = new Message(new Date(data["lastDate"]), data["lastSender"], data["lastMessage"]);
                     flag = true;
 
@@ -113,7 +110,7 @@ export class MessagingPage implements OnInit {
                     this.loading = false;
                     this.init = false;
                     this.chats.push(new Chat(this.session_user, r.user!, data["start"], new Message(new Date(data["lastDate"]), data["lastSender"], data["lastMessage"]), new Array()));
-                    this.chats = this.chats.sort( (a: Chat, b: Chat) => (b.last_message.date.getTime() - a.last_message.date.getTime()) );
+                    this.chats = this.chats.sort((a: Chat, b: Chat) => (b.last_message.date.getTime() - a.last_message.date.getTime()));
 
                   });
                 }
@@ -134,6 +131,8 @@ export class MessagingPage implements OnInit {
 
   seperateOwner(id: string): number {
 
+    // Seperates the non-owner using the id
+
     if (id.split('-')[0] == String(this.session_user.user_id)) {
 
       return Number.parseInt(id.split('-')[1]);
@@ -151,6 +150,8 @@ export class MessagingPage implements OnInit {
 
   handleChange(event: any) {
 
+    // Filters the users
+
     const query = event.target.value.toLowerCase();
     this.users = this.complete_users.filter(r => r.username.toLowerCase().indexOf(query) > -1);
 
@@ -158,17 +159,24 @@ export class MessagingPage implements OnInit {
 
   cancel() {
 
+    // Dismisses the new chat screen
+
     this.modal.dismiss(null, 'cancel');
 
   }
 
   toggleModal() {
 
+    // Presents the new chat screen
+
     this.modal.present();
 
   }
 
   onWillDismiss(event: Event) {
+
+    // Instantiate a new chat
+
     const ev = event as CustomEvent<OverlayEventDetail<string>>;
     console.log(ev.detail.role);
     if (ev.detail.role === 'open') {
@@ -181,6 +189,8 @@ export class MessagingPage implements OnInit {
   }
 
   addChat(user: User) {
+
+    // Uploads a new chat on firebase
 
     if (user.user_id != this.session_user.user_id) {
 

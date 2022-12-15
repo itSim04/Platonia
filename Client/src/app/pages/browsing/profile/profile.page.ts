@@ -21,23 +21,23 @@ import { EditProfilePage } from '../edit-profile/edit-profile.page';
 })
 export class ProfilePage implements OnInit {
 
-  is_modal_open: boolean = false;
+  is_modal_open: boolean = false; // Whether the edit profile is running
+ 
+  owner: boolean = false; // Whether this profile belongs to the logged in use
+  verification: boolean = false; // Whether the current profile is verified
+  uploading: boolean = false; // Whether the profile is uploading
+  is_followed: boolean = false; // Whether the page is followed
 
-  owner: boolean = false;
-  verification: boolean = false;
-  uploading: boolean = false;
-  is_followed: boolean = false;
+  current_user?: User; // The owner of the profile
 
-  current_user?: User;
+  bio_edit_mode: boolean = false; // Whether the bio is being edited
+  new_bio: string = ""; // The new bio
 
-  bio_edit_mode: boolean = false;
-  new_bio: string = "";
+  thoughts: Array<Thought> = new Array(); // The thoughts on the profile
+  anchor: number = 0; // Used for pagination
+  quantity: number = 5; // Size of pagination
 
-  thoughts: Array<Thought> = new Array();
-  anchor: number = 0;
-  quantity: number = 5;
-
-  @ViewChild('options') option!: IonPopover;
+  @ViewChild('options') option!: IonPopover; // The options menu
 
 
   constructor(private utilityService: UtilityService, private thoughtService: ThoughtService, private alertController: AlertController, private modalCtrl: ModalController, private followService: FollowService, private storage: StorageService, private userService: UserService, private route: ActivatedRoute, private router: Router, private nav: NavController) {
@@ -51,6 +51,7 @@ export class ProfilePage implements OnInit {
 
   public uploadBanner() {
 
+    // Uploads a banner
     if (this.owner) {
       Camera.getPhoto({
         resultType: CameraResultType.Base64,
@@ -76,11 +77,15 @@ export class ProfilePage implements OnInit {
 
   meet() {
 
+    // Opens the meeting menu
+
     this.router.navigate(["meeting"]);
 
   }
 
   openOptions() {
+
+    // Opens options
 
     if (this.owner) {
 
@@ -126,6 +131,9 @@ export class ProfilePage implements OnInit {
   }
 
   async openModal() {
+
+    // Opens the edit menu
+
     const modal = await this.modalCtrl.create({
       component: EditProfilePage,
     });
@@ -138,6 +146,7 @@ export class ProfilePage implements OnInit {
 
   ionViewWillEnter(): void {
 
+    // Retrieves thoughts
     console.log(this.thoughts, this.anchor);
 
     const id_obj = this.route.snapshot.paramMap.get("id");
@@ -180,6 +189,8 @@ export class ProfilePage implements OnInit {
 
   public editBio() {
 
+    // Uploads new bio
+
     if (this.bio_edit_mode) {
 
       this.bio_edit_mode = false;
@@ -197,6 +208,7 @@ export class ProfilePage implements OnInit {
 
   retrieveData() {
 
+    // Retrieves thoughts
     this.thoughtService.getBy({ user_id: this.current_user!.user_id, owner_id: this.current_user!.user_id, offset: this.anchor, quantity: this.quantity }).subscribe(r => {
 
       r.thoughts?.forEach(t => this.thoughts.push(t));
@@ -206,6 +218,8 @@ export class ProfilePage implements OnInit {
   }
 
   onIonInfinite(ev: any) {
+
+    // Handles scrolling
     this.anchor = this.thoughts.length;
     this.retrieveData();
     setTimeout(() => {
@@ -215,6 +229,7 @@ export class ProfilePage implements OnInit {
 
   async handleRefresh(event: any) {
 
+    // Handles refreshing
     setTimeout(() => {
       this.thoughts.splice(0);
       this.anchor = 0;
@@ -226,12 +241,14 @@ export class ProfilePage implements OnInit {
 
   public openFriendsList() {
 
+    // Opens the friend list
     this.router.navigate(['/friend-list', { id: this.current_user?.user_id }]);
 
   }
 
   public logout() {
 
+    // Logs the current user out
     this.current_user = undefined;
 
     this.storage.set("loggedInUser", undefined).then(r => this.router.navigate(['/login'], { replaceUrl: true }));
@@ -240,12 +257,15 @@ export class ProfilePage implements OnInit {
 
   public editProfile() {
 
+    // Triggers the edit profile
+
     this.openModal();
 
   }
 
   onWillDismiss(event: Event) {
 
+    // Used for refreshing
     this.ionViewWillEnter();
 
   }
@@ -253,6 +273,7 @@ export class ProfilePage implements OnInit {
 
   goBack() {
 
+    // Goes back to the profile
     this.nav.pop();
 
   }
@@ -260,6 +281,7 @@ export class ProfilePage implements OnInit {
 
   displayVerification() {
 
+    // Prompts the user to verify their account
     if (!this.verification) {
 
       this.verification = true;

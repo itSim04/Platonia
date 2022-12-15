@@ -17,26 +17,25 @@ import { displayWarning } from 'src/app/helper/utility';
 })
 export class PostPage {
 
-  user?: User;
+  user?: User; // The logged in user
 
-  loading: boolean = false;
+  loading: boolean = false; // Whether the page should be loading
 
-  thought_display?: Thought;
+  type: number = 0; // The type of the post
+  content: string = ""; // The text content of the text thought
 
-  type: number = 0;
-  content: string = "";
+  media?: string; // The media of the image thought
 
-  media?: string;
-
-  poll1?: string;
-  poll2?: string;
-  poll3?: string;
-  poll4?: string;
+  poll1?: string; // The first poll
+  poll2?: string; // The second poll
+  poll3?: string; // The third poll
+  poll4?: string; // The fourth poll
 
   constructor (private toastController: ToastController, private storageService: StorageService, private thoughtService: ThoughtService, private router: Router) { }
 
   ionViewWillEnter() {
 
+    // Retrieves the logged in user
     this.storageService.getSessionUser().then(user => {
 
       this.user = user;
@@ -46,12 +45,14 @@ export class PostPage {
 
   setType(mode: number) {
 
+    // Updates the type of post
     this.type = mode;
 
   }
 
   async missing() {
 
+    // (WIP) Handles unimplemented features
     const toast = await this.toastController.create({
       message: "Unimplemented Feature",
       duration: 1500,
@@ -64,6 +65,7 @@ export class PostPage {
 
   post() {
 
+    // Posts a thought
     this.loading = true;
     const upload: ThoughtRequest = {
 

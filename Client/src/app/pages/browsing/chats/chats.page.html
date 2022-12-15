@@ -1,7 +1,10 @@
 <ion-header>
+
+  <!-- Username -->
   <ion-toolbar class="header unselectable">
     <ion-title class="title">{{chat?.user2?.username}}</ion-title>
 
+    <!-- Back -->
     <ion-buttons slot="start">
       <ion-button fill="clear" (click)="goBack()">
         <ion-icon slot="icon-only" color="secondary" name="arrow-back"></ion-icon>
@@ -18,10 +21,14 @@
 <ion-content>
 
 
+  <!-- Messages -->
+
   <ion-grid>
     <div *ngFor="let c of chat?.messages; let i = index">
       <ion-row>
         <ion-col class="col unselectable">
+
+          <!-- Content -->
           <ion-text [style.border-bottom-left-radius]="bottomLeft(c, i)" [style.border-top-left-radius]="topLeft(c, i)"
             [style.border-bottom-right-radius]="bottomRight(c, i)" [style.border-top-right-radius]="topRight(c, i)"
             [class]="c.owner_id == session_user.user_id ? 'multi sent-message ion-float-right' : 'multi received-message ion-float-left'">
@@ -29,6 +36,8 @@
 
         </ion-col>
       </ion-row>
+
+      <!-- Date -->
       <ion-row
         *ngIf="i == chat?.messages!.length - 1 || formatDate(chat?.messages![i + 1].date) != formatDate(c.date) || chat?.messages![i + 1].owner_id != c.owner_id">
         <ion-col class="col">
@@ -49,6 +58,7 @@
     <ion-grid>
       <ion-row>
         <ion-col>
+          <!-- Input -->
           <ion-input class="input" [(ngModel)]="message"></ion-input>
         </ion-col>
         <ion-col size="2">

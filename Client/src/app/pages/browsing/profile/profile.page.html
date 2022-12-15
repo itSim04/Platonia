@@ -46,6 +46,8 @@
       <img alt="Banner" class="unselectable" [src]="current_user.banner" onerror="this.src='../../../../assets/icon/profile-default.png'" />
     </div>
     <ion-card-header>
+
+      <!-- About -->
       <ion-card-title style="width: auto" class="unselectable">About
         <div *ngIf="owner" style="display:inline" (click)="editBio()">
           <ion-icon style="font-size: 100%;" [name]="bio_edit_mode ? 'checkmark-circle-outline' : 'pencil-sharp'">
@@ -62,6 +64,7 @@
 
   <ion-card *ngIf="owner">
 
+    <!-- Meet card -->
     <ion-card-content>
       <ion-button (click)="meet()" color="dark" fill="clear">
         Meet new People

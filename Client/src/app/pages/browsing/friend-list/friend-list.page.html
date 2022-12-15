@@ -1,6 +1,7 @@
 <ion-header class="header">
   <ion-toolbar>
 
+    <!-- Back -->
     <ion-button fill="clear" (click)="goBack()">
       <ion-icon slot="icon-only" color="secondary" name="arrow-back"></ion-icon>
     </ion-button>
@@ -12,20 +13,29 @@
 <ion-content *ngIf="followings != undefined && followers != undefined" scrollbar="::-webkit-scrollbar {width: 0px;}">
 
   <ion-segment value="default" mode="md" color="secondary" [(ngModel)]="section">
+
+    <!-- Followings section -->
     <ion-segment-button value="default">
       <ion-label class="section_labels">Followings</ion-label>
     </ion-segment-button>
+
+    <!-- Followers section -->
     <ion-segment-button value="followers">
       <ion-label class="section_labels">Followers</ion-label>
     </ion-segment-button>
+
   </ion-segment>
   <div [ngSwitch]="section">
     <ion-list *ngSwitchCase="'default'">
+
+      <!-- Followings -->
       <div *ngFor="let user of followings">
         <app-user-card [user]="user"></app-user-card>
       </div>
     </ion-list>
     <ion-list *ngSwitchCase="'followers'">
+
+      <!-- Followers -->
       <div *ngFor="let user of followers">
         <app-user-card [user]="user"></app-user-card>
       </div>
