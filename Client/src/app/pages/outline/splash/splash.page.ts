@@ -11,7 +11,7 @@ import { UserService } from "src/app/linking/apis/user.service";
 export class SplashPage {
 
   // Splash Screen
-  constructor(private storageService: StorageService, private userService: UserService, private router: Router) { }
+  constructor (private storageService: StorageService, private userService: UserService, private router: Router) { }
 
   ionViewWillEnter() {
 
@@ -28,7 +28,8 @@ export class SplashPage {
           } else {
             this.router.navigate(["/login"], { replaceUrl: true });
           }
-        })
+        });
+
       } else {
 
         this.router.navigate(["/login"], { replaceUrl: true });
