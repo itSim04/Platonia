@@ -45,11 +45,13 @@ export class FeedPage implements OnInit {
 
       this.followService.getFollowings(owner.user_id).subscribe(followings => {
 
-        if (!followings.users?.size) {
-          this.loading = false;
-        } else {
+        // if (!followings.users?.size) {
+        //   this.loading = false;
+        // } else {
 
           followings.users!.forEach((k, u) => this.users?.set(u, k));
+
+          
           this.users?.set(owner.user_id, owner);
 
           const ids: number[] = Array.from(followings.users!.values()).map(r => r.user_id);
@@ -59,11 +61,15 @@ export class FeedPage implements OnInit {
             this.loading = false;
             if (flag)
               this.thoughts.splice(0);
-            r.thoughts?.forEach(t => this.thoughts.push(t));
+            r.thoughts?.forEach(t => {
+              this.thoughts.push(t);
+              //console.log("FEED", t);
+              
+            });
 
           });
 
-        }
+        // }
       });
 
     });

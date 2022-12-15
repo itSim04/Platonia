@@ -251,10 +251,11 @@ export class Packager {
             case 4:
 
                 // Platoned
-                if (platons.has(data[ThoughtParts.ROOT])) {
-                    current = new PlatonedThought(platons.get(data[ThoughtParts.ROOT])!);
+
+                if (platons.has(Number.parseInt(data[ThoughtParts.ROOT]))) {
+                    current = new PlatonedThought(platons.get(Number.parseInt(data[ThoughtParts.ROOT]))!);
                 } else {
-                    current = new TextThought("Connection Error");
+                    throw new Error(`Platon ${data[ThoughtParts.ROOT]} not found`)
                 }
                 break;
 

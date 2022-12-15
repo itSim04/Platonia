@@ -166,7 +166,7 @@ export class ProfilePage implements OnInit {
           this.owner = false;
           this.followService.isFollowing(current_user.user_id, current_profile.user!.user_id).subscribe(r => this.is_followed = r.follows!)
 
-          //this.retrieveData();
+          this.retrieveData();
 
         });
       }

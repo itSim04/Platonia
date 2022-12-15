@@ -1,4 +1,7 @@
 <ion-content>
+  <ion-button style="margin-top: 6%;" fill="clear" (click)="goBack()">
+    <ion-icon slot="icon-only" color="secondary" name="arrow-back"></ion-icon>
+  </ion-button>
   <ion-card class="card" *ngIf="users.length > 0">
     <img [src]="users[0].banner" class="header-img" />
     <ion-card-content>

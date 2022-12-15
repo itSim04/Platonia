@@ -16,7 +16,7 @@ export class MeetingPage implements OnInit {
 
   session_user!: User;
   users: Array<User> = new Array();
-  constructor(private database: Database, private storageService: StorageService, private router: Router, private userService: UserService, private interestService: InterestService) { }
+  constructor (private database: Database, private storageService: StorageService, private router: Router, private userService: UserService, private interestService: InterestService) { }
 
   ngOnInit() {
 
@@ -30,8 +30,6 @@ export class MeetingPage implements OnInit {
 
         this.userService.getAll().subscribe(r => {
 
-          //this.users = Array.from(r.users?.values()!);
-
           Array.from(r.users?.values()!).forEach(u => {
 
             if (u.user_id != user.user_id) {
@@ -41,9 +39,17 @@ export class MeetingPage implements OnInit {
               u.credit = 0;
               if (u.gender == user.gender) u.credit++;
               if (u.birthday.getFullYear() > user.birthday.getFullYear() - 1 && u.birthday.getFullYear() < user.birthday.getFullYear() + 1) u.credit += 2;
-              u.interests!.forEach(element => {
+              u.interests!.forEach((element, key) => {
 
-                if (interests?.has(element.interest_id)) u.credit! += 3;
+                if (interests?.has(element.interest_id)) {
+
+                  u.credit! += 3;
+
+                } else {
+
+                  u.interests?.delete(key);
+
+                }
 
               });
 
@@ -61,6 +67,12 @@ export class MeetingPage implements OnInit {
 
 
 
+
+  }
+
+  goBack() {
+
+    this.router.navigate(['tabs/profile']);
 
   }
 

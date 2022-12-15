@@ -28,8 +28,8 @@
 
 
 
-    <ion-button (click)="request()" color="dark" fill="clear">
-      Request new Feature
+    <ion-button *ngIf="section == 'interests'" class="multi" (click)="request()" color="dark" fill="clear">
+      Request new Interest
       <ion-icon slot="end" name="diamond-outline"></ion-icon>
     </ion-button>
 

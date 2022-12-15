@@ -7,6 +7,7 @@ import { Thought } from 'src/app/linking/models/thought-main';
 import { User } from 'src/app/linking/models/user-main';
 import { StorageService } from '../../../linking/apis/storage.service';
 import { ThoughtService } from '../../../linking/apis/thought.service';
+import { displayWarning } from 'src/app/helper/utility';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class PostPage {
   poll3?: string;
   poll4?: string;
 
-  constructor(private toastController: ToastController, private storageService: StorageService, private thoughtService: ThoughtService, private router: Router) { }
+  constructor (private toastController: ToastController, private storageService: StorageService, private thoughtService: ThoughtService, private router: Router) { }
 
   ionViewWillEnter() {
 
@@ -83,18 +84,26 @@ export class PostPage {
       if (this.poll4 != undefined) upload.poll4 = this.poll4;
     }
 
-    this.thoughtService.addThought(upload).subscribe(r => {
+    try {
+      this.thoughtService.addThought(upload).subscribe(r => {
 
-      console.log(r);
-      if (r.status == ExitCodes.THOUGHTS_ADD) {
+        console.log(r);
+        if (r.status == ExitCodes.THOUGHTS_ADD) {
 
-        this.loading = false;
-        this.storageService.setRefreshFlag(true).then(r => this.router.navigate(["tabs/feed/"]));
+          this.loading = false;
+          this.storageService.setRefreshFlag(true).then(r => this.router.navigate(["tabs/feed/"]));
 
-      }
+        }
 
 
-    });
+      });
+
+    } catch (e) {
+
+      this.loading = false
+      displayWarning("Connection Error", this.toastController);
+
+    }
 
   }
 

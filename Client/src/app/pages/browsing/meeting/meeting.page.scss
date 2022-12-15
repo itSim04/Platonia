@@ -1,53 +1,65 @@
 @media (prefers-color-scheme: dark) {
-    ion-content {
-        --background: url(../../../../assets/imgs/main-dark-bg0.png) 0 0/100% 100%;
-    }
+  ion-content {
+    --background: url(../../../../assets/imgs/main-dark-bg0.png) 0 0/100% 100%;
+  }
 }
 
 @media (prefers-color-scheme: light) {
-    ion-content {
-        --background: url(../../../../assets/imgs/main-light-bg0.png) 0 0/100% 100%;
-    }
+  ion-content {
+    --background: url(../../../../assets/imgs/main-light-bg0.png) 0 0/100% 100%;
+  }
+}
+
+.card {
+
+  position: absolute;
+  top: 50%;
+  left: 44%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+
 }
 component-card .card .header-img {
-    height: 60px;
-  }
-  
-  component-card .card h1 {
-    font-weight: 600;
-    font-size: 14px;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    
-  }
-  
-  component-card .card p {
-    color: var(--text-light);
-  }
-  
-  component-card .card ion-icon {
-    align-self: start;
-    margin-top: 10px;
-    margin-right: 29px;
-  
-    color: var(--text-lightest);
-  }
+  height: 60px;
+
+}
+
+component-card .card h1 {
+  font-weight: 600;
+  font-size: 14px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+component-card .card p {
+  color: var(--text-light);
+}
+
+component-card .card ion-icon {
+  align-self: start;
+  margin-top: 10px;
+  margin-right: 29px;
+
+  color: var(--text-lightest);
+}
 
 .meet {
 
-    background: var(--ion-color-light);
-    text-transform: none;
-    font-size: 14px;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    color: gray;
-    // padding-right: 5%;
-    // padding-top: 5%;
-    width: 70%;
-    height: 30%;
-    // display: flex;
-    position: absolute;
-    border-radius: 10%;
-    top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
+  background: var(--ion-color-light);
+  text-transform: none;
+  font-size: 14px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: gray;
+  // padding-right: 5%;
+  // padding-top: 5%;
+  width: 70%;
+  height: 30%;
+  // display: flex;
+  position: absolute;
+  border-radius: 10%;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
 }
